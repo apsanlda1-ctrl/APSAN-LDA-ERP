@@ -44,13 +44,10 @@
             overflow-x: hidden;
         }
 
-        /* Telas */
         .screen { display: none; min-height: 100vh; }
         .screen.active { display: flex; }
 
-        /* ============================================
-           LOGIN
-           ============================================ */
+        /* LOGIN */
         .login-container {
             width: 100%;
             min-height: 100vh;
@@ -60,7 +57,6 @@
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
             padding: 20px;
         }
-
         .login-card {
             background: var(--white);
             border-radius: var(--radius-lg);
@@ -70,725 +66,158 @@
             overflow: hidden;
             animation: slideUp 0.5s ease;
         }
-
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         .logo-section {
             background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
             color: var(--white);
             padding: 40px 30px;
             text-align: center;
         }
-
         .logo-icon {
-            width: 80px;
-            height: 80px;
+            width: 80px; height: 80px;
             background: rgba(255,255,255,0.2);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             margin: 0 auto 20px;
         }
-
-        .logo-section h1 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .logo-section p {
-            opacity: 0.9;
-            font-size: 16px;
-        }
-
-        .login-form {
-            padding: 40px 30px;
-        }
-
-        .login-form h2 {
-            font-size: 22px;
-            margin-bottom: 24px;
-            color: var(--dark);
-            text-align: center;
-        }
-
-        .department-selector {
-            margin-bottom: 24px;
-        }
-
-        .department-selector label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--dark);
-            font-size: 14px;
-        }
-
+        .logo-section h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .logo-section p { opacity: 0.9; font-size: 16px; }
+        .login-form { padding: 40px 30px; }
+        .login-form h2 { font-size: 22px; margin-bottom: 24px; color: var(--dark); text-align: center; }
+        .department-selector { margin-bottom: 24px; }
+        .department-selector label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--dark); font-size: 14px; }
         .department-selector select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 15px;
-            background: var(--white);
-            cursor: pointer;
-            transition: all 0.3s;
+            width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius);
+            font-size: 15px; background: var(--white); cursor: pointer; transition: all 0.3s;
         }
-
-        .department-selector select:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-group i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary);
-            font-size: 16px;
-        }
-
+        .department-selector select:focus { border-color: var(--primary); outline: none; }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--secondary); font-size: 16px; }
         .input-group input {
-            width: 100%;
-            padding: 14px 16px 14px 48px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 15px;
-            transition: all 0.3s;
+            width: 100%; padding: 14px 16px 14px 48px; border: 2px solid var(--border); border-radius: var(--radius);
+            font-size: 15px; transition: all 0.3s;
         }
-
-        .input-group input:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
+        .input-group input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
         .btn-login {
-            width: 100%;
-            padding: 14px;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            width: 100%; padding: 14px; background: var(--primary); color: var(--white); border: none;
+            border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;
         }
+        .btn-login:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .login-footer { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 14px; }
+        .login-footer a { color: var(--primary); text-decoration: none; }
+        .login-footer a:hover { text-decoration: underline; }
+        .login-footer span { color: var(--secondary); }
 
-        .btn-login:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .login-footer {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            font-size: 14px;
-        }
-
-        .login-footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        .login-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .login-footer span {
-            color: var(--secondary);
-        }
-
-        /* ============================================
-           SIDEBAR
-           ============================================ */
+        /* SIDEBAR */
         .sidebar {
-            width: var(--sidebar-width);
-            background: var(--white);
-            height: 100vh;
-            position: fixed;
-            left: 0;
-            top: 0;
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-            z-index: 100;
+            width: var(--sidebar-width); background: var(--white); height: 100vh; position: fixed;
+            left: 0; top: 0; border-right: 1px solid var(--border); display: flex; flex-direction: column;
+            transition: all 0.3s; z-index: 100;
         }
+        .sidebar.collapsed { width: var(--sidebar-collapsed); }
+        .sidebar.collapsed .logo-small span, .sidebar.collapsed .user-details,
+        .sidebar.collapsed .sidebar-nav li span, .sidebar.collapsed .btn-logout span { display: none; }
+        .sidebar-header { padding: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+        .logo-small { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: var(--primary); }
+        .toggle-sidebar { background: none; border: none; font-size: 20px; color: var(--secondary); cursor: pointer; padding: 8px; border-radius: var(--radius); transition: all 0.3s; }
+        .toggle-sidebar:hover { background: var(--light); color: var(--primary); }
+        .user-info { padding: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+        .user-avatar { width: 48px; height: 48px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .user-details h4 { font-size: 15px; font-weight: 600; color: var(--dark); }
+        .user-details span { font-size: 13px; color: var(--secondary); }
+        .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
+        .sidebar-nav ul { list-style: none; }
+        .sidebar-nav li { padding: 12px 16px; border-radius: var(--radius); cursor: pointer; display: flex; align-items: center; gap: 12px; color: var(--secondary); font-weight: 500; transition: all 0.3s; margin-bottom: 4px; }
+        .sidebar-nav li:hover, .sidebar-nav li.active { background: var(--primary-light); color: var(--primary); }
+        .sidebar-nav li i { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+        .sidebar-footer { padding: 20px; border-top: 1px solid var(--border); }
+        .btn-logout { width: 100%; padding: 12px; background: #fee2e2; color: var(--danger); border: none; border-radius: var(--radius); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.3s; }
+        .btn-logout:hover { background: var(--danger); color: var(--white); }
 
-        .sidebar.collapsed {
-            width: var(--sidebar-collapsed);
-        }
+        /* MAIN CONTENT */
+        .main-content { margin-left: var(--sidebar-width); min-height: 100vh; transition: all 0.3s; }
+        .sidebar.collapsed + .main-content { margin-left: var(--sidebar-collapsed); }
+        .top-header { height: var(--header-height); background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 50; }
+        .header-left h2 { font-size: 24px; font-weight: 700; color: var(--dark); }
+        .breadcrumb { font-size: 13px; color: var(--secondary); }
+        .header-right { display: flex; align-items: center; gap: 24px; }
+        .notification-bell { position: relative; font-size: 20px; color: var(--secondary); cursor: pointer; padding: 8px; border-radius: 50%; transition: all 0.3s; }
+        .notification-bell:hover { background: var(--light); color: var(--primary); }
+        .notification-bell .badge { position: absolute; top: 0; right: 0; background: var(--danger); color: var(--white); font-size: 11px; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .date-time { display: flex; flex-direction: column; align-items: flex-end; font-size: 14px; }
+        #current-date { font-weight: 600; color: var(--dark); }
+        #current-time { color: var(--secondary); font-size: 13px; }
+        .content-section { display: none; padding: 30px; animation: fadeIn 0.3s ease; }
+        .content-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .sidebar.collapsed .logo-small span,
-        .sidebar.collapsed .user-details,
-        .sidebar.collapsed .sidebar-nav li span,
-        .sidebar.collapsed .btn-logout span {
-            display: none;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .logo-small {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .toggle-sidebar {
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: var(--secondary);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: var(--radius);
-            transition: all 0.3s;
-        }
-
-        .toggle-sidebar:hover {
-            background: var(--light);
-            color: var(--primary);
-        }
-
-        .user-info {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .user-avatar {
-            width: 48px;
-            height: 48px;
-            background: var(--primary-light);
-            color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-        }
-
-        .user-details h4 {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .user-details span {
-            font-size: 13px;
-            color: var(--secondary);
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 16px 12px;
-            overflow-y: auto;
-        }
-
-        .sidebar-nav ul {
-            list-style: none;
-        }
-
-        .sidebar-nav li {
-            padding: 12px 16px;
-            border-radius: var(--radius);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            color: var(--secondary);
-            font-weight: 500;
-            transition: all 0.3s;
-            margin-bottom: 4px;
-        }
-
-        .sidebar-nav li:hover,
-        .sidebar-nav li.active {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .sidebar-nav li i {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .sidebar-footer {
-            padding: 20px;
-            border-top: 1px solid var(--border);
-        }
-
-        .btn-logout {
-            width: 100%;
-            padding: 12px;
-            background: #fee2e2;
-            color: var(--danger);
-            border: none;
-            border-radius: var(--radius);
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: var(--danger);
-            color: var(--white);
-        }
-
-        /* ============================================
-           MAIN CONTENT
-           ============================================ */
-        .main-content {
-            margin-left: var(--sidebar-width);
-            min-height: 100vh;
-            transition: all 0.3s;
-        }
-
-        .sidebar.collapsed + .main-content {
-            margin-left: var(--sidebar-collapsed);
-        }
-
-        /* Header */
-        .top-header {
-            height: var(--header-height);
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-
-        .header-left h2 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        .breadcrumb {
-            font-size: 13px;
-            color: var(--secondary);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .notification-bell {
-            position: relative;
-            font-size: 20px;
-            color: var(--secondary);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-
-        .notification-bell:hover {
-            background: var(--light);
-            color: var(--primary);
-        }
-
-        .notification-bell .badge {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--danger);
-            color: var(--white);
-            font-size: 11px;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-        }
-
-        .date-time {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            font-size: 14px;
-        }
-
-        #current-date {
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        #current-time {
-            color: var(--secondary);
-            font-size: 13px;
-        }
-
-        /* Content Sections */
-        .content-section {
-            display: none;
-            padding: 30px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* ============================================
-           DASHBOARD
-           ============================================ */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .stat-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
+        /* DASHBOARD */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; margin-bottom: 30px; }
+        .stat-card { background: var(--white); border-radius: var(--radius-lg); padding: 24px; display: flex; align-items: center; gap: 16px; box-shadow: var(--shadow); transition: all 0.3s; }
+        .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+        .stat-icon { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
         .stat-icon.blue { background: #dbeafe; color: #2563eb; }
         .stat-icon.green { background: #d1fae5; color: #10b981; }
         .stat-icon.orange { background: #fef3c7; color: #f59e0b; }
         .stat-icon.red { background: #fee2e2; color: #ef4444; }
         .stat-icon.purple { background: #ede9fe; color: #7c3aed; }
-
-        .stat-info h3 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 4px;
-        }
-
-        .stat-info p {
-            font-size: 14px;
-            color: var(--secondary);
-            margin-bottom: 4px;
-        }
-
-        .trend {
-            font-size: 12px;
-            font-weight: 600;
-        }
-
+        .stat-info h3 { font-size: 28px; font-weight: 700; color: var(--dark); margin-bottom: 4px; }
+        .stat-info p { font-size: 14px; color: var(--secondary); margin-bottom: 4px; }
+        .trend { font-size: 12px; font-weight: 600; }
         .trend.up { color: var(--success); }
         .trend.down { color: var(--danger); }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px; }
 
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 24px;
-        }
+        /* CARDS */
+        .card { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; }
+        .card-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .card-header h3 { font-size: 18px; font-weight: 600; display: flex; align-items: center; gap: 10px; color: var(--dark); }
+        .card-header h3 i { color: var(--primary); }
+        .card-body { padding: 24px; }
 
-        /* ============================================
-           CARDS
-           ============================================ */
-        .card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow);
-            overflow: hidden;
-        }
-
-        .card-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .card-header h3 {
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: var(--dark);
-        }
-
-        .card-header h3 i {
-            color: var(--primary);
-        }
-
-        .card-body {
-            padding: 24px;
-        }
-
-        /* ============================================
-           TOOLBAR
-           ============================================ */
-        .section-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
-
-        .section-toolbar h3 {
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .search-box {
-            position: relative;
-            flex: 1;
-            min-width: 280px;
-            max-width: 400px;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--secondary);
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 16px 12px 44px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .search-box input:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
+        /* TOOLBAR */
+        .section-toolbar { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+        .section-toolbar h3 { flex: 1; min-width: 300px; }
+        .search-box { position: relative; flex: 1; min-width: 280px; max-width: 400px; }
+        .search-box i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--secondary); }
+        .search-box input { width: 100%; padding: 12px 16px 12px 44px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; transition: all 0.3s; }
+        .search-box input:focus { border-color: var(--primary); outline: none; }
 
         /* Buttons */
-        .btn-primary {
-            padding: 12px 24px;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
+        .btn-primary { padding: 12px 24px; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-secondary { padding: 12px 24px; background: var(--white); color: var(--dark); border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+        .btn-success { padding: 12px 24px; background: var(--success); color: var(--white); border: none; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .btn-success:hover { background: #059669; transform: translateY(-2px); box-shadow: var(--shadow); }
+        .btn-danger { padding: 12px 24px; background: var(--danger); color: var(--white); border: none; border-radius: var(--radius); font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.3s; }
+        .btn-danger:hover { background: #dc2626; }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
+        /* LANGUAGE TABS */
+        .lang-tabs { display: flex; gap: 0; margin-bottom: 24px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; width: fit-content; }
+        .lang-tab { padding: 12px 24px; background: var(--white); border: none; border-bottom: 3px solid transparent; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.3s; color: var(--secondary); }
+        .lang-tab:hover { background: #f8fafc; color: var(--dark); }
+        .lang-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--primary-light); }
+        .lang-tab i { font-size: 16px; }
 
-        .btn-secondary {
-            padding: 12px 24px;
-            background: var(--white);
-            color: var(--dark);
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
+        /* EMPTY STATES */
+        .empty-state { text-align: center; padding: 60px 20px; color: var(--secondary); }
+        .empty-state i { font-size: 64px; margin-bottom: 20px; color: #cbd5e1; }
+        .empty-state p { font-size: 18px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .empty-state span { font-size: 14px; }
+        .empty-chart { text-align: center; padding: 40px 20px; color: var(--secondary); }
+        .empty-chart i { font-size: 48px; margin-bottom: 16px; color: #cbd5e1; }
+        .empty-chart p { font-size: 16px; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .empty-chart span { font-size: 13px; }
 
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-success {
-            padding: 12px 24px;
-            background: var(--success);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .btn-success:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-
-        .btn-danger {
-            padding: 12px 24px;
-            background: var(--danger);
-            color: var(--white);
-            border: none;
-            border-radius: var(--radius);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        /* ============================================
-           EMPTY STATES
-           ============================================ */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--secondary);
-        }
-
-        .empty-state i {
-            font-size: 64px;
-            margin-bottom: 20px;
-            color: #cbd5e1;
-        }
-
-        .empty-state p {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .empty-state span {
-            font-size: 14px;
-        }
-
-        .empty-chart {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--secondary);
-        }
-
-        .empty-chart i {
-            font-size: 48px;
-            margin-bottom: 16px;
-            color: #cbd5e1;
-        }
-
-        .empty-chart p {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--dark);
-            margin-bottom: 8px;
-        }
-
-        .empty-chart span {
-            font-size: 13px;
-        }
-
-        /* ============================================
-           TOAST
-           ============================================ */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--dark);
-            color: var(--white);
-            padding: 16px 24px;
-            border-radius: var(--radius);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: var(--shadow-lg);
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-            z-index: 2000;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast i {
-            color: var(--success);
-            font-size: 20px;
-        }
+        /* TOAST */
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--dark); color: var(--white); padding: 16px 24px; border-radius: var(--radius); display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-lg); transform: translateX(150%); transition: transform 0.3s ease; z-index: 2000; }
+        .toast.show { transform: translateX(0); }
+        .toast i { color: var(--success); font-size: 20px; }
 
         /* ============================================
            DOCUMENTO DE VIAGEM PARA MENOR
@@ -802,7 +231,7 @@
             border-radius: var(--radius-lg);
             font-family: 'Times New Roman', Georgia, serif;
             font-size: 12.5px;
-            line-height: 2.2;
+            line-height: 2.0;
             color: #1a1a1a;
         }
 
@@ -819,12 +248,14 @@
 
         .doc-corpo {
             text-align: justify;
+            word-spacing: normal;
         }
 
         .doc-paragrafo {
             margin-bottom: 0;
             text-indent: 0;
             text-align: justify;
+            word-spacing: 0.05em;
         }
 
         .doc-e {
@@ -866,16 +297,8 @@
             transition: all 0.2s;
             outline: none;
         }
-
-        .doc-linha:focus {
-            border-bottom-color: var(--primary);
-            background: rgba(37, 99, 235, 0.04);
-        }
-
-        .doc-linha::placeholder {
-            color: #bbb;
-            font-size: 12px;
-        }
+        .doc-linha:focus { border-bottom-color: var(--primary); background: rgba(37, 99, 235, 0.04); }
+        .doc-linha::placeholder { color: #bbb; font-size: 12px; }
 
         .doc-medio {
             display: inline;
@@ -893,16 +316,8 @@
             transition: all 0.2s;
             outline: none;
         }
-
-        .doc-medio:focus {
-            border-bottom-color: var(--primary);
-            background: rgba(37, 99, 235, 0.04);
-        }
-
-        .doc-medio::placeholder {
-            color: #bbb;
-            font-size: 12px;
-        }
+        .doc-medio:focus { border-bottom-color: var(--primary); background: rgba(37, 99, 235, 0.04); }
+        .doc-medio::placeholder { color: #bbb; font-size: 12px; }
 
         .doc-curto {
             display: inline;
@@ -920,16 +335,8 @@
             transition: all 0.2s;
             outline: none;
         }
-
-        .doc-curto:focus {
-            border-bottom-color: var(--primary);
-            background: rgba(37, 99, 235, 0.04);
-        }
-
-        .doc-curto::placeholder {
-            color: #bbb;
-            font-size: 12px;
-        }
+        .doc-curto:focus { border-bottom-color: var(--primary); background: rgba(37, 99, 235, 0.04); }
+        .doc-curto::placeholder { color: #bbb; font-size: 12px; }
 
         .doc-data {
             display: inline;
@@ -947,20 +354,10 @@
             transition: all 0.2s;
             outline: none;
         }
+        .doc-data:focus { border-bottom-color: var(--primary); background: rgba(37, 99, 235, 0.04); }
+        .doc-data::placeholder { color: #bbb; font-size: 11px; }
 
-        .doc-data:focus {
-            border-bottom-color: var(--primary);
-            background: rgba(37, 99, 235, 0.04);
-        }
-
-        .doc-data::placeholder {
-            color: #bbb;
-            font-size: 11px;
-        }
-
-        .doc-autorizacao {
-            margin-top: 18px;
-        }
+        .doc-autorizacao { margin-top: 18px; }
 
         .doc-local-data {
             margin: 35px 0 25px 0;
@@ -990,42 +387,16 @@
             font-family: 'Times New Roman', Georgia, serif;
         }
 
-        .doc-nota {
-            margin-top: 35px;
-            padding-top: 18px;
-            border-top: 1px solid #ddd;
-            font-size: 10.5px;
-            line-height: 1.7;
-            color: #333;
-            font-family: 'Times New Roman', Georgia, serif;
-        }
-
-        .doc-nota-titulo {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
         /* ============================================
            PRINT STYLES - EXPORTAÇÃO LIMPA
            ============================================ */
         @media print {
-            .sidebar,
-            .top-header,
-            .section-toolbar,
-            .notification-bell,
-            .date-time,
-            .toggle-sidebar,
-            .btn-logout,
-            .user-info,
-            .sidebar-header,
-            .sidebar-footer,
-            .sidebar-nav,
-            .breadcrumb,
-            .no-print,
-            .btn-primary,
-            .btn-secondary,
-            .btn-success,
-            .btn-danger {
+            /* Ocultar TUDO do sistema */
+            .sidebar, .top-header, .section-toolbar, .notification-bell, .date-time,
+            .toggle-sidebar, .btn-logout, .user-info, .sidebar-header, .sidebar-footer,
+            .sidebar-nav, .breadcrumb, .no-print, .btn-primary, .btn-secondary,
+            .btn-success, .btn-danger, .lang-tabs, .doc-nota, .doc-placeholder, .doc-ajuda,
+            .login-container, #login-screen {
                 display: none !important;
             }
 
@@ -1039,9 +410,13 @@
                 padding: 0 !important;
             }
 
-            #section-viagem-menores {
+            #section-viagem-menores, #section-viagem-menores-en {
                 display: block !important;
             }
+
+            /* Mostrar apenas o idioma ativo */
+            .doc-pt, .doc-en { display: none !important; }
+            .doc-pt.active-doc, .doc-en.active-doc { display: block !important; }
 
             .documento-viagem-menor {
                 box-shadow: none !important;
@@ -1051,19 +426,26 @@
                 max-width: 100% !important;
             }
 
-            .doc-linha,
-            .doc-medio,
-            .doc-curto,
-            .doc-data {
+            /* Ocultar inputs vazios no print */
+            .doc-linha:placeholder-shown,
+            .doc-medio:placeholder-shown,
+            .doc-curto:placeholder-shown,
+            .doc-data:placeholder-shown {
                 border: none !important;
-                border-bottom: 1px solid #333 !important;
+                border-bottom: none !important;
                 background: transparent !important;
-                color: #000 !important;
+                min-width: 30px !important;
             }
 
-            .doc-placeholder,
-            .doc-ajuda {
-                display: none !important;
+            /* Mostrar inputs preenchidos */
+            .doc-linha:not(:placeholder-shown),
+            .doc-medio:not(:placeholder-shown),
+            .doc-curto:not(:placeholder-shown),
+            .doc-data:not(:placeholder-shown) {
+                border: none !important;
+                border-bottom: none !important;
+                background: transparent !important;
+                color: #000 !important;
             }
 
             .doc-titulo {
@@ -1081,122 +463,39 @@
             }
         }
 
-        /* ============================================
-           CAMPO ERRO - VALIDAÇÃO
-           ============================================ */
-        .campo-erro {
-            border-bottom-color: var(--danger) !important;
-            background-color: #fef2f2 !important;
-        }
+        /* CAMPO ERRO */
+        .campo-erro { border-bottom-color: var(--danger) !important; background-color: #fef2f2 !important; }
+        .campo-erro:focus { outline: none !important; border-bottom-color: #dc2626 !important; }
 
-        .campo-erro:focus {
-            outline: none !important;
-            border-bottom-color: #dc2626 !important;
-        }
-
-        /* ============================================
-           RESPONSIVE
-           ============================================ */
+        /* RESPONSIVE */
         @media (max-width: 1024px) {
-            .sidebar {
-                transform: translateX(-100%);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
-
         @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .section-toolbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .section-toolbar h3 {
-                min-width: auto;
-            }
-
-            .search-box {
-                max-width: 100%;
-            }
-
-            .documento-viagem-menor {
-                padding: 25px 20px !important;
-            }
-
-            .doc-linha,
-            .doc-medio,
-            .doc-curto,
-            .doc-data {
-                min-width: 80px !important;
-            }
+            .stats-grid { grid-template-columns: 1fr; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .section-toolbar { flex-direction: column; align-items: stretch; }
+            .section-toolbar h3 { min-width: auto; }
+            .search-box { max-width: 100%; }
+            .documento-viagem-menor { padding: 25px 20px !important; }
+            .doc-linha, .doc-medio, .doc-curto, .doc-data { min-width: 80px !important; }
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
         /* Settings */
-        .settings-form {
-            max-width: 600px;
-        }
-
-        .settings-form .form-group {
-            margin-bottom: 20px;
-        }
-
-        .settings-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .settings-form input,
-        .settings-form select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: var(--radius);
-            font-size: 14px;
-        }
-
-        .settings-form input:focus,
-        .settings-form select:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
+        .settings-form { max-width: 600px; }
+        .settings-form .form-group { margin-bottom: 20px; }
+        .settings-form label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--dark); }
+        .settings-form input, .settings-form select { width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 14px; }
+        .settings-form input:focus, .settings-form select:focus { border-color: var(--primary); outline: none; }
     </style>
 <base target="_blank">
 </head>
@@ -1341,7 +640,7 @@
                 </div>
             </header>
 
-            <!-- ========== AUTORIZAÇÃO DE VIAGEM PARA MENOR (MODELO DO PRINT) ========== -->
+            <!-- ========== AUTORIZAÇÃO DE VIAGEM PARA MENOR ========== -->
             <section id="section-viagem-menores" class="content-section active">
 
                 <!-- BARRA DE FERRAMENTAS -->
@@ -1363,120 +662,219 @@
                     </div>
                 </div>
 
-                <!-- DOCUMENTO MODELO EXATO DO PRINT -->
-                <div class="documento-viagem-menor" id="documento-viagem">
+                <!-- TABS DE IDIOMA -->
+                <div class="lang-tabs no-print">
+                    <button class="lang-tab active" onclick="switchLang('pt')" id="tab-pt">
+                        <i class="fas fa-flag"></i> Português
+                    </button>
+                    <button class="lang-tab" onclick="switchLang('en')" id="tab-en">
+                        <i class="fas fa-flag-usa"></i> English
+                    </button>
+                </div>
 
+                <!-- VERSÃO PORTUGUÊS -->
+                <div class="documento-viagem-menor doc-pt active-doc" id="doc-pt">
                     <div class="doc-titulo">AUTORIZAÇÃO DE VIAGEM PARA MENOR</div>
-
                     <div class="doc-corpo">
-
-                        <!-- PARÁGRAFO DO PAI -->
                         <p class="doc-paragrafo">
                             <span class="doc-placeholder">[Nome completo do Pai do menor]</span>
-                            <input type="text" class="doc-linha" id="doc-pai-nome" placeholder="..............................................................">
+                            <input type="text" class="doc-linha" id="pt-pai-nome" placeholder="..............................................................">
                             , de nacionalidade 
-                            <input type="text" class="doc-curto" id="doc-pai-nacionalidade" placeholder="..................">
+                            <input type="text" class="doc-curto" id="pt-pai-nacionalidade" placeholder="..................">
                             , filho de 
-                            <input type="text" class="doc-curto" id="doc-pai-filho-de-mae" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-pai-filho-de-mae" placeholder="........">
                             <span class="doc-ajuda">[nome da mãe]</span> e de 
-                            <input type="text" class="doc-curto" id="doc-pai-filho-de-pai" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-pai-filho-de-pai" placeholder="........">
                             <span class="doc-ajuda">[nome do pai]</span>, nascido em 
-                            <input type="text" class="doc-medio" id="doc-pai-local-nasc" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-pai-local-nasc" placeholder="..............">
                             <span class="doc-ajuda">[local de nascimento]</span>, a 
-                            <input type="text" class="doc-data" id="doc-pai-data-nasc" placeholder="__/__/____"> 
+                            <input type="text" class="doc-data" id="pt-pai-data-nasc" placeholder="__/__/____"> 
                             <span class="doc-ajuda">[data de nascimento]</span>, residente em 
-                            <input type="text" class="doc-medio" id="doc-pai-residencia" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-pai-residencia" placeholder="..............">
                             <span class="doc-ajuda">[morada]</span>, titular do 
-                            <input type="text" class="doc-curto" id="doc-pai-doc-tipo" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-pai-doc-tipo" placeholder="........">
                             <span class="doc-ajuda">[bilhete de identidade / passaporte]</span> nº 
-                            <input type="text" class="doc-medio" id="doc-pai-doc-numero" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-pai-doc-numero" placeholder="..............">
                             , emitido por 
-                            <input type="text" class="doc-medio" id="doc-pai-doc-emissor" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-pai-doc-emissor" placeholder="..............">
                             <span class="doc-ajuda">[entidade emissora e local de emissão]</span>, válido até 
-                            <input type="text" class="doc-data" id="doc-pai-doc-validade" placeholder="__/__/____">
+                            <input type="text" class="doc-data" id="pt-pai-doc-validade" placeholder="__/__/____">
                         </p>
 
                         <p class="doc-e">e</p>
 
-                        <!-- PARÁGRAFO DA MÃE -->
                         <p class="doc-paragrafo">
                             <span class="doc-placeholder">[nome completo da Mãe do menor]</span>
-                            <input type="text" class="doc-linha" id="doc-mae-nome" placeholder="..............................................................">
+                            <input type="text" class="doc-linha" id="pt-mae-nome" placeholder="..............................................................">
                             , de nacionalidade 
-                            <input type="text" class="doc-curto" id="doc-mae-nacionalidade" placeholder="..................">
+                            <input type="text" class="doc-curto" id="pt-mae-nacionalidade" placeholder="..................">
                             , filha de 
-                            <input type="text" class="doc-curto" id="doc-mae-filha-de-mae" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-mae-filha-de-mae" placeholder="........">
                             <span class="doc-ajuda">[nome da mãe]</span> e de 
-                            <input type="text" class="doc-curto" id="doc-mae-filha-de-pai" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-mae-filha-de-pai" placeholder="........">
                             <span class="doc-ajuda">[nome do pai]</span>, nascida em 
-                            <input type="text" class="doc-medio" id="doc-mae-local-nasc" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-mae-local-nasc" placeholder="..............">
                             <span class="doc-ajuda">[local de nascimento]</span>, a 
-                            <input type="text" class="doc-data" id="doc-mae-data-nasc" placeholder="__/__/____"> 
+                            <input type="text" class="doc-data" id="pt-mae-data-nasc" placeholder="__/__/____"> 
                             <span class="doc-ajuda">[data de nascimento]</span>, residente em 
-                            <input type="text" class="doc-medio" id="doc-mae-residencia" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-mae-residencia" placeholder="..............">
                             <span class="doc-ajuda">[morada]</span>, titular do 
-                            <input type="text" class="doc-curto" id="doc-mae-doc-tipo" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-mae-doc-tipo" placeholder="........">
                             <span class="doc-ajuda">[bilhete de identidade / passaporte]</span> nº 
-                            <input type="text" class="doc-medio" id="doc-mae-doc-numero" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-mae-doc-numero" placeholder="..............">
                             , emitido por 
-                            <input type="text" class="doc-medio" id="doc-mae-doc-emissor" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-mae-doc-emissor" placeholder="..............">
                             <span class="doc-ajuda">[entidade emissora e local de emissão]</span>, válido até 
-                            <input type="text" class="doc-data" id="doc-mae-doc-validade" placeholder="__/__/____">
+                            <input type="text" class="doc-data" id="pt-mae-doc-validade" placeholder="__/__/____">
                         </p>
 
-                        <!-- PARÁGRAFO DE AUTORIZAÇÃO -->
                         <p class="doc-paragrafo doc-autorizacao">
                             Venho/Vimos por este meio autorizar o(a) nosso(a) filho(a) menor 
-                            <input type="text" class="doc-linha" id="doc-menor-nome" placeholder="..............................................................">
+                            <input type="text" class="doc-linha" id="pt-menor-nome" placeholder="..............................................................">
                             <span class="doc-ajuda">[nome completo]</span>, de nacionalidade 
-                            <input type="text" class="doc-curto" id="doc-menor-nacionalidade" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-menor-nacionalidade" placeholder="........">
                             , nascido a 
-                            <input type="text" class="doc-data" id="doc-menor-data-nasc" placeholder="__/__/____"> 
+                            <input type="text" class="doc-data" id="pt-menor-data-nasc" placeholder="__/__/____"> 
                             , em 
-                            <input type="text" class="doc-medio" id="doc-menor-local-nasc" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-menor-local-nasc" placeholder="..............">
                             <span class="doc-ajuda">[local de nascimento]</span>, portador do passaporte nº 
-                            <input type="text" class="doc-medio" id="doc-menor-passaporte" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-menor-passaporte" placeholder="..............">
                             , emitido em 
-                            <input type="text" class="doc-medio" id="doc-menor-passaporte-local" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-menor-passaporte-local" placeholder="..............">
                             <span class="doc-ajuda">[local de emissão]</span>, a 
-                            <input type="text" class="doc-data" id="doc-menor-passaporte-data" placeholder="__/__/____"> 
+                            <input type="text" class="doc-data" id="pt-menor-passaporte-data" placeholder="__/__/____"> 
                             válido até 
-                            <input type="text" class="doc-data" id="doc-menor-passaporte-validade" placeholder="__/__/____"> 
+                            <input type="text" class="doc-data" id="pt-menor-passaporte-validade" placeholder="__/__/____"> 
                             , a viajar para o exterior do país, acompanhado(a) de 
-                            <input type="text" class="doc-linha" id="doc-acompanhante-nome" placeholder="..............................................................">
+                            <input type="text" class="doc-linha" id="pt-acompanhante-nome" placeholder="..............................................................">
                             <span class="doc-ajuda">[nome do acompanhante e grau de parentesco]</span> portador(a) do passaporte nº 
-                            <input type="text" class="doc-medio" id="doc-acompanhante-passaporte" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-acompanhante-passaporte" placeholder="..............">
                             , emitido em 
-                            <input type="text" class="doc-medio" id="doc-acompanhante-passaporte-local" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-acompanhante-passaporte-local" placeholder="..............">
                             <span class="doc-ajuda">[local de emissão]</span>, a 
-                            <input type="text" class="doc-data" id="doc-acompanhante-passaporte-data" placeholder="__/__/____"> 
+                            <input type="text" class="doc-data" id="pt-acompanhante-passaporte-data" placeholder="__/__/____"> 
                             , válido até 
-                            <input type="text" class="doc-data" id="doc-acompanhante-passaporte-validade" placeholder="__/__/____"> 
+                            <input type="text" class="doc-data" id="pt-acompanhante-passaporte-validade" placeholder="__/__/____"> 
                             , fazendo o percurso 
-                            <input type="text" class="doc-medio" id="doc-percurso" placeholder="..............">
+                            <input type="text" class="doc-medio" id="pt-percurso" placeholder="..............">
                             <span class="doc-ajuda">[percurso completo de ida/volta]</span>, por um período de 
-                            <input type="text" class="doc-curto" id="doc-periodo" placeholder="........">
+                            <input type="text" class="doc-curto" id="pt-periodo" placeholder="........">
                             dias.
                         </p>
 
-                        <!-- LOCAL E DATA -->
                         <p class="doc-local-data">
-                            <input type="text" class="doc-curto" id="doc-cidade" value="Luanda">, 
-                            <input type="text" class="doc-data" id="doc-data-emissao" placeholder="__/__/____">
+                            <input type="text" class="doc-curto" id="pt-cidade" value="Luanda">, 
+                            <input type="text" class="doc-data" id="pt-data-emissao" placeholder="__/__/____">
                             .
                         </p>
 
-                        <!-- ASSINATURA -->
                         <div class="doc-assinatura">
                             <div class="doc-linha-assinatura"></div>
                             <p class="doc-assinatura-texto">[Nome e assinatura do pai e/ou da mãe, conforme documento de identificação]</p>
                         </div>
+                    </div>
+                </div>
 
-                        <!-- NOTA -->
-                        <div class="doc-nota">
-                            <p><span class="doc-nota-titulo">NOTA:</span> A autorização deve ser reconhecida no Notário e legalizada no Ministério das Relações Exteriores, bem como no Consulado Geral de Portugal em Luanda.</p>
+                <!-- VERSÃO INGLÊS -->
+                <div class="documento-viagem-menor doc-en" id="doc-en" style="display:none;">
+                    <div class="doc-titulo">TRAVEL AUTHORIZATION FOR MINOR</div>
+                    <div class="doc-corpo">
+                        <p class="doc-paragrafo">
+                            <span class="doc-placeholder">[Full name of the Father of the minor]</span>
+                            <input type="text" class="doc-linha" id="en-pai-nome" placeholder="..............................................................">
+                            , of 
+                            <input type="text" class="doc-curto" id="en-pai-nacionalidade" placeholder="..................">
+                            nationality, son of 
+                            <input type="text" class="doc-curto" id="en-pai-filho-de-mae" placeholder="........">
+                            <span class="doc-ajuda">[mother's name]</span> and 
+                            <input type="text" class="doc-curto" id="en-pai-filho-de-pai" placeholder="........">
+                            <span class="doc-ajuda">[father's name]</span>, born in 
+                            <input type="text" class="doc-medio" id="en-pai-local-nasc" placeholder="..............">
+                            <span class="doc-ajuda">[place of birth]</span>, on 
+                            <input type="text" class="doc-data" id="en-pai-data-nasc" placeholder="__/__/____"> 
+                            <span class="doc-ajuda">[date of birth]</span>, residing at 
+                            <input type="text" class="doc-medio" id="en-pai-residencia" placeholder="..............">
+                            <span class="doc-ajuda">[address]</span>, holder of 
+                            <input type="text" class="doc-curto" id="en-pai-doc-tipo" placeholder="........">
+                            <span class="doc-ajuda">[identity card / passport]</span> no. 
+                            <input type="text" class="doc-medio" id="en-pai-doc-numero" placeholder="..............">
+                            , issued by 
+                            <input type="text" class="doc-medio" id="en-pai-doc-emissor" placeholder="..............">
+                            <span class="doc-ajuda">[issuing entity and place]</span>, valid until 
+                            <input type="text" class="doc-data" id="en-pai-doc-validade" placeholder="__/__/____">
+                        </p>
+
+                        <p class="doc-e">and</p>
+
+                        <p class="doc-paragrafo">
+                            <span class="doc-placeholder">[Full name of the Mother of the minor]</span>
+                            <input type="text" class="doc-linha" id="en-mae-nome" placeholder="..............................................................">
+                            , of 
+                            <input type="text" class="doc-curto" id="en-mae-nacionalidade" placeholder="..................">
+                            nationality, daughter of 
+                            <input type="text" class="doc-curto" id="en-mae-filha-de-mae" placeholder="........">
+                            <span class="doc-ajuda">[mother's name]</span> and 
+                            <input type="text" class="doc-curto" id="en-mae-filha-de-pai" placeholder="........">
+                            <span class="doc-ajuda">[father's name]</span>, born in 
+                            <input type="text" class="doc-medio" id="en-mae-local-nasc" placeholder="..............">
+                            <span class="doc-ajuda">[place of birth]</span>, on 
+                            <input type="text" class="doc-data" id="en-mae-data-nasc" placeholder="__/__/____"> 
+                            <span class="doc-ajuda">[date of birth]</span>, residing at 
+                            <input type="text" class="doc-medio" id="en-mae-residencia" placeholder="..............">
+                            <span class="doc-ajuda">[address]</span>, holder of 
+                            <input type="text" class="doc-curto" id="en-mae-doc-tipo" placeholder="........">
+                            <span class="doc-ajuda">[identity card / passport]</span> no. 
+                            <input type="text" class="doc-medio" id="en-mae-doc-numero" placeholder="..............">
+                            , issued by 
+                            <input type="text" class="doc-medio" id="en-mae-doc-emissor" placeholder="..............">
+                            <span class="doc-ajuda">[issuing entity and place]</span>, valid until 
+                            <input type="text" class="doc-data" id="en-mae-doc-validade" placeholder="__/__/____">
+                        </p>
+
+                        <p class="doc-paragrafo doc-autorizacao">
+                            I/We hereby authorize my/our minor child 
+                            <input type="text" class="doc-linha" id="en-menor-nome" placeholder="..............................................................">
+                            <span class="doc-ajuda">[full name]</span>, of 
+                            <input type="text" class="doc-curto" id="en-menor-nacionalidade" placeholder="........">
+                            nationality, born on 
+                            <input type="text" class="doc-data" id="en-menor-data-nasc" placeholder="__/__/____"> 
+                            , in 
+                            <input type="text" class="doc-medio" id="en-menor-local-nasc" placeholder="..............">
+                            <span class="doc-ajuda">[place of birth]</span>, holder of passport no. 
+                            <input type="text" class="doc-medio" id="en-menor-passaporte" placeholder="..............">
+                            , issued in 
+                            <input type="text" class="doc-medio" id="en-menor-passaporte-local" placeholder="..............">
+                            <span class="doc-ajuda">[place of issue]</span>, on 
+                            <input type="text" class="doc-data" id="en-menor-passaporte-data" placeholder="__/__/____"> 
+                            valid until 
+                            <input type="text" class="doc-data" id="en-menor-passaporte-validade" placeholder="__/__/____"> 
+                            , to travel abroad, accompanied by 
+                            <input type="text" class="doc-linha" id="en-acompanhante-nome" placeholder="..............................................................">
+                            <span class="doc-ajuda">[companion's name and relationship]</span> holder of passport no. 
+                            <input type="text" class="doc-medio" id="en-acompanhante-passaporte" placeholder="..............">
+                            , issued in 
+                            <input type="text" class="doc-medio" id="en-acompanhante-passaporte-local" placeholder="..............">
+                            <span class="doc-ajuda">[place of issue]</span>, on 
+                            <input type="text" class="doc-data" id="en-acompanhante-passaporte-data" placeholder="__/__/____"> 
+                            , valid until 
+                            <input type="text" class="doc-data" id="en-acompanhante-passaporte-validade" placeholder="__/__/____"> 
+                            , making the route 
+                            <input type="text" class="doc-medio" id="en-percurso" placeholder="..............">
+                            <span class="doc-ajuda">[complete round trip route]</span>, for a period of 
+                            <input type="text" class="doc-curto" id="en-periodo" placeholder="........">
+                            days.
+                        </p>
+
+                        <p class="doc-local-data">
+                            <input type="text" class="doc-curto" id="en-cidade" value="Luanda">, 
+                            <input type="text" class="doc-data" id="en-data-emissao" placeholder="__/__/____">
+                            .
+                        </p>
+
+                        <div class="doc-assinatura">
+                            <div class="doc-linha-assinatura"></div>
+                            <p class="doc-assinatura-texto">[Name and signature of the father and/or mother, as per identification document]</p>
                         </div>
-
                     </div>
                 </div>
 
@@ -1524,67 +922,26 @@
  */
 
 const DEPARTAMENTOS = {
-    acompanhamento: {
-        nome: "Acompanhamento Hospitalar",
-        username: "admin.apsan",
-        password: "apsan2026",
-        menu: "menu-acompanhamento",
-        cor: "#2563eb",
-        userName: "Dr. Silva",
-        icon: "fa-user-md"
-    },
-    traducao: {
-        nome: "Tradução Oficial Juramentada",
-        username: "traducao.apsan",
-        password: "trad2026",
-        menu: "menu-traducao",
-        cor: "#7c3aed",
-        userName: "Trad. Ana",
-        icon: "fa-stamp"
-    },
-    administrativo: {
-        nome: "Administrativo",
-        username: "administrativo.apsan",
-        password: "adm2026",
-        menu: "menu-administrativo",
-        cor: "#64748b",
-        userName: "Adm. Carlos",
-        icon: "fa-user-tie"
-    },
-    financeiro: {
-        nome: "Financeiro",
-        username: "financeiro.apsan",
-        password: "fin2026",
-        menu: "menu-financeiro",
-        cor: "#059669",
-        userName: "Fin. João",
-        icon: "fa-chart-line"
-    }
+    acompanhamento: { nome: "Acompanhamento Hospitalar", username: "admin.apsan", password: "apsan2026", menu: "menu-acompanhamento", cor: "#2563eb", userName: "Dr. Silva", icon: "fa-user-md" },
+    traducao: { nome: "Tradução Oficial Juramentada", username: "traducao.apsan", password: "trad2026", menu: "menu-traducao", cor: "#7c3aed", userName: "Trad. Ana", icon: "fa-stamp" },
+    administrativo: { nome: "Administrativo", username: "administrativo.apsan", password: "adm2026", menu: "menu-administrativo", cor: "#64748b", userName: "Adm. Carlos", icon: "fa-user-tie" },
+    financeiro: { nome: "Financeiro", username: "financeiro.apsan", password: "fin2026", menu: "menu-financeiro", cor: "#059669", userName: "Fin. João", icon: "fa-chart-line" }
 };
 
 let currentDepartment = null;
+let currentLang = 'pt';
 let viagensMenores = [];
 let documentosTraduzidos = [];
 let clientesTraducao = [];
 
-// ============================================
-// INICIALIZAÇÃO
-// ============================================
 document.addEventListener('DOMContentLoaded', function() {
     updateDateTime();
     setInterval(updateDateTime, 1000);
     updateDepartmentTheme();
-
     const savedViagens = localStorage.getItem('apsan_viagens');
-    if (savedViagens) { 
-        viagensMenores = JSON.parse(savedViagens); 
-        updateStats();
-    }
+    if (savedViagens) { viagensMenores = JSON.parse(savedViagens); updateStats(); }
 });
 
-// ============================================
-// LOGIN
-// ============================================
 function updateDepartmentTheme() {
     var dept = document.getElementById('department-select');
     if (!dept) return;
@@ -1603,26 +960,21 @@ function login() {
     var deptKey = document.getElementById('department-select').value;
     var username = document.getElementById('username').value.trim();
     var password = document.getElementById('password').value;
-
     if (!deptKey) { showToast('Por favor, selecione um departamento!', 'error'); return; }
     if (!username || !password) { showToast('Por favor, preencha todos os campos!', 'error'); return; }
-
     var dept = DEPARTAMENTOS[deptKey];
     if (username !== dept.username || password !== dept.password) {
         showToast('Credenciais incorretas! Verifique o utilizador e palavra-passe.', 'error');
         return;
     }
-
     currentDepartment = deptKey;
     configurarInterfaceDepartamento(dept);
     document.getElementById('login-screen').classList.remove('active');
     document.getElementById('dashboard-screen').classList.add('active');
-
     if (deptKey === 'traducao') showSection('viagem-menores');
     else if (deptKey === 'administrativo') showSection('admin-dashboard');
     else if (deptKey === 'financeiro') showSection('fin-dashboard');
     else showSection('dashboard');
-
     showToast('Bem-vindo ao Departamento de ' + dept.nome + '!');
 }
 
@@ -1650,9 +1002,6 @@ function logout() {
     }
 }
 
-// ============================================
-// NAVEGAÇÃO
-// ============================================
 function toggleSidebar() {
     document.querySelector('.sidebar').classList.toggle('collapsed');
 }
@@ -1660,7 +1009,6 @@ function toggleSidebar() {
 function showSection(sectionId) {
     document.querySelectorAll('.sidebar-nav li').forEach(function(li) { li.classList.remove('active'); });
     if (event && event.currentTarget) event.currentTarget.classList.add('active');
-
     var titles = {
         'dashboard': 'Dashboard', 'pacientes': 'Registo de Pacientes', 'consultas': 'Consultas',
         'internamentos': 'Internamentos', 'relatorios': 'Relatórios',
@@ -1673,25 +1021,29 @@ function showSection(sectionId) {
         'fin-orcamento': 'Orçamento', 'fin-relatorios': 'Relatórios Financeiros',
         'configuracoes': 'Configurações'
     };
-
     var title = titles[sectionId] || sectionId;
     document.getElementById('page-title').textContent = title;
     if (currentDepartment && DEPARTAMENTOS[currentDepartment]) {
         document.getElementById('breadcrumb-text').textContent = 'APSAN > ' + DEPARTAMENTOS[currentDepartment].nome + ' > ' + title;
     }
-
     document.querySelectorAll('.content-section').forEach(function(s) { s.classList.remove('active'); });
     var section = document.getElementById('section-' + sectionId);
     if (section) section.classList.add('active');
-
     if (sectionId === 'traducao-dashboard' || sectionId === 'admin-dashboard' || sectionId === 'fin-dashboard') {
         updateStats();
     }
 }
 
-// ============================================
-// DATA E HORA
-// ============================================
+function switchLang(lang) {
+    currentLang = lang;
+    document.getElementById('tab-pt').classList.toggle('active', lang === 'pt');
+    document.getElementById('tab-en').classList.toggle('active', lang === 'en');
+    document.getElementById('doc-pt').style.display = lang === 'pt' ? 'block' : 'none';
+    document.getElementById('doc-en').style.display = lang === 'en' ? 'block' : 'none';
+    document.getElementById('doc-pt').classList.toggle('active-doc', lang === 'pt');
+    document.getElementById('doc-en').classList.toggle('active-doc', lang === 'en');
+}
+
 function updateDateTime() {
     var now = new Date();
     var dateEl = document.getElementById('current-date');
@@ -1700,9 +1052,6 @@ function updateDateTime() {
     if (timeEl) timeEl.textContent = now.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
 
-// ============================================
-// AUTORIZAÇÃO DE VIAGEM PARA MENOR
-// ============================================
 function getDocValue(id) {
     var el = document.getElementById(id);
     return el ? el.value.trim() : '';
@@ -1726,124 +1075,73 @@ function validarCampoDoc(id, nomeCampo) {
 
 function limparFormularioViagem() {
     if (confirm('Tem certeza que deseja limpar todos os campos?')) {
+        var prefix = currentLang === 'pt' ? 'pt-' : 'en-';
         var campos = [
-            'doc-pai-nome', 'doc-pai-nacionalidade', 'doc-pai-filho-de-mae', 'doc-pai-filho-de-pai',
-            'doc-pai-local-nasc', 'doc-pai-data-nasc', 'doc-pai-residencia', 'doc-pai-doc-tipo',
-            'doc-pai-doc-numero', 'doc-pai-doc-emissor', 'doc-pai-doc-validade',
-            'doc-mae-nome', 'doc-mae-nacionalidade', 'doc-mae-filha-de-mae', 'doc-mae-filha-de-pai',
-            'doc-mae-local-nasc', 'doc-mae-data-nasc', 'doc-mae-residencia', 'doc-mae-doc-tipo',
-            'doc-mae-doc-numero', 'doc-mae-doc-emissor', 'doc-mae-doc-validade',
-            'doc-menor-nome', 'doc-menor-nacionalidade', 'doc-menor-data-nasc',
-            'doc-menor-local-nasc', 'doc-menor-passaporte', 'doc-menor-passaporte-local',
-            'doc-menor-passaporte-data', 'doc-menor-passaporte-validade',
-            'doc-acompanhante-nome', 'doc-acompanhante-passaporte', 'doc-acompanhante-passaporte-local',
-            'doc-acompanhante-passaporte-data', 'doc-acompanhante-passaporte-validade',
-            'doc-percurso', 'doc-periodo', 'doc-cidade', 'doc-data-emissao'
+            'pai-nome', 'pai-nacionalidade', 'pai-filho-de-mae', 'pai-filho-de-pai',
+            'pai-local-nasc', 'pai-data-nasc', 'pai-residencia', 'pai-doc-tipo',
+            'pai-doc-numero', 'pai-doc-emissor', 'pai-doc-validade',
+            'mae-nome', 'mae-nacionalidade', 'mae-filha-de-mae', 'mae-filha-de-pai',
+            'mae-local-nasc', 'mae-data-nasc', 'mae-residencia', 'mae-doc-tipo',
+            'mae-doc-numero', 'mae-doc-emissor', 'mae-doc-validade',
+            'menor-nome', 'menor-nacionalidade', 'menor-data-nasc',
+            'menor-local-nasc', 'menor-passaporte', 'menor-passaporte-local',
+            'menor-passaporte-data', 'menor-passaporte-validade',
+            'acompanhante-nome', 'acompanhante-passaporte', 'acompanhante-passaporte-local',
+            'acompanhante-passaporte-data', 'acompanhante-passaporte-validade',
+            'percurso', 'periodo', 'cidade', 'data-emissao'
         ];
-
         campos.forEach(function(id) {
-            var el = document.getElementById(id);
+            var el = document.getElementById(prefix + id);
             if (el) { el.value = ''; el.classList.remove('campo-erro'); }
         });
-
         showToast('Formulário limpo!');
     }
 }
 
 function salvarViagemMenores() {
+    var prefix = currentLang === 'pt' ? 'pt-' : 'en-';
     var camposObrigatorios = [
-        { id: 'doc-pai-nome', nome: 'Nome do Pai' },
-        { id: 'doc-pai-nacionalidade', nome: 'Nacionalidade do Pai' },
-        { id: 'doc-pai-doc-numero', nome: 'Documento do Pai' },
-        { id: 'doc-mae-nome', nome: 'Nome da Mãe' },
-        { id: 'doc-mae-nacionalidade', nome: 'Nacionalidade da Mãe' },
-        { id: 'doc-mae-doc-numero', nome: 'Documento da Mãe' },
-        { id: 'doc-menor-nome', nome: 'Nome do Menor' },
-        { id: 'doc-menor-nacionalidade', nome: 'Nacionalidade do Menor' },
-        { id: 'doc-menor-data-nasc', nome: 'Data Nasc. do Menor' },
-        { id: 'doc-menor-passaporte', nome: 'Passaporte do Menor' },
-        { id: 'doc-acompanhante-nome', nome: 'Nome do Acompanhante' },
-        { id: 'doc-acompanhante-passaporte', nome: 'Passaporte do Acompanhante' },
-        { id: 'doc-cidade', nome: 'Cidade' },
-        { id: 'doc-data-emissao', nome: 'Data de Emissão' }
+        { id: prefix + 'pai-nome', nome: 'Nome do Pai' },
+        { id: prefix + 'pai-nacionalidade', nome: 'Nacionalidade do Pai' },
+        { id: prefix + 'pai-doc-numero', nome: 'Documento do Pai' },
+        { id: prefix + 'mae-nome', nome: 'Nome da Mãe' },
+        { id: prefix + 'mae-nacionalidade', nome: 'Nacionalidade da Mãe' },
+        { id: prefix + 'mae-doc-numero', nome: 'Documento da Mãe' },
+        { id: prefix + 'menor-nome', nome: 'Nome do Menor' },
+        { id: prefix + 'menor-nacionalidade', nome: 'Nacionalidade do Menor' },
+        { id: prefix + 'menor-data-nasc', nome: 'Data Nasc. do Menor' },
+        { id: prefix + 'menor-passaporte', nome: 'Passaporte do Menor' },
+        { id: prefix + 'acompanhante-nome', nome: 'Nome do Acompanhante' },
+        { id: prefix + 'acompanhante-passaporte', nome: 'Passaporte do Acompanhante' },
+        { id: prefix + 'cidade', nome: 'Cidade' },
+        { id: prefix + 'data-emissao', nome: 'Data de Emissão' }
     ];
-
     for (var i = 0; i < camposObrigatorios.length; i++) {
         if (!validarCampoDoc(camposObrigatorios[i].id, camposObrigatorios[i].nome)) return false;
     }
-
     var dados = {
-        id: Date.now(),
-        pai: {
-            nome: getDocValue('doc-pai-nome'),
-            nacionalidade: getDocValue('doc-pai-nacionalidade'),
-            filhoDeMae: getDocValue('doc-pai-filho-de-mae'),
-            filhoDePai: getDocValue('doc-pai-filho-de-pai'),
-            localNasc: getDocValue('doc-pai-local-nasc'),
-            dataNasc: getDocValue('doc-pai-data-nasc'),
-            residencia: getDocValue('doc-pai-residencia'),
-            docTipo: getDocValue('doc-pai-doc-tipo'),
-            docNumero: getDocValue('doc-pai-doc-numero'),
-            docEmissor: getDocValue('doc-pai-doc-emissor'),
-            docValidade: getDocValue('doc-pai-doc-validade')
-        },
-        mae: {
-            nome: getDocValue('doc-mae-nome'),
-            nacionalidade: getDocValue('doc-mae-nacionalidade'),
-            filhaDeMae: getDocValue('doc-mae-filha-de-mae'),
-            filhaDePai: getDocValue('doc-mae-filha-de-pai'),
-            localNasc: getDocValue('doc-mae-local-nasc'),
-            dataNasc: getDocValue('doc-mae-data-nasc'),
-            residencia: getDocValue('doc-mae-residencia'),
-            docTipo: getDocValue('doc-mae-doc-tipo'),
-            docNumero: getDocValue('doc-mae-doc-numero'),
-            docEmissor: getDocValue('doc-mae-doc-emissor'),
-            docValidade: getDocValue('doc-mae-doc-validade')
-        },
-        menor: {
-            nome: getDocValue('doc-menor-nome'),
-            nacionalidade: getDocValue('doc-menor-nacionalidade'),
-            dataNasc: getDocValue('doc-menor-data-nasc'),
-            localNasc: getDocValue('doc-menor-local-nasc'),
-            passaporte: getDocValue('doc-menor-passaporte'),
-            passaporteLocal: getDocValue('doc-menor-passaporte-local'),
-            passaporteData: getDocValue('doc-menor-passaporte-data'),
-            passaporteValidade: getDocValue('doc-menor-passaporte-validade')
-        },
-        acompanhante: {
-            nome: getDocValue('doc-acompanhante-nome'),
-            passaporte: getDocValue('doc-acompanhante-passaporte'),
-            passaporteLocal: getDocValue('doc-acompanhante-passaporte-local'),
-            passaporteData: getDocValue('doc-acompanhante-passaporte-data'),
-            passaporteValidade: getDocValue('doc-acompanhante-passaporte-validade')
-        },
-        viagem: {
-            percurso: getDocValue('doc-percurso'),
-            periodo: getDocValue('doc-periodo')
-        },
-        emissao: {
-            cidade: getDocValue('doc-cidade'),
-            data: getDocValue('doc-data-emissao')
-        },
+        id: Date.now(), idioma: currentLang,
+        pai: { nome: getDocValue(prefix + 'pai-nome'), nacionalidade: getDocValue(prefix + 'pai-nacionalidade'), filhoDeMae: getDocValue(prefix + 'pai-filho-de-mae'), filhoDePai: getDocValue(prefix + 'pai-filho-de-pai'), localNasc: getDocValue(prefix + 'pai-local-nasc'), dataNasc: getDocValue(prefix + 'pai-data-nasc'), residencia: getDocValue(prefix + 'pai-residencia'), docTipo: getDocValue(prefix + 'pai-doc-tipo'), docNumero: getDocValue(prefix + 'pai-doc-numero'), docEmissor: getDocValue(prefix + 'pai-doc-emissor'), docValidade: getDocValue(prefix + 'pai-doc-validade') },
+        mae: { nome: getDocValue(prefix + 'mae-nome'), nacionalidade: getDocValue(prefix + 'mae-nacionalidade'), filhaDeMae: getDocValue(prefix + 'mae-filha-de-mae'), filhaDePai: getDocValue(prefix + 'mae-filha-de-pai'), localNasc: getDocValue(prefix + 'mae-local-nasc'), dataNasc: getDocValue(prefix + 'mae-data-nasc'), residencia: getDocValue(prefix + 'mae-residencia'), docTipo: getDocValue(prefix + 'mae-doc-tipo'), docNumero: getDocValue(prefix + 'mae-doc-numero'), docEmissor: getDocValue(prefix + 'mae-doc-emissor'), docValidade: getDocValue(prefix + 'mae-doc-validade') },
+        menor: { nome: getDocValue(prefix + 'menor-nome'), nacionalidade: getDocValue(prefix + 'menor-nacionalidade'), dataNasc: getDocValue(prefix + 'menor-data-nasc'), localNasc: getDocValue(prefix + 'menor-local-nasc'), passaporte: getDocValue(prefix + 'menor-passaporte'), passaporteLocal: getDocValue(prefix + 'menor-passaporte-local'), passaporteData: getDocValue(prefix + 'menor-passaporte-data'), passaporteValidade: getDocValue(prefix + 'menor-passaporte-validade') },
+        acompanhante: { nome: getDocValue(prefix + 'acompanhante-nome'), passaporte: getDocValue(prefix + 'acompanhante-passaporte'), passaporteLocal: getDocValue(prefix + 'acompanhante-passaporte-local'), passaporteData: getDocValue(prefix + 'acompanhante-passaporte-data'), passaporteValidade: getDocValue(prefix + 'acompanhante-passaporte-validade') },
+        viagem: { percurso: getDocValue(prefix + 'percurso'), periodo: getDocValue(prefix + 'periodo') },
+        emissao: { cidade: getDocValue(prefix + 'cidade'), data: getDocValue(prefix + 'data-emissao') },
         dataRegisto: new Date().toISOString()
     };
-
     viagensMenores.push(dados);
     localStorage.setItem('apsan_viagens', JSON.stringify(viagensMenores));
     updateStats();
-    showToast('Documento guardado com sucesso!');
+    showToast(currentLang === 'pt' ? 'Documento guardado com sucesso!' : 'Document saved successfully!');
     return true;
 }
 
 function exportarViagemPDF() {
     if (!salvarViagemMenores()) return;
     window.print();
-    showToast('A preparar documento para impressão...');
+    showToast(currentLang === 'pt' ? 'A preparar documento para impressão...' : 'Preparing document for printing...');
 }
 
-// ============================================
-// LOCAL STORAGE + ESTATÍSTICAS + UTILITÁRIOS
-// ============================================
 function updateStats() {
     var sd = document.getElementById('stat-documentos');
     var sv = document.getElementById('stat-viagens');

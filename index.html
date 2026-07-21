@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>APSAN, Lda - Sistema de Gestão Hospitalar</title>
+    <title>APSAN, Lda - Sistema de Gestão</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -15,10 +15,30 @@
             <div class="login-card">
                 <div class="logo-section">
                     <div class="logo-icon">
-                        <i class="fas fa-hospital"></i>
+                        <!-- Duas mãos segurando/apanhando algo - imagem de apoio -->
+                        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <!-- Mão esquerda -->
+                            <path d="M15 65 C15 55, 20 50, 25 48 C28 47, 30 48, 32 50 L35 55"/>
+                            <path d="M25 48 C25 40, 28 35, 32 33 C35 32, 38 33, 40 36 L42 42"/>
+                            <path d="M32 33 C32 25, 35 20, 40 18 C43 17, 46 18, 48 21 L50 28"/>
+                            <path d="M40 18 C40 12, 43 8, 48 6 C50 5, 52 6, 54 8 L56 15"/>
+                            <!-- Mão direita -->
+                            <path d="M85 65 C85 55, 80 50, 75 48 C72 47, 70 48, 68 50 L65 55"/>
+                            <path d="M75 48 C75 40, 72 35, 68 33 C65 32, 62 33, 60 36 L58 42"/>
+                            <path d="M68 33 C68 25, 65 20, 60 18 C57 17, 54 18, 52 21 L50 28"/>
+                            <path d="M60 18 C60 12, 57 8, 52 6 C50 5, 48 6, 46 8 L44 15"/>
+                            <!-- Objeto no centro (símbolo de apoio/cuidado) -->
+                            <circle cx="50" cy="55" r="12" fill="rgba(255,255,255,0.15)" stroke="currentColor"/>
+                            <path d="M50 48 L50 62 M43 55 L57 55" stroke="currentColor"/>
+                            <!-- Base das mãos -->
+                            <path d="M20 65 L30 75 L40 70"/>
+                            <path d="M80 65 L70 75 L60 70"/>
+                            <!-- Coração no centro -->
+                            <path d="M50 58 C50 58, 44 52, 44 48 C44 45, 47 43, 50 46 C53 43, 56 45, 56 48 C56 52, 50 58, 50 58 Z" fill="rgba(255,255,255,0.2)"/>
+                        </svg>
                     </div>
                     <h1>APSAN, Lda</h1>
-                    <p>Sistema de Gestão Hospitalar</p>
+                    <p>Sistema de Gestão</p>
                 </div>
                 
                 <div class="login-form">
@@ -66,7 +86,18 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <div class="logo-small">
-                    <i class="fas fa-hospital"></i>
+                    <!-- Logo pequeno - mãos -->
+                    <svg viewBox="0 0 100 100" width="32" height="32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 65 C15 55, 20 50, 25 48"/>
+                        <path d="M85 65 C85 55, 80 50, 75 48"/>
+                        <path d="M25 48 C25 40, 28 35, 32 33"/>
+                        <path d="M75 48 C75 40, 72 35, 68 33"/>
+                        <path d="M32 33 C32 25, 35 20, 40 18"/>
+                        <path d="M68 33 C68 25, 65 20, 60 18"/>
+                        <circle cx="50" cy="55" r="10" fill="rgba(255,255,255,0.2)"/>
+                        <path d="M50 50 L50 60 M45 55 L55 55"/>
+                        <path d="M50 58 C50 58, 44 52, 44 48 C44 45, 47 43, 50 46 C53 43, 56 45, 56 48 C56 52, 50 58, 50 58 Z" fill="currentColor"/>
+                    </svg>
                     <span>APSAN</span>
                 </div>
                 <button class="toggle-sidebar" onclick="toggleSidebar()">

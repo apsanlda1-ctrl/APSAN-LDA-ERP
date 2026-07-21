@@ -39,19 +39,19 @@
                         <label>Selecione o Departamento:</label>
                         <select id="department-select" onchange="updateDepartmentTheme()">
                             <option value="">-- Escolha o Departamento --</option>
-                            <option value="acompanhamento" selected>🏥 Acompanhamento Hospitalar</option>
-                            <option value="traducao">📜 Tradução Oficial Juramentada</option>
+                            <option value="acompanhamento">🏥 Acompanhamento Hospitalar</option>
+                            <option value="traducao" selected>📜 Tradução Oficial Juramentada</option>
                             <option value="administrativo">📋 Administrativo</option>
                             <option value="financeiro">💰 Financeiro</option>
                         </select>
                     </div>
                     <div class="input-group">
                         <i class="fas fa-user"></i>
-                        <input type="text" id="username" placeholder="Nome de Utilizador" value="admin.apsan">
+                        <input type="text" id="username" placeholder="Nome de Utilizador" value="traducao.apsan">
                     </div>
                     <div class="input-group">
                         <i class="fas fa-lock"></i>
-                        <input type="password" id="password" placeholder="Palavra-passe" value="********">
+                        <input type="password" id="password" placeholder="Palavra-passe">
                     </div>
                     <button class="btn-login" onclick="login()">
                         <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
@@ -88,7 +88,7 @@
                 </button>
             </div>
             <div class="user-info">
-                <div class="user-avatar"><i class="fas fa-user-md"></i></div>
+                <div class="user-avatar"><i class="fas fa-stamp"></i></div>
                 <div class="user-details">
                     <h4 id="user-name">Utilizador</h4>
                     <span id="user-dept">Departamento</span>
@@ -104,8 +104,8 @@
                     <li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
                 </ul>
                 <ul id="menu-traducao" style="display: none;">
-                    <li class="active" onclick="showSection('traducao-dashboard')"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
-                    <li onclick="showSection('viagem-menores')"><i class="fas fa-plane-departure"></i><span>Viagem para Menores</span></li>
+                    <li onclick="showSection('traducao-dashboard')"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+                    <li class="active" onclick="showSection('viagem-menores')"><i class="fas fa-plane-departure"></i><span>Viagem para Menores</span></li>
                     <li onclick="showSection('traducao-documentos')"><i class="fas fa-file-signature"></i><span>Documentos Traduzidos</span></li>
                     <li onclick="showSection('traducao-clientes')"><i class="fas fa-users"></i><span>Clientes</span></li>
                     <li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
@@ -137,8 +137,8 @@
         <main class="main-content">
             <header class="top-header">
                 <div class="header-left">
-                    <h2 id="page-title">Dashboard</h2>
-                    <span class="breadcrumb" id="breadcrumb-text">APSAN, LDA > Dashboard</span>
+                    <h2 id="page-title">Autorização de Viagem para Menor</h2>
+                    <span class="breadcrumb" id="breadcrumb-text">APSAN, LDA > Tradução Oficial Juramentada > Viagem para Menores</span>
                 </div>
                 <div class="header-right">
                     <div class="notification-bell"><i class="fas fa-bell"></i><span class="badge">3</span></div>
@@ -149,14 +149,14 @@
                 </div>
             </header>
 
-            <!-- ========== TRADUÇÃO: VIAGEM PARA MENORES (VERSÃO OTIMIZADA) ========== -->
-            <section id="section-viagem-menores" class="content-section">
+            <!-- ========== AUTORIZAÇÃO DE VIAGEM PARA MENOR (MODELO DO PRINT) ========== -->
+            <section id="section-viagem-menores" class="content-section active">
 
-                <!-- BARRA DE FERRAMENTAS (oculta na impressão) -->
+                <!-- BARRA DE FERRAMENTAS -->
                 <div class="section-toolbar no-print">
                     <h3 style="color: var(--dark); font-size: 20px;">
                         <i class="fas fa-plane-departure" style="color: var(--primary);"></i> 
-                        Declaração de Viagem para Menores
+                        Autorização de Viagem para Menor
                     </h3>
                     <div>
                         <button class="btn-secondary" onclick="limparFormularioViagem()">
@@ -171,548 +171,126 @@
                     </div>
                 </div>
 
-                <!-- TABS DE IDIOMA (ocultas na impressão) -->
-                <div class="language-tabs no-print">
-                    <button class="lang-tab active" onclick="switchLanguage('pt')" id="tab-pt">
-                        <i class="fas fa-flag"></i> Português
-                    </button>
-                    <button class="lang-tab" onclick="switchLanguage('en')" id="tab-en">
-                        <i class="fas fa-flag-usa"></i> English
-                    </button>
-                </div>
+                <!-- DOCUMENTO MODELO EXATO DO PRINT -->
+                <div class="documento-viagem-menor" id="documento-viagem">
 
-                <!-- ==================== VERSÃO PORTUGUÊS ==================== -->
-                <div class="document-editor-card" id="doc-pt">
-                    <div class="document-header-print">
-                        <h2>DECLARAÇÃO DE VIAGEM PARA MENORES</h2>
-                        <p class="document-subtitle">Autorização de viagem de menores - República de Angola</p>
-                    </div>
+                    <div class="doc-titulo">AUTORIZAÇÃO DE VIAGEM PARA MENOR</div>
 
-                    <div class="document-body" id="documento-viagem-pt">
+                    <div class="doc-corpo">
 
-                        <!-- Cabeçalho Notoriado -->
-                        <div class="notoriado-header">
-                            <div class="notoriado-line">
-                                <span class="notoriado-label">Nº:</span>
-                                <input type="text" class="notoriado-input" id="pt-notoriado-numero" placeholder="____/2026">
-                            </div>
-                            <div class="notoriado-line">
-                                <span class="notoriado-label">DATA:</span>
-                                <input type="date" class="notoriado-input" id="pt-notoriado-data">
-                            </div>
-                            <div class="notoriado-line">
-                                <span class="notoriado-label">LOCAL:</span>
-                                <input type="text" class="notoriado-input" id="pt-notoriado-local" placeholder="Luanda">
-                            </div>
+                        <!-- PARÁGRAFO DO PAI -->
+                        <p class="doc-paragrafo">
+                            <span class="doc-placeholder">[Nome completo do Pai do menor]</span>
+                            <input type="text" class="doc-linha" id="doc-pai-nome" placeholder="..............................................................">
+                            , de nacionalidade 
+                            <input type="text" class="doc-curto" id="doc-pai-nacionalidade" placeholder="..................">
+                            , filho de 
+                            <input type="text" class="doc-curto" id="doc-pai-filho-de-mae" placeholder="........">
+                            <span class="doc-ajuda">[nome da mãe]</span> e de 
+                            <input type="text" class="doc-curto" id="doc-pai-filho-de-pai" placeholder="........">
+                            <span class="doc-ajuda">[nome do pai]</span>, nascido em 
+                            <input type="text" class="doc-medio" id="doc-pai-local-nasc" placeholder="..............">
+                            <span class="doc-ajuda">[local de nascimento]</span>, a 
+                            <input type="text" class="doc-data" id="doc-pai-data-nasc" placeholder="__/__/____"> 
+                            <span class="doc-ajuda">[data de nascimento]</span>, residente em 
+                            <input type="text" class="doc-medio" id="doc-pai-residencia" placeholder="..............">
+                            <span class="doc-ajuda">[morada]</span>, titular do 
+                            <input type="text" class="doc-curto" id="doc-pai-doc-tipo" placeholder="........">
+                            <span class="doc-ajuda">[bilhete de identidade / passaporte]</span> nº 
+                            <input type="text" class="doc-medio" id="doc-pai-doc-numero" placeholder="..............">
+                            , emitido por 
+                            <input type="text" class="doc-medio" id="doc-pai-doc-emissor" placeholder="..............">
+                            <span class="doc-ajuda">[entidade emissora e local de emissão]</span>, válido até 
+                            <input type="text" class="doc-data" id="doc-pai-doc-validade" placeholder="__/__/____">
+                        </p>
+
+                        <p class="doc-e">e</p>
+
+                        <!-- PARÁGRAFO DA MÃE -->
+                        <p class="doc-paragrafo">
+                            <span class="doc-placeholder">[nome completo da Mãe do menor]</span>
+                            <input type="text" class="doc-linha" id="doc-mae-nome" placeholder="..............................................................">
+                            , de nacionalidade 
+                            <input type="text" class="doc-curto" id="doc-mae-nacionalidade" placeholder="..................">
+                            , filha de 
+                            <input type="text" class="doc-curto" id="doc-mae-filha-de-mae" placeholder="........">
+                            <span class="doc-ajuda">[nome da mãe]</span> e de 
+                            <input type="text" class="doc-curto" id="doc-mae-filha-de-pai" placeholder="........">
+                            <span class="doc-ajuda">[nome do pai]</span>, nascida em 
+                            <input type="text" class="doc-medio" id="doc-mae-local-nasc" placeholder="..............">
+                            <span class="doc-ajuda">[local de nascimento]</span>, a 
+                            <input type="text" class="doc-data" id="doc-mae-data-nasc" placeholder="__/__/____"> 
+                            <span class="doc-ajuda">[data de nascimento]</span>, residente em 
+                            <input type="text" class="doc-medio" id="doc-mae-residencia" placeholder="..............">
+                            <span class="doc-ajuda">[morada]</span>, titular do 
+                            <input type="text" class="doc-curto" id="doc-mae-doc-tipo" placeholder="........">
+                            <span class="doc-ajuda">[bilhete de identidade / passaporte]</span> nº 
+                            <input type="text" class="doc-medio" id="doc-mae-doc-numero" placeholder="..............">
+                            , emitido por 
+                            <input type="text" class="doc-medio" id="doc-mae-doc-emissor" placeholder="..............">
+                            <span class="doc-ajuda">[entidade emissora e local de emissão]</span>, válido até 
+                            <input type="text" class="doc-data" id="doc-mae-doc-validade" placeholder="__/__/____">
+                        </p>
+
+                        <!-- PARÁGRAFO DE AUTORIZAÇÃO -->
+                        <p class="doc-paragrafo doc-autorizacao">
+                            Venho/Vimos por este meio autorizar o(a) nosso(a) filho(a) menor 
+                            <input type="text" class="doc-linha" id="doc-menor-nome" placeholder="..............................................................">
+                            <span class="doc-ajuda">[nome completo]</span>, de nacionalidade 
+                            <input type="text" class="doc-curto" id="doc-menor-nacionalidade" placeholder="........">
+                            , nascido a 
+                            <input type="text" class="doc-data" id="doc-menor-data-nasc" placeholder="__/__/____"> 
+                            , em 
+                            <input type="text" class="doc-medio" id="doc-menor-local-nasc" placeholder="..............">
+                            <span class="doc-ajuda">[local de nascimento]</span>, portador do passaporte nº 
+                            <input type="text" class="doc-medio" id="doc-menor-passaporte" placeholder="..............">
+                            , emitido em 
+                            <input type="text" class="doc-medio" id="doc-menor-passaporte-local" placeholder="..............">
+                            <span class="doc-ajuda">[local de emissão]</span>, a 
+                            <input type="text" class="doc-data" id="doc-menor-passaporte-data" placeholder="__/__/____"> 
+                            válido até 
+                            <input type="text" class="doc-data" id="doc-menor-passaporte-validade" placeholder="__/__/____"> 
+                            , a viajar para o exterior do país, acompanhado(a) de 
+                            <input type="text" class="doc-linha" id="doc-acompanhante-nome" placeholder="..............................................................">
+                            <span class="doc-ajuda">[nome do acompanhante e grau de parentesco]</span> portador(a) do passaporte nº 
+                            <input type="text" class="doc-medio" id="doc-acompanhante-passaporte" placeholder="..............">
+                            , emitido em 
+                            <input type="text" class="doc-medio" id="doc-acompanhante-passaporte-local" placeholder="..............">
+                            <span class="doc-ajuda">[local de emissão]</span>, a 
+                            <input type="text" class="doc-data" id="doc-acompanhante-passaporte-data" placeholder="__/__/____"> 
+                            , válido até 
+                            <input type="text" class="doc-data" id="doc-acompanhante-passaporte-validade" placeholder="__/__/____"> 
+                            , fazendo o percurso 
+                            <input type="text" class="doc-medio" id="doc-percurso" placeholder="..............">
+                            <span class="doc-ajuda">[percurso completo de ida/volta]</span>, por um período de 
+                            <input type="text" class="doc-curto" id="doc-periodo" placeholder="........">
+                            dias.
+                        </p>
+
+                        <!-- LOCAL E DATA -->
+                        <p class="doc-local-data">
+                            <input type="text" class="doc-curto" id="doc-cidade" value="Luanda">, 
+                            <input type="text" class="doc-data" id="doc-data-emissao" placeholder="__/__/____">
+                            .
+                        </p>
+
+                        <!-- ASSINATURA -->
+                        <div class="doc-assinatura">
+                            <div class="doc-linha-assinatura"></div>
+                            <p class="doc-assinatura-texto">[Nome e assinatura do pai e/ou da mãe, conforme documento de identificação]</p>
                         </div>
 
-                        <!-- Texto de Abertura -->
-                        <div class="notoriado-texto">
-                            <p class="texto-intro">
-                                Eu, <input type="text" class="inline-input" id="pt-notario-nome" placeholder="NOME COMPLETO DO NOTÁRIO">, 
-                                Notário, <strong>DECLARO</strong> para os devidos efeitos que compareceram perante mim:
-                            </p>
+                        <!-- NOTA -->
+                        <div class="doc-nota">
+                            <p><span class="doc-nota-titulo">NOTA:</span> A autorização deve ser reconhecida no Notário e legalizada no Ministério das Relações Exteriores, bem como no Consulado Geral de Portugal em Luanda.</p>
                         </div>
 
-                        <!-- DADOS DO PAI -->
-                        <div class="declarante-box">
-                            <h4><i class="fas fa-male"></i> DADOS DO PAI / TUTOR</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Nome Completo:</label>
-                                    <input type="text" id="pt-pai-nome" placeholder="Nome completo do pai" oninput="syncDeclaracaoPT()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Nº Bilhete de Identidade:</label>
-                                    <input type="text" id="pt-pai-bi" placeholder="Ex: 0065432LA042">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Data de Nascimento:</label>
-                                    <input type="date" id="pt-pai-nascimento">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Naturalidade:</label>
-                                    <input type="text" id="pt-pai-naturalidade" placeholder="Ex: Luanda">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Residência:</label>
-                                    <input type="text" id="pt-pai-residencia" placeholder="Morada completa">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Contacto:</label>
-                                    <input type="tel" id="pt-pai-telefone" placeholder="+244 923 456 789">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Profissão:</label>
-                                    <input type="text" id="pt-pai-profissao" placeholder="Ex: Engenheiro">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DADOS DA MÃE -->
-                        <div class="declarante-box">
-                            <h4><i class="fas fa-female"></i> DADOS DA MÃE / TUTORA</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Nome Completo:</label>
-                                    <input type="text" id="pt-mae-nome" placeholder="Nome completo da mãe" oninput="syncDeclaracaoPT()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Nº Bilhete de Identidade:</label>
-                                    <input type="text" id="pt-mae-bi" placeholder="Ex: 0065432LA042">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Data de Nascimento:</label>
-                                    <input type="date" id="pt-mae-nascimento">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Naturalidade:</label>
-                                    <input type="text" id="pt-mae-naturalidade" placeholder="Ex: Luanda">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Residência:</label>
-                                    <input type="text" id="pt-mae-residencia" placeholder="Morada completa">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Contacto:</label>
-                                    <input type="tel" id="pt-mae-telefone" placeholder="+244 923 456 789">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Profissão:</label>
-                                    <input type="text" id="pt-mae-profissao" placeholder="Ex: Médica">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DADOS DO MENOR -->
-                        <div class="declarante-box criança-box">
-                            <h4><i class="fas fa-child"></i> DADOS DO MENOR / CRIANÇA</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Nome Completo:</label>
-                                    <input type="text" id="pt-crianca-nome" placeholder="Nome completo da criança" oninput="syncDeclaracaoPT()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Nº Bilhete de Identidade:</label>
-                                    <input type="text" id="pt-crianca-bi" placeholder="Ex: 0065432LA042">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Data de Nascimento:</label>
-                                    <input type="date" id="pt-crianca-nascimento">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Local de Nascimento:</label>
-                                    <input type="text" id="pt-crianca-local-nasc" placeholder="Ex: Luanda">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Residência Habitual:</label>
-                                    <input type="text" id="pt-crianca-residencia" placeholder="Morada onde reside a criança">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DADOS DA VIAGEM -->
-                        <div class="declarante-box viagem-box">
-                            <h4><i class="fas fa-plane"></i> DADOS DA VIAGEM</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Destino:</label>
-                                    <input type="text" id="pt-viagem-destino" placeholder="Ex: Portugal, Brasil, etc." oninput="syncDeclaracaoPT()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Finalidade:</label>
-                                    <select id="pt-viagem-finalidade">
-                                        <option value="">Selecione</option>
-                                        <option value="turismo">Turismo</option>
-                                        <option value="estudos">Estudos</option>
-                                        <option value="tratamento">Tratamento Médico</option>
-                                        <option value="visita">Visita Familiar</option>
-                                        <option value="outro">Outro</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Data de Partida:</label>
-                                    <input type="date" id="pt-viagem-data-partida" oninput="syncDeclaracaoPT()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Data de Regresso:</label>
-                                    <input type="date" id="pt-viagem-data-regresso" oninput="syncDeclaracaoPT()">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Acompanhante:</label>
-                                    <input type="text" id="pt-viagem-acompanhante" placeholder="Nome do acompanhante" oninput="syncDeclaracaoPT()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Parentesco do Acompanhante:</label>
-                                    <select id="pt-viagem-parentesco">
-                                        <option value="">Selecione</option>
-                                        <option value="pai">Pai</option>
-                                        <option value="mae">Mãe</option>
-                                        <option value="avo">Avô/Avó</option>
-                                        <option value="tio">Tio/Tia</option>
-                                        <option value="irmao">Irmão/Irmã</option>
-                                        <option value="outro">Outro</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Observações:</label>
-                                    <textarea id="pt-viagem-observacoes" rows="3" placeholder="Observações adicionais sobre a viagem..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- DECLARAÇÃO TEXTUAL (campos sincronizados automaticamente) -->
-                        <div class="declaracao-texto">
-                            <p>
-                                Os declarantes acima identificados, na qualidade de <strong>PAIS</strong> e 
-                                <strong>RESPONSÁVEIS LEGAIS</strong> do menor <span class="sync-field" id="sync-pt-crianca-nome"></span>, 
-                                <strong>DECLARAM</strong> sob compromisso de honra que autorizam o referido menor a 
-                                viajar para <span class="sync-field" id="sync-pt-destino"></span> 
-                                na companhia de <span class="sync-field" id="sync-pt-acompanhante"></span>,
-                                pelo período compreendido entre <span class="sync-field" id="sync-pt-data-inicio"></span> 
-                                e <span class="sync-field" id="sync-pt-data-fim"></span>.
-                            </p>
-                            <p>
-                                Declaram ainda que assumem total responsabilidade pelos atos praticados pelo menor durante a viagem,
-                                bem como pelas despesas decorrentes da mesma.
-                            </p>
-                            <p>
-                                Por ser verdade, e para que produza os efeitos legais, lavrou-se o presente documento,
-                                que vai assinado pelos declarantes e por mim, Notário, a quem os mesmos compareceram.
-                            </p>
-                        </div>
-
-                        <!-- ASSINATURAS -->
-                        <div class="assinaturas-area">
-                            <div class="assinatura-box">
-                                <div class="assinatura-linha"></div>
-                                <span>O Pai</span>
-                                <span class="sync-assinatura" id="sync-pt-ass-pai"></span>
-                            </div>
-                            <div class="assinatura-box">
-                                <div class="assinatura-linha"></div>
-                                <span>A Mãe</span>
-                                <span class="sync-assinatura" id="sync-pt-ass-mae"></span>
-                            </div>
-                            <div class="assinatura-box">
-                                <div class="assinatura-linha"></div>
-                                <span>O Notário</span>
-                                <input type="text" class="assinatura-nome" id="pt-assinatura-notario" placeholder="Nome do Notário">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="document-footer-print">
-                        <p>Documento emitido em conformidade com a legislação angolana vigente.</p>
                     </div>
                 </div>
 
-                <!-- ==================== VERSÃO INGLÊS ==================== -->
-                <div class="document-editor-card" id="doc-en" style="display: none;">
-                    <div class="document-header-print">
-                        <h2>TRAVEL AUTHORIZATION FOR MINORS</h2>
-                        <p class="document-subtitle">Minor travel authorization - Republic of Angola</p>
-                    </div>
-
-                    <div class="document-body" id="documento-viagem-en">
-
-                        <div class="notoriado-header">
-                            <div class="notoriado-line">
-                                <span class="notoriado-label">No.:</span>
-                                <input type="text" class="notoriado-input" id="en-notoriado-numero" placeholder="____/2026">
-                            </div>
-                            <div class="notoriado-line">
-                                <span class="notoriado-label">DATE:</span>
-                                <input type="date" class="notoriado-input" id="en-notoriado-data">
-                            </div>
-                            <div class="notoriado-line">
-                                <span class="notoriado-label">LOCATION:</span>
-                                <input type="text" class="notoriado-input" id="en-notoriado-local" placeholder="Luanda">
-                            </div>
-                        </div>
-
-                        <div class="notoriado-texto">
-                            <p class="texto-intro">
-                                I, <input type="text" class="inline-input" id="en-notario-nome" placeholder="FULL NAME OF NOTARY">, 
-                                Notary, <strong>DECLARE</strong> for all legal purposes that appeared before me:
-                            </p>
-                        </div>
-
-                        <div class="declarante-box">
-                            <h4><i class="fas fa-male"></i> FATHER / GUARDIAN DATA</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Full Name:</label>
-                                    <input type="text" id="en-pai-nome" placeholder="Father's full name" oninput="syncDeclaracaoEN()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>ID Card Number:</label>
-                                    <input type="text" id="en-pai-bi" placeholder="Ex: 0065432LA042">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Date of Birth:</label>
-                                    <input type="date" id="en-pai-nascimento">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Place of Birth:</label>
-                                    <input type="text" id="en-pai-naturalidade" placeholder="Ex: Luanda">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Residence:</label>
-                                    <input type="text" id="en-pai-residencia" placeholder="Full address">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Contact:</label>
-                                    <input type="tel" id="en-pai-telefone" placeholder="+244 923 456 789">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Profession:</label>
-                                    <input type="text" id="en-pai-profissao" placeholder="Ex: Engineer">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="declarante-box">
-                            <h4><i class="fas fa-female"></i> MOTHER / GUARDIAN DATA</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Full Name:</label>
-                                    <input type="text" id="en-mae-nome" placeholder="Mother's full name" oninput="syncDeclaracaoEN()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>ID Card Number:</label>
-                                    <input type="text" id="en-mae-bi" placeholder="Ex: 0065432LA042">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Date of Birth:</label>
-                                    <input type="date" id="en-mae-nascimento">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Place of Birth:</label>
-                                    <input type="text" id="en-mae-naturalidade" placeholder="Ex: Luanda">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Residence:</label>
-                                    <input type="text" id="en-mae-residencia" placeholder="Full address">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Contact:</label>
-                                    <input type="tel" id="en-mae-telefone" placeholder="+244 923 456 789">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Profession:</label>
-                                    <input type="text" id="en-mae-profissao" placeholder="Ex: Doctor">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="declarante-box criança-box">
-                            <h4><i class="fas fa-child"></i> MINOR / CHILD DATA</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Full Name:</label>
-                                    <input type="text" id="en-crianca-nome" placeholder="Child's full name" oninput="syncDeclaracaoEN()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>ID Card Number:</label>
-                                    <input type="text" id="en-crianca-bi" placeholder="Ex: 0065432LA042">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Date of Birth:</label>
-                                    <input type="date" id="en-crianca-nascimento">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Place of Birth:</label>
-                                    <input type="text" id="en-crianca-local-nasc" placeholder="Ex: Luanda">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Usual Residence:</label>
-                                    <input type="text" id="en-crianca-residencia" placeholder="Child's residence address">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="declarante-box viagem-box">
-                            <h4><i class="fas fa-plane"></i> TRAVEL DATA</h4>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Destination:</label>
-                                    <input type="text" id="en-viagem-destino" placeholder="Ex: Portugal, Brazil, etc." oninput="syncDeclaracaoEN()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Purpose:</label>
-                                    <select id="en-viagem-finalidade">
-                                        <option value="">Select</option>
-                                        <option value="turismo">Tourism</option>
-                                        <option value="estudos">Studies</option>
-                                        <option value="tratamento">Medical Treatment</option>
-                                        <option value="visita">Family Visit</option>
-                                        <option value="outro">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Departure Date:</label>
-                                    <input type="date" id="en-viagem-data-partida" oninput="syncDeclaracaoEN()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Return Date:</label>
-                                    <input type="date" id="en-viagem-data-regresso" oninput="syncDeclaracaoEN()">
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc">
-                                    <label>Companion:</label>
-                                    <input type="text" id="en-viagem-acompanhante" placeholder="Companion's name" oninput="syncDeclaracaoEN()">
-                                </div>
-                                <div class="form-group-doc">
-                                    <label>Companion's Relationship:</label>
-                                    <select id="en-viagem-parentesco">
-                                        <option value="">Select</option>
-                                        <option value="pai">Father</option>
-                                        <option value="mae">Mother</option>
-                                        <option value="avo">Grandparent</option>
-                                        <option value="tio">Uncle/Aunt</option>
-                                        <option value="irmao">Brother/Sister</option>
-                                        <option value="outro">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row-document">
-                                <div class="form-group-doc full-width">
-                                    <label>Observations:</label>
-                                    <textarea id="en-viagem-observacoes" rows="3" placeholder="Additional observations about the trip..."></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="declaracao-texto">
-                            <p>
-                                The above identified declarants, in their capacity as <strong>PARENTS</strong> and 
-                                <strong>LEGAL GUARDIANS</strong> of the minor <span class="sync-field" id="sync-en-crianca-nome"></span>, 
-                                <strong>DECLARE</strong> on their honor that they authorize the said minor to 
-                                travel to <span class="sync-field" id="sync-en-destino"></span> 
-                                in the company of <span class="sync-field" id="sync-en-acompanhante"></span>,
-                                for the period between <span class="sync-field" id="sync-en-data-inicio"></span> 
-                                and <span class="sync-field" id="sync-en-data-fim"></span>.
-                            </p>
-                            <p>
-                                They further declare that they assume full responsibility for the acts committed by the minor during the trip,
-                                as well as for the expenses arising therefrom.
-                            </p>
-                            <p>
-                                In witness whereof, and for all legal purposes, this document is drawn up,
-                                to be signed by the declarants and by me, Notary, before whom they appeared.
-                            </p>
-                        </div>
-
-                        <div class="assinaturas-area">
-                            <div class="assinatura-box">
-                                <div class="assinatura-linha"></div>
-                                <span>The Father</span>
-                                <span class="sync-assinatura" id="sync-en-ass-pai"></span>
-                            </div>
-                            <div class="assinatura-box">
-                                <div class="assinatura-linha"></div>
-                                <span>The Mother</span>
-                                <span class="sync-assinatura" id="sync-en-ass-mae"></span>
-                            </div>
-                            <div class="assinatura-box">
-                                <div class="assinatura-linha"></div>
-                                <span>The Notary</span>
-                                <input type="text" class="assinatura-nome" id="en-assinatura-notario" placeholder="Notary's Name">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="document-footer-print">
-                        <p>Document issued in accordance with current Angolan legislation.</p>
-                    </div>
-                </div>
             </section>
 
-            <!-- ========== ACOMPANHAMENTO HOSPITALAR ========== -->
-            <section id="section-dashboard" class="content-section">
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="stat-pacientes">0</h3><p>Pacientes Ativos</p><span class="trend up">+0% este mês</span></div></div>
-                    <div class="stat-card"><div class="stat-icon green"><i class="fas fa-bed"></i></div><div class="stat-info"><h3 id="stat-internados">0</h3><p>Internados</p><span class="trend">Sem alterações</span></div></div>
-                    <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-calendar-check"></i></div><div class="stat-info"><h3>0</h3><p>Consultas Hoje</p><span class="trend">Agende consultas</span></div></div>
-                    <div class="stat-card"><div class="stat-icon red"><i class="fas fa-exclamation-triangle"></i></div><div class="stat-info"><h3>0</h3><p>Urgências</p><span class="trend">Sem urgências</span></div></div>
-                </div>
-                <div class="dashboard-grid">
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Pacientes por Departamento</h3></div><div class="card-body"><div class="empty-chart"><i class="fas fa-chart-pie"></i><p>Sem dados suficientes para gerar gráfico</p><span>Registe pacientes para visualizar estatísticas</span></div></div></div>
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-clock"></i> Próximas Consultas</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-calendar-plus"></i><p>Nenhuma consulta agendada</p><button class="btn-primary" onclick="showSection('consultas')"><i class="fas fa-plus"></i> Agendar Consulta</button></div></div></div>
-                </div>
-            </section>
-
-            <section id="section-pacientes" class="content-section">
-                <div class="section-toolbar">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search-pacientes" placeholder="Pesquisar paciente..." onkeyup="searchPacientes()"></div>
-                    <button class="btn-primary" onclick="openModal('novo-paciente')"><i class="fas fa-plus"></i> Novo Paciente</button>
-                    <button class="btn-secondary" onclick="exportData()"><i class="fas fa-download"></i> Exportar</button>
-                </div>
-                <div class="card">
-                    <div class="card-header"><h3><i class="fas fa-list"></i> Lista de Pacientes</h3><div class="filter-tabs"><button class="tab active" onclick="filterPacientes('todos')">Todos</button><button class="tab" onclick="filterPacientes('internado')">Internados</button><button class="tab" onclick="filterPacientes('ambulatorio')">Ambulatório</button><button class="tab" onclick="filterPacientes('alta')">Alta Médica</button></div></div>
-                    <div class="card-body">
-                        <div class="table-responsive"><table class="data-table" id="pacientes-table"><thead><tr><th>Nº Processo</th><th>Nome Completo</th><th>Idade</th><th>Género</th><th>Contacto</th><th>Estado</th><th>Data Registo</th><th>Ações</th></tr></thead><tbody id="pacientes-tbody"></tbody></table></div>
-                        <div class="pagination" id="pagination-area"><span>Mostrando 0 registos</span><div class="page-buttons"><button class="btn-page"><i class="fas fa-chevron-left"></i></button><button class="btn-page active">1</button><button class="btn-page"><i class="fas fa-chevron-right"></i></button></div></div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="section-consultas" class="content-section">
-                <div class="section-toolbar"><button class="btn-primary" onclick="openModal('nova-consulta')"><i class="fas fa-plus"></i> Agendar Consulta</button></div>
-                <div class="card"><div class="card-body"><div class="calendar-view"><div class="calendar-header"><button class="btn-nav"><i class="fas fa-chevron-left"></i></button><h3>Julho 2026</h3><button class="btn-nav"><i class="fas fa-chevron-right"></i></button></div><div class="calendar-grid"></div></div></div></div>
-            </section>
-
-            <section id="section-internamentos" class="content-section">
-                <div class="card"><div class="card-header"><h3><i class="fas fa-bed"></i> Gestão de Leitos</h3></div><div class="card-body"><div class="leitos-grid"><div class="leito-card livre"><div class="leito-header"><span class="leito-num">A-101</span><span class="leito-status">Livre</span></div><div class="leito-paciente"><em>Disponível</em></div></div><div class="leito-card livre"><div class="leito-header"><span class="leito-num">A-102</span><span class="leito-status">Livre</span></div><div class="leito-paciente"><em>Disponível</em></div></div><div class="leito-card livre"><div class="leito-header"><span class="leito-num">A-103</span><span class="leito-status">Livre</span></div><div class="leito-paciente"><em>Disponível</em></div></div></div></div></div>
-            </section>
-
-            <section id="section-relatorios" class="content-section">
-                <div class="card"><div class="card-header"><h3><i class="fas fa-file-alt"></i> Relatórios Disponíveis</h3></div><div class="card-body"><div class="reports-grid"><div class="report-card" onclick="generateReport('atividade')"><i class="fas fa-chart-line"></i><h4>Relatório de Atividade</h4><p>Resumo mensal de atendimentos</p></div><div class="report-card" onclick="generateReport('epidemiologico')"><i class="fas fa-virus"></i><h4>Relatório Epidemiológico</h4><p>Casos e incidências</p></div><div class="report-card" onclick="generateReport('farmaceutico')"><i class="fas fa-pills"></i><h4>Relatório Farmacêutico</h4><p>Consumo e stock de medicamentos</p></div></div></div></div>
-            </section>
-
-            <!-- ========== TRADUÇÃO DASHBOARD ========== -->
+            <!-- ========== DASHBOARD TRADUÇÃO ========== -->
             <section id="section-traducao-dashboard" class="content-section">
                 <div class="stats-grid">
                     <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-file-signature"></i></div><div class="stat-info"><h3 id="stat-documentos">0</h3><p>Documentos Traduzidos</p><span class="trend up">Este mês</span></div></div>
@@ -736,112 +314,11 @@
                 <div class="card"><div class="card-header"><h3><i class="fas fa-users"></i> Clientes</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-user-plus"></i><p>Nenhum cliente registado</p><span>Os clientes aparecerão aqui</span></div></div></div>
             </section>
 
-            <!-- ========== ADMINISTRATIVO ========== -->
-            <section id="section-admin-dashboard" class="content-section">
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="stat-funcionarios">0</h3><p>Funcionários Ativos</p><span class="trend up">Total registado</span></div></div>
-                    <div class="stat-card"><div class="stat-icon green"><i class="fas fa-building"></i></div><div class="stat-info"><h3>4</h3><p>Departamentos</p><span class="trend">Operacionais</span></div></div>
-                    <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-folder-open"></i></div><div class="stat-info"><h3 id="stat-docs-internos">0</h3><p>Documentos Internos</p><span class="trend">Arquivados</span></div></div>
-                    <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-tasks"></i></div><div class="stat-info"><h3 id="stat-tarefas">0</h3><p>Tarefas Pendentes</p><span class="trend">A concluir</span></div></div>
-                </div>
-                <div class="dashboard-grid">
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-chart-pie"></i> Distribuição por Departamento</h3></div><div class="card-body"><div class="empty-chart"><i class="fas fa-chart-pie"></i><p>Sem dados suficientes para gerar gráfico</p><span>Registe funcionários para visualizar estatísticas</span></div></div></div>
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-bell"></i> Avisos do Sistema</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-check-circle"></i><p>Nenhum aviso pendente</p><span>O sistema está a funcionar normalmente</span></div></div></div>
-                </div>
-            </section>
-
-            <section id="section-admin-funcionarios" class="content-section">
-                <div class="section-toolbar"><div class="search-box"><i class="fas fa-search"></i><input type="text" id="search-funcionarios" placeholder="Pesquisar funcionário..."></div><button class="btn-primary" onclick="openModal('novo-funcionario')"><i class="fas fa-plus"></i> Novo Funcionário</button><button class="btn-secondary" onclick="exportFuncionarios()"><i class="fas fa-download"></i> Exportar</button></div>
-                <div class="card"><div class="card-header"><h3><i class="fas fa-user-tie"></i> Lista de Funcionários</h3><div class="filter-tabs"><button class="tab active">Todos</button><button class="tab">Ativos</button><button class="tab">Inativos</button></div></div><div class="card-body"><div class="table-responsive"><table class="data-table" id="funcionarios-table"><thead><tr><th>Nº</th><th>Nome Completo</th><th>Cargo</th><th>Departamento</th><th>Contacto</th><th>Estado</th><th>Data Admissão</th><th>Ações</th></tr></thead><tbody id="funcionarios-tbody"><tr><td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;"><i class="fas fa-inbox" style="font-size: 32px; display: block; margin-bottom: 12px;"></i>Nenhum funcionário registado. Clique em "Novo Funcionário" para começar.</td></tr></tbody></table></div></div></div>
-            </section>
-
-            <section id="section-admin-departamentos" class="content-section">
-                <div class="section-toolbar"><h3 style="color: var(--dark); font-size: 20px;"><i class="fas fa-building" style="color: var(--primary);"></i> Gestão de Departamentos</h3></div>
-                <div class="dashboard-grid">
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-hospital"></i> Acompanhamento Hospitalar</h3></div><div class="card-body"><div class="depto-info"><p><strong>Responsável:</strong> Dr. Silva</p><p><strong>Funcionários:</strong> 12</p><p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p></div></div></div>
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-stamp"></i> Tradução Oficial Juramentada</h3></div><div class="card-body"><div class="depto-info"><p><strong>Responsável:</strong> Trad. Ana</p><p><strong>Funcionários:</strong> 5</p><p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p></div></div></div>
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-clipboard-list"></i> Administrativo</h3></div><div class="card-body"><div class="depto-info"><p><strong>Responsável:</strong> Adm. Carlos</p><p><strong>Funcionários:</strong> 8</p><p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p></div></div></div>
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-chart-line"></i> Financeiro</h3></div><div class="card-body"><div class="depto-info"><p><strong>Responsável:</strong> Fin. João</p><p><strong>Funcionários:</strong> 6</p><p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p></div></div></div>
-                </div>
-            </section>
-
-            <section id="section-admin-documentos" class="content-section">
-                <div class="section-toolbar"><div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Pesquisar documento..."></div><button class="btn-primary"><i class="fas fa-plus"></i> Novo Documento</button></div>
-                <div class="card"><div class="card-header"><h3><i class="fas fa-folder-open"></i> Documentos Internos</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-file-alt"></i><p>Nenhum documento interno registado</p><span>Os documentos aparecerão aqui</span></div></div></div>
-            </section>
-
-            <section id="section-admin-relatorios" class="content-section">
-                <div class="card"><div class="card-header"><h3><i class="fas fa-file-alt"></i> Relatórios Administrativos</h3></div><div class="card-body"><div class="reports-grid"><div class="report-card" onclick="generateReport('rh')"><i class="fas fa-users"></i><h4>Relatório de RH</h4><p>Quadro de pessoal e turnover</p></div><div class="report-card" onclick="generateReport('produtividade')"><i class="fas fa-chart-bar"></i><h4>Relatório de Produtividade</h4><p>Desempenho por departamento</p></div><div class="report-card" onclick="generateReport('documental')"><i class="fas fa-folder"></i><h4>Relatório Documental</h4><p>Fluxo de documentos internos</p></div></div></div></div>
-            </section>
-
-            <!-- ========== FINANCEIRO ========== -->
-            <section id="section-fin-dashboard" class="content-section">
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-icon green"><i class="fas fa-hand-holding-usd"></i></div><div class="stat-info"><h3 id="stat-receita">0,00 Kz</h3><p>Receita Mensal</p><span class="trend up">+0% vs mês anterior</span></div></div>
-                    <div class="stat-card"><div class="stat-icon red"><i class="fas fa-file-invoice"></i></div><div class="stat-info"><h3 id="stat-despesa">0,00 Kz</h3><p>Despesas</p><span class="trend">Controlado</span></div></div>
-                    <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-wallet"></i></div><div class="stat-info"><h3 id="stat-saldo">0,00 Kz</h3><p>Saldo</p><span class="trend up">Positivo</span></div></div>
-                    <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-exclamation-circle"></i></div><div class="stat-info"><h3 id="stat-pagamentos-pendentes">0</h3><p>Pagamentos Pendentes</p><span class="trend">A regularizar</span></div></div>
-                </div>
-                <div class="dashboard-grid">
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-chart-area"></i> Fluxo de Caixa</h3></div><div class="card-body"><div class="empty-chart"><i class="fas fa-chart-line"></i><p>Sem dados suficientes para gerar gráfico</p><span>Registe movimentos para visualizar estatísticas</span></div></div></div>
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-list"></i> Últimas Transações</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-receipt"></i><p>Nenhuma transação registada</p><span>As transações aparecerão aqui</span></div></div></div>
-                </div>
-            </section>
-
-            <section id="section-fin-faturacao" class="content-section">
-                <div class="section-toolbar"><div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Pesquisar fatura..."></div><button class="btn-primary"><i class="fas fa-plus"></i> Nova Fatura</button></div>
-                <div class="card"><div class="card-header"><h3><i class="fas fa-file-invoice-dollar"></i> Faturas Emitidas</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-file-invoice"></i><p>Nenhuma fatura emitida</p><span>As faturas aparecerão aqui</span></div></div></div>
-            </section>
-
-            <section id="section-fin-pagamentos" class="content-section">
-                <div class="section-toolbar"><div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Pesquisar pagamento..."></div><button class="btn-primary"><i class="fas fa-plus"></i> Novo Pagamento</button></div>
-                <div class="card"><div class="card-header"><h3><i class="fas fa-money-bill-wave"></i> Pagamentos</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-credit-card"></i><p>Nenhum pagamento registado</p><span>Os pagamentos aparecerão aqui</span></div></div></div>
-            </section>
-
-            <section id="section-fin-orcamento" class="content-section">
-                <div class="section-toolbar"><h3 style="color: var(--dark); font-size: 20px;"><i class="fas fa-chart-pie" style="color: var(--primary);"></i> Gestão de Orçamento</h3></div>
-                <div class="dashboard-grid">
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-bullseye"></i> Orçamento Anual 2026</h3></div><div class="card-body"><div class="empty-chart"><i class="fas fa-chart-pie"></i><p>Orçamento não definido</p><span>Configure o orçamento anual para visualizar</span></div></div></div>
-                    <div class="card"><div class="card-header"><h3><i class="fas fa-list-check"></i> Controlo de Despesas</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-calculator"></i><p>Sem dados de despesas</p><span>Registe despesas para controlo</span></div></div></div>
-                </div>
-            </section>
-
-            <section id="section-fin-relatorios" class="content-section">
-                <div class="card"><div class="card-header"><h3><i class="fas fa-file-invoice"></i> Relatórios Financeiros</h3></div><div class="card-body"><div class="reports-grid"><div class="report-card" onclick="generateReport('balanco')"><i class="fas fa-balance-scale"></i><h4>Balanço Patrimonial</h4><p>Posição financeira da empresa</p></div><div class="report-card" onclick="generateReport('resultados')"><i class="fas fa-chart-line"></i><h4>Demonstração de Resultados</h4><p>Receitas e despesas do período</p></div><div class="report-card" onclick="generateReport('fluxo-caixa')"><i class="fas fa-exchange-alt"></i><h4>Fluxo de Caixa</h4><p>Movimentação de fundos</p></div></div></div></div>
-            </section>
-
             <!-- ========== CONFIGURAÇÕES ========== -->
             <section id="section-configuracoes" class="content-section">
-                <div class="card"><div class="card-header"><h3><i class="fas fa-cog"></i> Configurações do Sistema</h3></div><div class="card-body"><form class="settings-form"><div class="form-group"><label>Nome da Instituição</label><input type="text" value="APSAN, LDA"></div><div class="form-group"><label>Departamento Padrão</label><select><option selected>Acompanhamento Hospitalar</option><option>Tradução Oficial Juramentada</option><option>Administrativo</option><option>Financeiro</option></select></div><div class="form-group"><label>Idioma</label><select><option selected>Português (PT)</option><option>English (EN)</option></select></div><button type="button" class="btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> Guardar Alterações</button></form></div></div>
+                <div class="card"><div class="card-header"><h3><i class="fas fa-cog"></i> Configurações do Sistema</h3></div><div class="card-body"><form class="settings-form"><div class="form-group"><label>Nome da Instituição</label><input type="text" value="APSAN, LDA"></div><div class="form-group"><label>Departamento Padrão</label><select><option selected>Tradução Oficial Juramentada</option><option>Acompanhamento Hospitalar</option><option>Administrativo</option><option>Financeiro</option></select></div><div class="form-group"><label>Idioma</label><select><option selected>Português (PT)</option><option>English (EN)</option></select></div><button type="button" class="btn-primary" onclick="saveSettings()"><i class="fas fa-save"></i> Guardar Alterações</button></form></div></div>
             </section>
         </main>
-    </div>
-
-    <!-- Modal: Novo Paciente -->
-    <div id="modal-novo-paciente" class="modal">
-        <div class="modal-overlay" onclick="closeModal('novo-paciente')"></div>
-        <div class="modal-content modal-large">
-            <div class="modal-header"><h3><i class="fas fa-user-plus"></i> Registo de Novo Paciente</h3><button class="btn-close" onclick="closeModal('novo-paciente')"><i class="fas fa-times"></i></button></div>
-            <div class="modal-body">
-                <form id="form-paciente" class="form-grid">
-                    <div class="form-section"><h4><i class="fas fa-id-card"></i> Dados Pessoais</h4><div class="form-row"><div class="form-group"><label>Nome Completo <span class="required">*</span></label><input type="text" id="pac-nome" required placeholder="Ex: Maria da Conceição Santos"></div><div class="form-group"><label>Nº Processo <span class="required">*</span></label><input type="text" id="pac-processo" required placeholder="Ex: APS-2026-001"></div></div><div class="form-row"><div class="form-group"><label>Data de Nascimento <span class="required">*</span></label><input type="date" id="pac-nascimento" required></div><div class="form-group"><label>Género <span class="required">*</span></label><select id="pac-genero" required><option value="">Selecione</option><option value="M">Masculino</option><option value="F">Feminino</option><option value="O">Outro</option></select></div></div><div class="form-row"><div class="form-group"><label>Nº Bilhete de Identidade</label><input type="text" id="pac-bi" placeholder="Ex: 0065432LA042"></div><div class="form-group"><label>NIF</label><input type="text" id="pac-nif" placeholder="Ex: 1234567890"></div></div></div>
-                    <div class="form-section"><h4><i class="fas fa-phone"></i> Contactos</h4><div class="form-row"><div class="form-group"><label>Telefone Principal <span class="required">*</span></label><input type="tel" id="pac-telefone" required placeholder="Ex: +244 923 456 789"></div><div class="form-group"><label>Telefone Alternativo</label><input type="tel" id="pac-telefone-alt" placeholder="Ex: +244 912 345 678"></div></div><div class="form-row"><div class="form-group"><label>Email</label><input type="email" id="pac-email" placeholder="Ex: paciente@email.com"></div><div class="form-group"><label>Morada</label><input type="text" id="pac-morada" placeholder="Ex: Rua Principal, nº 123, Luanda"></div></div></div>
-                    <div class="form-section"><h4><i class="fas fa-heartbeat"></i> Dados Clínicos</h4><div class="form-row"><div class="form-group"><label>Tipo Sanguíneo</label><select id="pac-sangue"><option value="">Desconhecido</option><option value="A+">A+</option><option value="A-">A-</option><option value="B+">B+</option><option value="B-">B-</option><option value="AB+">AB+</option><option value="AB-">AB-</option><option value="O+">O+</option><option value="O-">O-</option></select></div><div class="form-group"><label>Estado Civil</label><select id="pac-estado-civil"><option value="">Selecione</option><option value="solteiro">Solteiro(a)</option><option value="casado">Casado(a)</option><option value="divorciado">Divorciado(a)</option><option value="viuvo">Viúvo(a)</option></select></div></div><div class="form-group full-width"><label>Alergias / Condições Especiais</label><textarea id="pac-alergias" rows="3" placeholder="Descreva alergias a medicamentos ou condições especiais..."></textarea></div></div>
-                    <div class="form-section"><h4><i class="fas fa-user-friends"></i> Contacto de Emergência</h4><div class="form-row"><div class="form-group"><label>Nome do Contacto</label><input type="text" id="pac-emergencia-nome" placeholder="Ex: João Santos"></div><div class="form-group"><label>Telefone de Emergência</label><input type="tel" id="pac-emergencia-telefone" placeholder="Ex: +244 923 000 000"></div></div><div class="form-group full-width"><label>Parentesco</label><select id="pac-emergencia-parentesco"><option value="">Selecione</option><option value="conjuge">Cônjuge</option><option value="filho">Filho(a)</option><option value="pai">Pai/Mãe</option><option value="irmao">Irmão(ã)</option><option value="outro">Outro</option></select></div></div>
-                </form>
-            </div>
-            <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('novo-paciente')">Cancelar</button><button class="btn-primary" onclick="savePaciente()"><i class="fas fa-save"></i> Guardar Registo</button></div>
-        </div>
-    </div>
-
-    <!-- Modal: Editar Paciente -->
-    <div id="modal-editar-paciente" class="modal">
-        <div class="modal-overlay" onclick="closeModal('editar-paciente')"></div>
-        <div class="modal-content modal-large">
-            <div class="modal-header"><h3><i class="fas fa-edit"></i> Editar Registo do Paciente</h3><button class="btn-close" onclick="closeModal('editar-paciente')"><i class="fas fa-times"></i></button></div>
-            <div class="modal-body"><form id="form-editar-paciente" class="form-grid"></form></div>
-            <div class="modal-footer"><button class="btn-danger" onclick="deletePaciente()"><i class="fas fa-trash"></i> Eliminar</button><button class="btn-secondary" onclick="closeModal('editar-paciente')">Cancelar</button><button class="btn-primary" onclick="updatePaciente()"><i class="fas fa-save"></i> Atualizar Registo</button></div>
-        </div>
     </div>
 
     <!-- Toast Notification -->

@@ -1,121 +1,79 @@
 /**
  * APSAN, Lda - Sistema de Gestão Hospitalar
- * Departamento de Acompanhamento Hospitalar
+ * + Departamento de Tradução Oficial Juramentada
  * JavaScript Principal
  */
 
 // ============================================
-// DADOS MOCK (Simulação de Base de Dados)
+// CONFIGURAÇÃO DE DEPARTAMENTOS E CREDENCIAIS
 // ============================================
-let pacientes = [
-    {
-        id: 1,
-        processo: "APS-2026-001",
-        nome: "Maria da Conceição Santos",
-        nascimento: "1985-03-15",
-        idade: 41,
-        genero: "F",
-        telefone: "+244 923 456 789",
-        email: "maria.santos@email.com",
-        morada: "Rua Principal, nº 123, Luanda",
-        bi: "0065432LA042",
-        nif: "1234567890",
-        sangue: "O+",
-        estadoCivil: "casado",
-        alergias: "Alergia a penicilina",
-        emergenciaNome: "João Santos",
-        emergenciaTelefone: "+244 923 000 000",
-        emergenciaParentesco: "conjuge",
-        estado: "internado",
-        dataRegisto: "2026-07-15"
+const DEPARTAMENTOS = {
+    acompanhamento: {
+        nome: "Acompanhamento Hospitalar",
+        username: "admin.apsan",
+        password: "apsan2026",
+        menu: "menu-acompanhamento",
+        cor: "#2563eb",
+        userName: "Dr. Silva",
+        icon: "fa-user-md"
     },
-    {
-        id: 2,
-        processo: "APS-2026-002",
-        nome: "Carlos Mendes Ferreira",
-        nascimento: "1972-11-22",
-        idade: 53,
-        genero: "M",
-        telefone: "+244 912 345 678",
-        email: "carlos.mendes@email.com",
-        morada: "Avenida Revolução, nº 45, Luanda",
-        bi: "0051234LA039",
-        nif: "0987654321",
-        sangue: "A+",
-        estadoCivil: "casado",
-        alergias: "Nenhuma conhecida",
-        emergenciaNome: "Ana Mendes",
-        emergenciaTelefone: "+244 912 111 222",
-        emergenciaParentesco: "conjuge",
-        estado: "internado",
-        dataRegisto: "2026-07-14"
+    enfermagem: {
+        nome: "Enfermagem",
+        username: "enfermagem.apsan",
+        password: "enf2026",
+        menu: "menu-acompanhamento",
+        cor: "#10b981",
+        userName: "Enf. Maria",
+        icon: "fa-user-nurse"
     },
-    {
-        id: 3,
-        processo: "APS-2026-003",
-        nome: "Ana Paula Domingos",
-        nascimento: "1990-06-08",
-        idade: 36,
-        genero: "F",
-        telefone: "+244 934 567 890",
-        email: "ana.domingos@email.com",
-        morada: "Rua das Flores, nº 78, Luanda",
-        bi: "0078901LA045",
-        nif: "1122334455",
-        sangue: "B+",
-        estadoCivil: "solteiro",
-        alergias: "Alergia a látex",
-        emergenciaNome: "Pedro Domingos",
-        emergenciaTelefone: "+244 934 999 888",
-        emergenciaParentesco: "irmao",
-        estado: "ambulatorio",
-        dataRegisto: "2026-07-16"
+    farmacia: {
+        nome: "Farmácia",
+        username: "farmacia.apsan",
+        password: "farm2026",
+        menu: "menu-acompanhamento",
+        cor: "#f59e0b",
+        userName: "Farm. Pedro",
+        icon: "fa-pills"
     },
-    {
-        id: 4,
-        processo: "APS-2026-004",
-        nome: "João Manuel Kiala",
-        nascimento: "1965-01-30",
-        idade: 61,
-        genero: "M",
-        telefone: "+244 945 678 901",
-        email: "joao.kiala@email.com",
-        morada: "Bairro Popular, Casa 12, Luanda",
-        bi: "0045678LA036",
-        nif: "5566778899",
-        sangue: "O-",
-        estadoCivil: "viuvo",
-        alergias: "Hipertensão, Diabetes tipo 2",
-        emergenciaNome: "Maria Kiala",
-        emergenciaTelefone: "+244 945 222 333",
-        emergenciaParentesco: "filho",
-        estado: "internado",
-        dataRegisto: "2026-07-13"
+    traducao: {
+        nome: "Tradução Oficial Juramentada",
+        username: "traducao.apsan",
+        password: "trad2026",
+        menu: "menu-traducao",
+        cor: "#7c3aed",
+        userName: "Trad. Ana",
+        icon: "fa-stamp"
     },
-    {
-        id: 5,
-        processo: "APS-2026-005",
-        nome: "Luciana Ferreira Pinto",
-        nascimento: "1995-09-12",
-        idade: 30,
-        genero: "F",
-        telefone: "+244 956 789 012",
-        email: "luciana.pinto@email.com",
-        morada: "Condomínio Nova Vida, Bloco B, Luanda",
-        bi: "0089012LA048",
-        nif: "9988776655",
-        sangue: "AB+",
-        estadoCivil: "solteiro",
-        alergias: "Nenhuma",
-        emergenciaNome: "Fernando Pinto",
-        emergenciaTelefone: "+244 956 444 555",
-        emergenciaParentesco: "pai",
-        estado: "alta",
-        dataRegisto: "2026-07-10"
+    administrativo: {
+        nome: "Administrativo",
+        username: "administrativo.apsan",
+        password: "adm2026",
+        menu: "menu-acompanhamento",
+        cor: "#64748b",
+        userName: "Adm. Carlos",
+        icon: "fa-user-tie"
+    },
+    financeiro: {
+        nome: "Financeiro",
+        username: "financeiro.apsan",
+        password: "fin2026",
+        menu: "menu-acompanhamento",
+        cor: "#059669",
+        userName: "Fin. João",
+        icon: "fa-chart-line"
     }
-];
+};
 
+let currentDepartment = null;
 let currentEditingId = null;
+
+// ============================================
+// DADOS - INICIAM VAZIOS
+// ============================================
+let pacientes = [];
+let viagensMenores = [];
+let documentosTraduzidos = [];
+let clientesTraducao = [];
 
 // ============================================
 // INICIALIZAÇÃO
@@ -125,24 +83,44 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateDateTime, 1000);
     renderPacientes();
     renderCalendar();
+    updateDepartmentTheme();
     
-    // Verificar se há dados salvos no localStorage
+    // Carregar dados do localStorage se existirem
     const savedPacientes = localStorage.getItem('apsan_pacientes');
     if (savedPacientes) {
         pacientes = JSON.parse(savedPacientes);
         renderPacientes();
+        updateStats();
+    }
+    
+    const savedViagens = localStorage.getItem('apsan_viagens');
+    if (savedViagens) {
+        viagensMenores = JSON.parse(savedViagens);
     }
 });
 
 // ============================================
-// FUNÇÕES DE NAVEGAÇÃO
+// LOGIN POR DEPARTAMENTO
 // ============================================
+function updateDepartmentTheme() {
+    const dept = document.getElementById('department-select').value;
+    const loginBtn = document.querySelector('.btn-login');
+    
+    if (dept && DEPARTAMENTOS[dept]) {
+        loginBtn.style.background = DEPARTAMENTOS[dept].cor;
+        // Preenche as credenciais sugeridas
+        document.getElementById('username').value = DEPARTAMENTOS[dept].username;
+        document.getElementById('password').value = '';
+        document.getElementById('password').placeholder = 'Palavra-passe';
+    }
+}
+
 function login() {
-    const department = document.getElementById('department-select').value;
-    const username = document.getElementById('username').value;
+    const deptKey = document.getElementById('department-select').value;
+    const username = document.getElementById('username').value.trim();
     const password = document.getElementById('password').value;
 
-    if (!department) {
+    if (!deptKey) {
         showToast('Por favor, selecione um departamento!', 'error');
         return;
     }
@@ -152,20 +130,75 @@ function login() {
         return;
     }
 
-    // Simular autenticação
+    const dept = DEPARTAMENTOS[deptKey];
+    
+    // Validar credenciais
+    if (username !== dept.username || password !== dept.password) {
+        showToast('Credenciais incorretas! Verifique o utilizador e palavra-passe.', 'error');
+        return;
+    }
+
+    currentDepartment = deptKey;
+
+    // Configurar interface para o departamento
+    configurarInterfaceDepartamento(dept);
+
+    // Navegar para o dashboard correto
     document.getElementById('login-screen').classList.remove('active');
     document.getElementById('dashboard-screen').classList.add('active');
-    showToast(`Bem-vindo ao Departamento de Acompanhamento Hospitalar!`);
+
+    if (deptKey === 'traducao') {
+        showSection('traducao-dashboard');
+    } else {
+        showSection('dashboard');
+    }
+
+    showToast(`Bem-vindo ao Departamento de ${dept.nome}!`);
+}
+
+function configurarInterfaceDepartamento(dept) {
+    // Atualizar info do utilizador
+    document.getElementById('user-name').textContent = dept.userName;
+    document.getElementById('user-dept').textContent = dept.nome;
+    
+    // Atualizar avatar
+    const avatar = document.querySelector('.user-avatar');
+    avatar.innerHTML = `<i class="fas ${dept.icon}"></i>`;
+    avatar.style.background = dept.cor + '20';
+    avatar.style.color = dept.cor;
+
+    // Mostrar/esconder menus
+    document.querySelectorAll('.sidebar-nav ul').forEach(ul => {
+        ul.style.display = 'none';
+    });
+    
+    const menuAtivo = document.getElementById(dept.menu);
+    if (menuAtivo) {
+        menuAtivo.style.display = 'block';
+    }
+
+    // Atualizar breadcrumb
+    document.getElementById('breadcrumb-text').textContent = `APSAN > ${dept.nome} > Dashboard`;
 }
 
 function logout() {
     if (confirm('Tem certeza que deseja terminar a sessão?')) {
+        currentDepartment = null;
         document.getElementById('dashboard-screen').classList.remove('active');
         document.getElementById('login-screen').classList.add('active');
+        
+        // Resetar formulário de login
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('department-select').value = '';
+        
         showToast('Sessão terminada com sucesso!');
     }
 }
 
+// ============================================
+// NAVEGAÇÃO
+// ============================================
 function toggleSidebar() {
     document.querySelector('.sidebar').classList.toggle('collapsed');
 }
@@ -175,7 +208,10 @@ function showSection(sectionId) {
     document.querySelectorAll('.sidebar-nav li').forEach(li => {
         li.classList.remove('active');
     });
-    event.currentTarget.classList.add('active');
+    
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
 
     // Atualizar título
     const titles = {
@@ -184,15 +220,36 @@ function showSection(sectionId) {
         'consultas': 'Consultas',
         'internamentos': 'Internamentos',
         'relatorios': 'Relatórios',
-        'configuracoes': 'Configurações'
+        'configuracoes': 'Configurações',
+        'traducao-dashboard': 'Dashboard',
+        'viagem-menores': 'Viagem para Menores',
+        'traducao-documentos': 'Documentos Traduzidos',
+        'traducao-clientes': 'Clientes'
     };
-    document.getElementById('page-title').textContent = titles[sectionId];
+    
+    const title = titles[sectionId] || sectionId;
+    document.getElementById('page-title').textContent = title;
+
+    // Atualizar breadcrumb
+    if (currentDepartment && DEPARTAMENTOS[currentDepartment]) {
+        const deptNome = DEPARTAMENTOS[currentDepartment].nome;
+        document.getElementById('breadcrumb-text').textContent = `APSAN > ${deptNome} > ${title}`;
+    }
 
     // Mostrar seção
     document.querySelectorAll('.content-section').forEach(section => {
         section.classList.remove('active');
     });
-    document.getElementById('section-' + sectionId).classList.add('active');
+    
+    const section = document.getElementById('section-' + sectionId);
+    if (section) {
+        section.classList.add('active');
+    }
+
+    // Atualizar stats se for dashboard
+    if (sectionId === 'dashboard' || sectionId === 'traducao-dashboard') {
+        updateStats();
+    }
 }
 
 // ============================================
@@ -213,10 +270,11 @@ function updateDateTime() {
         second: '2-digit' 
     };
 
-    document.getElementById('current-date').textContent = 
-        now.toLocaleDateString('pt-PT', dateOptions);
-    document.getElementById('current-time').textContent = 
-        now.toLocaleTimeString('pt-PT', timeOptions);
+    const dateEl = document.getElementById('current-date');
+    const timeEl = document.getElementById('current-time');
+    
+    if (dateEl) dateEl.textContent = now.toLocaleDateString('pt-PT', dateOptions);
+    if (timeEl) timeEl.textContent = now.toLocaleTimeString('pt-PT', timeOptions);
 }
 
 // ============================================
@@ -224,12 +282,32 @@ function updateDateTime() {
 // ============================================
 function renderPacientes(filter = 'todos') {
     const tbody = document.getElementById('pacientes-tbody');
+    if (!tbody) return;
+    
     tbody.innerHTML = '';
 
     let filteredPacientes = pacientes;
     if (filter !== 'todos') {
         filteredPacientes = pacientes.filter(p => p.estado === filter);
     }
+
+    if (filteredPacientes.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">
+                <i class="fas fa-inbox" style="font-size: 32px; display: block; margin-bottom: 12px;"></i>
+                Nenhum paciente registado. Clique em "Novo Paciente" para começar.
+            </td>
+        `;
+        tbody.appendChild(tr);
+        
+        const pagination = document.getElementById('pagination-area');
+        if (pagination) pagination.style.display = 'none';
+        return;
+    }
+
+    const pagination = document.getElementById('pagination-area');
+    if (pagination) pagination.style.display = 'flex';
 
     filteredPacientes.forEach(paciente => {
         const tr = document.createElement('tr');
@@ -270,23 +348,26 @@ function getStatusLabel(status) {
 }
 
 function formatDate(dateString) {
+    if (!dateString) return '';
     const date = new Date(dateString);
     return date.toLocaleDateString('pt-PT');
 }
 
 function filterPacientes(filter) {
-    // Atualizar tabs
     document.querySelectorAll('.filter-tabs .tab').forEach(tab => {
         tab.classList.remove('active');
     });
-    event.target.classList.add('active');
-
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
     renderPacientes(filter);
 }
 
 function searchPacientes() {
     const searchTerm = document.getElementById('search-pacientes').value.toLowerCase();
     const tbody = document.getElementById('pacientes-tbody');
+    if (!tbody) return;
+    
     const rows = tbody.getElementsByTagName('tr');
 
     Array.from(rows).forEach(row => {
@@ -299,17 +380,22 @@ function searchPacientes() {
 // MODAIS
 // ============================================
 function openModal(modalId) {
-    document.getElementById('modal-' + modalId).classList.add('active');
-    document.body.style.overflow = 'hidden';
+    const modal = document.getElementById('modal-' + modalId);
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 function closeModal(modalId) {
-    document.getElementById('modal-' + modalId).classList.remove('active');
-    document.body.style.overflow = '';
+    const modal = document.getElementById('modal-' + modalId);
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
     currentEditingId = null;
 }
 
-// Fechar modal ao pressionar ESC
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         document.querySelectorAll('.modal.active').forEach(modal => {
@@ -322,9 +408,6 @@ document.addEventListener('keydown', function(e) {
 // CRUD PACIENTES
 // ============================================
 function savePaciente() {
-    const form = document.getElementById('form-paciente');
-    
-    // Validação básica
     const nome = document.getElementById('pac-nome').value;
     const processo = document.getElementById('pac-processo').value;
     const nascimento = document.getElementById('pac-nascimento').value;
@@ -336,7 +419,6 @@ function savePaciente() {
         return;
     }
 
-    // Calcular idade
     const birthDate = new Date(nascimento);
     const today = new Date();
     let idade = today.getFullYear() - birthDate.getFullYear();
@@ -353,16 +435,16 @@ function savePaciente() {
         idade: idade,
         genero: genero,
         telefone: telefone,
-        email: document.getElementById('pac-email').value,
-        morada: document.getElementById('pac-morada').value,
-        bi: document.getElementById('pac-bi').value,
-        nif: document.getElementById('pac-nif').value,
-        sangue: document.getElementById('pac-sangue').value,
-        estadoCivil: document.getElementById('pac-estado-civil').value,
-        alergias: document.getElementById('pac-alergias').value,
-        emergenciaNome: document.getElementById('pac-emergencia-nome').value,
-        emergenciaTelefone: document.getElementById('pac-emergencia-telefone').value,
-        emergenciaParentesco: document.getElementById('pac-emergencia-parentesco').value,
+        email: document.getElementById('pac-email')?.value || '',
+        morada: document.getElementById('pac-morada')?.value || '',
+        bi: document.getElementById('pac-bi')?.value || '',
+        nif: document.getElementById('pac-nif')?.value || '',
+        sangue: document.getElementById('pac-sangue')?.value || '',
+        estadoCivil: document.getElementById('pac-estado-civil')?.value || '',
+        alergias: document.getElementById('pac-alergias')?.value || '',
+        emergenciaNome: document.getElementById('pac-emergencia-nome')?.value || '',
+        emergenciaTelefone: document.getElementById('pac-emergencia-telefone')?.value || '',
+        emergenciaParentesco: document.getElementById('pac-emergencia-parentesco')?.value || '',
         estado: 'ambulatorio',
         dataRegisto: new Date().toISOString().split('T')[0]
     };
@@ -370,10 +452,10 @@ function savePaciente() {
     pacientes.push(novoPaciente);
     saveToLocalStorage();
     
-    // Limpar formulário
-    form.reset();
+    document.getElementById('form-paciente')?.reset();
     closeModal('novo-paciente');
     renderPacientes();
+    updateStats();
     showToast('Paciente registado com sucesso!');
 }
 
@@ -386,8 +468,9 @@ function editPaciente(id) {
         return;
     }
 
-    // Preencher formulário de edição
     const form = document.getElementById('form-editar-paciente');
+    if (!form) return;
+    
     form.innerHTML = `
         <div class="form-section">
             <h4><i class="fas fa-id-card"></i> Dados Pessoais</h4>
@@ -519,24 +602,22 @@ function updatePaciente() {
     const paciente = pacientes.find(p => p.id === currentEditingId);
     if (!paciente) return;
 
-    // Atualizar dados
     paciente.nome = document.getElementById('edit-nome').value;
     paciente.processo = document.getElementById('edit-processo').value;
     paciente.nascimento = document.getElementById('edit-nascimento').value;
     paciente.genero = document.getElementById('edit-genero').value;
     paciente.telefone = document.getElementById('edit-telefone').value;
-    paciente.email = document.getElementById('edit-email').value;
-    paciente.morada = document.getElementById('edit-morada').value;
-    paciente.bi = document.getElementById('edit-bi').value;
-    paciente.nif = document.getElementById('edit-nif').value;
-    paciente.sangue = document.getElementById('edit-sangue').value;
-    paciente.alergias = document.getElementById('edit-alergias').value;
-    paciente.estado = document.getElementById('edit-estado').value;
-    paciente.emergenciaNome = document.getElementById('edit-emergencia-nome').value;
-    paciente.emergenciaTelefone = document.getElementById('edit-emergencia-telefone').value;
-    paciente.emergenciaParentesco = document.getElementById('edit-emergencia-parentesco').value;
+    paciente.email = document.getElementById('edit-email')?.value || '';
+    paciente.morada = document.getElementById('edit-morada')?.value || '';
+    paciente.bi = document.getElementById('edit-bi')?.value || '';
+    paciente.nif = document.getElementById('edit-nif')?.value || '';
+    paciente.sangue = document.getElementById('edit-sangue')?.value || '';
+    paciente.alergias = document.getElementById('edit-alergias')?.value || '';
+    paciente.estado = document.getElementById('edit-estado')?.value || 'ambulatorio';
+    paciente.emergenciaNome = document.getElementById('edit-emergencia-nome')?.value || '';
+    paciente.emergenciaTelefone = document.getElementById('edit-emergencia-telefone')?.value || '';
+    paciente.emergenciaParentesco = document.getElementById('edit-emergencia-parentesco')?.value || '';
 
-    // Recalcular idade
     const birthDate = new Date(paciente.nascimento);
     const today = new Date();
     let idade = today.getFullYear() - birthDate.getFullYear();
@@ -549,6 +630,7 @@ function updatePaciente() {
     saveToLocalStorage();
     closeModal('editar-paciente');
     renderPacientes();
+    updateStats();
     showToast('Registo do paciente atualizado com sucesso!');
 }
 
@@ -562,6 +644,7 @@ function deletePacienteById(id) {
     pacientes = pacientes.filter(p => p.id !== id);
     saveToLocalStorage();
     renderPacientes();
+    updateStats();
     showToast('Paciente eliminado com sucesso!');
 }
 
@@ -604,10 +687,127 @@ function viewPaciente(id) {
 }
 
 // ============================================
+// VIAGEM PARA MENORES - NOTORIADO
+// ============================================
+function limparFormularioViagem() {
+    if (confirm('Tem certeza que deseja limpar todos os campos?')) {
+        const inputs = document.querySelectorAll('#documento-viagem-menores input, #documento-viagem-menores textarea, #documento-viagem-menores select');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+        showToast('Formulário limpo!');
+    }
+}
+
+function salvarViagemMenores() {
+    const dados = {
+        id: Date.now(),
+        notoriadoNumero: document.getElementById('notoriado-numero')?.value,
+        notoriadoData: document.getElementById('notoriado-data')?.value,
+        notoriadoLocal: document.getElementById('notoriado-local')?.value,
+        notarioNome: document.getElementById('notario-nome')?.value,
+        pai: {
+            nome: document.getElementById('pai-nome')?.value,
+            bi: document.getElementById('pai-bi')?.value,
+            nascimento: document.getElementById('pai-nascimento')?.value,
+            naturalidade: document.getElementById('pai-naturalidade')?.value,
+            residencia: document.getElementById('pai-residencia')?.value,
+            telefone: document.getElementById('pai-telefone')?.value,
+            profissao: document.getElementById('pai-profissao')?.value
+        },
+        mae: {
+            nome: document.getElementById('mae-nome')?.value,
+            bi: document.getElementById('mae-bi')?.value,
+            nascimento: document.getElementById('mae-nascimento')?.value,
+            naturalidade: document.getElementById('mae-naturalidade')?.value,
+            residencia: document.getElementById('mae-residencia')?.value,
+            telefone: document.getElementById('mae-telefone')?.value,
+            profissao: document.getElementById('mae-profissao')?.value
+        },
+        crianca: {
+            nome: document.getElementById('crianca-nome')?.value,
+            bi: document.getElementById('crianca-bi')?.value,
+            nascimento: document.getElementById('crianca-nascimento')?.value,
+            localNasc: document.getElementById('crianca-local-nasc')?.value,
+            filiacaoPai: document.getElementById('crianca-filiacao-pai')?.value,
+            filiacaoMae: document.getElementById('crianca-filiacao-mae')?.value,
+            residencia: document.getElementById('crianca-residencia')?.value
+        },
+        viagem: {
+            destino: document.getElementById('viagem-destino')?.value,
+            finalidade: document.getElementById('viagem-finalidade')?.value,
+            dataPartida: document.getElementById('viagem-data-partida')?.value,
+            dataRegresso: document.getElementById('viagem-data-regresso')?.value,
+            acompanhante: document.getElementById('viagem-acompanhante')?.value,
+            parentesco: document.getElementById('viagem-parentesco')?.value,
+            observacoes: document.getElementById('viagem-observacoes')?.value
+        },
+        assinaturas: {
+            pai: document.getElementById('assinatura-pai')?.value,
+            mae: document.getElementById('assinatura-mae')?.value,
+            notario: document.getElementById('assinatura-notario')?.value
+        },
+        dataRegisto: new Date().toISOString()
+    };
+
+    // Validar campos obrigatórios
+    if (!dados.pai.nome || !dados.mae.nome || !dados.crianca.nome) {
+        showToast('Por favor, preencha pelo menos os nomes do Pai, Mãe e Criança!', 'error');
+        return;
+    }
+
+    viagensMenores.push(dados);
+    localStorage.setItem('apsan_viagens', JSON.stringify(viagensMenores));
+    
+    updateStats();
+    showToast('Documento de viagem guardado com sucesso!');
+}
+
+function exportarViagemPDF() {
+    // Verificar se há dados
+    const paiNome = document.getElementById('pai-nome')?.value;
+    if (!paiNome) {
+        showToast('Preencha o formulário antes de exportar!', 'error');
+        return;
+    }
+
+    // Guardar antes de exportar
+    salvarViagemMenores();
+
+    // Abrir janela de impressão (que permite salvar como PDF)
+    window.print();
+    
+    showToast('A abrir pré-visualização para exportar PDF...');
+}
+
+// ============================================
 // LOCAL STORAGE
 // ============================================
 function saveToLocalStorage() {
     localStorage.setItem('apsan_pacientes', JSON.stringify(pacientes));
+}
+
+// ============================================
+// ESTATÍSTICAS
+// ============================================
+function updateStats() {
+    // Stats Acompanhamento
+    const statPacientes = document.getElementById('stat-pacientes');
+    const statInternados = document.getElementById('stat-internados');
+    
+    if (statPacientes) statPacientes.textContent = pacientes.length;
+    if (statInternados) statInternados.textContent = pacientes.filter(p => p.estado === 'internado').length;
+
+    // Stats Tradução
+    const statDocumentos = document.getElementById('stat-documentos');
+    const statViagens = document.getElementById('stat-viagens');
+    const statClientes = document.getElementById('stat-clientes');
+    const statPendentes = document.getElementById('stat-pendentes');
+
+    if (statDocumentos) statDocumentos.textContent = documentosTraduzidos.length;
+    if (statViagens) statViagens.textContent = viagensMenores.length;
+    if (statClientes) statClientes.textContent = clientesTraducao.length;
+    if (statPendentes) statPendentes.textContent = '0';
 }
 
 // ============================================
@@ -617,6 +817,8 @@ function showToast(message, type = 'success') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toast-message');
     const toastIcon = toast.querySelector('i');
+
+    if (!toast || !toastMessage) return;
 
     toastMessage.textContent = message;
     
@@ -636,6 +838,11 @@ function showToast(message, type = 'success') {
 }
 
 function exportData() {
+    if (pacientes.length === 0) {
+        showToast('Não há dados para exportar!', 'error');
+        return;
+    }
+    
     const dataStr = JSON.stringify(pacientes, null, 2);
     const dataBlob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(dataBlob);
@@ -659,6 +866,49 @@ function saveSettings() {
 }
 
 // ============================================
+// FILE UPLOAD
+// ============================================
+function handleFileUpload(input, context) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+        showToast('Ficheiro muito grande! Máximo 10MB.', 'error');
+        input.value = '';
+        return;
+    }
+
+    const preview = document.getElementById('file-preview-' + context);
+    const nameEl = document.getElementById('file-name-' + context);
+    const sizeEl = document.getElementById('file-size-' + context);
+
+    if (preview) preview.style.display = 'flex';
+    if (nameEl) nameEl.textContent = file.name;
+    if (sizeEl) sizeEl.textContent = formatFileSize(file.size);
+
+    showToast(`Ficheiro "${file.name}" carregado com sucesso!`);
+}
+
+function removeFile(context) {
+    const input = document.getElementById('pac-historico');
+    const preview = document.getElementById('file-preview-' + context);
+    
+    if (input) input.value = '';
+    if (preview) preview.style.display = 'none';
+    
+    showToast('Ficheiro removido.');
+}
+
+function formatFileSize(bytes) {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
+
+// ============================================
 // CALENDÁRIO
 // ============================================
 function renderCalendar() {
@@ -670,25 +920,21 @@ function renderCalendar() {
     const currentMonth = today.getMonth();
     const currentYear = today.getFullYear();
 
-    // Cabeçalho dos dias
     let html = '';
     daysOfWeek.forEach(day => {
         html += `<div class="calendar-day-header">${day}</div>`;
     });
 
-    // Dias do mês
     const firstDay = new Date(currentYear, currentMonth, 1).getDay();
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
-    // Dias vazios antes do primeiro dia
     for (let i = 0; i < firstDay; i++) {
         html += `<div class="calendar-day other-month"></div>`;
     }
 
-    // Dias do mês
     for (let day = 1; day <= daysInMonth; day++) {
         const isToday = day === today.getDate();
-        const hasEvent = [5, 12, 15, 22, 28].includes(day); // Simulação de eventos
+        const hasEvent = [5, 12, 15, 22, 28].includes(day);
         const classes = ['calendar-day'];
         if (isToday) classes.push('today');
         if (hasEvent) classes.push('has-event');
@@ -703,7 +949,6 @@ function renderCalendar() {
 // INICIALIZAÇÃO DE EVENTOS
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
-    // Adicionar event listeners para fechar modais ao clicar fora
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
         overlay.addEventListener('click', function() {
             document.querySelectorAll('.modal.active').forEach(modal => {

@@ -42,8 +42,6 @@
                         <select id="department-select" onchange="updateDepartmentTheme()">
                             <option value="">-- Escolha o Departamento --</option>
                             <option value="acompanhamento" selected>🏥 Acompanhamento Hospitalar</option>
-                            <option value="enfermagem">👩‍⚕️ Enfermagem</option>
-                            <option value="farmacia">💊 Farmácia</option>
                             <option value="traducao">📜 Tradução Oficial Juramentada</option>
                             <option value="administrativo">📋 Administrativo</option>
                             <option value="financeiro">💰 Financeiro</option>
@@ -66,7 +64,7 @@
 
                     <div class="login-footer">
                         <a href="#">Recuperar palavra-passe</a>
-                        <span>v1.0.0</span>
+                        <span>v2.0.0</span>
                     </div>
                 </div>
             </div>
@@ -108,7 +106,8 @@
             </div>
 
             <nav class="sidebar-nav">
-                <ul id="menu-acompanhamento">
+                <!-- Menu Acompanhamento Hospitalar -->
+                <ul id="menu-acompanhamento" style="display: none;">
                     <li class="active" onclick="showSection('dashboard')">
                         <i class="fas fa-chart-line"></i>
                         <span>Dashboard</span>
@@ -135,6 +134,7 @@
                     </li>
                 </ul>
 
+                <!-- Menu Tradução -->
                 <ul id="menu-traducao" style="display: none;">
                     <li class="active" onclick="showSection('traducao-dashboard')">
                         <i class="fas fa-chart-line"></i>
@@ -151,6 +151,62 @@
                     <li onclick="showSection('traducao-clientes')">
                         <i class="fas fa-users"></i>
                         <span>Clientes</span>
+                    </li>
+                    <li onclick="showSection('configuracoes')">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </li>
+                </ul>
+
+                <!-- Menu Administrativo -->
+                <ul id="menu-administrativo" style="display: none;">
+                    <li class="active" onclick="showSection('admin-dashboard')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li onclick="showSection('admin-funcionarios')">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Funcionários</span>
+                    </li>
+                    <li onclick="showSection('admin-departamentos')">
+                        <i class="fas fa-building"></i>
+                        <span>Departamentos</span>
+                    </li>
+                    <li onclick="showSection('admin-documentos')">
+                        <i class="fas fa-folder-open"></i>
+                        <span>Documentos Internos</span>
+                    </li>
+                    <li onclick="showSection('admin-relatorios')">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Relatórios Gerais</span>
+                    </li>
+                    <li onclick="showSection('configuracoes')">
+                        <i class="fas fa-cog"></i>
+                        <span>Configurações</span>
+                    </li>
+                </ul>
+
+                <!-- Menu Financeiro -->
+                <ul id="menu-financeiro" style="display: none;">
+                    <li class="active" onclick="showSection('fin-dashboard')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li onclick="showSection('fin-faturacao')">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>Faturação</span>
+                    </li>
+                    <li onclick="showSection('fin-pagamentos')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Pagamentos</span>
+                    </li>
+                    <li onclick="showSection('fin-orcamento')">
+                        <i class="fas fa-chart-pie"></i>
+                        <span>Orçamento</span>
+                    </li>
+                    <li onclick="showSection('fin-relatorios')">
+                        <i class="fas fa-file-invoice"></i>
+                        <span>Relatórios Financeiros</span>
                     </li>
                     <li onclick="showSection('configuracoes')">
                         <i class="fas fa-cog"></i>
@@ -187,13 +243,13 @@
                 </div>
             </header>
 
+            <!-- ========== ACOMPANHAMENTO HOSPITALAR ========== -->
+
             <!-- Dashboard Section - Acompanhamento -->
-            <section id="section-dashboard" class="content-section active">
+            <section id="section-dashboard" class="content-section">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="fas fa-users"></i>
-                        </div>
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
                         <div class="stat-info">
                             <h3 id="stat-pacientes">0</h3>
                             <p>Pacientes Ativos</p>
@@ -201,9 +257,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="fas fa-bed"></i>
-                        </div>
+                        <div class="stat-icon green"><i class="fas fa-bed"></i></div>
                         <div class="stat-info">
                             <h3 id="stat-internados">0</h3>
                             <p>Internados</p>
@@ -211,9 +265,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon orange">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
+                        <div class="stat-icon orange"><i class="fas fa-calendar-check"></i></div>
                         <div class="stat-info">
                             <h3>0</h3>
                             <p>Consultas Hoje</p>
@@ -221,9 +273,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon red">
-                            <i class="fas fa-exclamation-triangle"></i>
-                        </div>
+                        <div class="stat-icon red"><i class="fas fa-exclamation-triangle"></i></div>
                         <div class="stat-info">
                             <h3>0</h3>
                             <p>Urgências</p>
@@ -333,8 +383,7 @@
                                 <h3>Julho 2026</h3>
                                 <button class="btn-nav"><i class="fas fa-chevron-right"></i></button>
                             </div>
-                            <div class="calendar-grid">
-                            </div>
+                            <div class="calendar-grid"></div>
                         </div>
                     </div>
                 </div>
@@ -353,27 +402,21 @@
                                     <span class="leito-num">A-101</span>
                                     <span class="leito-status">Livre</span>
                                 </div>
-                                <div class="leito-paciente">
-                                    <em>Disponível</em>
-                                </div>
+                                <div class="leito-paciente"><em>Disponível</em></div>
                             </div>
                             <div class="leito-card livre">
                                 <div class="leito-header">
                                     <span class="leito-num">A-102</span>
                                     <span class="leito-status">Livre</span>
                                 </div>
-                                <div class="leito-paciente">
-                                    <em>Disponível</em>
-                                </div>
+                                <div class="leito-paciente"><em>Disponível</em></div>
                             </div>
                             <div class="leito-card livre">
                                 <div class="leito-header">
                                     <span class="leito-num">A-103</span>
                                     <span class="leito-status">Livre</span>
                                 </div>
-                                <div class="leito-paciente">
-                                    <em>Disponível</em>
-                                </div>
+                                <div class="leito-paciente"><em>Disponível</em></div>
                             </div>
                         </div>
                     </div>
@@ -408,53 +451,13 @@
                 </div>
             </section>
 
-            <!-- Configurações Section -->
-            <section id="section-configuracoes" class="content-section">
-                <div class="card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-cog"></i> Configurações do Sistema</h3>
-                    </div>
-                    <div class="card-body">
-                        <form class="settings-form">
-                            <div class="form-group">
-                                <label>Nome da Instituição</label>
-                                <input type="text" value="APSAN, LDA">
-                            </div>
-                            <div class="form-group">
-                                <label>Departamento Padrão</label>
-                                <select>
-                                    <option selected>Acompanhamento Hospitalar</option>
-                                    <option>Enfermagem</option>
-                                    <option>Farmácia</option>
-                                    <option>Tradução Oficial Juramentada</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Idioma</label>
-                                <select>
-                                    <option selected>Português (PT)</option>
-                                    <option>English (EN)</option>
-                                </select>
-                            </div>
-                            <button type="button" class="btn-primary" onclick="saveSettings()">
-                                <i class="fas fa-save"></i> Guardar Alterações
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ============================================ -->
-            <!-- TRADUÇÃO OFICIAL JURAMENTADA - SEÇÕES -->
-            <!-- ============================================ -->
+            <!-- ========== TRADUÇÃO OFICIAL JURAMENTADA ========== -->
 
             <!-- Dashboard Tradução -->
             <section id="section-traducao-dashboard" class="content-section">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon purple">
-                            <i class="fas fa-file-signature"></i>
-                        </div>
+                        <div class="stat-icon purple"><i class="fas fa-file-signature"></i></div>
                         <div class="stat-info">
                             <h3 id="stat-documentos">0</h3>
                             <p>Documentos Traduzidos</p>
@@ -462,9 +465,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="fas fa-plane-departure"></i>
-                        </div>
+                        <div class="stat-icon blue"><i class="fas fa-plane-departure"></i></div>
                         <div class="stat-info">
                             <h3 id="stat-viagens">0</h3>
                             <p>Viagens para Menores</p>
@@ -472,9 +473,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="fas fa-users"></i>
-                        </div>
+                        <div class="stat-icon green"><i class="fas fa-users"></i></div>
                         <div class="stat-info">
                             <h3 id="stat-clientes">0</h3>
                             <p>Clientes Registados</p>
@@ -482,9 +481,7 @@
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon orange">
-                            <i class="fas fa-clock"></i>
-                        </div>
+                        <div class="stat-icon orange"><i class="fas fa-clock"></i></div>
                         <div class="stat-info">
                             <h3 id="stat-pendentes">0</h3>
                             <p>Pendentes</p>
@@ -521,7 +518,7 @@
                 </div>
             </section>
 
-            <!-- Viagem para Menores - VERSÃO PORTUGUÊS E INGLÊS -->
+            <!-- Viagem para Menores -->
             <section id="section-viagem-menores" class="content-section">
                 <div class="section-toolbar">
                     <h3 style="color: var(--dark); font-size: 20px;">
@@ -541,7 +538,6 @@
                     </div>
                 </div>
 
-                <!-- Tabs de idioma -->
                 <div class="language-tabs">
                     <button class="lang-tab active" onclick="switchLanguage('pt')" id="tab-pt">
                         <i class="fas fa-flag"></i> Português
@@ -557,7 +553,6 @@
                         <h2>DECLARAÇÃO DE VIAGEM PARA MENORES</h2>
                         <p class="document-subtitle">Autorização de viagem de menores - República de Angola</p>
                     </div>
-
                     <div class="document-body" id="documento-viagem-pt">
                         <div class="notoriado-header">
                             <div class="notoriado-line">
@@ -794,7 +789,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="document-footer">
                         <p>Documento emitido em conformidade com a legislação angolana vigente.</p>
                         <p>APSAN, LDA - Departamento de Tradução Oficial Juramentada</p>
@@ -807,7 +801,6 @@
                         <h2>TRAVEL AUTHORIZATION FOR MINORS</h2>
                         <p class="document-subtitle">Minor travel authorization - Republic of Angola</p>
                     </div>
-
                     <div class="document-body" id="documento-viagem-en">
                         <div class="notoriado-header">
                             <div class="notoriado-line">
@@ -1044,7 +1037,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="document-footer">
                         <p>Document issued in accordance with current Angolan legislation.</p>
                         <p>APSAN, LDA - Department of Official Sworn Translation</p>
@@ -1098,6 +1090,455 @@
                             <p>Nenhum cliente registado</p>
                             <span>Os clientes aparecerão aqui</span>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== ADMINISTRATIVO ========== -->
+
+            <!-- Dashboard Administrativo -->
+            <section id="section-admin-dashboard" class="content-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-funcionarios">0</h3>
+                            <p>Funcionários Ativos</p>
+                            <span class="trend up">Total registado</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-building"></i></div>
+                        <div class="stat-info">
+                            <h3>4</h3>
+                            <p>Departamentos</p>
+                            <span class="trend">Operacionais</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-folder-open"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-docs-internos">0</h3>
+                            <p>Documentos Internos</p>
+                            <span class="trend">Arquivados</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class="fas fa-tasks"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-tarefas">0</h3>
+                            <p>Tarefas Pendentes</p>
+                            <span class="trend">A concluir</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-pie"></i> Distribuição por Departamento</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="empty-chart">
+                                <i class="fas fa-chart-pie"></i>
+                                <p>Sem dados suficientes para gerar gráfico</p>
+                                <span>Registe funcionários para visualizar estatísticas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bell"></i> Avisos do Sistema</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="empty-state">
+                                <i class="fas fa-check-circle"></i>
+                                <p>Nenhum aviso pendente</p>
+                                <span>O sistema está a funcionar normalmente</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Funcionários -->
+            <section id="section-admin-funcionarios" class="content-section">
+                <div class="section-toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-funcionarios" placeholder="Pesquisar funcionário...">
+                    </div>
+                    <button class="btn-primary" onclick="openModal('novo-funcionario')">
+                        <i class="fas fa-plus"></i> Novo Funcionário
+                    </button>
+                    <button class="btn-secondary" onclick="exportFuncionarios()">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-user-tie"></i> Lista de Funcionários</h3>
+                        <div class="filter-tabs">
+                            <button class="tab active">Todos</button>
+                            <button class="tab">Ativos</button>
+                            <button class="tab">Inativos</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="data-table" id="funcionarios-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nº</th>
+                                        <th>Nome Completo</th>
+                                        <th>Cargo</th>
+                                        <th>Departamento</th>
+                                        <th>Contacto</th>
+                                        <th>Estado</th>
+                                        <th>Data Admissão</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="funcionarios-tbody">
+                                    <tr>
+                                        <td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;">
+                                            <i class="fas fa-inbox" style="font-size: 32px; display: block; margin-bottom: 12px;"></i>
+                                            Nenhum funcionário registado. Clique em "Novo Funcionário" para começar.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Departamentos -->
+            <section id="section-admin-departamentos" class="content-section">
+                <div class="section-toolbar">
+                    <h3 style="color: var(--dark); font-size: 20px;">
+                        <i class="fas fa-building" style="color: var(--primary);"></i> 
+                        Gestão de Departamentos
+                    </h3>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-hospital"></i> Acompanhamento Hospitalar</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="depto-info">
+                                <p><strong>Responsável:</strong> Dr. Silva</p>
+                                <p><strong>Funcionários:</strong> 12</p>
+                                <p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-stamp"></i> Tradução Oficial Juramentada</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="depto-info">
+                                <p><strong>Responsável:</strong> Trad. Ana</p>
+                                <p><strong>Funcionários:</strong> 5</p>
+                                <p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clipboard-list"></i> Administrativo</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="depto-info">
+                                <p><strong>Responsável:</strong> Adm. Carlos</p>
+                                <p><strong>Funcionários:</strong> 8</p>
+                                <p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Financeiro</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="depto-info">
+                                <p><strong>Responsável:</strong> Fin. João</p>
+                                <p><strong>Funcionários:</strong> 6</p>
+                                <p><strong>Estado:</strong> <span class="status-badge ambulatorio">Ativo</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documentos Internos -->
+            <section id="section-admin-documentos" class="content-section">
+                <div class="section-toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Pesquisar documento...">
+                    </div>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i> Novo Documento
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-folder-open"></i> Documentos Internos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="empty-state">
+                            <i class="fas fa-file-alt"></i>
+                            <p>Nenhum documento interno registado</p>
+                            <span>Os documentos aparecerão aqui</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Relatórios Gerais -->
+            <section id="section-admin-relatorios" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-alt"></i> Relatórios Administrativos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="reports-grid">
+                            <div class="report-card" onclick="generateReport('rh')">
+                                <i class="fas fa-users"></i>
+                                <h4>Relatório de RH</h4>
+                                <p>Quadro de pessoal e turnover</p>
+                            </div>
+                            <div class="report-card" onclick="generateReport('produtividade')">
+                                <i class="fas fa-chart-bar"></i>
+                                <h4>Relatório de Produtividade</h4>
+                                <p>Desempenho por departamento</p>
+                            </div>
+                            <div class="report-card" onclick="generateReport('documental')">
+                                <i class="fas fa-folder"></i>
+                                <h4>Relatório Documental</h4>
+                                <p>Fluxo de documentos internos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== FINANCEIRO ========== -->
+
+            <!-- Dashboard Financeiro -->
+            <section id="section-fin-dashboard" class="content-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-hand-holding-usd"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-receita">0,00 Kz</h3>
+                            <p>Receita Mensal</p>
+                            <span class="trend up">+0% vs mês anterior</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red"><i class="fas fa-file-invoice"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-despesa">0,00 Kz</h3>
+                            <p>Despesas</p>
+                            <span class="trend">Controlado</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fas fa-wallet"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-saldo">0,00 Kz</h3>
+                            <p>Saldo</p>
+                            <span class="trend up">Positivo</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-exclamation-circle"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-pagamentos-pendentes">0</h3>
+                            <p>Pagamentos Pendentes</p>
+                            <span class="trend">A regularizar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-area"></i> Fluxo de Caixa</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="empty-chart">
+                                <i class="fas fa-chart-line"></i>
+                                <p>Sem dados suficientes para gerar gráfico</p>
+                                <span>Registe movimentos para visualizar estatísticas</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-list"></i> Últimas Transações</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="empty-state">
+                                <i class="fas fa-receipt"></i>
+                                <p>Nenhuma transação registada</p>
+                                <span>As transações aparecerão aqui</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Faturação -->
+            <section id="section-fin-faturacao" class="content-section">
+                <div class="section-toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Pesquisar fatura...">
+                    </div>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i> Nova Fatura
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-invoice-dollar"></i> Faturas Emitidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="empty-state">
+                            <i class="fas fa-file-invoice"></i>
+                            <p>Nenhuma fatura emitida</p>
+                            <span>As faturas aparecerão aqui</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pagamentos -->
+            <section id="section-fin-pagamentos" class="content-section">
+                <div class="section-toolbar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Pesquisar pagamento...">
+                    </div>
+                    <button class="btn-primary">
+                        <i class="fas fa-plus"></i> Novo Pagamento
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-money-bill-wave"></i> Pagamentos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="empty-state">
+                            <i class="fas fa-credit-card"></i>
+                            <p>Nenhum pagamento registado</p>
+                            <span>Os pagamentos aparecerão aqui</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Orçamento -->
+            <section id="section-fin-orcamento" class="content-section">
+                <div class="section-toolbar">
+                    <h3 style="color: var(--dark); font-size: 20px;">
+                        <i class="fas fa-chart-pie" style="color: var(--primary);"></i> 
+                        Gestão de Orçamento
+                    </h3>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-bullseye"></i> Orçamento Anual 2026</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="empty-chart">
+                                <i class="fas fa-chart-pie"></i>
+                                <p>Orçamento não definido</p>
+                                <span>Configure o orçamento anual para visualizar</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-list-check"></i> Controlo de Despesas</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="empty-state">
+                                <i class="fas fa-calculator"></i>
+                                <p>Sem dados de despesas</p>
+                                <span>Registe despesas para controlo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Relatórios Financeiros -->
+            <section id="section-fin-relatorios" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-invoice"></i> Relatórios Financeiros</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="reports-grid">
+                            <div class="report-card" onclick="generateReport('balanco')">
+                                <i class="fas fa-balance-scale"></i>
+                                <h4>Balanço Patrimonial</h4>
+                                <p>Posição financeira da empresa</p>
+                            </div>
+                            <div class="report-card" onclick="generateReport('resultados')">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>Demonstração de Resultados</h4>
+                                <p>Receitas e despesas do período</p>
+                            </div>
+                            <div class="report-card" onclick="generateReport('fluxo-caixa')">
+                                <i class="fas fa-exchange-alt"></i>
+                                <h4>Fluxo de Caixa</h4>
+                                <p>Movimentação de fundos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== CONFIGURAÇÕES (COMUM A TODOS) ========== -->
+            <section id="section-configuracoes" class="content-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-cog"></i> Configurações do Sistema</h3>
+                    </div>
+                    <div class="card-body">
+                        <form class="settings-form">
+                            <div class="form-group">
+                                <label>Nome da Instituição</label>
+                                <input type="text" value="APSAN, LDA">
+                            </div>
+                            <div class="form-group">
+                                <label>Departamento Padrão</label>
+                                <select>
+                                    <option selected>Acompanhamento Hospitalar</option>
+                                    <option>Tradução Oficial Juramentada</option>
+                                    <option>Administrativo</option>
+                                    <option>Financeiro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Idioma</label>
+                                <select>
+                                    <option selected>Português (PT)</option>
+                                    <option>English (EN)</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn-primary" onclick="saveSettings()">
+                                <i class="fas fa-save"></i> Guardar Alterações
+                            </button>
+                        </form>
                     </div>
                 </div>
             </section>
@@ -1286,8 +1727,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form-editar-paciente" class="form-grid">
-                </form>
+                <form id="form-editar-paciente" class="form-grid"></form>
             </div>
             <div class="modal-footer">
                 <button class="btn-danger" onclick="deletePaciente()">
@@ -1311,8 +1751,7 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="modal-body" id="historico-body">
-            </div>
+            <div class="modal-body" id="historico-body"></div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('historico')">Fechar</button>
             </div>

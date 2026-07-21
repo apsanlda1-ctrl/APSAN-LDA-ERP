@@ -2046,3 +2046,58 @@ body {
     border-color: #dc2626 !important;
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
 }
+
+/* ============================================
+   ESTILOS ADICIONAIS - ADMINISTRATIVO E FINANCEIRO
+   ============================================ */
+
+/* Info de Departamentos */
+.depto-info {
+    padding: 16px;
+}
+
+.depto-info p {
+    margin-bottom: 12px;
+    font-size: 14px;
+    color: var(--dark);
+}
+
+.depto-info p:last-child {
+    margin-bottom: 0;
+}
+
+.depto-info strong {
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+/* Cards de orçamento */
+.orcamento-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    border-left: 4px solid var(--primary);
+}
+
+.orcamento-card.receita {
+    border-left-color: var(--success);
+}
+
+.orcamento-card.despesa {
+    border-left-color: var(--danger);
+}
+
+.orcamento-card h4 {
+    font-size: 14px;
+    color: var(--secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.orcamento-card .valor {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark);
+}

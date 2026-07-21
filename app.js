@@ -1,7 +1,7 @@
 /**
- * APSAN, Lda - Sistema de Gestão Hospitalar
- * + Departamento de Tradução Oficial Juramentada
- * JavaScript Principal - VERSÃO CORRIGIDA E COMPLETA
+ * APSAN, Lda - Sistema de Gestão
+ * JavaScript Principal - VERSÃO CORRIGIDA v2.0
+ * Departamentos: Acompanhamento Hospitalar, Tradução, Administrativo, Financeiro
  */
 
 // ============================================
@@ -17,24 +17,6 @@ const DEPARTAMENTOS = {
         userName: "Dr. Silva",
         icon: "fa-user-md"
     },
-    enfermagem: {
-        nome: "Enfermagem",
-        username: "enfermagem.apsan",
-        password: "enf2026",
-        menu: "menu-acompanhamento",
-        cor: "#10b981",
-        userName: "Enf. Maria",
-        icon: "fa-user-nurse"
-    },
-    farmacia: {
-        nome: "Farmácia",
-        username: "farmacia.apsan",
-        password: "farm2026",
-        menu: "menu-acompanhamento",
-        cor: "#f59e0b",
-        userName: "Farm. Pedro",
-        icon: "fa-pills"
-    },
     traducao: {
         nome: "Tradução Oficial Juramentada",
         username: "traducao.apsan",
@@ -48,7 +30,7 @@ const DEPARTAMENTOS = {
         nome: "Administrativo",
         username: "administrativo.apsan",
         password: "adm2026",
-        menu: "menu-acompanhamento",
+        menu: "menu-administrativo",
         cor: "#64748b",
         userName: "Adm. Carlos",
         icon: "fa-user-tie"
@@ -57,7 +39,7 @@ const DEPARTAMENTOS = {
         nome: "Financeiro",
         username: "financeiro.apsan",
         password: "fin2026",
-        menu: "menu-acompanhamento",
+        menu: "menu-financeiro",
         cor: "#059669",
         userName: "Fin. João",
         icon: "fa-chart-line"
@@ -148,8 +130,13 @@ function login() {
     document.getElementById('login-screen').classList.remove('active');
     document.getElementById('dashboard-screen').classList.add('active');
 
+    // Redirecionar para o dashboard correto do departamento
     if (deptKey === 'traducao') {
         showSection('traducao-dashboard');
+    } else if (deptKey === 'administrativo') {
+        showSection('admin-dashboard');
+    } else if (deptKey === 'financeiro') {
+        showSection('fin-dashboard');
     } else {
         showSection('dashboard');
     }
@@ -166,10 +153,12 @@ function configurarInterfaceDepartamento(dept) {
     avatar.style.background = dept.cor + '20';
     avatar.style.color = dept.cor;
 
-    document.querySelectorAll('.sidebar-nav ul').forEach(ul => {
+    // Esconder TODOS os menus
+    document.querySelectorAll('.sidebar-nav ul').forEach(function(ul) {
         ul.style.display = 'none';
     });
 
+    // Mostrar apenas o menu do departamento atual
     const menuAtivo = document.getElementById(dept.menu);
     if (menuAtivo) {
         menuAtivo.style.display = 'block';
@@ -200,7 +189,7 @@ function toggleSidebar() {
 }
 
 function showSection(sectionId) {
-    document.querySelectorAll('.sidebar-nav li').forEach(li => {
+    document.querySelectorAll('.sidebar-nav li').forEach(function(li) {
         li.classList.remove('active');
     });
 
@@ -208,17 +197,33 @@ function showSection(sectionId) {
         event.currentTarget.classList.add('active');
     }
 
+    // Mapeamento completo de títulos para todas as secções
     const titles = {
+        // Acompanhamento Hospitalar
         'dashboard': 'Dashboard',
         'pacientes': 'Registo de Pacientes',
         'consultas': 'Consultas',
         'internamentos': 'Internamentos',
         'relatorios': 'Relatórios',
-        'configuracoes': 'Configurações',
+        // Tradução
         'traducao-dashboard': 'Dashboard',
         'viagem-menores': 'Viagem para Menores',
         'traducao-documentos': 'Documentos Traduzidos',
-        'traducao-clientes': 'Clientes'
+        'traducao-clientes': 'Clientes',
+        // Administrativo
+        'admin-dashboard': 'Dashboard',
+        'admin-funcionarios': 'Funcionários',
+        'admin-departamentos': 'Departamentos',
+        'admin-documentos': 'Documentos Internos',
+        'admin-relatorios': 'Relatórios Gerais',
+        // Financeiro
+        'fin-dashboard': 'Dashboard',
+        'fin-faturacao': 'Faturação',
+        'fin-pagamentos': 'Pagamentos',
+        'fin-orcamento': 'Orçamento',
+        'fin-relatorios': 'Relatórios Financeiros',
+        // Comum
+        'configuracoes': 'Configurações'
     };
 
     const title = titles[sectionId] || sectionId;
@@ -229,16 +234,20 @@ function showSection(sectionId) {
         document.getElementById('breadcrumb-text').textContent = 'APSAN > ' + deptNome + ' > ' + title;
     }
 
-    document.querySelectorAll('.content-section').forEach(section => {
+    // Esconder TODAS as secções
+    document.querySelectorAll('.content-section').forEach(function(section) {
         section.classList.remove('active');
     });
 
+    // Mostrar a secção solicitada
     const section = document.getElementById('section-' + sectionId);
     if (section) {
         section.classList.add('active');
     }
 
-    if (sectionId === 'dashboard' || sectionId === 'traducao-dashboard') {
+    // Atualizar estatísticas se for dashboard
+    if (sectionId === 'dashboard' || sectionId === 'traducao-dashboard' || 
+        sectionId === 'admin-dashboard' || sectionId === 'fin-dashboard') {
         updateStats();
     }
 }
@@ -513,7 +522,7 @@ function viewPaciente(id) {
 }
 
 // ============================================
-// VIAGEM PARA MENORES - NOTORIADO (CORRIGIDO)
+// VIAGEM PARA MENORES - NOTORIADO
 // ============================================
 
 function getFieldValue(id) {
@@ -558,7 +567,6 @@ function limparFormularioViagem() {
 }
 
 function salvarViagemMenores() {
-    // Validar campos obrigatórios
     var camposPT = [
         { id: 'pai-nome', nome: 'Nome do Pai' },
         { id: 'pai-bi', nome: 'BI do Pai' },
@@ -593,7 +601,6 @@ function salvarViagemMenores() {
         }
     }
 
-    // Coletar dados
     var dados = {
         id: Date.now(),
         idioma: currentLang,
@@ -738,6 +745,10 @@ function exportData() {
     link.click();
     URL.revokeObjectURL(url);
     showToast('Dados exportados com sucesso!');
+}
+
+function exportFuncionarios() {
+    showToast('Funcionalidade de exportação de funcionários em desenvolvimento!');
 }
 
 function generateReport(type) {

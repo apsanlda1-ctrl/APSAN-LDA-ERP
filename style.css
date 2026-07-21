@@ -2048,56 +2048,153 @@ body {
 }
 
 /* ============================================
-   ESTILOS ADICIONAIS - ADMINISTRATIVO E FINANCEIRO
+   SINCRONIZAÇÃO DE CAMPOS
    ============================================ */
-
-/* Info de Departamentos */
-.depto-info {
-    padding: 16px;
-}
-
-.depto-info p {
-    margin-bottom: 12px;
-    font-size: 14px;
-    color: var(--dark);
-}
-
-.depto-info p:last-child {
-    margin-bottom: 0;
-}
-
-.depto-info strong {
-    color: var(--secondary);
+.sync-field {
     font-weight: 600;
+    color: #1e3a5f;
+    border-bottom: 1px solid #1e3a5f;
+    padding: 0 4px;
+    min-width: 120px;
+    display: inline-block;
 }
 
-/* Cards de orçamento */
-.orcamento-card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    padding: 24px;
-    box-shadow: var(--shadow);
-    border-left: 4px solid var(--primary);
-}
-
-.orcamento-card.receita {
-    border-left-color: var(--success);
-}
-
-.orcamento-card.despesa {
-    border-left-color: var(--danger);
-}
-
-.orcamento-card h4 {
-    font-size: 14px;
-    color: var(--secondary);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.orcamento-card .valor {
-    font-size: 24px;
-    font-weight: 700;
+.sync-assinatura {
+    display: block;
+    font-size: 13px;
     color: var(--dark);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* ============================================
+   PRINT STYLES - EXPORTAÇÃO LIMPA
+   ============================================ */
+@media print {
+    /* Ocultar TUDO do sistema */
+    .sidebar,
+    .top-header,
+    .section-toolbar,
+    .language-tabs,
+    .btn-primary,
+    .btn-secondary,
+    .btn-success,
+    .btn-danger,
+    .btn-login,
+    .login-container,
+    #login-screen,
+    .notification-bell,
+    .date-time,
+    .toggle-sidebar,
+    .btn-logout,
+    .user-info,
+    .sidebar-header,
+    .sidebar-footer,
+    .sidebar-nav,
+    .breadcrumb,
+    .no-print {
+        display: none !important;
+    }
+
+    /* Resetar layout */
+    .main-content {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Mostrar apenas o documento ativo */
+    .content-section {
+        display: none !important;
+        padding: 0 !important;
+    }
+
+    #section-viagem-menores {
+        display: block !important;
+    }
+
+    /* Garantir que apenas o idioma ativo aparece */
+    #doc-pt,
+    #doc-en {
+        display: none !important;
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+    }
+
+    #doc-pt.active-doc,
+    #doc-en.active-doc {
+        display: block !important;
+    }
+
+    /* Documento limpo */
+    .document-editor-card {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+    }
+
+    .document-body {
+        padding: 20px !important;
+        background: white !important;
+    }
+
+    .document-header-print {
+        background: #1e3a5f !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .document-footer-print {
+        text-align: center;
+        font-size: 11px;
+        color: #666;
+        padding: 16px;
+        border-top: 1px solid #ddd;
+    }
+
+    /* Formatação dos campos no print */
+    input, select, textarea {
+        border: none !important;
+        border-bottom: 1px solid #333 !important;
+        background: transparent !important;
+        color: #000 !important;
+    }
+
+    .notoriado-header {
+        border: 2px solid #1e3a5f !important;
+    }
+
+    .declarante-box {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .declaracao-texto {
+        border: 1px solid #ccc !important;
+    }
+
+    .assinaturas-area {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-top: 60px;
+    }
+
+    .sync-field {
+        border-bottom: 1px solid #000 !important;
+        font-weight: 600;
+    }
+
+    body {
+        background: white !important;
+        font-size: 12pt;
+    }
+
+    @page {
+        margin: 1.5cm;
+        size: A4;
+    }
 }

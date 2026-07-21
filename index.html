@@ -148,9 +148,9 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>1,247</h3>
+                            <h3 id="stat-pacientes">0</h3>
                             <p>Pacientes Ativos</p>
-                            <span class="trend up">+12% este mês</span>
+                            <span class="trend up">+0% este mês</span>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -158,9 +158,9 @@
                             <i class="fas fa-bed"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>89</h3>
+                            <h3 id="stat-internados">0</h3>
                             <p>Internados</p>
-                            <span class="trend down">-5% esta semana</span>
+                            <span class="trend">Sem alterações</span>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -168,9 +168,9 @@
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>34</h3>
+                            <h3>0</h3>
                             <p>Consultas Hoje</p>
-                            <span class="trend up">+8% vs ontem</span>
+                            <span class="trend">Agende consultas</span>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -178,9 +178,9 @@
                             <i class="fas fa-exclamation-triangle"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>7</h3>
+                            <h3>0</h3>
                             <p>Urgências</p>
-                            <span class="trend">Em atendimento</span>
+                            <span class="trend">Sem urgências</span>
                         </div>
                     </div>
                 </div>
@@ -191,7 +191,11 @@
                             <h3><i class="fas fa-chart-bar"></i> Pacientes por Departamento</h3>
                         </div>
                         <div class="card-body">
-                            <canvas id="chart-departamentos"></canvas>
+                            <div class="empty-chart">
+                                <i class="fas fa-chart-pie"></i>
+                                <p>Sem dados suficientes para gerar gráfico</p>
+                                <span>Registe pacientes para visualizar estatísticas</span>
+                            </div>
                         </div>
                     </div>
                     <div class="card">
@@ -199,31 +203,12 @@
                             <h3><i class="fas fa-clock"></i> Próximas Consultas</h3>
                         </div>
                         <div class="card-body">
-                            <div class="appointment-list">
-                                <div class="appointment-item">
-                                    <div class="appointment-time">09:00</div>
-                                    <div class="appointment-info">
-                                        <strong>Maria Santos</strong>
-                                        <span>Cardiologia - Dr. Ferreira</span>
-                                    </div>
-                                    <span class="status confirmed">Confirmado</span>
-                                </div>
-                                <div class="appointment-item">
-                                    <div class="appointment-time">10:30</div>
-                                    <div class="appointment-info">
-                                        <strong>João Manuel</strong>
-                                        <span>Ortopedia - Dra. Costa</span>
-                                    </div>
-                                    <span class="status pending">Pendente</span>
-                                </div>
-                                <div class="appointment-item">
-                                    <div class="appointment-time">14:00</div>
-                                    <div class="appointment-info">
-                                        <strong>Ana Paula</strong>
-                                        <span>Pediatria - Dr. Oliveira</span>
-                                    </div>
-                                    <span class="status confirmed">Confirmado</span>
-                                </div>
+                            <div class="empty-state">
+                                <i class="fas fa-calendar-plus"></i>
+                                <p>Nenhuma consulta agendada</p>
+                                <button class="btn-primary" onclick="showSection('consultas')">
+                                    <i class="fas fa-plus"></i> Agendar Consulta
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -275,13 +260,11 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="pagination">
-                            <span>Mostrando 1-10 de 1,247 registos</span>
+                        <div class="pagination" id="pagination-area">
+                            <span>Mostrando 0 registos</span>
                             <div class="page-buttons">
                                 <button class="btn-page"><i class="fas fa-chevron-left"></i></button>
                                 <button class="btn-page active">1</button>
-                                <button class="btn-page">2</button>
-                                <button class="btn-page">3</button>
                                 <button class="btn-page"><i class="fas fa-chevron-right"></i></button>
                             </div>
                         </div>
@@ -320,14 +303,13 @@
                     </div>
                     <div class="card-body">
                         <div class="leitos-grid">
-                            <div class="leito-card ocupado">
+                            <div class="leito-card livre">
                                 <div class="leito-header">
                                     <span class="leito-num">A-101</span>
-                                    <span class="leito-status">Ocupado</span>
+                                    <span class="leito-status">Livre</span>
                                 </div>
                                 <div class="leito-paciente">
-                                    <strong>Carlos Mendes</strong>
-                                    <span>Internado: 15/07/2026</span>
+                                    <em>Disponível</em>
                                 </div>
                             </div>
                             <div class="leito-card livre">
@@ -339,13 +321,13 @@
                                     <em>Disponível</em>
                                 </div>
                             </div>
-                            <div class="leito-card manutencao">
+                            <div class="leito-card livre">
                                 <div class="leito-header">
                                     <span class="leito-num">A-103</span>
-                                    <span class="leito-status">Manutenção</span>
+                                    <span class="leito-status">Livre</span>
                                 </div>
                                 <div class="leito-paciente">
-                                    <em>Em manutenção</em>
+                                    <em>Disponível</em>
                                 </div>
                             </div>
                         </div>
@@ -421,7 +403,7 @@
     <!-- Modal: Novo Paciente -->
     <div id="modal-novo-paciente" class="modal">
         <div class="modal-overlay" onclick="closeModal('novo-paciente')"></div>
-        <div class="modal-content">
+        <div class="modal-content modal-large">
             <div class="modal-header">
                 <h3><i class="fas fa-user-plus"></i> Registo de Novo Paciente</h3>
                 <button class="btn-close" onclick="closeModal('novo-paciente')">
@@ -528,6 +510,33 @@
                     </div>
 
                     <div class="form-section">
+                        <h4><i class="fas fa-file-medical"></i> Histórico Médico (Upload)</h4>
+                        <div class="form-group full-width">
+                            <label>Carregar documento do histórico médico</label>
+                            <div class="file-upload-area" id="file-upload-area" onclick="document.getElementById('pac-historico').click()">
+                                <input type="file" id="pac-historico" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display: none;" onchange="handleFileUpload(this, 'novo')">
+                                <div class="upload-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <p>Clique para carregar ou arraste o ficheiro</p>
+                                    <span>PDF, JPG, PNG, DOC (máx. 10MB)</span>
+                                </div>
+                            </div>
+                            <div class="file-preview" id="file-preview-novo" style="display: none;">
+                                <div class="file-info">
+                                    <i class="fas fa-file-medical"></i>
+                                    <div class="file-details">
+                                        <span id="file-name-novo" class="file-name"></span>
+                                        <span id="file-size-novo" class="file-size"></span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-remove-file" onclick="removeFile('novo')">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
                         <h4><i class="fas fa-user-friends"></i> Contacto de Emergência</h4>
                         <div class="form-row">
                             <div class="form-group">
@@ -565,7 +574,7 @@
     <!-- Modal: Editar Paciente -->
     <div id="modal-editar-paciente" class="modal">
         <div class="modal-overlay" onclick="closeModal('editar-paciente')"></div>
-        <div class="modal-content">
+        <div class="modal-content modal-large">
             <div class="modal-header">
                 <h3><i class="fas fa-edit"></i> Editar Registo do Paciente</h3>
                 <button class="btn-close" onclick="closeModal('editar-paciente')">
@@ -585,6 +594,25 @@
                 <button class="btn-primary" onclick="updatePaciente()">
                     <i class="fas fa-save"></i> Atualizar Registo
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Ver Histórico Médico -->
+    <div id="modal-historico" class="modal">
+        <div class="modal-overlay" onclick="closeModal('historico')"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-medical"></i> Histórico Médico</h3>
+                <button class="btn-close" onclick="closeModal('historico')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="historico-body">
+                <!-- Preenchido dinamicamente -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('historico')">Fechar</button>
             </div>
         </div>
     </div>

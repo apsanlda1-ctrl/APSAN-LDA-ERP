@@ -221,6 +221,8 @@ tr:hover { background: #f8fafc; }
 
 /* TEAL STAT ICON */
 .stat-icon.teal { background: #ccfbf1; color: #0d9488; }
+/* AMBER STAT ICON */
+.stat-icon.amber { background: #fef3c7; color: #b45309; }
 
 /* LANG TABS */
 .lang-tabs { display: flex; gap: 0; margin-bottom: 24px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; width: fit-content; }
@@ -252,9 +254,9 @@ tr:hover { background: #f8fafc; }
 <option value="acompanhamento">🏥 Acompanhamento Hospitalar</option>
 <option value="traducao" selected>📜 Tradução Oficial Juramentada</option>
 <option value="administrativo">📋 Administrativo</option>
-  <option value="operações"> Operações</option>
 <option value="financeiro">💰 Financeiro</option>
 <option value="rh">👥 Recursos Humanos</option>
+<option value="administracao-geral">🏛️ Administração Geral</option>
 </select>
 </div>
 <div class="input-group">
@@ -342,6 +344,18 @@ tr:hover { background: #f8fafc; }
 <li onclick="showSection('rh-ferias-licencas')"><i class="fas fa-calendar-alt"></i><span>Férias & Licenças</span></li>
 <li onclick="showSection('rh-avaliacao')"><i class="fas fa-star"></i><span>Avaliação de Desempenho</span></li>
 <li onclick="showSection('rh-relatorios')"><i class="fas fa-file-alt"></i><span>Relatórios RH</span></li>
+<li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
+</ul>
+<!-- ADMINISTRAÇÃO GERAL -->
+<ul id="menu-administracao-geral" style="display: none;">
+<li class="active" onclick="showSection('admgeral-dashboard')"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+<li onclick="showSection('admgeral-protocolos')"><i class="fas fa-file-alt"></i><span>Protocolos & Ofícios</span></li>
+<li onclick="showSection('admgeral-correspondencia')"><i class="fas fa-envelope"></i><span>Correspondência</span></li>
+<li onclick="showSection('admgeral-reunioes')"><i class="fas fa-handshake"></i><span>Reuniões & Atas</span></li>
+<li onclick="showSection('admgeral-arquivo')"><i class="fas fa-archive"></i><span>Arquivo Geral</span></li>
+<li onclick="showSection('admgeral-visitas')"><i class="fas fa-id-card"></i><span>Registo de Visitas</span></li>
+<li onclick="showSection('admgeral-veiculos')"><i class="fas fa-car"></i><span>Frota & Viaturas</span></li>
+<li onclick="showSection('admgeral-relatorios')"><i class="fas fa-file-invoice"></i><span>Relatórios</span></li>
 <li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
 </ul>
 </nav>
@@ -1082,6 +1096,254 @@ for a period of <input type="text" id="en-periodo" style="border: none; border-b
 </div>
 </section>
 
+<!-- ========== ADMINISTRAÇÃO GERAL ========== -->
+<section id="section-admgeral-dashboard" class="content-section">
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-icon blue"><i class="fas fa-file-alt"></i></div><div class="stat-info"><h3 id="stat-adm-protocolos">0</h3><p>Protocolos</p><span class="trend">Este mês</span></div></div>
+<div class="stat-card"><div class="stat-icon green"><i class="fas fa-envelope"></i></div><div class="stat-info"><h3 id="stat-adm-correspondencia">0</h3><p>Correspondência</p><span class="trend">Pendentes</span></div></div>
+<div class="stat-card"><div class="stat-icon orange"><i class="fas fa-handshake"></i></div><div class="stat-info"><h3 id="stat-adm-reunioes">0</h3><p>Reuniões</p><span class="trend">Agendadas</span></div></div>
+<div class="stat-card"><div class="stat-icon purple"><i class="fas fa-car"></i></div><div class="stat-info"><h3 id="stat-adm-veiculos">0</h3><p>Viaturas</p><span class="trend">Em uso</span></div></div>
+</div>
+<div class="dashboard-grid">
+<div class="card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Estatísticas Administração Geral</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-chart-pie"></i><p>Dados indisponíveis</p></div></div></div>
+<div class="card"><div class="card-header"><h3><i class="fas fa-list-check"></i> Atividades Recentes</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-clipboard-list"></i><p>Sem atividades</p></div></div></div>
+</div>
+</section>
+
+<section id="section-admgeral-protocolos" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-file-alt"></i> Protocolos & Ofícios</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-adm-protocolos" placeholder="Pesquisar protocolo..." onkeyup="filterTable('adm-protocolos-table', 'search-adm-protocolos')">
+</div>
+<button class="btn-primary" onclick="openModalProtocolo()"><i class="fas fa-plus"></i> Novo Protocolo</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-file-alt"></i> Protocolos Registados</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="adm-protocolos-table">
+<thead>
+<tr>
+<th>Nº Protocolo</th>
+<th>Assunto</th>
+<th>Destinatário</th>
+<th>Data</th>
+<th>Tipo</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="adm-protocolos-tbody">
+</tbody>
+</table>
+</div>
+<div id="adm-protocolos-empty" class="empty-state">
+<i class="fas fa-file-alt"></i>
+<p>Nenhum protocolo registado</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-admgeral-correspondencia" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-envelope"></i> Correspondência</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-adm-correspondencia" placeholder="Pesquisar..." onkeyup="filterTable('adm-correspondencia-table', 'search-adm-correspondencia')">
+</div>
+<button class="btn-primary" onclick="openModalCorrespondencia()"><i class="fas fa-plus"></i> Nova Correspondência</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-envelope"></i> Correspondência Recebida/Enviada</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="adm-correspondencia-table">
+<thead>
+<tr>
+<th>Nº</th>
+<th>Tipo</th>
+<th>Remetente/Destinatário</th>
+<th>Assunto</th>
+<th>Data</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="adm-correspondencia-tbody">
+</tbody>
+</table>
+</div>
+<div id="adm-correspondencia-empty" class="empty-state">
+<i class="fas fa-envelope"></i>
+<p>Nenhuma correspondência registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-admgeral-reunioes" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-handshake"></i> Reuniões & Atas</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-adm-reunioes" placeholder="Pesquisar..." onkeyup="filterTable('adm-reunioes-table', 'search-adm-reunioes')">
+</div>
+<button class="btn-primary" onclick="openModalReuniao()"><i class="fas fa-plus"></i> Nova Reunião</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-handshake"></i> Reuniões Agendadas</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="adm-reunioes-table">
+<thead>
+<tr>
+<th>Título</th>
+<th>Data</th>
+<th>Hora</th>
+<th>Local</th>
+<th>Participantes</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="adm-reunioes-tbody">
+</tbody>
+</table>
+</div>
+<div id="adm-reunioes-empty" class="empty-state">
+<i class="fas fa-handshake"></i>
+<p>Nenhuma reunião registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-admgeral-arquivo" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-archive"></i> Arquivo Geral</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-adm-arquivo" placeholder="Pesquisar documento..." onkeyup="filterTable('adm-arquivo-table', 'search-adm-arquivo')">
+</div>
+<button class="btn-primary" onclick="openModalArquivo()"><i class="fas fa-plus"></i> Novo Documento</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-archive"></i> Documentos Arquivados</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="adm-arquivo-table">
+<thead>
+<tr>
+<th>Nº</th>
+<th>Título</th>
+<th>Categoria</th>
+<th>Data Arquivo</th>
+<th>Localização</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="adm-arquivo-tbody">
+</tbody>
+</table>
+</div>
+<div id="adm-arquivo-empty" class="empty-state">
+<i class="fas fa-archive"></i>
+<p>Nenhum documento arquivado</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-admgeral-visitas" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-id-card"></i> Registo de Visitas</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-adm-visitas" placeholder="Pesquisar visita..." onkeyup="filterTable('adm-visitas-table', 'search-adm-visitas')">
+</div>
+<button class="btn-primary" onclick="openModalVisita()"><i class="fas fa-plus"></i> Nova Visita</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-id-card"></i> Visitas Registadas</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="adm-visitas-table">
+<thead>
+<tr>
+<th>Visitante</th>
+<th>Documento</th>
+<th>Entidade</th>
+<th>Motivo</th>
+<th>Data Entrada</th>
+<th>Data Saída</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="adm-visitas-tbody">
+</tbody>
+</table>
+</div>
+<div id="adm-visitas-empty" class="empty-state">
+<i class="fas fa-id-card"></i>
+<p>Nenhuma visita registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-admgeral-veiculos" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-car"></i> Frota & Viaturas</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-adm-veiculos" placeholder="Pesquisar viatura..." onkeyup="filterTable('adm-veiculos-table', 'search-adm-veiculos')">
+</div>
+<button class="btn-primary" onclick="openModalVeiculo()"><i class="fas fa-plus"></i> Nova Viatura</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-car"></i> Viaturas da Frota</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="adm-veiculos-table">
+<thead>
+<tr>
+<th>Matrícula</th>
+<th>Marca/Modelo</th>
+<th>Ano</th>
+<th>Condutor</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="adm-veiculos-tbody">
+</tbody>
+</table>
+</div>
+<div id="adm-veiculos-empty" class="empty-state">
+<i class="fas fa-car"></i>
+<p>Nenhuma viatura registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-admgeral-relatorios" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-file-invoice"></i> Relatórios Administração Geral</h3>
+</div>
+<div class="card">
+<div class="card-body">
+<div class="empty-state">
+<i class="fas fa-chart-bar"></i>
+<p>Sem dados para relatório</p>
+</div>
+</div>
+</div>
+</section>
+
 <!-- ========== CONFIGURAÇÕES ========== -->
 <section id="section-configuracoes" class="content-section">
 <div class="card">
@@ -1466,6 +1728,309 @@ for a period of <input type="text" id="en-periodo" style="border: none; border-b
 </div>
 </div>
 
+<!-- Modal Protocolo -->
+<div id="modal-protocolo" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Novo Protocolo / Ofício</h2>
+<button class="modal-close" onclick="closeModal('modal-protocolo')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-protocolo" onsubmit="salvarProtocolo(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nº Protocolo *</label>
+<input type="text" id="prot-numero" placeholder="Ex: PROT-2026-001" required>
+</div>
+<div class="form-group">
+<label>Tipo *</label>
+<select id="prot-tipo" required>
+<option value="entrada">Entrada</option>
+<option value="saida">Saída</option>
+<option value="interno">Interno</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Assunto *</label>
+<input type="text" id="prot-assunto" required>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Destinatário/Origem *</label>
+<input type="text" id="prot-destinatario" required>
+</div>
+<div class="form-group">
+<label>Data *</label>
+<input type="date" id="prot-data" required>
+</div>
+</div>
+<div class="form-group">
+<label>Descrição</label>
+<textarea id="prot-descricao"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-protocolo')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Correspondência -->
+<div id="modal-correspondencia" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Nova Correspondência</h2>
+<button class="modal-close" onclick="closeModal('modal-correspondencia')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-correspondencia" onsubmit="salvarCorrespondencia(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nº Registo *</label>
+<input type="text" id="corr-numero" required>
+</div>
+<div class="form-group">
+<label>Tipo *</label>
+<select id="corr-tipo" required>
+<option value="recebida">Recebida</option>
+<option value="enviada">Enviada</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Remetente/Destinatário *</label>
+<input type="text" id="corr-entidade" required>
+</div>
+<div class="form-group">
+<label>Data *</label>
+<input type="date" id="corr-data" required>
+</div>
+</div>
+<div class="form-group">
+<label>Assunto *</label>
+<input type="text" id="corr-assunto" required>
+</div>
+<div class="form-group">
+<label>Observações</label>
+<textarea id="corr-observacoes"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-correspondencia')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Reunião -->
+<div id="modal-reuniao" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Nova Reunião</h2>
+<button class="modal-close" onclick="closeModal('modal-reuniao')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-reuniao" onsubmit="salvarReuniao(event)">
+<div class="form-group">
+<label>Título *</label>
+<input type="text" id="reun-titulo" required>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Data *</label>
+<input type="date" id="reun-data" required>
+</div>
+<div class="form-group">
+<label>Hora *</label>
+<input type="time" id="reun-hora" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Local *</label>
+<input type="text" id="reun-local" required>
+</div>
+<div class="form-group">
+<label>Participantes</label>
+<input type="text" id="reun-participantes" placeholder="Nomes separados por vírgula">
+</div>
+</div>
+<div class="form-group">
+<label>Pauta / Assuntos</label>
+<textarea id="reun-pauta"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-reuniao')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Arquivo -->
+<div id="modal-arquivo" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Novo Documento no Arquivo</h2>
+<button class="modal-close" onclick="closeModal('modal-arquivo')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-arquivo" onsubmit="salvarArquivo(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nº Documento *</label>
+<input type="text" id="arq-numero" required>
+</div>
+<div class="form-group">
+<label>Categoria *</label>
+<select id="arq-categoria" required>
+<option value="">Selecione</option>
+<option value="contrato">Contrato</option>
+<option value="certidao">Certidão</option>
+<option value="oficio">Ofício</option>
+<option value="relatorio">Relatório</option>
+<option value="outro">Outro</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Título *</label>
+<input type="text" id="arq-titulo" required>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Data Arquivo *</label>
+<input type="date" id="arq-data" required>
+</div>
+<div class="form-group">
+<label>Localização Física</label>
+<input type="text" id="arq-localizacao" placeholder="Ex: Armário A, Gaveta 3">
+</div>
+</div>
+<div class="form-group">
+<label>Observações</label>
+<textarea id="arq-observacoes"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-arquivo')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Visita -->
+<div id="modal-visita" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Registar Visita</h2>
+<button class="modal-close" onclick="closeModal('modal-visita')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-visita" onsubmit="salvarVisita(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nome do Visitante *</label>
+<input type="text" id="vis-nome" required>
+</div>
+<div class="form-group">
+<label>Documento ID *</label>
+<input type="text" id="vis-documento" placeholder="BI / Passaporte" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Entidade/Empresa</label>
+<input type="text" id="vis-entidade">
+</div>
+<div class="form-group">
+<label>Motivo da Visita *</label>
+<input type="text" id="vis-motivo" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Data/Hora Entrada *</label>
+<input type="datetime-local" id="vis-entrada" required>
+</div>
+<div class="form-group">
+<label>Data/Hora Saída</label>
+<input type="datetime-local" id="vis-saida">
+</div>
+</div>
+<div class="form-group">
+<label>Observações</label>
+<textarea id="vis-observacoes"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-visita')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Veículo -->
+<div id="modal-veiculo" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Nova Viatura</h2>
+<button class="modal-close" onclick="closeModal('modal-veiculo')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-veiculo" onsubmit="salvarVeiculo(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Matrícula *</label>
+<input type="text" id="vei-matricula" placeholder="Ex: LD-00-00-AA" required>
+</div>
+<div class="form-group">
+<label>Marca *</label>
+<input type="text" id="vei-marca" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Modelo *</label>
+<input type="text" id="vei-modelo" required>
+</div>
+<div class="form-group">
+<label>Ano *</label>
+<input type="number" id="vei-ano" min="1990" max="2030" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Condutor Responsável</label>
+<input type="text" id="vei-condutor">
+</div>
+<div class="form-group">
+<label>Status</label>
+<select id="vei-status">
+<option value="disponivel">Disponível</option>
+<option value="em-uso">Em Uso</option>
+<option value="manutencao">Em Manutenção</option>
+<option value="indisponivel">Indisponível</option>
+</select>
+</div>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-veiculo')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
 <!-- Toast -->
 <div id="toast" class="toast">
 <i class="fas fa-check-circle"></i>
@@ -1479,7 +2044,8 @@ acompanhamento: { nome: "Acompanhamento Hospitalar", username: "admin.apsan", pa
 traducao: { nome: "Tradução Oficial Juramentada", username: "traducao.apsan", password: "trad2026", menu: "menu-traducao", cor: "#7c3aed", userName: "Trad. Ana", icon: "fa-stamp" },
 administrativo: { nome: "Administrativo", username: "administrativo.apsan", password: "adm2026", menu: "menu-administrativo", cor: "#64748b", userName: "Adm. Carlos", icon: "fa-user-tie" },
 financeiro: { nome: "Financeiro", username: "financeiro.apsan", password: "fin2026", menu: "menu-financeiro", cor: "#059669", userName: "Fin. João", icon: "fa-chart-line" },
-rh: { nome: "Recursos Humanos", username: "rh.apsan", password: "rh2026", menu: "menu-rh", cor: "#0d9488", userName: "RH. Maria", icon: "fa-users" }
+rh: { nome: "Recursos Humanos", username: "rh.apsan", password: "rh2026", menu: "menu-rh", cor: "#0d9488", userName: "RH. Maria", icon: "fa-users" },
+administracao_geral: { nome: "Administração Geral", username: "admgeral.apsan", password: "admgeral2026", menu: "menu-administracao-geral", cor: "#b45309", userName: "Adm. Geral Pedro", icon: "fa-building-columns" }
 };
 
 // Base de dados
@@ -1497,7 +2063,13 @@ rh_funcionarios: [],
 rh_folhas: [],
 rh_vagas: [],
 rh_ferias: [],
-rh_avaliacoes: []
+rh_avaliacoes: [],
+adm_protocolos: [],
+adm_correspondencia: [],
+adm_reunioes: [],
+adm_arquivo: [],
+adm_visitas: [],
+adm_veiculos: []
 };
 
 let currentDepartment = null;
@@ -1556,6 +2128,7 @@ if (deptKey === 'traducao') showSection('viagem-menores');
 else if (deptKey === 'administrativo') showSection('admin-dashboard');
 else if (deptKey === 'financeiro') showSection('fin-dashboard');
 else if (deptKey === 'rh') showSection('rh-dashboard');
+else if (deptKey === 'administracao-geral') showSection('admgeral-dashboard');
 else showSection('dashboard');
 
 showToast('Bem-vindo ao Departamento de ' + dept.nome + '!');
@@ -1607,6 +2180,10 @@ var titles = {
 'rh-dashboard': 'Dashboard RH', 'rh-funcionarios': 'Funcionários RH', 'rh-folha-pagamento': 'Folha de Pagamento',
 'rh-recrutamento': 'Recrutamento', 'rh-ferias-licencas': 'Férias & Licenças',
 'rh-avaliacao': 'Avaliação de Desempenho', 'rh-relatorios': 'Relatórios RH',
+'admgeral-dashboard': 'Dashboard Admin. Geral', 'admgeral-protocolos': 'Protocolos & Ofícios',
+'admgeral-correspondencia': 'Correspondência', 'admgeral-reunioes': 'Reuniões & Atas',
+'admgeral-arquivo': 'Arquivo Geral', 'admgeral-visitas': 'Registo de Visitas',
+'admgeral-veiculos': 'Frota & Viaturas', 'admgeral-relatorios': 'Relatórios Admin. Geral',
 'configuracoes': 'Configurações'
 };
 
@@ -2507,6 +3084,12 @@ listarFolhasPagamento();
 listarVagas();
 listarFerias();
 listarAvaliacoes();
+listarProtocolos();
+listarCorrespondencia();
+listarReunioes();
+listarArquivo();
+listarVisitas();
+listarVeiculos();
 };
 
 // Auto-calculate liquido in folha form
@@ -2526,6 +3109,404 @@ liqInput.value = (v - d).toFixed(2);
 if (vencInput) vencInput.addEventListener('input', calcularLiquido);
 if (descInput) descInput.addEventListener('input', calcularLiquido);
 });
+
+// ============ ADMINISTRAÇÃO GERAL ============
+
+// --- Protocolos ---
+function openModalProtocolo() {
+document.getElementById('form-protocolo').reset();
+document.getElementById('prot-data').valueAsDate = new Date();
+openModal('modal-protocolo');
+}
+
+function salvarProtocolo(event) {
+event.preventDefault();
+var prot = {
+id: Date.now(),
+numero: document.getElementById('prot-numero').value,
+tipo: document.getElementById('prot-tipo').value,
+assunto: document.getElementById('prot-assunto').value,
+destinatario: document.getElementById('prot-destinatario').value,
+data: document.getElementById('prot-data').value,
+descricao: document.getElementById('prot-descricao').value,
+status: 'registado',
+dataCriacao: new Date().toISOString()
+};
+database.adm_protocolos.push(prot);
+salvarDados();
+listarProtocolos();
+closeModal('modal-protocolo');
+showToast('Protocolo registado com sucesso!');
+}
+
+function listarProtocolos() {
+var tbody = document.getElementById('adm-protocolos-tbody');
+var empty = document.getElementById('adm-protocolos-empty');
+if (database.adm_protocolos.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-adm-protocolos').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.adm_protocolos.forEach(function(p) {
+var row = '<tr>' +
+'<td>' + p.numero + '</td>' +
+'<td>' + p.assunto + '</td>' +
+'<td>' + p.destinatario + '</td>' +
+'<td>' + new Date(p.data).toLocaleDateString('pt-PT') + '</td>' +
+'<td>' + p.tipo.toUpperCase() + '</td>' +
+'<td><span class="status-badge status-confirmado">' + p.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-delete" onclick="deletarProtocolo(' + p.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-adm-protocolos').textContent = database.adm_protocolos.length;
+}
+
+function deletarProtocolo(id) {
+if (confirm('Eliminar este protocolo?')) {
+database.adm_protocolos = database.adm_protocolos.filter(p => p.id != id);
+salvarDados();
+listarProtocolos();
+showToast('Protocolo eliminado!');
+}
+}
+
+// --- Correspondência ---
+function openModalCorrespondencia() {
+document.getElementById('form-correspondencia').reset();
+document.getElementById('corr-data').valueAsDate = new Date();
+openModal('modal-correspondencia');
+}
+
+function salvarCorrespondencia(event) {
+event.preventDefault();
+var corr = {
+id: Date.now(),
+numero: document.getElementById('corr-numero').value,
+tipo: document.getElementById('corr-tipo').value,
+entidade: document.getElementById('corr-entidade').value,
+assunto: document.getElementById('corr-assunto').value,
+data: document.getElementById('corr-data').value,
+observacoes: document.getElementById('corr-observacoes').value,
+status: 'pendente',
+dataCriacao: new Date().toISOString()
+};
+database.adm_correspondencia.push(corr);
+salvarDados();
+listarCorrespondencia();
+closeModal('modal-correspondencia');
+showToast('Correspondência registada com sucesso!');
+}
+
+function listarCorrespondencia() {
+var tbody = document.getElementById('adm-correspondencia-tbody');
+var empty = document.getElementById('adm-correspondencia-empty');
+if (database.adm_correspondencia.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-adm-correspondencia').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.adm_correspondencia.forEach(function(c) {
+var statusClass = c.status === 'pendente' ? 'status-pendente' : 'status-concluido';
+var row = '<tr>' +
+'<td>' + c.numero + '</td>' +
+'<td>' + c.tipo.toUpperCase() + '</td>' +
+'<td>' + c.entidade + '</td>' +
+'<td>' + c.assunto + '</td>' +
+'<td>' + new Date(c.data).toLocaleDateString('pt-PT') + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + c.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-edit" onclick="marcarCorrespondenciaLida(' + c.id + ')">Marcar Lida</button> <button class="btn-delete" onclick="deletarCorrespondencia(' + c.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-adm-correspondencia').textContent = database.adm_correspondencia.filter(c => c.status === 'pendente').length;
+}
+
+function marcarCorrespondenciaLida(id) {
+var c = database.adm_correspondencia.find(x => x.id == id);
+if (c) { c.status = 'lida'; salvarDados(); listarCorrespondencia(); showToast('Marcada como lida!'); }
+}
+
+function deletarCorrespondencia(id) {
+if (confirm('Eliminar esta correspondência?')) {
+database.adm_correspondencia = database.adm_correspondencia.filter(c => c.id != id);
+salvarDados();
+listarCorrespondencia();
+showToast('Correspondência eliminada!');
+}
+}
+
+// --- Reuniões ---
+function openModalReuniao() {
+document.getElementById('form-reuniao').reset();
+document.getElementById('reun-data').valueAsDate = new Date();
+openModal('modal-reuniao');
+}
+
+function salvarReuniao(event) {
+event.preventDefault();
+var reun = {
+id: Date.now(),
+titulo: document.getElementById('reun-titulo').value,
+data: document.getElementById('reun-data').value,
+hora: document.getElementById('reun-hora').value,
+local: document.getElementById('reun-local').value,
+participantes: document.getElementById('reun-participantes').value,
+pauta: document.getElementById('reun-pauta').value,
+status: 'agendada',
+dataCriacao: new Date().toISOString()
+};
+database.adm_reunioes.push(reun);
+salvarDados();
+listarReunioes();
+closeModal('modal-reuniao');
+showToast('Reunião agendada com sucesso!');
+}
+
+function listarReunioes() {
+var tbody = document.getElementById('adm-reunioes-tbody');
+var empty = document.getElementById('adm-reunioes-empty');
+if (database.adm_reunioes.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-adm-reunioes').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.adm_reunioes.forEach(function(r) {
+var statusClass = r.status === 'agendada' ? 'status-agendado' : 'status-concluido';
+var row = '<tr>' +
+'<td>' + r.titulo + '</td>' +
+'<td>' + new Date(r.data).toLocaleDateString('pt-PT') + '</td>' +
+'<td>' + r.hora + '</td>' +
+'<td>' + r.local + '</td>' +
+'<td>' + r.participantes + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + r.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-success" onclick="concluirReuniao(' + r.id + ')" style="padding:4px 8px;font-size:11px;">Concluir</button> <button class="btn-delete" onclick="deletarReuniao(' + r.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-adm-reunioes').textContent = database.adm_reunioes.filter(r => r.status === 'agendada').length;
+}
+
+function concluirReuniao(id) {
+var r = database.adm_reunioes.find(x => x.id == id);
+if (r) { r.status = 'concluida'; salvarDados(); listarReunioes(); showToast('Reunião concluída!'); }
+}
+
+function deletarReuniao(id) {
+if (confirm('Eliminar esta reunião?')) {
+database.adm_reunioes = database.adm_reunioes.filter(r => r.id != id);
+salvarDados();
+listarReunioes();
+showToast('Reunião eliminada!');
+}
+}
+
+// --- Arquivo ---
+function openModalArquivo() {
+document.getElementById('form-arquivo').reset();
+document.getElementById('arq-data').valueAsDate = new Date();
+openModal('modal-arquivo');
+}
+
+function salvarArquivo(event) {
+event.preventDefault();
+var arq = {
+id: Date.now(),
+numero: document.getElementById('arq-numero').value,
+categoria: document.getElementById('arq-categoria').value,
+titulo: document.getElementById('arq-titulo').value,
+data: document.getElementById('arq-data').value,
+localizacao: document.getElementById('arq-localizacao').value,
+observacoes: document.getElementById('arq-observacoes').value,
+dataCriacao: new Date().toISOString()
+};
+database.adm_arquivo.push(arq);
+salvarDados();
+listarArquivo();
+closeModal('modal-arquivo');
+showToast('Documento arquivado com sucesso!');
+}
+
+function listarArquivo() {
+var tbody = document.getElementById('adm-arquivo-tbody');
+var empty = document.getElementById('adm-arquivo-empty');
+if (database.adm_arquivo.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.adm_arquivo.forEach(function(a) {
+var row = '<tr>' +
+'<td>' + a.numero + '</td>' +
+'<td>' + a.titulo + '</td>' +
+'<td>' + a.categoria.toUpperCase() + '</td>' +
+'<td>' + new Date(a.data).toLocaleDateString('pt-PT') + '</td>' +
+'<td>' + (a.localizacao || '-') + '</td>' +
+'<td><button class="btn-delete" onclick="deletarArquivo(' + a.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+}
+
+function deletarArquivo(id) {
+if (confirm('Eliminar este documento do arquivo?')) {
+database.adm_arquivo = database.adm_arquivo.filter(a => a.id != id);
+salvarDados();
+listarArquivo();
+showToast('Documento eliminado!');
+}
+}
+
+// --- Visitas ---
+function openModalVisita() {
+document.getElementById('form-visita').reset();
+document.getElementById('vis-entrada').value = new Date().toISOString().slice(0, 16);
+openModal('modal-visita');
+}
+
+function salvarVisita(event) {
+event.preventDefault();
+var vis = {
+id: Date.now(),
+nome: document.getElementById('vis-nome').value,
+documento: document.getElementById('vis-documento').value,
+entidade: document.getElementById('vis-entidade').value,
+motivo: document.getElementById('vis-motivo').value,
+entrada: document.getElementById('vis-entrada').value,
+saida: document.getElementById('vis-saida').value,
+observacoes: document.getElementById('vis-observacoes').value,
+dataCriacao: new Date().toISOString()
+};
+database.adm_visitas.push(vis);
+salvarDados();
+listarVisitas();
+closeModal('modal-visita');
+showToast('Visita registada com sucesso!');
+}
+
+function listarVisitas() {
+var tbody = document.getElementById('adm-visitas-tbody');
+var empty = document.getElementById('adm-visitas-empty');
+if (database.adm_visitas.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.adm_visitas.forEach(function(v) {
+var row = '<tr>' +
+'<td>' + v.nome + '</td>' +
+'<td>' + v.documento + '</td>' +
+'<td>' + (v.entidade || '-') + '</td>' +
+'<td>' + v.motivo + '</td>' +
+'<td>' + new Date(v.entrada).toLocaleString('pt-PT') + '</td>' +
+'<td>' + (v.saida ? new Date(v.saida).toLocaleString('pt-PT') : '---') + '</td>' +
+'<td><button class="btn-delete" onclick="deletarVisita(' + v.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+}
+
+function deletarVisita(id) {
+if (confirm('Eliminar este registo de visita?')) {
+database.adm_visitas = database.adm_visitas.filter(v => v.id != id);
+salvarDados();
+listarVisitas();
+showToast('Visita eliminada!');
+}
+}
+
+// --- Veículos ---
+function openModalVeiculo() {
+document.getElementById('form-veiculo').reset();
+openModal('modal-veiculo');
+}
+
+function salvarVeiculo(event) {
+event.preventDefault();
+var vei = {
+id: Date.now(),
+matricula: document.getElementById('vei-matricula').value,
+marca: document.getElementById('vei-marca').value,
+modelo: document.getElementById('vei-modelo').value,
+ano: parseInt(document.getElementById('vei-ano').value),
+condutor: document.getElementById('vei-condutor').value,
+status: document.getElementById('vei-status').value,
+dataCriacao: new Date().toISOString()
+};
+database.adm_veiculos.push(vei);
+salvarDados();
+listarVeiculos();
+closeModal('modal-veiculo');
+showToast('Viatura registada com sucesso!');
+}
+
+function listarVeiculos() {
+var tbody = document.getElementById('adm-veiculos-tbody');
+var empty = document.getElementById('adm-veiculos-empty');
+if (database.adm_veiculos.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-adm-veiculos').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.adm_veiculos.forEach(function(v) {
+var statusClass = v.status === 'disponivel' ? 'status-ativo' : (v.status === 'em-uso' ? 'status-confirmado' : 'status-pendente');
+var row = '<tr>' +
+'<td>' + v.matricula + '</td>' +
+'<td>' + v.marca + ' ' + v.modelo + '</td>' +
+'<td>' + v.ano + '</td>' +
+'<td>' + (v.condutor || 'N/A') + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + v.status.toUpperCase().replace('-', ' ') + '</span></td>' +
+'<td><button class="btn-edit" onclick="editarVeiculo(' + v.id + ')">Editar</button> <button class="btn-delete" onclick="deletarVeiculo(' + v.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-adm-veiculos').textContent = database.adm_veiculos.filter(v => v.status === 'em-uso').length;
+}
+
+function editarVeiculo(id) {
+var v = database.adm_veiculos.find(x => x.id == id);
+if (v) {
+document.getElementById('vei-matricula').value = v.matricula;
+document.getElementById('vei-marca').value = v.marca;
+document.getElementById('vei-modelo').value = v.modelo;
+document.getElementById('vei-ano').value = v.ano;
+document.getElementById('vei-condutor').value = v.condutor;
+document.getElementById('vei-status').value = v.status;
+database.adm_veiculos = database.adm_veiculos.filter(x => x.id != id);
+openModal('modal-veiculo');
+}
+}
+
+function deletarVeiculo(id) {
+if (confirm('Eliminar esta viatura?')) {
+database.adm_veiculos = database.adm_veiculos.filter(v => v.id != id);
+salvarDados();
+listarVeiculos();
+showToast('Viatura eliminada!');
+}
+}
 </script>
 </body>
 </html>

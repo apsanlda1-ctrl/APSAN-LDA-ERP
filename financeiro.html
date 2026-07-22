@@ -78,18 +78,15 @@
     .btn-action { padding: 10px 16px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
     .btn-action:hover { background: #1d4ed8; }
 
-    /* --- ESTRUTURA CORRIGIDA DO MODAL --- */
+    /* ESTRUTURA DO MODAL */
     .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 1000; align-items: center; justify-content: center; padding: 15px; }
     .modal-overlay.active { display: flex; }
-    .modal-card { background: #ffffff; width: 100%; max-width: 600px; max-height: 90vh; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; }
+    .modal-card { background: #ffffff; width: 100%; max-width: 620px; max-height: 90vh; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; }
     .modal-header { background: #1e3a5f; color: #ffffff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
     .modal-header h3 { font-size: 16px; font-weight: 600; }
     .modal-close { background: transparent; border: none; color: #ffffff; font-size: 20px; cursor: pointer; }
     
-    /* Scroll no Corpo do Modal */
     .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
-    
-    /* Rodapé do Modal Fixo na Parte Inferior */
     .modal-footer { padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; flex-shrink: 0; }
 
     .calc-box { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-top: 10px; }
@@ -157,7 +154,7 @@
         <div class="kpi-card">
           <div class="kpi-info">
             <h3>Taxa Câmbio Atual</h3>
-            <div class="value">1 NAD = 48 Kz</div>
+            <div class="value">1 NAD = 66 Kz</div>
           </div>
           <div class="kpi-icon icon-purple"><i class="fas fa-exchange-alt"></i></div>
         </div>
@@ -189,7 +186,7 @@
                 <tr>
                   <td>João Manuel</td>
                   <td>Peças Automóveis</td>
-                  <td>480.000 Kz</td>
+                  <td>660.000 Kz</td>
                   <td><span class="badge badge-pago">Pago</span></td>
                 </tr>
               </tbody>
@@ -233,7 +230,7 @@
           <h3><i class="fas fa-cog"></i> Taxa do Dia</h3>
           <div class="form-group">
             <label>Taxa Oficial (1 NAD = X Kz):</label>
-            <input type="number" id="taxa-dia" value="48.00" step="0.01" oninput="calcularTotalEncomenda()">
+            <input type="number" id="taxa-dia" value="66.00" step="0.01" oninput="calcularTotalEncomenda()">
           </div>
         </div>
       </div>
@@ -257,7 +254,7 @@
                 <th>Cliente</th>
                 <th>Descrição</th>
                 <th>Qtd.</th>
-                <th>Valor NAD</th>
+                <th>Total NAD</th>
                 <th>Total AOA</th>
                 <th>Estado Logístico</th>
                 <th style="text-align: center;">Ações</th>
@@ -270,11 +267,11 @@
                 <td>Caixas de Manteiga</td>
                 <td><strong>4</strong></td>
                 <td>$ 800.00 NAD</td>
-                <td><strong>49.544 Kz</strong></td>
+                <td><strong>66.128 Kz</strong></td>
                 <td><span class="badge badge-pendente">Pendente</span></td>
                 <td style="text-align: center;">
-                  <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '38400', '5000', '6144', '49544')"><i class="fas fa-file-pdf"></i> PDF</button>
-                  <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '49544')"><i class="fas fa-paper-plane"></i> Ops</button>
+                  <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '52800', '5000', '8448', '66128')"><i class="fas fa-file-pdf"></i> PDF</button>
+                  <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '66128')"><i class="fas fa-paper-plane"></i> Ops</button>
                   <button class="btn-sm btn-delete" title="Eliminar" onclick="eliminarEncomenda('row-NAM-2026-01', '#NAM-2026-01')"><i class="fas fa-trash"></i></button>
                 </td>
               </tr>
@@ -291,7 +288,7 @@
 
   </div>
 
-  <!-- MODAL CORRIGIDO COM ROLAGEM E BOTÃO DE SALVAR VISÍVEL -->
+  <!-- MODAL DE CRIAR ENCOMENDA -->
   <div id="modal-encomenda" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
@@ -319,14 +316,14 @@
             </div>
           </div>
 
-          <!-- VALOR EM NAD -->
+          <!-- VALOR EM NAD E CÁLCULO MULTIPLICADO -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div class="form-group">
-              <label for="enc-valor-nad">Valor na Namíbia ($ NAD):</label>
-              <input type="number" id="enc-valor-nad" placeholder="0.00" step="0.01" oninput="calcularTotalEncomenda()" required>
+              <label for="enc-valor-unit-nad">Valor Unitário ($ NAD):</label>
+              <input type="number" id="enc-valor-unit-nad" placeholder="0.00" step="0.01" oninput="calcularTotalEncomenda()" required>
             </div>
             <div class="form-group">
-              <label for="enc-valor-produto-aoa">Convertido em Kwanzas (AOA):</label>
+              <label for="enc-valor-produto-aoa">Subtotal do Produto em Kwanzas (AOA):</label>
               <input type="number" id="enc-valor-produto-aoa" placeholder="0.00" readonly style="background: #f1f5f9; font-weight: 600;">
             </div>
           </div>
@@ -373,7 +370,6 @@
 
         </div>
 
-        <!-- BOTÕES VISÍVEIS NO RODAPÉ -->
         <div class="modal-footer">
           <button type="button" class="btn-sm" style="background: #e2e8f0; color: #475569; padding: 10px 16px;" onclick="fecharModalNovaEncomenda()">Cancelar</button>
           <button type="submit" class="btn-action"><i class="fas fa-save"></i> Salvar Encomenda</button>
@@ -405,14 +401,23 @@
       document.getElementById('modal-encomenda').classList.remove('active');
     }
 
+    // CÁLCULO ATUALIZADO (VALOR * QUANTIDADE * CÂMBIO)
     function calcularTotalEncomenda() {
-      const valorNad = parseFloat(document.getElementById('enc-valor-nad').value) || 0;
-      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 48;
+      const valorUnitNad = parseFloat(document.getElementById('enc-valor-unit-nad').value) || 0;
+      const quantidade = parseFloat(document.getElementById('enc-qtd').value) || 1;
+      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 66; // Câmbio alterado para 66 Kz
       
-      const produtoAoa = valorNad * taxaDia;
+      // Subtotal do Produto em NAD
+      const subtotalNad = valorUnitNad * quantidade;
+
+      // Converter Subtotal em AOA
+      const produtoAoa = subtotalNad * taxaDia;
       document.getElementById('enc-valor-produto-aoa').value = produtoAoa.toFixed(2);
 
+      // Serviço AOA
       const taxaServico = parseFloat(document.getElementById('enc-taxa-servico').value) || 0;
+
+      // Alfândega AOA
       const temAlfandega = document.getElementById('chk-tem-alfandega').checked;
       const pctAlfandega = parseFloat(document.getElementById('enc-taxa-alfandega-pct').value) || 0;
       
@@ -423,6 +428,7 @@
       
       document.getElementById('label-valor-alfandega').innerText = `${valorAlfandega.toLocaleString('pt-PT')} Kz`;
 
+      // Total Geral
       const totalGeral = produtoAoa + taxaServico + valorAlfandega;
       document.getElementById('enc-total-aoa').innerText = `${totalGeral.toLocaleString('pt-PT')} Kz`;
     }
@@ -432,11 +438,13 @@
 
       const cliente = document.getElementById('enc-cliente').value;
       const descricao = document.getElementById('enc-descricao').value;
-      const quantidade = document.getElementById('enc-qtd').value;
-      const valorNad = parseFloat(document.getElementById('enc-valor-nad').value);
-      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 48;
+      const quantidade = parseFloat(document.getElementById('enc-qtd').value) || 1;
+      const valorUnitNad = parseFloat(document.getElementById('enc-valor-unit-nad').value) || 0;
+      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 66;
       
-      const produtoAoa = valorNad * taxaDia;
+      const subtotalNad = valorUnitNad * quantidade;
+      const produtoAoa = subtotalNad * taxaDia;
+      
       const taxaServico = parseFloat(document.getElementById('enc-taxa-servico').value) || 0;
       const temAlfandega = document.getElementById('chk-tem-alfandega').checked;
       const pctAlfandega = parseFloat(document.getElementById('enc-taxa-alfandega-pct').value) || 0;
@@ -459,12 +467,12 @@
         <td>${cliente}</td>
         <td>${descricao}</td>
         <td><strong>${quantidade}</strong></td>
-        <td>$ ${valorNad.toLocaleString('pt-PT')} NAD</td>
+        <td>$ ${subtotalNad.toLocaleString('pt-PT')} NAD</td>
         <td><strong>${totalGeral.toLocaleString('pt-PT')} Kz</strong></td>
         <td><span class="badge ${badgeClass}">${estado}</span></td>
         <td style="text-align: center;">
-          <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${valorNad}', '${produtoAoa}', '${taxaServico}', '${valorAlfandega}', '${totalGeral}')"><i class="fas fa-file-pdf"></i> PDF</button>
-          <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${valorNad}', '${totalGeral}')"><i class="fas fa-paper-plane"></i> Ops</button>
+          <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${subtotalNad}', '${produtoAoa}', '${taxaServico}', '${valorAlfandega}', '${totalGeral}')"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${subtotalNad}', '${totalGeral}')"><i class="fas fa-paper-plane"></i> Ops</button>
           <button class="btn-sm btn-delete" title="Eliminar" onclick="eliminarEncomenda('${rowId}', '${numCodigo}')"><i class="fas fa-trash"></i></button>
         </td>
       `;
@@ -577,7 +585,7 @@
 
     function converterMoeda(origem) {
       const aoa = parseFloat(document.getElementById('calc-aoa').value) || 0;
-      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 48;
+      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 66;
       if (origem === 'AOA' && taxa > 0) {
         document.getElementById('calc-resultado').innerText = `$ ${(aoa / taxa).toFixed(2)} NAD`;
       }

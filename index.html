@@ -52,21 +52,21 @@
       <label for="department-select">Selecione o Departamento:</label>
       <select id="department-select" class="department-select" required>
         <option value="traducao">📜 Tradução Oficial Juramentada</option>
-        <option value="hospitalar" selected>🏥 Acompanhamento Hospitalar</option>
+        <option value="hospitalar">🏥 Acompanhamento Hospitalar</option>
         <option value="administrativo">📋 Administrativo</option>
-        <option value="financeiro">💰 Financeiro</option>
+        <option value="financeiro" selected>💰 Financeiro</option>
         <option value="operacoes">⚙️ Operações e Logística</option>
       </select>
     </div>
 
     <div class="input-group">
       <i class="fas fa-user"></i>
-      <input type="text" value="admin.apsan" placeholder="Nome de Utilizador" required>
+      <input type="text" id="username" value="admin.apsan" placeholder="Nome de Utilizador" required>
     </div>
 
     <div class="input-group">
       <i class="fas fa-lock"></i>
-      <input type="password" value="123456" placeholder="Palavra-passe" required>
+      <input type="password" id="password" value="123456" placeholder="Palavra-passe" required>
     </div>
 
     <button type="submit" class="btn-login">
@@ -85,11 +85,17 @@
     event.preventDefault();
     const departamento = document.getElementById('department-select').value;
     
+    // Redirecionamentos para cada ficheiro correspondente
     if (departamento === 'traducao') {
       window.location.href = 'traducao.html';
     } else if (departamento === 'hospitalar') {
-      // Nome exato do ficheiro no GitHub
       window.location.href = 'acompanhamento_hospitalar.html';
+    } else if (departamento === 'financeiro') {
+      window.location.href = 'financeiro.html';
+    } else if (departamento === 'administrativo') {
+      window.location.href = 'administrativo.html';
+    } else if (departamento === 'operacoes') {
+      window.location.href = 'operacoes.html';
     } else {
       alert('A redirecionar para o departamento de ' + departamento);
     }

@@ -26,17 +26,16 @@
     .page-title { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
     .page-title h2 { font-size: 22px; color: #0f172a; }
 
-    /* Barra de Abas do Menu Financeiro */
+    /* Barra de Abas */
     .financial-tabs { display: flex; gap: 10px; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; overflow-x: auto; padding-bottom: 5px; }
     .tab-btn { background: transparent; border: none; padding: 10px 16px; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 8px 8px 0 0; display: flex; align-items: center; gap: 8px; white-space: nowrap; transition: all 0.2s; }
     .tab-btn:hover { color: #2563eb; background: #eff6ff; }
     .tab-btn.active { color: #2563eb; border-bottom: 3px solid #2563eb; background: #ffffff; }
 
-    /* Conteúdo das Abas */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* Cards Informativos (KPIs) */
+    /* Cards e KPIs */
     .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
     .kpi-card { background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between; }
     .kpi-info h3 { font-size: 12px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.5px; }
@@ -47,14 +46,12 @@
     .icon-orange { background: #fff7ed; color: #ea580c; }
     .icon-purple { background: #faf5ff; color: #9333ea; }
 
-    /* Conteúdo em Duas Colunas */
     .content-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
 
-    /* Cards & Painéis */
     .card-panel { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 20px; }
     .card-panel h3 { font-size: 16px; margin-bottom: 18px; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
 
-    /* Tabelas */
+    /* Tabela */
     table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
     th { background: #f8fafc; color: #475569; padding: 12px 10px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
     td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: middle; }
@@ -64,7 +61,7 @@
     .badge-pendente { background: #fef3c7; color: #b45309; }
     .badge-caminho { background: #e0f2fe; color: #0369a1; }
 
-    /* Botões de Ação na Tabela */
+    /* Botões */
     .btn-sm { padding: 6px 10px; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; }
     .btn-pdf { background: #fee2e2; color: #991b1b; }
     .btn-pdf:hover { background: #fca5a5; }
@@ -73,7 +70,6 @@
     .btn-delete { background: #f1f5f9; color: #ef4444; }
     .btn-delete:hover { background: #fee2e2; }
 
-    /* Formulários e Inputs */
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 4px; color: #475569; }
     .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; outline: none; }
@@ -82,23 +78,25 @@
     .btn-action { padding: 10px 16px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
     .btn-action:hover { background: #1d4ed8; }
 
-    /* Estrutura do Modal */
-    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    /* --- ESTRUTURA CORRIGIDA DO MODAL --- */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 1000; align-items: center; justify-content: center; padding: 15px; }
     .modal-overlay.active { display: flex; }
-    .modal-card { background: #ffffff; width: 100%; max-width: 600px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); max-height: 90vh; display: flex; flex-direction: column; }
-    .modal-header { background: #1e3a5f; color: #ffffff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
-    .modal-header h3 { font-size: 17px; font-weight: 600; }
+    .modal-card { background: #ffffff; width: 100%; max-width: 600px; max-height: 90vh; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; }
+    .modal-header { background: #1e3a5f; color: #ffffff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .modal-header h3 { font-size: 16px; font-weight: 600; }
     .modal-close { background: transparent; border: none; color: #ffffff; font-size: 20px; cursor: pointer; }
-    .modal-body { padding: 20px; overflow-y: auto; }
-    .modal-footer { padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; }
+    
+    /* Scroll no Corpo do Modal */
+    .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
+    
+    /* Rodapé do Modal Fixo na Parte Inferior */
+    .modal-footer { padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; flex-shrink: 0; }
 
-    /* Calculadora Box dentro do Modal */
     .calc-box { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-top: 10px; }
     .calc-box-title { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 8px; }
     .total-highlight { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 6px; text-align: center; margin-top: 10px; }
     .total-highlight h4 { font-size: 18px; color: #1d4ed8; font-weight: 700; margin-top: 2px; }
 
-    /* Footer */
     footer { text-align: center; padding: 20px; font-size: 13px; color: #94a3b8; border-top: 1px solid #e2e8f0; background: #ffffff; margin-top: 40px; }
 
     @media (max-width: 900px) {
@@ -108,7 +106,6 @@
 </head>
 <body>
 
-  <!-- Cabeçalho Principal -->
   <header>
     <div class="header-brand">
       <i class="fas fa-wallet"></i>
@@ -126,12 +123,11 @@
   <div class="container">
     <div class="page-title">
       <h2>Painel de Gestão Financeira</h2>
-      <button class="btn-action" onclick="alert('Relatório exportado em PDF!')">
+      <button class="btn-action" onclick="alert('Relatório exportado!')">
         <i class="fas fa-file-export"></i> Exportar Relatório
       </button>
     </div>
 
-    <!-- Menu de Abas -->
     <div class="financial-tabs">
       <button class="tab-btn active" onclick="switchTab(event, 'tab-visao-geral')"><i class="fas fa-chart-pie"></i> Visão Geral</button>
       <button class="tab-btn" onclick="switchTab(event, 'tab-cambio')"><i class="fas fa-exchange-alt"></i> Câmbio AOA/NAD</button>
@@ -141,7 +137,7 @@
       <button class="tab-btn" onclick="switchTab(event, 'tab-relatorios')"><i class="fas fa-file-pdf"></i> Relatórios</button>
     </div>
 
-    <!-- ABA 1: VISÃO GERAL -->
+    <!-- ABA VISÃO GERAL -->
     <div id="tab-visao-geral" class="tab-content active">
       <div class="kpi-grid">
         <div class="kpi-card">
@@ -151,7 +147,6 @@
           </div>
           <div class="kpi-icon icon-green"><i class="fas fa-arrow-down"></i></div>
         </div>
-        
         <div class="kpi-card">
           <div class="kpi-info">
             <h3>Compras Namíbia (NAD)</h3>
@@ -159,7 +154,6 @@
           </div>
           <div class="kpi-icon icon-orange"><i class="fas fa-shopping-cart"></i></div>
         </div>
-
         <div class="kpi-card">
           <div class="kpi-info">
             <h3>Taxa Câmbio Atual</h3>
@@ -167,7 +161,6 @@
           </div>
           <div class="kpi-icon icon-purple"><i class="fas fa-exchange-alt"></i></div>
         </div>
-
         <div class="kpi-card">
           <div class="kpi-info">
             <h3>Receita de Serviços</h3>
@@ -181,40 +174,23 @@
         <div class="card-panel">
           <h3>
             <span><i class="fas fa-list-alt"></i> Últimas Transações</span>
-            <a href="#" style="font-size: 12px; color: #2563eb; text-decoration: none;">Ver Todas</a>
           </h3>
           <div style="overflow-x: auto;">
             <table>
               <thead>
                 <tr>
-                  <th>Cliente / Origem</th>
+                  <th>Cliente</th>
                   <th>Serviço / Encomenda</th>
                   <th>Valor (AOA)</th>
-                  <th>Câmbio (NAD)</th>
                   <th>Estado</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>João Manuel</td>
-                  <td>Encomenda Namíbia (Peças)</td>
+                  <td>Peças Automóveis</td>
                   <td>480.000 Kz</td>
-                  <td>$ 10.000 NAD</td>
                   <td><span class="badge badge-pago">Pago</span></td>
-                </tr>
-                <tr>
-                  <td>Clínica Médica Luanda</td>
-                  <td>Tradução Juramentada</td>
-                  <td>120.000 Kz</td>
-                  <td>-</td>
-                  <td><span class="badge badge-pago">Pago</span></td>
-                </tr>
-                <tr>
-                  <td>Maria Silva</td>
-                  <td>Acompanhamento Hospitalar</td>
-                  <td>250.000 Kz</td>
-                  <td>-</td>
-                  <td><span class="badge badge-pendente">Pendente</span></td>
                 </tr>
               </tbody>
             </table>
@@ -225,21 +201,12 @@
           <h3><i class="fas fa-plus-circle"></i> Registar Transação</h3>
           <form onsubmit="registarTransacao(event)">
             <div class="form-group">
-              <label for="cliente">Nome do Cliente:</label>
-              <input type="text" id="cliente" placeholder="Ex: António Agostinho" required>
+              <label>Nome do Cliente:</label>
+              <input type="text" id="cliente" required>
             </div>
             <div class="form-group">
-              <label for="categoria">Categoria:</label>
-              <select id="categoria" required>
-                <option value="encomenda">📦 Encomenda Namíbia</option>
-                <option value="traducao">📜 Tradução Juramentada</option>
-                <option value="hospitalar">🏥 Acompanhamento Hospitalar</option>
-                <option value="outros">💼 Outros Serviços</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="valor">Valor (AOA):</label>
-              <input type="number" id="valor" placeholder="0.00" required>
+              <label>Valor (AOA):</label>
+              <input type="number" id="valor" required>
             </div>
             <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> Guardar</button>
           </form>
@@ -247,18 +214,14 @@
       </div>
     </div>
 
-    <!-- ABA 2: CÂMBIO & CONVERSÃO -->
+    <!-- ABA CÂMBIO -->
     <div id="tab-cambio" class="tab-content">
       <div class="content-grid">
         <div class="card-panel">
-          <h3><i class="fas fa-calculator"></i> Calculadora Rápida AOA ↔ NAD</h3>
+          <h3><i class="fas fa-calculator"></i> Conversor AOA ↔ NAD</h3>
           <div class="form-group">
             <label>Valor em Kwanzas (AOA):</label>
-            <input type="number" id="calc-aoa" placeholder="Ex: 100000" oninput="converterMoeda('AOA')">
-          </div>
-          <div class="form-group">
-            <label>Taxa Aplicada (1 NAD em AOA):</label>
-            <input type="number" id="calc-taxa" value="48" oninput="converterMoeda('AOA')">
+            <input type="number" id="calc-aoa" oninput="converterMoeda('AOA')">
           </div>
           <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; text-align: center; margin-top: 15px;">
             <span style="font-size: 13px; color: #64748b;">Resultado Estimado na Namíbia:</span>
@@ -267,19 +230,16 @@
         </div>
 
         <div class="card-panel">
-          <h3><i class="fas fa-cog"></i> Definir Taxa do Dia</h3>
-          <form onsubmit="alert('Taxa oficial atualizada!'); return false;">
-            <div class="form-group">
-              <label>Nova Taxa Oficial (NAD/AOA):</label>
-              <input type="number" id="taxa-dia" value="48.00" step="0.01" oninput="calcularTotalEncomenda()">
-            </div>
-            <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-sync"></i> Atualizar Taxa</button>
-          </form>
+          <h3><i class="fas fa-cog"></i> Taxa do Dia</h3>
+          <div class="form-group">
+            <label>Taxa Oficial (1 NAD = X Kz):</label>
+            <input type="number" id="taxa-dia" value="48.00" step="0.01" oninput="calcularTotalEncomenda()">
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- ABA 3: COMPRAS NAMÍBIA (ENCOMENDAS) -->
+    <!-- ABA COMPRAS NAMÍBIA -->
     <div id="tab-compras" class="tab-content">
       <div class="card-panel">
         <h3>
@@ -296,6 +256,7 @@
                 <th>Cód. Encomenda</th>
                 <th>Cliente</th>
                 <th>Descrição</th>
+                <th>Qtd.</th>
                 <th>Valor NAD</th>
                 <th>Total AOA</th>
                 <th>Estado Logístico</th>
@@ -305,28 +266,16 @@
             <tbody id="tabela-encomendas">
               <tr id="row-NAM-2026-01">
                 <td><strong>#NAM-2026-01</strong></td>
-                <td>João Manuel</td>
-                <td>Peças Automóveis (Windhoek)</td>
-                <td>$ 10.000 NAD</td>
-                <td><strong>550.000 Kz</strong></td>
-                <td><span class="badge badge-pago">Comprado</span></td>
+                <td>Albertina Sampaio</td>
+                <td>Caixas de Manteiga</td>
+                <td><strong>4</strong></td>
+                <td>$ 800.00 NAD</td>
+                <td><strong>49.544 Kz</strong></td>
+                <td><span class="badge badge-pendente">Pendente</span></td>
                 <td style="text-align: center;">
-                  <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-01', 'João Manuel', 'Peças Automóveis (Windhoek)', '10000', '480000', '20000', '50000', '550000')"><i class="fas fa-file-pdf"></i> PDF</button>
-                  <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-01', 'João Manuel', 'Peças Automóveis (Windhoek)', '10000', '550000')"><i class="fas fa-paper-plane"></i> Ops</button>
+                  <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '38400', '5000', '6144', '49544')"><i class="fas fa-file-pdf"></i> PDF</button>
+                  <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '49544')"><i class="fas fa-paper-plane"></i> Ops</button>
                   <button class="btn-sm btn-delete" title="Eliminar" onclick="eliminarEncomenda('row-NAM-2026-01', '#NAM-2026-01')"><i class="fas fa-trash"></i></button>
-                </td>
-              </tr>
-              <tr id="row-NAM-2026-02">
-                <td><strong>#NAM-2026-02</strong></td>
-                <td>Clínica Central</td>
-                <td>Equipamento Hospitalar</td>
-                <td>$ 35.200 NAD</td>
-                <td><strong>1.908.560 Kz</strong></td>
-                <td><span class="badge badge-caminho">A Caminho</span></td>
-                <td style="text-align: center;">
-                  <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-02', 'Clínica Central', 'Equipamento Hospitalar', '35200', '1689600', '50000', '168960', '1908560')"><i class="fas fa-file-pdf"></i> PDF</button>
-                  <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-02', 'Clínica Central', 'Equipamento Hospitalar', '35200', '1908560')"><i class="fas fa-paper-plane"></i> Ops</button>
-                  <button class="btn-sm btn-delete" title="Eliminar" onclick="eliminarEncomenda('row-NAM-2026-02', '#NAM-2026-02')"><i class="fas fa-trash"></i></button>
                 </td>
               </tr>
             </tbody>
@@ -335,104 +284,42 @@
       </div>
     </div>
 
-    <!-- ABA 4: FATURAÇÃO -->
-    <div id="tab-faturacao" class="tab-content">
-      <div class="card-panel">
-        <h3><i class="fas fa-file-invoice-dollar"></i> Emissão e Controlo de Faturas</h3>
-        <button class="btn-action" style="margin-bottom: 15px;" onclick="alert('Nova Fatura Criada!')">
-          <i class="fas fa-plus"></i> Criar Nova Fatura
-        </button>
-        <table>
-          <thead>
-            <tr>
-              <th>Nº Fatura</th>
-              <th>Cliente</th>
-              <th>Serviço</th>
-              <th>Data Emissão</th>
-              <th>Total</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>FT 2026/001</td>
-              <td>Clínica Médica Luanda</td>
-              <td>Tradução Juramentada</td>
-              <td>20/07/2026</td>
-              <td>120.000 Kz</td>
-              <td><button class="btn-sm btn-pdf">PDF</button></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ABA 5: DESPESAS -->
-    <div id="tab-despesas" class="tab-content">
-      <div class="card-panel">
-        <h3><i class="fas fa-receipt"></i> Registo de Custos Operacionais</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Descrição da Despesa</th>
-              <th>Categoria</th>
-              <th>Data</th>
-              <th>Valor (AOA)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Transporte & Frete Namíbia</td>
-              <td>Logística</td>
-              <td>21/07/2026</td>
-              <td>95.000 Kz</td>
-            </tr>
-            <tr>
-              <td>Renda de Escritório</td>
-              <td>Administrativo</td>
-              <td>01/07/2026</td>
-              <td>150.000 Kz</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- ABA 6: RELATÓRIOS -->
-    <div id="tab-relatorios" class="tab-content">
-      <div class="card-panel">
-        <h3><i class="fas fa-chart-bar"></i> Relatórios de Desempenho e Contabilidade</h3>
-        <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Gere balanços detalhados do fluxo financeiro entre Angola e Namíbia.</p>
-        <div style="display: flex; gap: 10px;">
-          <button class="btn-action" onclick="alert('Gerando Balanço Mensal...')"><i class="fas fa-file-pdf"></i> Balanço Mensal (PDF)</button>
-          <button class="btn-action" style="background: #16a34a;" onclick="alert('Exportando para Excel...')"><i class="fas fa-file-excel"></i> Exportar Excel</button>
-        </div>
-      </div>
-    </div>
+    <!-- DEMAIS ABAS -->
+    <div id="tab-faturacao" class="tab-content"><div class="card-panel"><h3>Faturação</h3></div></div>
+    <div id="tab-despesas" class="tab-content"><div class="card-panel"><h3>Despesas</h3></div></div>
+    <div id="tab-relatorios" class="tab-content"><div class="card-panel"><h3>Relatórios</h3></div></div>
 
   </div>
 
-  <!-- MODAL: NOVA ENCOMENDA NAMÍBIA COM CALCULADORA FINANCEIRA -->
+  <!-- MODAL CORRIGIDO COM ROLAGEM E BOTÃO DE SALVAR VISÍVEL -->
   <div id="modal-encomenda" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
         <h3><i class="fas fa-cart-plus"></i> Nova Encomenda para Namíbia</h3>
         <button class="modal-close" onclick="fecharModalNovaEncomenda()">&times;</button>
       </div>
-      <form onsubmit="salvarNovaEncomenda(event)">
+
+      <form id="form-encomenda" onsubmit="salvarNovaEncomenda(event)" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+        
         <div class="modal-body">
           
           <div class="form-group">
             <label for="enc-cliente">Nome do Cliente:</label>
-            <input type="text" id="enc-cliente" placeholder="Ex: Mateus Gabriel" required>
+            <input type="text" id="enc-cliente" placeholder="Ex: Albertina Sampaio" required>
           </div>
 
-          <div class="form-group">
-            <label for="enc-descricao">Descrição do Produto / Encomenda:</label>
-            <textarea id="enc-descricao" rows="2" placeholder="Ex: 2x Pneus Michelin + Peças de Motor" required></textarea>
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label for="enc-descricao">Descrição do Produto:</label>
+              <input type="text" id="enc-descricao" placeholder="Ex: Caixas de Manteiga" required>
+            </div>
+            <div class="form-group">
+              <label for="enc-qtd">Quantidade:</label>
+              <input type="number" id="enc-qtd" value="1" min="1" required oninput="calcularTotalEncomenda()">
+            </div>
           </div>
 
-          <!-- DADOS DO PRODUTO EM NAD -->
+          <!-- VALOR EM NAD -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div class="form-group">
               <label for="enc-valor-nad">Valor na Namíbia ($ NAD):</label>
@@ -444,7 +331,7 @@
             </div>
           </div>
 
-          <!-- CUSTOS E TAXAS ADICIONAIS EM AOA -->
+          <!-- TAXAS -->
           <div class="calc-box">
             <div class="calc-box-title"><i class="fas fa-coins"></i> Taxas & Custos Adicionais</div>
             
@@ -456,7 +343,7 @@
 
               <div class="form-group">
                 <label for="enc-taxa-alfandega-pct">% Estimativa Alfândega:</label>
-                <input type="number" id="enc-taxa-alfandega-pct" value="10" placeholder="10%" oninput="calcularTotalEncomenda()">
+                <input type="number" id="enc-taxa-alfandega-pct" value="16" placeholder="16%" oninput="calcularTotalEncomenda()">
               </div>
             </div>
 
@@ -469,7 +356,7 @@
             </div>
           </div>
 
-          <!-- RESUMO DO TOTAL -->
+          <!-- TOTAL GERAL -->
           <div class="total-highlight">
             <span style="font-size: 12px; color: #475569; font-weight: 600;">TOTAL GERAL A PAGAR PELO CLIENTE:</span>
             <h4 id="enc-total-aoa">0.00 Kz</h4>
@@ -485,10 +372,13 @@
           </div>
 
         </div>
+
+        <!-- BOTÕES VISÍVEIS NO RODAPÉ -->
         <div class="modal-footer">
           <button type="button" class="btn-sm" style="background: #e2e8f0; color: #475569; padding: 10px 16px;" onclick="fecharModalNovaEncomenda()">Cancelar</button>
           <button type="submit" class="btn-action"><i class="fas fa-save"></i> Salvar Encomenda</button>
         </div>
+
       </form>
     </div>
   </div>
@@ -498,21 +388,15 @@
   </footer>
 
   <script>
-    let contadorEncomendas = 3;
+    let contadorEncomendas = 2;
 
-    // Alternar entre abas
     function switchTab(event, tabId) {
-      const contents = document.querySelectorAll('.tab-content');
-      contents.forEach(content => content.classList.remove('active'));
-
-      const buttons = document.querySelectorAll('.tab-btn');
-      buttons.forEach(button => button.classList.remove('active'));
-
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
       event.currentTarget.classList.add('active');
     }
 
-    // Modal Controls
     function abrirModalNovaEncomenda() {
       document.getElementById('modal-encomenda').classList.add('active');
     }
@@ -521,19 +405,14 @@
       document.getElementById('modal-encomenda').classList.remove('active');
     }
 
-    // Cálculo Automático no Modal de Encomenda
     function calcularTotalEncomenda() {
       const valorNad = parseFloat(document.getElementById('enc-valor-nad').value) || 0;
       const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 48;
       
-      // 1. Converter NAD em AOA
       const produtoAoa = valorNad * taxaDia;
       document.getElementById('enc-valor-produto-aoa').value = produtoAoa.toFixed(2);
 
-      // 2. Serviço AOA
       const taxaServico = parseFloat(document.getElementById('enc-taxa-servico').value) || 0;
-
-      // 3. Alfândega AOA Estimativa
       const temAlfandega = document.getElementById('chk-tem-alfandega').checked;
       const pctAlfandega = parseFloat(document.getElementById('enc-taxa-alfandega-pct').value) || 0;
       
@@ -544,23 +423,21 @@
       
       document.getElementById('label-valor-alfandega').innerText = `${valorAlfandega.toLocaleString('pt-PT')} Kz`;
 
-      // 4. Total Geral
       const totalGeral = produtoAoa + taxaServico + valorAlfandega;
       document.getElementById('enc-total-aoa').innerText = `${totalGeral.toLocaleString('pt-PT')} Kz`;
     }
 
-    // Salvar Encomenda na Tabela
     function salvarNovaEncomenda(event) {
       event.preventDefault();
 
       const cliente = document.getElementById('enc-cliente').value;
       const descricao = document.getElementById('enc-descricao').value;
+      const quantidade = document.getElementById('enc-qtd').value;
       const valorNad = parseFloat(document.getElementById('enc-valor-nad').value);
       const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 48;
       
       const produtoAoa = valorNad * taxaDia;
       const taxaServico = parseFloat(document.getElementById('enc-taxa-servico').value) || 0;
-      
       const temAlfandega = document.getElementById('chk-tem-alfandega').checked;
       const pctAlfandega = parseFloat(document.getElementById('enc-taxa-alfandega-pct').value) || 0;
       const valorAlfandega = temAlfandega ? (produtoAoa * pctAlfandega) / 100 : 0;
@@ -581,12 +458,13 @@
         <td><strong>${numCodigo}</strong></td>
         <td>${cliente}</td>
         <td>${descricao}</td>
+        <td><strong>${quantidade}</strong></td>
         <td>$ ${valorNad.toLocaleString('pt-PT')} NAD</td>
         <td><strong>${totalGeral.toLocaleString('pt-PT')} Kz</strong></td>
         <td><span class="badge ${badgeClass}">${estado}</span></td>
         <td style="text-align: center;">
-          <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('${numCodigo}', '${cliente}', '${descricao}', '${valorNad}', '${produtoAoa}', '${taxaServico}', '${valorAlfandega}', '${totalGeral}')"><i class="fas fa-file-pdf"></i> PDF</button>
-          <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('${numCodigo}', '${cliente}', '${descricao}', '${valorNad}', '${totalGeral}')"><i class="fas fa-paper-plane"></i> Ops</button>
+          <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${valorNad}', '${produtoAoa}', '${taxaServico}', '${valorAlfandega}', '${totalGeral}')"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${valorNad}', '${totalGeral}')"><i class="fas fa-paper-plane"></i> Ops</button>
           <button class="btn-sm btn-delete" title="Eliminar" onclick="eliminarEncomenda('${rowId}', '${numCodigo}')"><i class="fas fa-trash"></i></button>
         </td>
       `;
@@ -594,23 +472,21 @@
       document.getElementById('tabela-encomendas').appendChild(novaLinha);
 
       alert(`Encomenda ${numCodigo} guardada com sucesso!`);
-      event.target.reset();
+      document.getElementById('form-encomenda').reset();
       fecharModalNovaEncomenda();
     }
 
-    // Eliminar Encomenda
     function eliminarEncomenda(rowId, codigo) {
       if (confirm(`Tem a certeza que deseja eliminar a encomenda ${codigo}?`)) {
         const linha = document.getElementById(rowId);
         if (linha) {
           linha.remove();
-          alert(`Encomenda ${codigo} eliminada com sucesso.`);
+          alert(`Encomenda ${codigo} eliminada.`);
         }
       }
     }
 
-    // Gerar PDF da Encomenda Completo
-    function gerarPDFEncomenda(codigo, cliente, descricao, valorNad, produtoAoa, taxaServico, valorAlfandega, totalGeral) {
+    function gerarPDFEncomenda(codigo, cliente, descricao, quantidade, valorNad, produtoAoa, taxaServico, valorAlfandega, totalGeral) {
       const janelaPDF = window.open('', '_blank');
       janelaPDF.document.write(`
         <!DOCTYPE html>
@@ -620,15 +496,12 @@
           <style>
             body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; }
             .header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 15px; margin-bottom: 25px; }
-            .header h1 { color: #1e3a5f; margin: 0; }
             .info-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
-            .info-box p { margin: 8px 0; font-size: 14px; }
             table { width: 100%; border-collapse: collapse; margin-top: 15px; }
             th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; font-size: 13px; }
             th { background: #f1f5f9; }
             .total-row { font-weight: bold; background: #eff6ff; color: #1d4ed8; }
-            .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #64748b; }
-            .btn-print { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; margin-bottom: 20px; }
+            .btn-print { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
             @media print { .btn-print { display: none; } }
           </style>
         </head>
@@ -642,6 +515,7 @@
             <p><strong>Código da Encomenda:</strong> ${codigo}</p>
             <p><strong>Cliente Requerente:</strong> ${cliente}</p>
             <p><strong>Descrição do Item:</strong> ${descricao}</p>
+            <p><strong>Quantidade:</strong> ${quantidade}</p>
             <p><strong>Data de Emissão:</strong> ${new Date().toLocaleDateString('pt-PT')}</p>
           </div>
 
@@ -656,7 +530,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>Custo do Produto na Namíbia</td>
+                <td>Custo do Produto (${quantidade}x) na Namíbia</td>
                 <td>$ ${parseFloat(valorNad).toLocaleString('pt-PT')} NAD</td>
                 <td>${parseFloat(produtoAoa).toLocaleString('pt-PT')} Kz</td>
               </tr>
@@ -676,48 +550,36 @@
               </tr>
             </tbody>
           </table>
-
-          <div class="footer">
-            APSAN, LDA - Serviços Integrados Angola-Namíbia
-          </div>
         </body>
         </html>
       `);
       janelaPDF.document.close();
     }
 
-    // Enviar mensagem direta para Operações
-    function enviarParaOperacoes(codigo, cliente, descricao, valorNad, totalGeral) {
+    function enviarParaOperacoes(codigo, cliente, descricao, quantidade, valorNad, totalGeral) {
       const mensagem = `*APSAN, LDA - NOTIFICAÇÃO DE OPERAÇÕES*%0A%0A` +
         `📦 *Nova Encomenda Aprovada para Compras na Namíbia!*%0A` +
         `• *Código:* ${codigo}%0A` +
         `• *Cliente:* ${cliente}%0A` +
         `• *Descrição:* ${descricao}%0A` +
+        `• *Quantidade:* ${quantidade}%0A` +
         `• *Valor de Compra Namíbia:* $ ${valorNad} NAD%0A` +
-        `• *Total Cobrado (Com Serviço/Alfândega):* ${totalGeral} Kz%0A%0A` +
+        `• *Total Cobrado:* ${totalGeral} Kz%0A%0A` +
         ` Favor proceder com a compra e logística de envio.`;
 
-      alert(`A abrir notificação para o departamento de Operações!`);
       window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
     }
 
-    // Registar Transação Básica (Aba 1)
     function registarTransacao(event) {
       event.preventDefault();
-      const cliente = document.getElementById('cliente').value;
-      const valor = document.getElementById('valor').value;
-      alert(`Transação no valor de ${valor} Kz para o cliente "${cliente}" registada com sucesso!`);
-      event.target.reset();
+      alert("Transação guardada!");
     }
 
-    // Conversor Rápido (Aba 2)
     function converterMoeda(origem) {
       const aoa = parseFloat(document.getElementById('calc-aoa').value) || 0;
-      const taxa = parseFloat(document.getElementById('calc-taxa').value) || 48;
-      
+      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 48;
       if (origem === 'AOA' && taxa > 0) {
-        const nad = (aoa / taxa).toFixed(2);
-        document.getElementById('calc-resultado').innerText = `$ ${nad} NAD`;
+        document.getElementById('calc-resultado').innerText = `$ ${(aoa / taxa).toFixed(2)} NAD`;
       }
     }
   </script>

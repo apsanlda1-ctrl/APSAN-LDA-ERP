@@ -1,655 +1,2048 @@
-/**
- * APSAN, Lda - Sistema de Gestão v2.1
- * JavaScript Principal - Sincronização automática + Exportação limpa
- */
+/* ============================================
+   APSAN, LDA - Sistema de Gestão
+   + Departamento de Tradução Oficial Juramentada
+   Folha de Estilos Principal
+   ============================================ */
 
-const DEPARTAMENTOS = {
-    acompanhamento: {
-        nome: "Acompanhamento Hospitalar",
-        username: "admin.apsan",
-        password: "apsan2026",
-        menu: "menu-acompanhamento",
-        cor: "#2563eb",
-        userName: "Dr. Silva",
-        icon: "fa-user-md"
-    },
-    traducao: {
-        nome: "Tradução Oficial Juramentada",
-        username: "traducao.apsan",
-        password: "trad2026",
-        menu: "menu-traducao",
-        cor: "#7c3aed",
-        userName: "Trad. Ana",
-        icon: "fa-stamp"
-    },
-    administrativo: {
-        nome: "Administrativo",
-        username: "administrativo.apsan",
-        password: "adm2026",
-        menu: "menu-administrativo",
-        cor: "#64748b",
-        userName: "Adm. Carlos",
-        icon: "fa-user-tie"
-    },
-    financeiro: {
-        nome: "Financeiro",
-        username: "financeiro.apsan",
-        password: "fin2026",
-        menu: "menu-financeiro",
-        cor: "#059669",
-        userName: "Fin. João",
-        icon: "fa-chart-line"
+/* Reset e Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #dbeafe;
+    --secondary: #64748b;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --info: #3b82f6;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+    --radius-lg: 12px;
+    --sidebar-width: 280px;
+    --sidebar-collapsed: 80px;
+    --header-height: 70px;
+    --purple: #7c3aed;
+    --purple-light: #ede9fe;
+    --purple-dark: #6d28d9;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: #f1f5f9;
+    color: var(--dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Telas */
+.screen {
+    display: none;
+    min-height: 100vh;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* ============================================
+   LOGIN
+   ============================================ */
+.login-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    padding: 20px;
+}
+
+.login-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 480px;
+    overflow: hidden;
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.logo-section {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: var(--white);
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.logo-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 36px;
+}
+
+.logo-section h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.logo-section p {
+    opacity: 0.9;
+    font-size: 16px;
+}
+
+.login-form {
+    padding: 40px 30px;
+}
+
+.login-form h2 {
+    font-size: 22px;
+    margin-bottom: 24px;
+    color: var(--dark);
+    text-align: center;
+}
+
+.department-selector {
+    margin-bottom: 24px;
+}
+
+.department-selector label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--dark);
+    font-size: 14px;
+}
+
+.department-selector select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 15px;
+    background: var(--white);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.department-selector select:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+    font-size: 16px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 15px;
+    transition: all 0.3s;
+}
+
+.input-group input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.btn-login {
+    width: 100%;
+    padding: 14px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn-login:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.login-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+}
+
+.login-footer a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+.login-footer span {
+    color: var(--secondary);
+}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--white);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s;
+    z-index: 100;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed);
+}
+
+.sidebar-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo-small {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.logo-small i {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    color: var(--white);
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle-sidebar {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: var(--radius);
+    transition: all 0.3s;
+}
+
+.toggle-sidebar:hover {
+    background: var(--light);
+    color: var(--primary);
+}
+
+.user-info {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.user-avatar {
+    width: 48px;
+    height: 48px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.user-details h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.user-details span {
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    overflow-y: auto;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+}
+
+.sidebar-nav li {
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--secondary);
+    font-weight: 500;
+    transition: all 0.3s;
+    margin-bottom: 4px;
+}
+
+.sidebar-nav li:hover,
+.sidebar-nav li.active {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.sidebar-nav li i {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.btn-logout {
+    width: 100%;
+    padding: 12px;
+    background: #fee2e2;
+    color: var(--danger);
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s;
+}
+
+.btn-logout:hover {
+    background: var(--danger);
+    color: var(--white);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+.main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+.sidebar.collapsed + .main-content {
+    margin-left: var(--sidebar-collapsed);
+}
+
+/* Header */
+.top-header {
+    height: var(--header-height);
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.header-left h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.breadcrumb {
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.notification-bell {
+    position: relative;
+    font-size: 20px;
+    color: var(--secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.notification-bell:hover {
+    background: var(--light);
+    color: var(--primary);
+}
+
+.notification-bell .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--danger);
+    color: var(--white);
+    font-size: 11px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.date-time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 14px;
+}
+
+#current-date {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+#current-time {
+    color: var(--secondary);
+    font-size: 13px;
+}
+
+/* Content Sections */
+.content-section {
+    display: none;
+    padding: 30px;
+    animation: fadeIn 0.3s ease;
+}
+
+.content-section.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ============================================
+   DASHBOARD
+   ============================================ */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.stat-icon.blue { background: #dbeafe; color: #2563eb; }
+.stat-icon.green { background: #d1fae5; color: #10b981; }
+.stat-icon.orange { background: #fef3c7; color: #f59e0b; }
+.stat-icon.red { background: #fee2e2; color: #ef4444; }
+.stat-icon.purple { background: #ede9fe; color: #7c3aed; }
+
+.stat-info h3 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+}
+
+.stat-info p {
+    font-size: 14px;
+    color: var(--secondary);
+    margin-bottom: 4px;
+}
+
+.trend {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.trend.up { color: var(--success); }
+.trend.down { color: var(--danger); }
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 24px;
+}
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--dark);
+}
+
+.card-header h3 i {
+    color: var(--primary);
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* ============================================
+   TABLES
+   ============================================ */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+    font-weight: 600;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--secondary);
+    background: #f8fafc;
+}
+
+.data-table tbody tr {
+    transition: all 0.2s;
+}
+
+.data-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.data-table td {
+    font-size: 14px;
+    color: var(--dark);
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.internado {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.status-badge.ambulatorio {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.alta {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.status-badge.urgente {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ============================================
+   TOOLBAR
+   ============================================ */
+.section-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.section-toolbar h3 {
+    flex: 1;
+    min-width: 300px;
+}
+
+.search-box {
+    position: relative;
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+}
+
+.search-box i {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--secondary);
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px 16px 12px 44px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.search-box input:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* Buttons */
+.btn-primary {
+    padding: 12px 24px;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-secondary {
+    padding: 12px 24px;
+    background: var(--white);
+    color: var(--dark);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-success {
+    padding: 12px 24px;
+    background: var(--success);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-success:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.btn-danger {
+    padding: 12px 24px;
+    background: var(--danger);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-danger:hover {
+    background: #dc2626;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: var(--secondary);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.btn-close:hover {
+    background: #fee2e2;
+    color: var(--danger);
+}
+
+/* Filter Tabs */
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-tabs .tab {
+    padding: 8px 16px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--secondary);
+}
+
+.filter-tabs .tab.active,
+.filter-tabs .tab:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--secondary);
+}
+
+.page-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-page {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.btn-page.active,
+.btn-page:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+/* ============================================
+   MODALS
+   ============================================ */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1001;
+    box-shadow: var(--shadow-lg);
+    animation: modalSlide 0.3s ease;
+}
+
+.modal-content.modal-large {
+    max-width: 900px;
+}
+
+@keyframes modalSlide {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-body {
+    padding: 24px;
+}
+
+.modal-footer {
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* ============================================
+   FORMS
+   ============================================ */
+.form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-section {
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+.form-section h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.form-group .required {
+    color: var(--danger);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s;
+    background: var(--white);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* ============================================
+   FILE UPLOAD
+   ============================================ */
+.file-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    background: #f8fafc;
+}
+
+.file-upload-area:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.file-upload-area .upload-content i {
+    font-size: 48px;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.file-upload-area .upload-content p {
+    font-size: 16px;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.file-upload-area .upload-content span {
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background: #f0fdf4;
+    border-radius: var(--radius);
+    border: 1px solid #86efac;
+    margin-top: 12px;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-info i {
+    font-size: 24px;
+    color: var(--success);
+}
+
+.file-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name {
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.file-size {
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.btn-remove-file {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #fee2e2;
+    color: var(--danger);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.btn-remove-file:hover {
+    background: var(--danger);
+    color: var(--white);
+}
+
+/* ============================================
+   APPOINTMENTS
+   ============================================ */
+.appointment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.appointment-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: var(--radius);
+    border-left: 4px solid var(--primary);
+    transition: all 0.3s;
+}
+
+.appointment-item:hover {
+    background: var(--primary-light);
+}
+
+.appointment-time {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 60px;
+}
+
+.appointment-info {
+    flex: 1;
+}
+
+.appointment-info strong {
+    display: block;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 4px;
+}
+
+.appointment-info span {
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status.confirmed {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* ============================================
+   LEITOS
+   ============================================ */
+.leitos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.leito-card {
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border);
+    transition: all 0.3s;
+}
+
+.leito-card.ocupado {
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+.leito-card.livre {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.leito-card.manutencao {
+    border-color: #f59e0b;
+    background: #fffbeb;
+}
+
+.leito-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.leito-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.leito-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.leito-card.ocupado .leito-status {
+    background: #ef4444;
+    color: var(--white);
+}
+
+.leito-card.livre .leito-status {
+    background: #10b981;
+    color: var(--white);
+}
+
+.leito-card.manutencao .leito-status {
+    background: #f59e0b;
+    color: var(--white);
+}
+
+/* ============================================
+   REPORTS
+   ============================================ */
+.reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.report-card {
+    padding: 30px;
+    background: var(--white);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.report-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.report-card i {
+    font-size: 40px;
+    color: var(--primary);
+    margin-bottom: 16px;
+}
+
+.report-card h4 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--dark);
+}
+
+.report-card p {
+    font-size: 14px;
+    color: var(--secondary);
+}
+
+/* ============================================
+   EMPTY STATES
+   ============================================ */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--secondary);
+}
+
+.empty-state i {
+    font-size: 64px;
+    margin-bottom: 20px;
+    color: #cbd5e1;
+}
+
+.empty-state p {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.empty-state span {
+    font-size: 14px;
+}
+
+.empty-chart {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--secondary);
+}
+
+.empty-chart i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: #cbd5e1;
+}
+
+.empty-chart p {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.empty-chart span {
+    font-size: 13px;
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--dark);
+    color: var(--white);
+    padding: 16px 24px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow-lg);
+    transform: translateX(150%);
+    transition: transform 0.3s ease;
+    z-index: 2000;
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast i {
+    color: var(--success);
+    font-size: 20px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+    .sidebar {
+        transform: translateX(-100%);
     }
-};
-
-let currentDepartment = null;
-let currentEditingId = null;
-let currentLang = 'pt';
-let pacientes = [];
-let viagensMenores = [];
-let documentosTraduzidos = [];
-let clientesTraducao = [];
-
-// ============================================
-// INICIALIZAÇÃO
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-    renderPacientes();
-    renderCalendar();
-    updateDepartmentTheme();
-    setupSyncListeners();
-
-    const savedPacientes = localStorage.getItem('apsan_pacientes');
-    if (savedPacientes) { pacientes = JSON.parse(savedPacientes); renderPacientes(); updateStats(); }
-    const savedViagens = localStorage.getItem('apsan_viagens');
-    if (savedViagens) { viagensMenores = JSON.parse(savedViagens); }
-});
-
-// ============================================
-// SINCRONIZAÇÃO AUTOMÁTICA DOS CAMPOS
-// ============================================
-function setupSyncListeners() {
-    // PT - sincronizar campos da declaração
-    var camposPT = ['pt-pai-nome', 'pt-mae-nome', 'pt-crianca-nome', 'pt-viagem-destino', 'pt-viagem-acompanhante', 'pt-viagem-data-partida', 'pt-viagem-data-regresso'];
-    camposPT.forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.addEventListener('input', syncDeclaracaoPT);
-    });
-
-    // EN - sincronizar campos da declaração
-    var camposEN = ['en-pai-nome', 'en-mae-nome', 'en-crianca-nome', 'en-viagem-destino', 'en-viagem-acompanhante', 'en-viagem-data-partida', 'en-viagem-data-regresso'];
-    camposEN.forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.addEventListener('input', syncDeclaracaoEN);
-    });
-}
-
-function syncDeclaracaoPT() {
-    var crianca = document.getElementById('pt-crianca-nome');
-    var destino = document.getElementById('pt-viagem-destino');
-    var acomp = document.getElementById('pt-viagem-acompanhante');
-    var partida = document.getElementById('pt-viagem-data-partida');
-    var regresso = document.getElementById('pt-viagem-data-regresso');
-    var pai = document.getElementById('pt-pai-nome');
-    var mae = document.getElementById('pt-mae-nome');
-
-    var syncCrianca = document.getElementById('sync-pt-crianca-nome');
-    var syncDestino = document.getElementById('sync-pt-destino');
-    var syncAcomp = document.getElementById('sync-pt-acompanhante');
-    var syncPartida = document.getElementById('sync-pt-data-inicio');
-    var syncRegresso = document.getElementById('sync-pt-data-fim');
-    var syncPai = document.getElementById('sync-pt-ass-pai');
-    var syncMae = document.getElementById('sync-pt-ass-mae');
-
-    if (syncCrianca && crianca) syncCrianca.textContent = crianca.value || '____________________';
-    if (syncDestino && destino) syncDestino.textContent = destino.value || '____________________';
-    if (syncAcomp && acomp) syncAcomp.textContent = acomp.value || '____________________';
-    if (syncPartida && partida) syncPartida.textContent = formatDatePT(partida.value) || '____________________';
-    if (syncRegresso && regresso) syncRegresso.textContent = formatDatePT(regresso.value) || '____________________';
-    if (syncPai && pai) syncPai.textContent = pai.value || '';
-    if (syncMae && mae) syncMae.textContent = mae.value || '';
-}
-
-function syncDeclaracaoEN() {
-    var crianca = document.getElementById('en-crianca-nome');
-    var destino = document.getElementById('en-viagem-destino');
-    var acomp = document.getElementById('en-viagem-acompanhante');
-    var partida = document.getElementById('en-viagem-data-partida');
-    var regresso = document.getElementById('en-viagem-data-regresso');
-    var pai = document.getElementById('en-pai-nome');
-    var mae = document.getElementById('en-mae-nome');
-
-    var syncCrianca = document.getElementById('sync-en-crianca-nome');
-    var syncDestino = document.getElementById('sync-en-destino');
-    var syncAcomp = document.getElementById('sync-en-acompanhante');
-    var syncPartida = document.getElementById('sync-en-data-inicio');
-    var syncRegresso = document.getElementById('sync-en-data-fim');
-    var syncPai = document.getElementById('sync-en-ass-pai');
-    var syncMae = document.getElementById('sync-en-ass-mae');
-
-    if (syncCrianca && crianca) syncCrianca.textContent = crianca.value || '____________________';
-    if (syncDestino && destino) syncDestino.textContent = destino.value || '____________________';
-    if (syncAcomp && acomp) syncAcomp.textContent = acomp.value || '____________________';
-    if (syncPartida && partida) syncPartida.textContent = formatDatePT(partida.value) || '____________________';
-    if (syncRegresso && regresso) syncRegresso.textContent = formatDatePT(regresso.value) || '____________________';
-    if (syncPai && pai) syncPai.textContent = pai.value || '';
-    if (syncMae && mae) syncMae.textContent = mae.value || '';
-}
-
-function formatDatePT(dateStr) {
-    if (!dateStr) return '';
-    var d = new Date(dateStr);
-    return d.getDate() + ' de ' + getMonthNamePT(d.getMonth()) + ' de ' + d.getFullYear();
-}
-
-function getMonthNamePT(month) {
-    var meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
-    return meses[month];
-}
-
-// ============================================
-// LOGIN
-// ============================================
-function updateDepartmentTheme() {
-    var dept = document.getElementById('department-select');
-    if (!dept) return;
-    var deptKey = dept.value;
-    var loginBtn = document.querySelector('.btn-login');
-    if (deptKey && DEPARTAMENTOS[deptKey]) {
-        if (loginBtn) loginBtn.style.background = DEPARTAMENTOS[deptKey].cor;
-        var userEl = document.getElementById('username');
-        var passEl = document.getElementById('password');
-        if (userEl) userEl.value = DEPARTAMENTOS[deptKey].username;
-        if (passEl) { passEl.value = ''; passEl.placeholder = 'Palavra-passe'; }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
-function login() {
-    var deptKey = document.getElementById('department-select').value;
-    var username = document.getElementById('username').value.trim();
-    var password = document.getElementById('password').value;
-
-    if (!deptKey) { showToast('Por favor, selecione um departamento!', 'error'); return; }
-    if (!username || !password) { showToast('Por favor, preencha todos os campos!', 'error'); return; }
-
-    var dept = DEPARTAMENTOS[deptKey];
-    if (username !== dept.username || password !== dept.password) {
-        showToast('Credenciais incorretas! Verifique o utilizador e palavra-passe.', 'error');
-        return;
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
     }
-
-    currentDepartment = deptKey;
-    configurarInterfaceDepartamento(dept);
-    document.getElementById('login-screen').classList.remove('active');
-    document.getElementById('dashboard-screen').classList.add('active');
-
-    if (deptKey === 'traducao') showSection('traducao-dashboard');
-    else if (deptKey === 'administrativo') showSection('admin-dashboard');
-    else if (deptKey === 'financeiro') showSection('fin-dashboard');
-    else showSection('dashboard');
-
-    showToast('Bem-vindo ao Departamento de ' + dept.nome + '!');
-}
-
-function configurarInterfaceDepartamento(dept) {
-    document.getElementById('user-name').textContent = dept.userName;
-    document.getElementById('user-dept').textContent = dept.nome;
-    var avatar = document.querySelector('.user-avatar');
-    avatar.innerHTML = '<i class="fas ' + dept.icon + '"></i>';
-    avatar.style.background = dept.cor + '20';
-    avatar.style.color = dept.cor;
-    document.querySelectorAll('.sidebar-nav ul').forEach(function(ul) { ul.style.display = 'none'; });
-    var menuAtivo = document.getElementById(dept.menu);
-    if (menuAtivo) menuAtivo.style.display = 'block';
-    document.getElementById('breadcrumb-text').textContent = 'APSAN > ' + dept.nome + ' > Dashboard';
-}
-
-function logout() {
-    if (confirm('Tem certeza que deseja terminar a sessão?')) {
-        currentDepartment = null;
-        document.getElementById('dashboard-screen').classList.remove('active');
-        document.getElementById('login-screen').classList.add('active');
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('department-select').value = '';
-        showToast('Sessão terminada com sucesso!');
+    
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .section-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .section-toolbar h3 {
+        min-width: auto;
+    }
+    
+    .search-box {
+        max-width: 100%;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .document-editor-card {
+        padding: 20px !important;
+    }
+    
+    .form-row-document {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .assinaturas-area {
+        flex-direction: column !important;
+        gap: 30px !important;
+    }
+    
+    .language-tabs {
+        flex-direction: column;
     }
 }
 
-// ============================================
-// NAVEGAÇÃO
-// ============================================
-function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('collapsed');
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
 }
 
-function showSection(sectionId) {
-    document.querySelectorAll('.sidebar-nav li').forEach(function(li) { li.classList.remove('active'); });
-    if (event && event.currentTarget) event.currentTarget.classList.add('active');
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
 
-    var titles = {
-        'dashboard': 'Dashboard', 'pacientes': 'Registo de Pacientes', 'consultas': 'Consultas',
-        'internamentos': 'Internamentos', 'relatorios': 'Relatórios',
-        'traducao-dashboard': 'Dashboard', 'viagem-menores': 'Viagem para Menores',
-        'traducao-documentos': 'Documentos Traduzidos', 'traducao-clientes': 'Clientes',
-        'admin-dashboard': 'Dashboard', 'admin-funcionarios': 'Funcionários',
-        'admin-departamentos': 'Departamentos', 'admin-documentos': 'Documentos Internos',
-        'admin-relatorios': 'Relatórios Gerais',
-        'fin-dashboard': 'Dashboard', 'fin-faturacao': 'Faturação', 'fin-pagamentos': 'Pagamentos',
-        'fin-orcamento': 'Orçamento', 'fin-relatorios': 'Relatórios Financeiros',
-        'configuracoes': 'Configurações'
-    };
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
 
-    var title = titles[sectionId] || sectionId;
-    document.getElementById('page-title').textContent = title;
-    if (currentDepartment && DEPARTAMENTOS[currentDepartment]) {
-        document.getElementById('breadcrumb-text').textContent = 'APSAN > ' + DEPARTAMENTOS[currentDepartment].nome + ' > ' + title;
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Action Buttons in Table */
+.action-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-action {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+.btn-action.edit {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.btn-action.edit:hover {
+    background: #2563eb;
+    color: white;
+}
+
+.btn-action.view {
+    background: #d1fae5;
+    color: #10b981;
+}
+
+.btn-action.view:hover {
+    background: #10b981;
+    color: white;
+}
+
+.btn-action.delete {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.btn-action.delete:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* Calendar */
+.calendar-view {
+    background: var(--white);
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.calendar-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.btn-nav {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    border-radius: var(--radius);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.btn-nav:hover {
+    background: var(--primary);
+    color: var(--white);
+    border-color: var(--primary);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-day-header {
+    text-align: center;
+    padding: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--secondary);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: var(--primary-light);
+}
+
+.calendar-day.today {
+    background: var(--primary);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.calendar-day.has-event::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    width: 6px;
+    height: 6px;
+    background: var(--warning);
+    border-radius: 50%;
+}
+
+.calendar-day.other-month {
+    color: #cbd5e1;
+}
+
+/* Settings */
+.settings-form {
+    max-width: 600px;
+}
+
+.settings-form .form-group {
+    margin-bottom: 20px;
+}
+
+.settings-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.settings-form input,
+.settings-form select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+}
+
+.settings-form input:focus,
+.settings-form select:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* ============================================
+   LANGUAGE TABS
+   ============================================ */
+.language-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 24px;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    width: fit-content;
+}
+
+.lang-tab {
+    padding: 12px 24px;
+    background: var(--white);
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    color: var(--secondary);
+}
+
+.lang-tab:hover {
+    background: #f8fafc;
+    color: var(--dark);
+}
+
+.lang-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.lang-tab i {
+    font-size: 16px;
+}
+
+/* ============================================
+   DOCUMENTO NOTORIADO - VIAGEM PARA MENORES
+   ============================================ */
+.document-editor-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.document-header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: var(--white);
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.document-header h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.document-subtitle {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+.document-body {
+    padding: 40px;
+    background: #fafbfc;
+}
+
+.document-footer {
+    padding: 20px 30px;
+    background: #f1f5f9;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.document-footer p {
+    margin-bottom: 4px;
+}
+
+/* Notoriado Header */
+.notoriado-header {
+    background: var(--white);
+    border: 2px solid #1e3a5f;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.notoriado-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.notoriado-line:last-child {
+    margin-bottom: 0;
+}
+
+.notoriado-label {
+    font-weight: 700;
+    color: #1e3a5f;
+    min-width: 140px;
+    font-size: 14px;
+}
+
+.notoriado-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    background: transparent;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+.notoriado-input:focus {
+    outline: none;
+    border-bottom-color: #1e3a5f;
+}
+
+/* Texto do Notoriado */
+.notoriado-texto {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--dark);
+}
+
+.texto-intro {
+    margin-bottom: 24px;
+    text-align: justify;
+}
+
+.inline-input {
+    display: inline-block;
+    width: 200px;
+    padding: 4px 8px;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--dark);
+    margin: 0 4px;
+    transition: all 0.3s;
+}
+
+.inline-input:focus {
+    outline: none;
+    border-bottom-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.inline-input[type="date"] {
+    width: 150px;
+}
+
+/* Declarante Boxes */
+.declarante-box {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+}
+
+.declarante-box h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.declarante-box h4 i {
+    color: var(--primary);
+}
+
+.criança-box {
+    border-color: #dbeafe;
+    background: #f8fafc;
+}
+
+.criança-box h4 {
+    color: #2563eb;
+}
+
+.viagem-box {
+    border-color: #d1fae5;
+    background: #f0fdf4;
+}
+
+.viagem-box h4 {
+    color: #059669;
+}
+
+/* Form Row Document */
+.form-row-document {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.form-group-doc {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group-doc.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group-doc label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group-doc input,
+.form-group-doc select,
+.form-group-doc textarea {
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.3s;
+    background: var(--white);
+}
+
+.form-group-doc input:focus,
+.form-group-doc select:focus,
+.form-group-doc textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-group-doc textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+/* Declaração Texto */
+.declaracao-texto {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 24px 0;
+    text-align: justify;
+    line-height: 2;
+}
+
+.declaracao-texto p {
+    margin-bottom: 16px;
+}
+
+.declaracao-texto p:last-child {
+    margin-bottom: 0;
+}
+
+/* Assinaturas */
+.assinaturas-area {
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+    margin-top: 40px;
+    padding-top: 30px;
+}
+
+.assinatura-box {
+    text-align: center;
+    flex: 1;
+}
+
+.assinatura-linha {
+    width: 100%;
+    height: 1px;
+    background: var(--dark);
+    margin-bottom: 12px;
+}
+
+.assinatura-box span {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.assinatura-nome {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    font-size: 14px;
+    font-family: inherit;
+    background: transparent;
+    color: var(--dark);
+}
+
+.assinatura-nome:focus {
+    outline: none;
+    border-bottom-color: var(--primary);
+}
+
+/* ============================================
+   PRINT STYLES - PARA EXPORTAR PDF
+   ============================================ */
+@media print {
+    .sidebar,
+    .top-header,
+    .section-toolbar,
+    .document-footer,
+    .language-tabs,
+    .btn-primary,
+    .btn-secondary,
+    .btn-success {
+        display: none !important;
+    }
+    
+    .main-content {
+        margin-left: 0 !important;
+    }
+    
+    .document-editor-card {
+        box-shadow: none !important;
+        border: none !important;
+    }
+    
+    .document-body {
+        padding: 20px !important;
+    }
+    
+    .declarante-box {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    .assinaturas-area {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-top: 60px;
+    }
+    
+    body {
+        background: white !important;
+    }
+    
+    .content-section {
+        display: block !important;
+        padding: 0 !important;
+    }
+    
+    #section-viagem-menores {
+        display: block !important;
+    }
+    
+    #doc-en,
+    #doc-pt {
+        display: block !important;
     }
 
-    document.querySelectorAll('.content-section').forEach(function(s) { s.classList.remove('active'); });
-    var section = document.getElementById('section-' + sectionId);
-    if (section) section.classList.add('active');
+    input,
+    select,
+    textarea {
+        border: none !important;
+        border-bottom: 1px solid #ccc !important;
+        background: transparent !important;
+    }
 
-    if (sectionId === 'dashboard' || sectionId === 'traducao-dashboard' || sectionId === 'admin-dashboard' || sectionId === 'fin-dashboard') {
-        updateStats();
+    .notoriado-header {
+        border: 2px solid #1e3a5f !important;
+    }
+
+    .declarante-box {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+    }
+
+    .declaracao-texto {
+        border: 1px solid #ccc !important;
     }
 }
 
-function switchLanguage(lang) {
-    currentLang = lang;
-    document.getElementById('tab-pt').classList.toggle('active', lang === 'pt');
-    document.getElementById('tab-en').classList.toggle('active', lang === 'en');
-    document.getElementById('doc-pt').style.display = lang === 'pt' ? 'block' : 'none';
-    document.getElementById('doc-en').style.display = lang === 'en' ? 'block' : 'none';
+/* ============================================
+   CAMPO ERRO - VALIDAÇÃO
+   ============================================ */
+.campo-erro {
+    border-color: var(--danger) !important;
+    background-color: #fef2f2 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2) !important;
 }
 
-// ============================================
-// DATA E HORA
-// ============================================
-function updateDateTime() {
-    var now = new Date();
-    var dateEl = document.getElementById('current-date');
-    var timeEl = document.getElementById('current-time');
-    if (dateEl) dateEl.textContent = now.toLocaleDateString('pt-PT', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    if (timeEl) timeEl.textContent = now.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+.campo-erro:focus {
+    outline: none !important;
+    border-color: #dc2626 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.3) !important;
 }
-
-// ============================================
-// PACIENTES - CRUD
-// ============================================
-function renderPacientes(filter) {
-    if (!filter) filter = 'todos';
-    var tbody = document.getElementById('pacientes-tbody');
-    if (!tbody) return;
-    tbody.innerHTML = '';
-    var filtered = pacientes;
-    if (filter !== 'todos') filtered = pacientes.filter(function(p) { return p.estado === filter; });
-
-    if (filtered.length === 0) {
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td colspan="8" style="text-align: center; padding: 40px; color: #94a3b8;"><i class="fas fa-inbox" style="font-size: 32px; display: block; margin-bottom: 12px;"></i>Nenhum paciente registado. Clique em "Novo Paciente" para começar.</td>';
-        tbody.appendChild(tr);
-        var pag = document.getElementById('pagination-area');
-        if (pag) pag.style.display = 'none';
-        return;
-    }
-    var pag = document.getElementById('pagination-area');
-    if (pag) pag.style.display = 'flex';
-
-    filtered.forEach(function(p) {
-        var tr = document.createElement('tr');
-        tr.innerHTML = '<td><strong>' + p.processo + '</strong></td><td>' + p.nome + '</td><td>' + p.idade + ' anos</td><td>' + (p.genero === 'M' ? 'Masculino' : p.genero === 'F' ? 'Feminino' : 'Outro') + '</td><td>' + p.telefone + '</td><td><span class="status-badge ' + p.estado + '">' + getStatusLabel(p.estado) + '</span></td><td>' + formatDate(p.dataRegisto) + '</td><td><div class="action-btns"><button class="btn-action view" onclick="viewPaciente(' + p.id + ')" title="Ver"><i class="fas fa-eye"></i></button><button class="btn-action edit" onclick="editPaciente(' + p.id + ')" title="Editar"><i class="fas fa-edit"></i></button><button class="btn-action delete" onclick="confirmDeletePaciente(' + p.id + ')" title="Eliminar"><i class="fas fa-trash"></i></button></div></td>';
-        tbody.appendChild(tr);
-    });
-}
-
-function getStatusLabel(s) {
-    var labels = { 'internado': 'Internado', 'ambulatorio': 'Ambulatório', 'alta': 'Alta Médica', 'urgente': 'Urgente' };
-    return labels[s] || s;
-}
-
-function formatDate(d) {
-    if (!d) return '';
-    return new Date(d).toLocaleDateString('pt-PT');
-}
-
-function filterPacientes(filter) {
-    document.querySelectorAll('.filter-tabs .tab').forEach(function(t) { t.classList.remove('active'); });
-    if (event && event.target) event.target.classList.add('active');
-    renderPacientes(filter);
-}
-
-function searchPacientes() {
-    var term = document.getElementById('search-pacientes').value.toLowerCase();
-    var tbody = document.getElementById('pacientes-tbody');
-    if (!tbody) return;
-    Array.from(tbody.getElementsByTagName('tr')).forEach(function(row) {
-        row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
-    });
-}
-
-// ============================================
-// MODAIS
-// ============================================
-function openModal(id) {
-    var m = document.getElementById('modal-' + id);
-    if (m) { m.classList.add('active'); document.body.style.overflow = 'hidden'; }
-}
-function closeModal(id) {
-    var m = document.getElementById('modal-' + id);
-    if (m) { m.classList.remove('active'); document.body.style.overflow = ''; }
-    currentEditingId = null;
-}
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') document.querySelectorAll('.modal.active').forEach(function(m) { m.classList.remove('active'); });
-});
-
-// ============================================
-// CRUD PACIENTES
-// ============================================
-function savePaciente() {
-    var nome = document.getElementById('pac-nome').value;
-    var processo = document.getElementById('pac-processo').value;
-    var nascimento = document.getElementById('pac-nascimento').value;
-    var genero = document.getElementById('pac-genero').value;
-    var telefone = document.getElementById('pac-telefone').value;
-
-    if (!nome || !processo || !nascimento || !genero || !telefone) {
-        showToast('Por favor, preencha todos os campos obrigatórios!', 'error');
-        return;
-    }
-
-    var birthDate = new Date(nascimento);
-    var today = new Date();
-    var idade = today.getFullYear() - birthDate.getFullYear();
-    var monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) idade--;
-
-    pacientes.push({
-        id: Date.now(), processo: processo, nome: nome, nascimento: nascimento, idade: idade,
-        genero: genero, telefone: telefone,
-        email: document.getElementById('pac-email') ? document.getElementById('pac-email').value : '',
-        morada: document.getElementById('pac-morada') ? document.getElementById('pac-morada').value : '',
-        bi: document.getElementById('pac-bi') ? document.getElementById('pac-bi').value : '',
-        nif: document.getElementById('pac-nif') ? document.getElementById('pac-nif').value : '',
-        sangue: document.getElementById('pac-sangue') ? document.getElementById('pac-sangue').value : '',
-        estadoCivil: document.getElementById('pac-estado-civil') ? document.getElementById('pac-estado-civil').value : '',
-        alergias: document.getElementById('pac-alergias') ? document.getElementById('pac-alergias').value : '',
-        emergenciaNome: document.getElementById('pac-emergencia-nome') ? document.getElementById('pac-emergencia-nome').value : '',
-        emergenciaTelefone: document.getElementById('pac-emergencia-telefone') ? document.getElementById('pac-emergencia-telefone').value : '',
-        emergenciaParentesco: document.getElementById('pac-emergencia-parentesco') ? document.getElementById('pac-emergencia-parentesco').value : '',
-        estado: 'ambulatorio', dataRegisto: new Date().toISOString().split('T')[0]
-    });
-    saveToLocalStorage();
-    var form = document.getElementById('form-paciente');
-    if (form) form.reset();
-    closeModal('novo-paciente');
-    renderPacientes(); updateStats();
-    showToast('Paciente registado com sucesso!');
-}
-
-function editPaciente(id) {
-    currentEditingId = id;
-    var p = pacientes.find(function(x) { return x.id === id; });
-    if (!p) { showToast('Paciente não encontrado!', 'error'); return; }
-    var form = document.getElementById('form-editar-paciente');
-    if (!form) return;
-    form.innerHTML = '<div class="form-section"><h4><i class="fas fa-id-card"></i> Dados Pessoais</h4><div class="form-row"><div class="form-group"><label>Nome Completo <span class="required">*</span></label><input type="text" id="edit-nome" value="' + (p.nome || '') + '" required></div><div class="form-group"><label>Nº Processo <span class="required">*</span></label><input type="text" id="edit-processo" value="' + (p.processo || '') + '" required></div></div><div class="form-row"><div class="form-group"><label>Data de Nascimento <span class="required">*</span></label><input type="date" id="edit-nascimento" value="' + (p.nascimento || '') + '" required></div><div class="form-group"><label>Género <span class="required">*</span></label><select id="edit-genero" required><option value="M" ' + (p.genero === 'M' ? 'selected' : '') + '>Masculino</option><option value="F" ' + (p.genero === 'F' ? 'selected' : '') + '>Feminino</option><option value="O" ' + (p.genero === 'O' ? 'selected' : '') + '>Outro</option></select></div></div><div class="form-row"><div class="form-group"><label>Nº BI</label><input type="text" id="edit-bi" value="' + (p.bi || '') + '"></div><div class="form-group"><label>NIF</label><input type="text" id="edit-nif" value="' + (p.nif || '') + '"></div></div></div><div class="form-section"><h4><i class="fas fa-phone"></i> Contactos</h4><div class="form-row"><div class="form-group"><label>Telefone <span class="required">*</span></label><input type="tel" id="edit-telefone" value="' + (p.telefone || '') + '" required></div><div class="form-group"><label>Email</label><input type="email" id="edit-email" value="' + (p.email || '') + '"></div></div><div class="form-row"><div class="form-group"><label>Morada</label><input type="text" id="edit-morada" value="' + (p.morada || '') + '"></div></div></div><div class="form-section"><h4><i class="fas fa-heartbeat"></i> Dados Clínicos</h4><div class="form-row"><div class="form-group"><label>Tipo Sanguíneo</label><select id="edit-sangue"><option value="">Desconhecido</option><option value="A+" ' + (p.sangue === 'A+' ? 'selected' : '') + '>A+</option><option value="A-" ' + (p.sangue === 'A-' ? 'selected' : '') + '>A-</option><option value="B+" ' + (p.sangue === 'B+' ? 'selected' : '') + '>B+</option><option value="B-" ' + (p.sangue === 'B-' ? 'selected' : '') + '>B-</option><option value="AB+" ' + (p.sangue === 'AB+' ? 'selected' : '') + '>AB+</option><option value="AB-" ' + (p.sangue === 'AB-' ? 'selected' : '') + '>AB-</option><option value="O+" ' + (p.sangue === 'O+' ? 'selected' : '') + '>O+</option><option value="O-" ' + (p.sangue === 'O-' ? 'selected' : '') + '>O-</option></select></div><div class="form-group"><label>Estado</label><select id="edit-estado"><option value="internado" ' + (p.estado === 'internado' ? 'selected' : '') + '>Internado</option><option value="ambulatorio" ' + (p.estado === 'ambulatorio' ? 'selected' : '') + '>Ambulatório</option><option value="alta" ' + (p.estado === 'alta' ? 'selected' : '') + '>Alta Médica</option><option value="urgente" ' + (p.estado === 'urgente' ? 'selected' : '') + '>Urgente</option></select></div></div><div class="form-group full-width"><label>Alergias</label><textarea id="edit-alergias" rows="3">' + (p.alergias || '') + '</textarea></div></div><div class="form-section"><h4><i class="fas fa-user-friends"></i> Emergência</h4><div class="form-row"><div class="form-group"><label>Nome</label><input type="text" id="edit-emergencia-nome" value="' + (p.emergenciaNome || '') + '"></div><div class="form-group"><label>Telefone</label><input type="tel" id="edit-emergencia-telefone" value="' + (p.emergenciaTelefone || '') + '"></div></div><div class="form-group full-width"><label>Parentesco</label><select id="edit-emergencia-parentesco"><option value="">Selecione</option><option value="conjuge" ' + (p.emergenciaParentesco === 'conjuge' ? 'selected' : '') + '>Cônjuge</option><option value="filho" ' + (p.emergenciaParentesco === 'filho' ? 'selected' : '') + '>Filho(a)</option><option value="pai" ' + (p.emergenciaParentesco === 'pai' ? 'selected' : '') + '>Pai/Mãe</option><option value="irmao" ' + (p.emergenciaParentesco === 'irmao' ? 'selected' : '') + '>Irmão(ã)</option><option value="outro" ' + (p.emergenciaParentesco === 'outro' ? 'selected' : '') + '>Outro</option></select></div></div>';
-    openModal('editar-paciente');
-}
-
-function updatePaciente() {
-    if (!currentEditingId) return;
-    var p = pacientes.find(function(x) { return x.id === currentEditingId; });
-    if (!p) return;
-    p.nome = document.getElementById('edit-nome').value;
-    p.processo = document.getElementById('edit-processo').value;
-    p.nascimento = document.getElementById('edit-nascimento').value;
-    p.genero = document.getElementById('edit-genero').value;
-    p.telefone = document.getElementById('edit-telefone').value;
-    p.email = document.getElementById('edit-email') ? document.getElementById('edit-email').value : '';
-    p.morada = document.getElementById('edit-morada') ? document.getElementById('edit-morada').value : '';
-    p.bi = document.getElementById('edit-bi') ? document.getElementById('edit-bi').value : '';
-    p.nif = document.getElementById('edit-nif') ? document.getElementById('edit-nif').value : '';
-    p.sangue = document.getElementById('edit-sangue') ? document.getElementById('edit-sangue').value : '';
-    p.alergias = document.getElementById('edit-alergias') ? document.getElementById('edit-alergias').value : '';
-    p.estado = document.getElementById('edit-estado') ? document.getElementById('edit-estado').value : 'ambulatorio';
-    p.emergenciaNome = document.getElementById('edit-emergencia-nome') ? document.getElementById('edit-emergencia-nome').value : '';
-    p.emergenciaTelefone = document.getElementById('edit-emergencia-telefone') ? document.getElementById('edit-emergencia-telefone').value : '';
-    p.emergenciaParentesco = document.getElementById('edit-emergencia-parentesco') ? document.getElementById('edit-emergencia-parentesco').value : '';
-
-    var birthDate = new Date(p.nascimento);
-    var today = new Date();
-    var idade = today.getFullYear() - birthDate.getFullYear();
-    var monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) idade--;
-    p.idade = idade;
-
-    saveToLocalStorage();
-    closeModal('editar-paciente');
-    renderPacientes(); updateStats();
-    showToast('Registo atualizado com sucesso!');
-}
-
-function confirmDeletePaciente(id) {
-    if (confirm('Tem certeza que deseja eliminar este paciente?')) deletePacienteById(id);
-}
-function deletePacienteById(id) {
-    pacientes = pacientes.filter(function(p) { return p.id !== id; });
-    saveToLocalStorage(); renderPacientes(); updateStats();
-    showToast('Paciente eliminado com sucesso!');
-}
-function deletePaciente() {
-    if (currentEditingId) { confirmDeletePaciente(currentEditingId); closeModal('editar-paciente'); }
-}
-function viewPaciente(id) {
-    var p = pacientes.find(function(x) { return x.id === id; });
-    if (!p) return;
-    alert('\n📋 FICHA DO PACIENTE\n═══════════════════════\n\n🆔 Processo: ' + p.processo + '\n👤 Nome: ' + p.nome + '\n🎂 Nasc.: ' + formatDate(p.nascimento) + ' (' + p.idade + ' anos)\n⚧ Género: ' + (p.genero === 'M' ? 'Masculino' : p.genero === 'F' ? 'Feminino' : 'Outro') + '\n🩸 Sangue: ' + (p.sangue || 'Desconhecido') + '\n\n📞 Tel: ' + p.telefone + '\n📧 Email: ' + (p.email || 'N/A') + '\n🏠 Morada: ' + (p.morada || 'N/A') + '\n\n🏥 Estado: ' + getStatusLabel(p.estado) + '\n📅 Registo: ' + formatDate(p.dataRegisto) + '\n\n⚠️ Alergias: ' + (p.alergias || 'Nenhuma') + '\n\n🚨 Emergência: ' + (p.emergenciaNome || 'N/A') + ' | ' + (p.emergenciaTelefone || 'N/A') + '\n');
-}
-
-// ============================================
-// VIAGEM PARA MENORES
-// ============================================
-function getFieldValue(id) {
-    var prefix = currentLang === 'pt' ? 'pt-' : 'en-';
-    var el = document.getElementById(prefix + id);
-    return el ? el.value.trim() : '';
-}
-
-function validarCampoObrigatorio(id, nomeCampo) {
-    var prefix = currentLang === 'pt' ? 'pt-' : 'en-';
-    var el = document.getElementById(prefix + id);
-    if (!el) { console.warn('Campo "' + prefix + id + '" não encontrado.'); return false; }
-    if (!el.value.trim()) {
-        el.classList.add('campo-erro');
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        var remover = function() { el.classList.remove('campo-erro'); el.removeEventListener('input', remover); };
-        el.addEventListener('input', remover);
-        showToast('Campo obrigatório: ' + nomeCampo, 'error');
-        el.focus();
-        return false;
-    }
-    el.classList.remove('campo-erro');
-    return true;
-}
-
-function limparFormularioViagem() {
-    if (confirm('Tem certeza que deseja limpar todos os campos?')) {
-        var prefix = currentLang === 'pt' ? 'pt-' : 'en-';
-        document.querySelectorAll('[id^="' + prefix + '"]').forEach(function(input) {
-            input.value = ''; input.classList.remove('campo-erro');
-        });
-        // Limpar também os campos sincronizados
-        if (currentLang === 'pt') {
-            document.getElementById('sync-pt-crianca-nome').textContent = '____________________';
-            document.getElementById('sync-pt-destino').textContent = '____________________';
-            document.getElementById('sync-pt-acompanhante').textContent = '____________________';
-            document.getElementById('sync-pt-data-inicio').textContent = '____________________';
-            document.getElementById('sync-pt-data-fim').textContent = '____________________';
-            document.getElementById('sync-pt-ass-pai').textContent = '';
-            document.getElementById('sync-pt-ass-mae').textContent = '';
-        } else {
-            document.getElementById('sync-en-crianca-nome').textContent = '____________________';
-            document.getElementById('sync-en-destino').textContent = '____________________';
-            document.getElementById('sync-en-acompanhante').textContent = '____________________';
-            document.getElementById('sync-en-data-inicio').textContent = '____________________';
-            document.getElementById('sync-en-data-fim').textContent = '____________________';
-            document.getElementById('sync-en-ass-pai').textContent = '';
-            document.getElementById('sync-en-ass-mae').textContent = '';
-        }
-        showToast('Formulário limpo!');
-    }
-}
-
-function salvarViagemMenores() {
-    var campos = currentLang === 'pt' ? [
-        { id: 'pai-nome', nome: 'Nome do Pai' }, { id: 'pai-bi', nome: 'BI do Pai' },
-        { id: 'pai-nascimento', nome: 'Data Nasc. do Pai' }, { id: 'mae-nome', nome: 'Nome da Mãe' },
-        { id: 'mae-bi', nome: 'BI da Mãe' }, { id: 'mae-nascimento', nome: 'Data Nasc. da Mãe' },
-        { id: 'crianca-nome', nome: 'Nome da Criança' }, { id: 'crianca-nascimento', nome: 'Data Nasc. da Criança' },
-        { id: 'viagem-destino', nome: 'Destino' }, { id: 'viagem-data-partida', nome: 'Data de Partida' }
-    ] : [
-        { id: 'pai-nome', nome: "Father's Name" }, { id: 'pai-bi', nome: "Father's ID" },
-        { id: 'pai-nascimento', nome: "Father's Birth Date" }, { id: 'mae-nome', nome: "Mother's Name" },
-        { id: 'mae-bi', nome: "Mother's ID" }, { id: 'mae-nascimento', nome: "Mother's Birth Date" },
-        { id: 'crianca-nome', nome: "Child's Name" }, { id: 'crianca-nascimento', nome: "Child's Birth Date" },
-        { id: 'viagem-destino', nome: 'Destination' }, { id: 'viagem-data-partida', nome: 'Departure Date' }
-    ];
-
-    for (var i = 0; i < campos.length; i++) {
-        if (!validarCampoObrigatorio(campos[i].id, campos[i].nome)) return false;
-    }
-
-    var dados = {
-        id: Date.now(), idioma: currentLang,
-        notoriado: { numero: getFieldValue('notoriado-numero'), data: getFieldValue('notoriado-data'), local: getFieldValue('notoriado-local'), notario: getFieldValue('notario-nome') },
-        pai: { nome: getFieldValue('pai-nome'), bi: getFieldValue('pai-bi'), nascimento: getFieldValue('pai-nascimento'), naturalidade: getFieldValue('pai-naturalidade'), residencia: getFieldValue('pai-residencia'), telefone: getFieldValue('pai-telefone'), profissao: getFieldValue('pai-profissao') },
-        mae: { nome: getFieldValue('mae-nome'), bi: getFieldValue('mae-bi'), nascimento: getFieldValue('mae-nascimento'), naturalidade: getFieldValue('mae-naturalidade'), residencia: getFieldValue('mae-residencia'), telefone: getFieldValue('mae-telefone'), profissao: getFieldValue('mae-profissao') },
-        crianca: { nome: getFieldValue('crianca-nome'), bi: getFieldValue('crianca-bi'), nascimento: getFieldValue('crianca-nascimento'), localNasc: getFieldValue('crianca-local-nasc'), residencia: getFieldValue('crianca-residencia') },
-        viagem: { destino: getFieldValue('viagem-destino'), finalidade: getFieldValue('viagem-finalidade'), dataPartida: getFieldValue('viagem-data-partida'), dataRegresso: getFieldValue('viagem-data-regresso'), acompanhante: getFieldValue('viagem-acompanhante'), parentesco: getFieldValue('viagem-parentesco'), observacoes: getFieldValue('viagem-observacoes') },
-        assinaturas: { pai: getFieldValue('assinatura-pai'), mae: getFieldValue('assinatura-mae'), notario: getFieldValue('assinatura-notario') },
-        dataRegisto: new Date().toISOString()
-    };
-
-    viagensMenores.push(dados);
-    localStorage.setItem('apsan_viagens', JSON.stringify(viagensMenores));
-    updateStats();
-    showToast(currentLang === 'pt' ? 'Documento guardado com sucesso!' : 'Document saved successfully!');
-    return true;
-}
-
-function exportarViagemPDF() {
-    if (!salvarViagemMenores()) return;
-    // Antes de imprimir, garantir que apenas o documento ativo é visível
-    var docAtivo = currentLang === 'pt' ? 'doc-pt' : 'doc-en';
-    var docOutro = currentLang === 'pt' ? 'doc-en' : 'doc-pt';
-    var outro = document.getElementById(docOutro);
-    if (outro) outro.style.display = 'none';
-    window.print();
-    // Restaurar após impressão
-    setTimeout(function() {
-        if (outro) outro.style.display = 'none';
-        document.getElementById(docAtivo).style.display = 'block';
-    }, 1000);
-    showToast(currentLang === 'pt' ? 'A preparar documento para impressão...' : 'Preparing document for printing...');
-}
-
-// ============================================
-// LOCAL STORAGE + ESTATÍSTICAS + UTILITÁRIOS
-// ============================================
-function saveToLocalStorage() {
-    localStorage.setItem('apsan_pacientes', JSON.stringify(pacientes));
-}
-
-function updateStats() {
-    var sp = document.getElementById('stat-pacientes');
-    var si = document.getElementById('stat-internados');
-    if (sp) sp.textContent = pacientes.length;
-    if (si) si.textContent = pacientes.filter(function(p) { return p.estado === 'internado'; }).length;
-    var sd = document.getElementById('stat-documentos');
-    var sv = document.getElementById('stat-viagens');
-    var sc = document.getElementById('stat-clientes');
-    var spe = document.getElementById('stat-pendentes');
-    if (sd) sd.textContent = documentosTraduzidos.length;
-    if (sv) sv.textContent = viagensMenores.length;
-    if (sc) sc.textContent = clientesTraducao.length;
-    if (spe) spe.textContent = '0';
-}
-
-function showToast(message, type) {
-    if (!type) type = 'success';
-    var toast = document.getElementById('toast');
-    var toastMessage = document.getElementById('toast-message');
-    var toastIcon = toast.querySelector('i');
-    if (!toast || !toastMessage) return;
-    toastMessage.textContent = message;
-    if (type === 'error') { toastIcon.className = 'fas fa-exclamation-circle'; toastIcon.style.color = 'var(--danger)'; }
-    else { toastIcon.className = 'fas fa-check-circle'; toastIcon.style.color = 'var(--success)'; }
-    toast.classList.add('show');
-    setTimeout(function() { toast.classList.remove('show'); }, 3000);
-}
-
-function exportData() {
-    if (pacientes.length === 0) { showToast('Não há dados para exportar!', 'error'); return; }
-    var dataStr = JSON.stringify(pacientes, null, 2);
-    var dataBlob = new Blob([dataStr], { type: 'application/json' });
-    var url = URL.createObjectURL(dataBlob);
-    var link = document.createElement('a');
-    link.href = url;
-    link.download = 'apsan_pacientes_' + new Date().toISOString().split('T')[0] + '.json';
-    link.click();
-    URL.revokeObjectURL(url);
-    showToast('Dados exportados com sucesso!');
-}
-
-function exportFuncionarios() {
-    showToast('Exportação de funcionários em desenvolvimento!');
-}
-
-function generateReport(type) {
-    showToast('A gerar relatório ' + type + '...');
-    setTimeout(function() {
-        alert('Relatório ' + type + ' gerado!\n\nEm produção, seria exportado em PDF/Excel.');
-    }, 1000);
-}
-
-function saveSettings() {
-    showToast('Configurações guardadas com sucesso!');
-}
-
-// ============================================
-// CALENDÁRIO
-// ============================================
-function renderCalendar() {
-    var grid = document.querySelector('.calendar-grid');
-    if (!grid) return;
-    var daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-    var today = new Date();
-    var currentMonth = today.getMonth();
-    var currentYear = today.getFullYear();
-    var html = '';
-    daysOfWeek.forEach(function(day) { html += '<div class="calendar-day-header">' + day + '</div>'; });
-    var firstDay = new Date(currentYear, currentMonth, 1).getDay();
-    var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-    for (var i = 0; i < firstDay; i++) html += '<div class="calendar-day other-month"></div>';
-    for (var day = 1; day <= daysInMonth; day++) {
-        var isToday = day === today.getDate();
-        var hasEvent = [5, 12, 15, 22, 28].indexOf(day) !== -1;
-        var classes = ['calendar-day'];
-        if (isToday) classes.push('today');
-        if (hasEvent) classes.push('has-event');
-        html += '<div class="' + classes.join(' ') + '">' + day + '</div>';
-    }
-    grid.innerHTML = html;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
-        overlay.addEventListener('click', function() {
-            document.querySelectorAll('.modal.active').forEach(function(m) { m.classList.remove('active'); });
-        });
-    });
-});

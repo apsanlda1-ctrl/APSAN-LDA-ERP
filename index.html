@@ -212,6 +212,15 @@ tr:hover { background: #f8fafc; }
 .status-pendente { background: #fef3c7; color: #92400e; }
 .status-aprovado { background: #d1fae5; color: #15803d; }
 .status-rejeitado { background: #fee2e2; color: #7f1d1d; }
+.status-em-tramitacao { background: #dbeafe; color: #0c4a6e; }
+.status-aduanas { background: #fef3c7; color: #92400e; }
+.status-liberado { background: #d1fae5; color: #15803d; }
+.status-entregue { background: #e0e7ff; color: #3730a3; }
+.status-em-preparacao { background: #dbeafe; color: #0c4a6e; }
+.status-em-transito { background: #fef3c7; color: #92400e; }
+.status-ativa { background: #d1fae5; color: #15803d; }
+.status-expirada { background: #fee2e2; color: #7f1d1d; }
+.status-cancelada { background: #fee2e2; color: #7f1d1d; }
 
 /* FOLHA PAGAMENTO */
 .folha-resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
@@ -230,6 +239,7 @@ tr:hover { background: #f8fafc; }
 .lang-tab:hover { background: #f8fafc; color: var(--dark); }
 .lang-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--primary-light); }
 </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body>
@@ -257,6 +267,7 @@ tr:hover { background: #f8fafc; }
 <option value="financeiro">💰 Financeiro</option>
 <option value="rh">👥 Recursos Humanos</option>
 <option value="administracao-geral">🏛️ Administração Geral</option>
+<option value="operacoes">⚙️ Operações</option>
 </select>
 </div>
 <div class="input-group">
@@ -356,6 +367,17 @@ tr:hover { background: #f8fafc; }
 <li onclick="showSection('admgeral-visitas')"><i class="fas fa-id-card"></i><span>Registo de Visitas</span></li>
 <li onclick="showSection('admgeral-veiculos')"><i class="fas fa-car"></i><span>Frota & Viaturas</span></li>
 <li onclick="showSection('admgeral-relatorios')"><i class="fas fa-file-invoice"></i><span>Relatórios</span></li>
+<li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
+</ul>
+<!-- OPERAÇÕES -->
+<ul id="menu-operacoes" style="display: none;">
+<li class="active" onclick="showSection('ops-dashboard')"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+<li onclick="showSection('ops-importacao')"><i class="fas fa-file-import"></i><span>Importação</span></li>
+<li onclick="showSection('ops-exportacao')"><i class="fas fa-file-export"></i><span>Exportação</span></li>
+<li onclick="showSection('ops-fornecedores')"><i class="fas fa-truck"></i><span>Fornecedores</span></li>
+<li onclick="showSection('ops-clientes-ext')"><i class="fas fa-globe"></i><span>Clientes Internacionais</span></li>
+<li onclick="showSection('ops-licencas')"><i class="fas fa-certificate"></i><span>Licenças & Permissões</span></li>
+<li onclick="showSection('ops-relatorios')"><i class="fas fa-file-invoice"></i><span>Relatórios</span></li>
 <li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
 </ul>
 </nav>
@@ -572,8 +594,8 @@ tr:hover { background: #f8fafc; }
 </div>
 </div>
 <div class="lang-tabs">
-<button class="lang-tab active" onclick="switchLang('pt')"><i class="fas fa-flag"></i> Português</button>
-<button class="lang-tab" onclick="switchLang('en')"><i class="fas fa-flag-usa"></i> English</button>
+<button id="tab-pt" class="lang-tab active" onclick="switchLang('pt')"><i class="fas fa-flag"></i> Português</button>
+<button id="tab-en" class="lang-tab" onclick="switchLang('en')"><i class="fas fa-flag-usa"></i> English</button>
 </div>
 <div class="card">
 <div class="card-body" style="max-width: 800px; margin: 0 auto; font-family: 'Times New Roman', Georgia, serif;">
@@ -1344,6 +1366,221 @@ for a period of <input type="text" id="en-periodo" style="border: none; border-b
 </div>
 </section>
 
+<!-- ========== OPERAÇÕES ========== -->
+<section id="section-ops-dashboard" class="content-section">
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-icon amber"><i class="fas fa-file-import"></i></div><div class="stat-info"><h3 id="stat-ops-imports">0</h3><p>Importações</p><span class="trend">Este mês</span></div></div>
+<div class="stat-card"><div class="stat-icon teal"><i class="fas fa-file-export"></i></div><div class="stat-info"><h3 id="stat-ops-exports">0</h3><p>Exportações</p><span class="trend">Este mês</span></div></div>
+<div class="stat-card"><div class="stat-icon blue"><i class="fas fa-truck"></i></div><div class="stat-info"><h3 id="stat-ops-fornecedores">0</h3><p>Fornecedores</p><span class="trend">Ativos</span></div></div>
+<div class="stat-card"><div class="stat-icon green"><i class="fas fa-globe"></i></div><div class="stat-info"><h3 id="stat-ops-clientes">0</h3><p>Clientes Int.</p><span class="trend">Ativos</span></div></div>
+</div>
+<div class="dashboard-grid">
+<div class="card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Estatísticas de Operações</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-chart-pie"></i><p>Dados indisponíveis</p></div></div></div>
+<div class="card"><div class="card-header"><h3><i class="fas fa-list-check"></i> Atividades Recentes</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-clipboard-list"></i><p>Sem atividades</p></div></div></div>
+</div>
+</section>
+
+<section id="section-ops-importacao" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-file-import"></i> Importação</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-ops-imports" placeholder="Pesquisar importação..." onkeyup="filterTable('ops-imports-table', 'search-ops-imports')">
+</div>
+<button class="btn-primary" onclick="openModalImportacao()"><i class="fas fa-plus"></i> Nova Importação</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-file-import"></i> Processos de Importação</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="ops-imports-table">
+<thead>
+<tr>
+<th>Nº Processo</th>
+<th>Descrição</th>
+<th>Fornecedor</th>
+<th>País Origem</th>
+<th>Valor (AOA)</th>
+<th>Data Entrada</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="ops-imports-tbody">
+</tbody>
+</table>
+</div>
+<div id="ops-imports-empty" class="empty-state">
+<i class="fas fa-file-import"></i>
+<p>Nenhum processo de importação registado</p>
+<span>Clique em "Nova Importação" para começar</span>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-ops-exportacao" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-file-export"></i> Exportação</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-ops-exports" placeholder="Pesquisar exportação..." onkeyup="filterTable('ops-exports-table', 'search-ops-exports')">
+</div>
+<button class="btn-primary" onclick="openModalExportacao()"><i class="fas fa-plus"></i> Nova Exportação</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-file-export"></i> Processos de Exportação</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="ops-exports-table">
+<thead>
+<tr>
+<th>Nº Processo</th>
+<th>Descrição</th>
+<th>Cliente</th>
+<th>País Destino</th>
+<th>Valor (AOA)</th>
+<th>Data Saída</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="ops-exports-tbody">
+</tbody>
+</table>
+</div>
+<div id="ops-exports-empty" class="empty-state">
+<i class="fas fa-file-export"></i>
+<p>Nenhum processo de exportação registado</p>
+<span>Clique em "Nova Exportação" para começar</span>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-ops-fornecedores" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-truck"></i> Fornecedores</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-ops-fornecedores" placeholder="Pesquisar fornecedor..." onkeyup="filterTable('ops-fornecedores-table', 'search-ops-fornecedores')">
+</div>
+<button class="btn-primary" onclick="openModalFornecedor()"><i class="fas fa-plus"></i> Novo Fornecedor</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-truck"></i> Fornecedores Registados</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="ops-fornecedores-table">
+<thead>
+<tr>
+<th>Nome</th>
+<th>País</th>
+<th>Email</th>
+<th>Telefone</th>
+<th>Tipo</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="ops-fornecedores-tbody">
+</tbody>
+</table>
+</div>
+<div id="ops-fornecedores-empty" class="empty-state">
+<i class="fas fa-truck"></i>
+<p>Nenhum fornecedor registado</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-ops-clientes-ext" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-globe"></i> Clientes Internacionais</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-ops-clientes" placeholder="Pesquisar cliente..." onkeyup="filterTable('ops-clientes-table', 'search-ops-clientes')">
+</div>
+<button class="btn-primary" onclick="openModalClienteExt()"><i class="fas fa-plus"></i> Novo Cliente</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-globe"></i> Clientes Internacionais</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="ops-clientes-table">
+<thead>
+<tr>
+<th>Nome</th>
+<th>País</th>
+<th>Email</th>
+<th>Telefone</th>
+<th>Segmento</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="ops-clientes-tbody">
+</tbody>
+</table>
+</div>
+<div id="ops-clientes-empty" class="empty-state">
+<i class="fas fa-globe"></i>
+<p>Nenhum cliente internacional registado</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-ops-licencas" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-certificate"></i> Licenças & Permissões</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-ops-licencas" placeholder="Pesquisar licença..." onkeyup="filterTable('ops-licencas-table', 'search-ops-licencas')">
+</div>
+<button class="btn-primary" onclick="openModalLicenca()"><i class="fas fa-plus"></i> Nova Licença</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-certificate"></i> Licenças & Permissões</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="ops-licencas-table">
+<thead>
+<tr>
+<th>Nº</th>
+<th>Tipo</th>
+<th>Entidade Emissora</th>
+<th>Data Emissão</th>
+<th>Validade</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="ops-licencas-tbody">
+</tbody>
+</table>
+</div>
+<div id="ops-licencas-empty" class="empty-state">
+<i class="fas fa-certificate"></i>
+<p>Nenhuma licença registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-ops-relatorios" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-file-invoice"></i> Relatórios de Operações</h3>
+</div>
+<div class="card">
+<div class="card-body">
+<div class="empty-state">
+<i class="fas fa-chart-bar"></i>
+<p>Sem dados para relatório</p>
+</div>
+</div>
+</div>
+</section>
+
 <!-- ========== CONFIGURAÇÕES ========== -->
 <section id="section-configuracoes" class="content-section">
 <div class="card">
@@ -2031,6 +2268,306 @@ for a period of <input type="text" id="en-periodo" style="border: none; border-b
 </div>
 </div>
 
+<!-- Modal Importação -->
+<div id="modal-importacao" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modal-importacao-titulo">Nova Importação</h2>
+<button class="modal-close" onclick="closeModal('modal-importacao')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-importacao" onsubmit="salvarImportacao(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nº Processo *</label>
+<input type="text" id="imp-numero" placeholder="Ex: IMP-2026-001" required>
+</div>
+<div class="form-group">
+<label>Data Entrada *</label>
+<input type="date" id="imp-data-entrada" required>
+</div>
+</div>
+<div class="form-group">
+<label>Descrição da Mercadoria *</label>
+<textarea id="imp-descricao" required></textarea>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Fornecedor *</label>
+<select id="imp-fornecedor" required>
+<option value="">-- Selecione --</option>
+</select>
+</div>
+<div class="form-group">
+<label>País de Origem *</label>
+<input type="text" id="imp-pais-origem" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Valor (AOA) *</label>
+<input type="number" id="imp-valor" required>
+</div>
+<div class="form-group">
+<label>Status</label>
+<select id="imp-status">
+<option value="em-tramitacao">Em Tramitação</option>
+<option value="aduanas">Em Aduanas</option>
+<option value="liberado">Liberado</option>
+<option value="entregue">Entregue</option>
+<option value="cancelado">Cancelado</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Observações</label>
+<textarea id="imp-observacoes"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-importacao')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Exportação -->
+<div id="modal-exportacao" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modal-exportacao-titulo">Nova Exportação</h2>
+<button class="modal-close" onclick="closeModal('modal-exportacao')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-exportacao" onsubmit="salvarExportacao(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nº Processo *</label>
+<input type="text" id="exp-numero" placeholder="Ex: EXP-2026-001" required>
+</div>
+<div class="form-group">
+<label>Data Saída *</label>
+<input type="date" id="exp-data-saida" required>
+</div>
+</div>
+<div class="form-group">
+<label>Descrição da Mercadoria *</label>
+<textarea id="exp-descricao" required></textarea>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Cliente *</label>
+<select id="exp-cliente" required>
+<option value="">-- Selecione --</option>
+</select>
+</div>
+<div class="form-group">
+<label>País de Destino *</label>
+<input type="text" id="exp-pais-destino" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Valor (AOA) *</label>
+<input type="number" id="exp-valor" required>
+</div>
+<div class="form-group">
+<label>Status</label>
+<select id="exp-status">
+<option value="em-preparacao">Em Preparação</option>
+<option value="aduanas">Em Aduanas</option>
+<option value="em-transito">Em Trânsito</option>
+<option value="entregue">Entregue</option>
+<option value="cancelado">Cancelado</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Observações</label>
+<textarea id="exp-observacoes"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-exportacao')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Fornecedor -->
+<div id="modal-fornecedor" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modal-fornecedor-titulo">Novo Fornecedor</h2>
+<button class="modal-close" onclick="closeModal('modal-fornecedor')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-fornecedor" onsubmit="salvarFornecedor(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nome *</label>
+<input type="text" id="forn-nome" required>
+</div>
+<div class="form-group">
+<label>País *</label>
+<input type="text" id="forn-pais" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Email *</label>
+<input type="email" id="forn-email" required>
+</div>
+<div class="form-group">
+<label>Telefone *</label>
+<input type="tel" id="forn-telefone" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Tipo</label>
+<select id="forn-tipo">
+<option value="produtos">Produtos</option>
+<option value="servicos">Serviços</option>
+<option value="mat-prima">Matéria-Prima</option>
+<option value="equipamento">Equipamento</option>
+<option value="outro">Outro</option>
+</select>
+</div>
+<div class="form-group">
+<label>Morada</label>
+<input type="text" id="forn-morada">
+</div>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-fornecedor')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Cliente Internacional -->
+<div id="modal-cliente-ext" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modal-cliente-ext-titulo">Novo Cliente Internacional</h2>
+<button class="modal-close" onclick="closeModal('modal-cliente-ext')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-cliente-ext" onsubmit="salvarClienteExt(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nome *</label>
+<input type="text" id="cliext-nome" required>
+</div>
+<div class="form-group">
+<label>País *</label>
+<input type="text" id="cliext-pais" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Email *</label>
+<input type="email" id="cliext-email" required>
+</div>
+<div class="form-group">
+<label>Telefone *</label>
+<input type="tel" id="cliext-telefone" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Segmento</label>
+<select id="cliext-segmento">
+<option value="distribuidor">Distribuidor</option>
+<option value="retalhista">Retalhista</option>
+<option value="industria">Indústria</option>
+<option value="governo">Governo</option>
+<option value="outro">Outro</option>
+</select>
+</div>
+<div class="form-group">
+<label>Morada</label>
+<input type="text" id="cliext-morada">
+</div>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-cliente-ext')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Licença -->
+<div id="modal-licenca" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modal-licenca-titulo">Nova Licença / Permissão</h2>
+<button class="modal-close" onclick="closeModal('modal-licenca')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-licenca" onsubmit="salvarLicenca(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nº Licença *</label>
+<input type="text" id="lic-numero" required>
+</div>
+<div class="form-group">
+<label>Tipo *</label>
+<select id="lic-tipo" required>
+<option value="importacao">Importação</option>
+<option value="exportacao">Exportação</option>
+<option value="transito">Trânsito</option>
+<option value="sanitaria">Sanitária</option>
+<option value="fitossanitaria">Fitossanitária</option>
+<option value="outra">Outra</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Entidade Emissora *</label>
+<input type="text" id="lic-emissor" required>
+</div>
+<div class="form-group">
+<label>Data Emissão *</label>
+<input type="date" id="lic-data-emissao" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Validade *</label>
+<input type="date" id="lic-validade" required>
+</div>
+<div class="form-group">
+<label>Status</label>
+<select id="lic-status">
+<option value="ativa">Ativa</option>
+<option value="pendente">Pendente</option>
+<option value="expirada">Expirada</option>
+<option value="cancelada">Cancelada</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Observações</label>
+<textarea id="lic-observacoes"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-licenca')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
 <!-- Toast -->
 <div id="toast" class="toast">
 <i class="fas fa-check-circle"></i>
@@ -2045,7 +2582,8 @@ traducao: { nome: "Tradução Oficial Juramentada", username: "traducao.apsan", 
 administrativo: { nome: "Administrativo", username: "administrativo.apsan", password: "adm2026", menu: "menu-administrativo", cor: "#64748b", userName: "Adm. Carlos", icon: "fa-user-tie" },
 financeiro: { nome: "Financeiro", username: "financeiro.apsan", password: "fin2026", menu: "menu-financeiro", cor: "#059669", userName: "Fin. João", icon: "fa-chart-line" },
 rh: { nome: "Recursos Humanos", username: "rh.apsan", password: "rh2026", menu: "menu-rh", cor: "#0d9488", userName: "RH. Maria", icon: "fa-users" },
-administracao_geral: { nome: "Administração Geral", username: "admgeral.apsan", password: "admgeral2026", menu: "menu-administracao-geral", cor: "#b45309", userName: "Adm. Geral Pedro", icon: "fa-building-columns" }
+administracao_geral: { nome: "Administração Geral", username: "admgeral.apsan", password: "admgeral2026", menu: "menu-administracao-geral", cor: "#b45309", userName: "Adm. Geral Pedro", icon: "fa-building-columns" },
+operacoes: { nome: "Operações", username: "operacoes.apsan", password: "ops2026", menu: "menu-operacoes", cor: "#d97706", userName: "Ops. Manuel", icon: "fa-cogs" }
 };
 
 // Base de dados
@@ -2069,7 +2607,12 @@ adm_correspondencia: [],
 adm_reunioes: [],
 adm_arquivo: [],
 adm_visitas: [],
-adm_veiculos: []
+adm_veiculos: [],
+ops_importacoes: [],
+ops_exportacoes: [],
+ops_fornecedores: [],
+ops_clientes_ext: [],
+ops_licencas: []
 };
 
 let currentDepartment = null;
@@ -2129,6 +2672,7 @@ else if (deptKey === 'administrativo') showSection('admin-dashboard');
 else if (deptKey === 'financeiro') showSection('fin-dashboard');
 else if (deptKey === 'rh') showSection('rh-dashboard');
 else if (deptKey === 'administracao-geral') showSection('admgeral-dashboard');
+else if (deptKey === 'operacoes') showSection('ops-dashboard');
 else showSection('dashboard');
 
 showToast('Bem-vindo ao Departamento de ' + dept.nome + '!');
@@ -2184,6 +2728,13 @@ var titles = {
 'admgeral-correspondencia': 'Correspondência', 'admgeral-reunioes': 'Reuniões & Atas',
 'admgeral-arquivo': 'Arquivo Geral', 'admgeral-visitas': 'Registo de Visitas',
 'admgeral-veiculos': 'Frota & Viaturas', 'admgeral-relatorios': 'Relatórios Admin. Geral',
+'ops-dashboard': 'Dashboard Operações',
+'ops-importacao': 'Importação',
+'ops-exportacao': 'Exportação',
+'ops-fornecedores': 'Fornecedores',
+'ops-clientes-ext': 'Clientes Internacionais',
+'ops-licencas': 'Licenças & Permissões',
+'ops-relatorios': 'Relatórios de Operações',
 'configuracoes': 'Configurações'
 };
 
@@ -3090,6 +3641,11 @@ listarReunioes();
 listarArquivo();
 listarVisitas();
 listarVeiculos();
+listarImportacoes();
+listarExportacoes();
+listarFornecedores();
+listarClientesExt();
+listarLicencas();
 };
 
 // Auto-calculate liquido in folha form
@@ -3506,6 +4062,472 @@ salvarDados();
 listarVeiculos();
 showToast('Viatura eliminada!');
 }
+}
+
+// ============ OPERAÇÕES - IMPORTAÇÃO ============
+let opsEditingId = null;
+
+function openModalImportacao(impId = null) {
+opsEditingId = impId;
+var titulo = document.getElementById('modal-importacao-titulo');
+var form = document.getElementById('form-importacao');
+preencherSeletorFornecedores('imp-fornecedor');
+
+if (impId) {
+titulo.textContent = 'Editar Importação';
+var imp = database.ops_importacoes.find(i => i.id == impId);
+if (imp) {
+document.getElementById('imp-numero').value = imp.numero;
+document.getElementById('imp-data-entrada').value = imp.dataEntrada;
+document.getElementById('imp-descricao').value = imp.descricao;
+document.getElementById('imp-fornecedor').value = imp.fornecedorId;
+document.getElementById('imp-pais-origem').value = imp.paisOrigem;
+document.getElementById('imp-valor').value = imp.valor;
+document.getElementById('imp-status').value = imp.status;
+document.getElementById('imp-observacoes').value = imp.observacoes || '';
+}
+} else {
+titulo.textContent = 'Nova Importação';
+form.reset();
+document.getElementById('imp-data-entrada').valueAsDate = new Date();
+}
+openModal('modal-importacao');
+}
+
+function salvarImportacao(event) {
+event.preventDefault();
+var imp = {
+id: opsEditingId || Date.now(),
+numero: document.getElementById('imp-numero').value,
+dataEntrada: document.getElementById('imp-data-entrada').value,
+descricao: document.getElementById('imp-descricao').value,
+fornecedorId: document.getElementById('imp-fornecedor').value,
+fornecedorNome: document.getElementById('imp-fornecedor').options[document.getElementById('imp-fornecedor').selectedIndex].text,
+paisOrigem: document.getElementById('imp-pais-origem').value,
+valor: parseFloat(document.getElementById('imp-valor').value) || 0,
+status: document.getElementById('imp-status').value,
+observacoes: document.getElementById('imp-observacoes').value,
+dataCriacao: new Date().toISOString()
+};
+if (opsEditingId) {
+var index = database.ops_importacoes.findIndex(i => i.id == opsEditingId);
+if (index > -1) database.ops_importacoes[index] = imp;
+showToast('Importação atualizada com sucesso!');
+} else {
+database.ops_importacoes.push(imp);
+showToast('Importação registada com sucesso!');
+}
+salvarDados();
+listarImportacoes();
+closeModal('modal-importacao');
+opsEditingId = null;
+}
+
+function listarImportacoes() {
+var tbody = document.getElementById('ops-imports-tbody');
+var empty = document.getElementById('ops-imports-empty');
+if (database.ops_importacoes.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-ops-imports').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.ops_importacoes.forEach(function(i) {
+var statusClass = 'status-' + i.status;
+var row = '<tr>' +
+'<td>' + i.numero + '</td>' +
+'<td>' + i.descricao + '</td>' +
+'<td>' + i.fornecedorNome + '</td>' +
+'<td>' + i.paisOrigem + '</td>' +
+'<td>' + i.valor.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA</td>' +
+'<td>' + new Date(i.dataEntrada).toLocaleDateString('pt-PT') + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + i.status.toUpperCase().replace('-', ' ') + '</span></td>' +
+'<td><button class="btn-edit" onclick="openModalImportacao(' + i.id + ')">Editar</button> <button class="btn-delete" onclick="deletarImportacao(' + i.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-ops-imports').textContent = database.ops_importacoes.length;
+}
+
+function deletarImportacao(id) {
+if (confirm('Eliminar esta importação?')) {
+database.ops_importacoes = database.ops_importacoes.filter(i => i.id != id);
+salvarDados();
+listarImportacoes();
+showToast('Importação eliminada!');
+}
+}
+
+// ============ OPERAÇÕES - EXPORTAÇÃO ============
+function openModalExportacao(expId = null) {
+opsEditingId = expId;
+var titulo = document.getElementById('modal-exportacao-titulo');
+var form = document.getElementById('form-exportacao');
+preencherSeletorClientesExt('exp-cliente');
+
+if (expId) {
+titulo.textContent = 'Editar Exportação';
+var exp = database.ops_exportacoes.find(e => e.id == expId);
+if (exp) {
+document.getElementById('exp-numero').value = exp.numero;
+document.getElementById('exp-data-saida').value = exp.dataSaida;
+document.getElementById('exp-descricao').value = exp.descricao;
+document.getElementById('exp-cliente').value = exp.clienteId;
+document.getElementById('exp-pais-destino').value = exp.paisDestino;
+document.getElementById('exp-valor').value = exp.valor;
+document.getElementById('exp-status').value = exp.status;
+document.getElementById('exp-observacoes').value = exp.observacoes || '';
+}
+} else {
+titulo.textContent = 'Nova Exportação';
+form.reset();
+document.getElementById('exp-data-saida').valueAsDate = new Date();
+}
+openModal('modal-exportacao');
+}
+
+function salvarExportacao(event) {
+event.preventDefault();
+var exp = {
+id: opsEditingId || Date.now(),
+numero: document.getElementById('exp-numero').value,
+dataSaida: document.getElementById('exp-data-saida').value,
+descricao: document.getElementById('exp-descricao').value,
+clienteId: document.getElementById('exp-cliente').value,
+clienteNome: document.getElementById('exp-cliente').options[document.getElementById('exp-cliente').selectedIndex].text,
+paisDestino: document.getElementById('exp-pais-destino').value,
+valor: parseFloat(document.getElementById('exp-valor').value) || 0,
+status: document.getElementById('exp-status').value,
+observacoes: document.getElementById('exp-observacoes').value,
+dataCriacao: new Date().toISOString()
+};
+if (opsEditingId) {
+var index = database.ops_exportacoes.findIndex(e => e.id == opsEditingId);
+if (index > -1) database.ops_exportacoes[index] = exp;
+showToast('Exportação atualizada com sucesso!');
+} else {
+database.ops_exportacoes.push(exp);
+showToast('Exportação registada com sucesso!');
+}
+salvarDados();
+listarExportacoes();
+closeModal('modal-exportacao');
+opsEditingId = null;
+}
+
+function listarExportacoes() {
+var tbody = document.getElementById('ops-exports-tbody');
+var empty = document.getElementById('ops-exports-empty');
+if (database.ops_exportacoes.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-ops-exports').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.ops_exportacoes.forEach(function(e) {
+var statusClass = 'status-' + e.status;
+var row = '<tr>' +
+'<td>' + e.numero + '</td>' +
+'<td>' + e.descricao + '</td>' +
+'<td>' + e.clienteNome + '</td>' +
+'<td>' + e.paisDestino + '</td>' +
+'<td>' + e.valor.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA</td>' +
+'<td>' + new Date(e.dataSaida).toLocaleDateString('pt-PT') + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + e.status.toUpperCase().replace('-', ' ') + '</span></td>' +
+'<td><button class="btn-edit" onclick="openModalExportacao(' + e.id + ')">Editar</button> <button class="btn-delete" onclick="deletarExportacao(' + e.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-ops-exports').textContent = database.ops_exportacoes.length;
+}
+
+function deletarExportacao(id) {
+if (confirm('Eliminar esta exportação?')) {
+database.ops_exportacoes = database.ops_exportacoes.filter(e => e.id != id);
+salvarDados();
+listarExportacoes();
+showToast('Exportação eliminada!');
+}
+}
+
+// ============ OPERAÇÕES - FORNECEDORES ============
+function openModalFornecedor(fornId = null) {
+opsEditingId = fornId;
+var titulo = document.getElementById('modal-fornecedor-titulo');
+var form = document.getElementById('form-fornecedor');
+if (fornId) {
+titulo.textContent = 'Editar Fornecedor';
+var forn = database.ops_fornecedores.find(f => f.id == fornId);
+if (forn) {
+document.getElementById('forn-nome').value = forn.nome;
+document.getElementById('forn-pais').value = forn.pais;
+document.getElementById('forn-email').value = forn.email;
+document.getElementById('forn-telefone').value = forn.telefone;
+document.getElementById('forn-tipo').value = forn.tipo;
+document.getElementById('forn-morada').value = forn.morada || '';
+}
+} else {
+titulo.textContent = 'Novo Fornecedor';
+form.reset();
+}
+openModal('modal-fornecedor');
+}
+
+function salvarFornecedor(event) {
+event.preventDefault();
+var forn = {
+id: opsEditingId || Date.now(),
+nome: document.getElementById('forn-nome').value,
+pais: document.getElementById('forn-pais').value,
+email: document.getElementById('forn-email').value,
+telefone: document.getElementById('forn-telefone').value,
+tipo: document.getElementById('forn-tipo').value,
+morada: document.getElementById('forn-morada').value,
+dataCriacao: new Date().toISOString()
+};
+if (opsEditingId) {
+var index = database.ops_fornecedores.findIndex(f => f.id == opsEditingId);
+if (index > -1) database.ops_fornecedores[index] = forn;
+showToast('Fornecedor atualizado com sucesso!');
+} else {
+database.ops_fornecedores.push(forn);
+showToast('Fornecedor registado com sucesso!');
+}
+salvarDados();
+listarFornecedores();
+closeModal('modal-fornecedor');
+opsEditingId = null;
+}
+
+function listarFornecedores() {
+var tbody = document.getElementById('ops-fornecedores-tbody');
+var empty = document.getElementById('ops-fornecedores-empty');
+if (database.ops_fornecedores.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-ops-fornecedores').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.ops_fornecedores.forEach(function(f) {
+var row = '<tr>' +
+'<td>' + f.nome + '</td>' +
+'<td>' + f.pais + '</td>' +
+'<td>' + f.email + '</td>' +
+'<td>' + f.telefone + '</td>' +
+'<td>' + f.tipo + '</td>' +
+'<td><button class="btn-edit" onclick="openModalFornecedor(' + f.id + ')">Editar</button> <button class="btn-delete" onclick="deletarFornecedor(' + f.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-ops-fornecedores').textContent = database.ops_fornecedores.length;
+}
+
+function deletarFornecedor(id) {
+if (confirm('Eliminar este fornecedor?')) {
+database.ops_fornecedores = database.ops_fornecedores.filter(f => f.id != id);
+salvarDados();
+listarFornecedores();
+showToast('Fornecedor eliminado!');
+}
+}
+
+// ============ OPERAÇÕES - CLIENTES INTERNACIONAIS ============
+function openModalClienteExt(cliId = null) {
+opsEditingId = cliId;
+var titulo = document.getElementById('modal-cliente-ext-titulo');
+var form = document.getElementById('form-cliente-ext');
+if (cliId) {
+titulo.textContent = 'Editar Cliente';
+var cli = database.ops_clientes_ext.find(c => c.id == cliId);
+if (cli) {
+document.getElementById('cliext-nome').value = cli.nome;
+document.getElementById('cliext-pais').value = cli.pais;
+document.getElementById('cliext-email').value = cli.email;
+document.getElementById('cliext-telefone').value = cli.telefone;
+document.getElementById('cliext-segmento').value = cli.segmento;
+document.getElementById('cliext-morada').value = cli.morada || '';
+}
+} else {
+titulo.textContent = 'Novo Cliente Internacional';
+form.reset();
+}
+openModal('modal-cliente-ext');
+}
+
+function salvarClienteExt(event) {
+event.preventDefault();
+var cli = {
+id: opsEditingId || Date.now(),
+nome: document.getElementById('cliext-nome').value,
+pais: document.getElementById('cliext-pais').value,
+email: document.getElementById('cliext-email').value,
+telefone: document.getElementById('cliext-telefone').value,
+segmento: document.getElementById('cliext-segmento').value,
+morada: document.getElementById('cliext-morada').value,
+dataCriacao: new Date().toISOString()
+};
+if (opsEditingId) {
+var index = database.ops_clientes_ext.findIndex(c => c.id == opsEditingId);
+if (index > -1) database.ops_clientes_ext[index] = cli;
+showToast('Cliente atualizado com sucesso!');
+} else {
+database.ops_clientes_ext.push(cli);
+showToast('Cliente registado com sucesso!');
+}
+salvarDados();
+listarClientesExt();
+closeModal('modal-cliente-ext');
+opsEditingId = null;
+}
+
+function listarClientesExt() {
+var tbody = document.getElementById('ops-clientes-tbody');
+var empty = document.getElementById('ops-clientes-empty');
+if (database.ops_clientes_ext.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-ops-clientes').textContent = '0';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.ops_clientes_ext.forEach(function(c) {
+var row = '<tr>' +
+'<td>' + c.nome + '</td>' +
+'<td>' + c.pais + '</td>' +
+'<td>' + c.email + '</td>' +
+'<td>' + c.telefone + '</td>' +
+'<td>' + c.segmento + '</td>' +
+'<td><button class="btn-edit" onclick="openModalClienteExt(' + c.id + ')">Editar</button> <button class="btn-delete" onclick="deletarClienteExt(' + c.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+document.getElementById('stat-ops-clientes').textContent = database.ops_clientes_ext.length;
+}
+
+function deletarClienteExt(id) {
+if (confirm('Eliminar este cliente?')) {
+database.ops_clientes_ext = database.ops_clientes_ext.filter(c => c.id != id);
+salvarDados();
+listarClientesExt();
+showToast('Cliente eliminado!');
+}
+}
+
+// ============ OPERAÇÕES - LICENÇAS ============
+function openModalLicenca(licId = null) {
+opsEditingId = licId;
+var titulo = document.getElementById('modal-licenca-titulo');
+var form = document.getElementById('form-licenca');
+if (licId) {
+titulo.textContent = 'Editar Licença';
+var lic = database.ops_licencas.find(l => l.id == licId);
+if (lic) {
+document.getElementById('lic-numero').value = lic.numero;
+document.getElementById('lic-tipo').value = lic.tipo;
+document.getElementById('lic-emissor').value = lic.emissor;
+document.getElementById('lic-data-emissao').value = lic.dataEmissao;
+document.getElementById('lic-validade').value = lic.validade;
+document.getElementById('lic-status').value = lic.status;
+document.getElementById('lic-observacoes').value = lic.observacoes || '';
+}
+} else {
+titulo.textContent = 'Nova Licença / Permissão';
+form.reset();
+document.getElementById('lic-data-emissao').valueAsDate = new Date();
+}
+openModal('modal-licenca');
+}
+
+function salvarLicenca(event) {
+event.preventDefault();
+var lic = {
+id: opsEditingId || Date.now(),
+numero: document.getElementById('lic-numero').value,
+tipo: document.getElementById('lic-tipo').value,
+emissor: document.getElementById('lic-emissor').value,
+dataEmissao: document.getElementById('lic-data-emissao').value,
+validade: document.getElementById('lic-validade').value,
+status: document.getElementById('lic-status').value,
+observacoes: document.getElementById('lic-observacoes').value,
+dataCriacao: new Date().toISOString()
+};
+if (opsEditingId) {
+var index = database.ops_licencas.findIndex(l => l.id == opsEditingId);
+if (index > -1) database.ops_licencas[index] = lic;
+showToast('Licença atualizada com sucesso!');
+} else {
+database.ops_licencas.push(lic);
+showToast('Licença registada com sucesso!');
+}
+salvarDados();
+listarLicencas();
+closeModal('modal-licenca');
+opsEditingId = null;
+}
+
+function listarLicencas() {
+var tbody = document.getElementById('ops-licencas-tbody');
+var empty = document.getElementById('ops-licencas-empty');
+if (database.ops_licencas.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+return;
+}
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+tbody.innerHTML = '';
+database.ops_licencas.forEach(function(l) {
+var statusClass = 'status-' + l.status;
+var row = '<tr>' +
+'<td>' + l.numero + '</td>' +
+'<td>' + l.tipo.toUpperCase() + '</td>' +
+'<td>' + l.emissor + '</td>' +
+'<td>' + new Date(l.dataEmissao).toLocaleDateString('pt-PT') + '</td>' +
+'<td>' + new Date(l.validade).toLocaleDateString('pt-PT') + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + l.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-edit" onclick="openModalLicenca(' + l.id + ')">Editar</button> <button class="btn-delete" onclick="deletarLicenca(' + l.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+}
+
+function deletarLicenca(id) {
+if (confirm('Eliminar esta licença?')) {
+database.ops_licencas = database.ops_licencas.filter(l => l.id != id);
+salvarDados();
+listarLicencas();
+showToast('Licença eliminada!');
+}
+}
+
+// Utilitários Operações
+function preencherSeletorFornecedores(selectId) {
+var select = document.getElementById(selectId);
+if (!select) return;
+select.innerHTML = '<option value="">-- Selecione --</option>';
+database.ops_fornecedores.forEach(function(f) {
+select.innerHTML += '<option value="' + f.id + '">' + f.nome + '</option>';
+});
+}
+
+function preencherSeletorClientesExt(selectId) {
+var select = document.getElementById(selectId);
+if (!select) return;
+select.innerHTML = '<option value="">-- Selecione --</option>';
+database.ops_clientes_ext.forEach(function(c) {
+select.innerHTML += '<option value="' + c.id + '">' + c.nome + '</option>';
+});
 }
 </script>
 </body>

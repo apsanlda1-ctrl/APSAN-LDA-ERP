@@ -25,10 +25,10 @@
     .page-title { margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
     .page-title h2 { font-size: 22px; color: #0f172a; }
 
-    /* LAYOUT PRINCIPAL EM 2 COLUNAS (ESQUERDA: MENU/TABELAS | DIREITA: CARTÃO/DASHBOARD) */
+    /* LAYOUT PRINCIPAL EM 2 COLUNAS */
     .dashboard-layout { display: grid; grid-template-columns: 1fr 360px; gap: 25px; align-items: start; }
 
-    /* MENU VERTICAL (UM ABAIXO DO OUTRO) */
+    /* MENU VERTICAL */
     .vertical-menu-tabs { display: flex; flex-direction: column; gap: 6px; background: #ffffff; padding: 12px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
     .tab-btn-v { background: transparent; border: none; padding: 12px 16px; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 8px; display: flex; align-items: center; gap: 12px; transition: all 0.2s; text-align: left; width: 100%; }
     .tab-btn-v:hover { color: #2563eb; background: #eff6ff; }
@@ -37,7 +37,7 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
-    /* PAINEL DIREITO: CARTÃO BFA + RESUMO DASHBOARD */
+    /* PAINEL DIREITO: CARTÃO BFA + RESUMO DINÂMICO */
     .side-dashboard { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 20px; }
 
     /* CARTÃO BFA */
@@ -72,18 +72,20 @@
     .card-holder { font-size: 9px; text-transform: uppercase; color: #fca5a5; }
     .card-holder div { font-weight: 700; font-size: 11px; color: #ffffff; margin-top: 2px; }
 
-    /* CARD RESUMO DASHBOARD */
+    /* CARD RESUMO DO DASHBOARD DINÂMICO */
     .summary-box { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .summary-box h3 { font-size: 15px; margin-bottom: 14px; color: #0f172a; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .summary-box h3 { font-size: 15px; margin-bottom: 14px; color: #0f172a; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
     .summary-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; }
     .summary-item span { color: #64748b; }
     .summary-item strong { font-weight: 700; color: #1e293b; }
+    
+    .live-dot { height: 8px; width: 8px; background-color: #22c55e; border-radius: 50%; display: inline-block; box-shadow: 0 0 0 2px rgba(34,197,94,0.2); }
 
     /* CARDS DO PAINEL */
     .card-panel { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 20px; }
     .card-panel h3 { font-size: 16px; margin-bottom: 18px; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
 
-    /* TABELAS */
+    /* TABELAS E CARDS DE SERVIÇO */
     table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
     th { background: #f8fafc; color: #475569; padding: 12px 10px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
     td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: middle; }
@@ -92,6 +94,16 @@
     .badge-pago { background: #dcfce7; color: #15803d; }
     .badge-pendente { background: #fef3c7; color: #b45309; }
     .badge-caminho { background: #e0f2fe; color: #0369a1; }
+
+    /* GRID DO CATÁLOGO DE SERVIÇOS */
+    .service-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
+    .service-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; transition: 0.2s; display: flex; flex-direction: column; justify-content: space-between; }
+    .service-card:hover { border-color: #2563eb; background: #ffffff; box-shadow: 0 4px 12px rgba(37,99,235,0.08); transform: translateY(-2px); }
+    .service-title { font-size: 15px; font-weight: 700; color: #1e3a5f; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+    .service-desc { font-size: 12px; color: #64748b; margin-bottom: 12px; line-height: 1.4; flex-grow: 1; }
+    .service-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+    .service-price { font-size: 13px; font-weight: 700; color: #16a34a; }
+    .service-cat { font-size: 10px; background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; font-weight: 700; }
 
     /* BOTÕES */
     .btn-sm { padding: 6px 10px; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; }
@@ -126,7 +138,7 @@
     .total-highlight { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 6px; text-align: center; margin-top: 10px; }
     .total-highlight h4 { font-size: 18px; color: #1d4ed8; font-weight: 700; margin-top: 2px; }
 
-    footer { text-align: center; padding: 20px; font-size: 13px; color: #94a3b8; border-top: 1px solid #e2e8f0; background: #ffffff; margin-top: 40px; }
+    footer { text-align: center; padding: 20px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; background: #ffffff; margin-top: 40px; line-height: 1.6; }
 
     @media (max-width: 992px) {
       .dashboard-layout { grid-template-columns: 1fr; }
@@ -153,7 +165,7 @@
   <div class="container">
     <div class="page-title">
       <h2>Painel de Gestão Financeira</h2>
-      <button class="btn-action" onclick="alert('Relatório exportado!')">
+      <button class="btn-action" onclick="alert('Relatório exportado com dados dinâmicos!')">
         <i class="fas fa-file-export"></i> Exportar Relatório
       </button>
     </div>
@@ -166,6 +178,7 @@
         <!-- MENU VERTICAL -->
         <div class="vertical-menu-tabs">
           <button class="tab-btn-v active" onclick="switchTab(event, 'tab-visao-geral')"><i class="fas fa-chart-pie"></i> Visão Geral & Transações</button>
+          <button class="tab-btn-v" onclick="switchTab(event, 'tab-servicos')"><i class="fas fa-search"></i> Catálogo & Pesquisa de Serviços APSAN</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-compras')"><i class="fas fa-shopping-bag"></i> Compras Namíbia & Encomendas</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-cambio')"><i class="fas fa-exchange-alt"></i> Câmbio AOA/NAD</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-faturacao')"><i class="fas fa-file-invoice-dollar"></i> Faturação (Criar / Gerar)</button>
@@ -220,7 +233,7 @@
                   </tr>
                 </thead>
                 <tbody id="tabela-transacoes">
-                  <tr id="row-trans-1">
+                  <tr id="row-trans-1" data-valor="660000" data-estado="Pago">
                     <td>João Manuel</td>
                     <td>Peças Automóveis</td>
                     <td><strong>660.000,00 Kz</strong></td>
@@ -236,7 +249,23 @@
 
         </div>
 
-        <!-- ABA 2: COMPRAS NAMÍBIA & ENCOMENDAS (FUNCIONAL) -->
+        <!-- ABA 2: CATÁLOGO DE SERVIÇOS OFICIAIS APSAN, LDA -->
+        <div id="tab-servicos" class="tab-content">
+          <div class="card-panel">
+            <h3><i class="fas fa-concierge-bell"></i> Consultar & Pesquisar Serviços - APSAN, LDA</h3>
+            
+            <div class="form-group" style="position: relative;">
+              <label>Pesquisar Serviço por Nome, Categoria ou Descrição:</label>
+              <input type="text" id="input-pesquisar-servico" placeholder="Ex: Tradução, Câmbio, Hospitalar, Compras, Websites..." onkeyup="filtrarServicos()">
+            </div>
+
+            <div class="service-grid" id="grid-servicos">
+              <!-- Serviços oficiais inseridos dinamicamente via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA 3: COMPRAS NAMÍBIA & ENCOMENDAS -->
         <div id="tab-compras" class="tab-content">
           <div class="card-panel">
             <h3>
@@ -261,7 +290,7 @@
                   </tr>
                 </thead>
                 <tbody id="tabela-encomendas">
-                  <tr id="row-NAM-2026-01">
+                  <tr id="row-NAM-2026-01" data-nad="800">
                     <td><strong>#NAM-2026-01</strong></td>
                     <td>Albertina Sampaio</td>
                     <td>Caixas de Manteiga</td>
@@ -281,7 +310,7 @@
           </div>
         </div>
 
-        <!-- ABA 3: CÂMBIO AOA/NAD (FUNCIONAL) -->
+        <!-- ABA 4: CÂMBIO AOA/NAD -->
         <div id="tab-cambio" class="tab-content">
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
             <div class="card-panel">
@@ -303,13 +332,13 @@
                 <input type="number" id="taxa-dia" value="66.00" step="0.01" oninput="atualizarTaxaGlobal()">
               </div>
               <p style="font-size: 12px; color: #64748b; margin-top: 10px;">
-                <i class="fas fa-info-circle"></i> Esta taxa é utilizada automaticamente no cálculo de todas as encomendas e conversões do sistema.
+                <i class="fas fa-info-circle"></i> Esta taxa é utilizada automaticamente no cálculo do dashboard e de todas as encomendas.
               </p>
             </div>
           </div>
         </div>
 
-        <!-- ABA 4: FATURAÇÃO -->
+        <!-- ABA 5: FATURAÇÃO -->
         <div id="tab-faturacao" class="tab-content">
           <div class="card-panel">
             <h3><i class="fas fa-file-invoice"></i> Criar & Emitir Fatura</h3>
@@ -317,7 +346,7 @@
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div class="form-group">
                   <label>Cliente / Empresa:</label>
-                  <input type="text" id="fat-cliente" placeholder="Ex: APSAN Cliente" required>
+                  <input type="text" id="fat-cliente" placeholder="Ex: Consumidor Final" required>
                 </div>
                 <div class="form-group">
                   <label>NIF do Cliente:</label>
@@ -326,7 +355,7 @@
               </div>
               <div class="form-group">
                 <label>Descrição do Serviço / Produto:</label>
-                <input type="text" id="fat-descricao" placeholder="Ex: Serviço de Frete Angola-Namíbia" required>
+                <input type="text" id="fat-descricao" placeholder="Ex: Acompanhamento hospitalar" required>
               </div>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div class="form-group">
@@ -343,7 +372,7 @@
           </div>
         </div>
 
-        <!-- ABA 5: DESPESAS -->
+        <!-- ABA 6: DESPESAS -->
         <div id="tab-despesas" class="tab-content">
           <div class="card-panel">
             <h3><i class="fas fa-plus-circle"></i> Registar Nova Despesa</h3>
@@ -371,12 +400,12 @@
           </div>
         </div>
 
-        <!-- ABA 6: RELATÓRIOS -->
+        <!-- ABA 7: RELATÓRIOS -->
         <div id="tab-relatorios" class="tab-content"><div class="card-panel"><h3>Relatórios Financeiros</h3></div></div>
 
       </div>
 
-      <!-- COLUNA DA DIREITA: CARTÃO BFA + RESUMO DO DASHBOARD -->
+      <!-- COLUNA DA DIREITA: CARTÃO BFA + RESUMO DO DASHBOARD DINÂMICO -->
       <div class="side-dashboard">
 
         <!-- CARTÃO VIRTUAL BFA -->
@@ -413,24 +442,27 @@
           </div>
         </div>
 
-        <!-- CARD RESUMO DO DASHBOARD -->
+        <!-- CARD RESUMO DO DASHBOARD (INTEIRAMENTE DINÂMICO) -->
         <div class="summary-box">
-          <h3><i class="fas fa-chart-line"></i> Resumo do Dashboard</h3>
+          <h3>
+            <span><i class="fas fa-chart-line"></i> Resumo em Tempo Real</span>
+            <span class="live-dot" title="A atualizar dinamicamente"></span>
+          </h3>
           <div class="summary-item">
             <span>Entradas do Mês:</span>
-            <strong style="color: #16a34a;">+ 2.450.000,00 Kz</strong>
+            <strong id="dash-entradas" style="color: #16a34a;">+ 0,00 Kz</strong>
           </div>
           <div class="summary-item">
             <span>Despesas Registadas:</span>
-            <strong style="color: #dc2626;">- 150.000,00 Kz</strong>
+            <strong id="dash-despesas" style="color: #dc2626;">- 0,00 Kz</strong>
           </div>
           <div class="summary-item">
             <span>Compras Namíbia:</span>
-            <strong>$ 45.200,00 NAD</strong>
+            <strong id="dash-compras-nad">$ 0,00 NAD</strong>
           </div>
           <div class="summary-item">
             <span>Taxa Câmbio Atual:</span>
-            <strong id="resumo-taxa-display">1 NAD = 66,00 Kz</strong>
+            <strong id="dash-taxa">1 NAD = 66,00 Kz</strong>
           </div>
         </div>
 
@@ -524,13 +556,109 @@
   </div>
 
   <footer>
-    APSAN, LDA &copy; 2026 - Sistema de Gestão Integrado. Todos os direitos reservados.
+    <strong>APSAN, LDA</strong> &copy; 2026 - Prestadora de Serviços Ang-Nam<br>
+    Angola - Cunene (Santa Clara) | NIF: 5002085011<br>
+    Contactos: +244 931 057 760 / +244 943 447 739
   </footer>
 
   <script>
     let contadorTransacoes = 2;
     let contadorEncomendas = 2;
     let editandoSaldo = false;
+
+    // CATÁLOGO COMPLETO DE SERVIÇOS RETIRADOS DO PANFLETO DA APSAN, LDA
+    const servicosAPSAN = [
+      {
+        id: 1,
+        nome: "Acompanhamento hospitalar",
+        categoria: "Saúde & Assistência",
+        descricao: "Apoio e acompanhamento personalizado em deslocações médicas e consultas na Namíbia.",
+        precoBase: "35.000,00 Kz",
+        valorNum: 35000,
+        icone: "fa-user-md"
+      },
+      {
+        id: 2,
+        nome: "Tradução e Interpretação",
+        categoria: "Linguística",
+        descricao: "Suporte linguístico presencial e remoto (Português / Inglês) para reuniões e compras.",
+        precoBase: "25.000,00 Kz / Dia",
+        valorNum: 25000,
+        icone: "fa-language"
+      },
+      {
+        id: 3,
+        nome: "Tradução Oficial Juramentada",
+        categoria: "Linguística",
+        descricao: "Tradução legal de documentos, certificados e processos institucionais válidos internacionalmente.",
+        precoBase: "15.000,00 Kz / Pág",
+        valorNum: 15000,
+        icone: "fa-file-signature"
+      },
+      {
+        id: 4,
+        nome: "Importação & Exportação Ang-Nam",
+        categoria: "Comércio & Logística",
+        descricao: "Gestão completa de desalfandegamento e transporte transfronteiriço de mercadorias.",
+        precoBase: "Sob Consulta / Carga",
+        valorNum: 0,
+        icone: "fa-truck-loading"
+      },
+      {
+        id: 5,
+        nome: "Depósitos na Namíbia",
+        categoria: "Financeiro",
+        descricao: "Assistência e transferência segura para realização de depósitos bancários na Namíbia.",
+        precoBase: "Taxa de Serviço 5%",
+        valorNum: 0,
+        icone: "fa-piggy-bank"
+      },
+      {
+        id: 6,
+        nome: "Assistência com Câmbio de moeda",
+        categoria: "Financeiro",
+        descricao: "Assessoria financeira para conversão de Kwanzas (AOA) para Dólares Namibianos (NAD) com segurança.",
+        precoBase: "Conforme Taxa do Dia",
+        valorNum: 0,
+        icone: "fa-coins"
+      },
+      {
+        id: 7,
+        nome: "Criação de Websites",
+        categoria: "Tecnologia",
+        descricao: "Desenvolvimento de páginas web corporativas, portais institucionais e plataformas digitais.",
+        precoBase: "150.000,00 Kz",
+        valorNum: 150000,
+        icone: "fa-laptop-code"
+      },
+      {
+        id: 8,
+        nome: "Serviços de Contabilidade",
+        categoria: "Gestão & Finanças",
+        descricao: "Organização contabilística, elaboração de relatórios e consultoria financeira para empresas.",
+        precoBase: "60.000,00 Kz / Mês",
+        valorNum: 60000,
+        icone: "fa-calculator"
+      },
+      {
+        id: 9,
+        nome: "Marketing Digital",
+        categoria: "Comunicação & Vendas",
+        descricao: "Gestão de redes sociais, publicidade direcionada e promoção de marca digitalmente.",
+        precoBase: "40.000,00 Kz / Mês",
+        valorNum: 40000,
+        icone: "fa-bullhorn"
+      },
+      {
+        id: 10,
+        nome: "Compras na Namíbia",
+        categoria: "Comércio & Logística",
+        descricao: "Serviço de compra sob encomenda de bens, materiais e peças diretamente no mercado namibiano.",
+        precoBase: "Comissão de Gestão",
+        valorNum: 0,
+        icone: "fa-shopping-cart"
+      }
+    ];
 
     function formatarKz(valor) {
       return parseFloat(valor).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " Kz";
@@ -544,6 +672,87 @@
       event.currentTarget.classList.add('active');
     }
 
+    /* ================= DADOS DINÂMICOS DO DASHBOARD ================= */
+    function atualizarDashboardDinamico() {
+      let totalEntradas = 0;
+      document.querySelectorAll('#tabela-transacoes tr').forEach(row => {
+        const valor = parseFloat(row.getAttribute('data-valor')) || 0;
+        const estado = row.getAttribute('data-estado');
+        if (estado === 'Pago') {
+          totalEntradas += valor;
+        }
+      });
+
+      let totalComprasNad = 0;
+      document.querySelectorAll('#tabela-encomendas tr').forEach(row => {
+        const valorNad = parseFloat(row.getAttribute('data-nad')) || 0;
+        totalComprasNad += valorNad;
+      });
+
+      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 66;
+
+      document.getElementById('dash-entradas').innerText = `+ ${formatarKz(totalEntradas)}`;
+      document.getElementById('dash-compras-nad').innerText = `$ ${totalComprasNad.toLocaleString('pt-PT', {minimumFractionDigits: 2})} NAD`;
+      document.getElementById('dash-taxa').innerText = `1 NAD = ${taxa.toFixed(2).replace('.', ',')} Kz`;
+    }
+
+    /* ================= CATÁLOGO E PESQUISA DE SERVIÇOS ================= */
+    function carregarServicos(lista) {
+      const container = document.getElementById('grid-servicos');
+      container.innerHTML = '';
+
+      if (lista.length === 0) {
+        container.innerHTML = '<p style="font-size: 13px; color: #94a3b8; grid-column: 1/-1;">Nenhum serviço encontrado para o termo pesquisado.</p>';
+        return;
+      }
+
+      lista.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'service-card';
+        card.innerHTML = `
+          <div>
+            <div class="service-title">
+              <i class="fas ${s.icone}" style="color: #2563eb;"></i> ${s.nome}
+            </div>
+            <div class="service-desc">${s.descricao}</div>
+          </div>
+          <div>
+            <div class="service-meta">
+              <span class="service-cat">${s.categoria}</span>
+              <span class="service-price">${s.precoBase}</span>
+            </div>
+            <button class="btn-sm btn-action" style="width: 100%; justify-content: center; margin-top: 12px; padding: 7px;" onclick="usarServicoNaFatura('${s.nome}', ${s.valorNum})">
+              <i class="fas fa-file-invoice"></i> Lançar em Faturação
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filtrarServicos() {
+      const termo = document.getElementById('input-pesquisar-servico').value.toLowerCase();
+      const filtrados = servicosAPSAN.filter(s => 
+        s.nome.toLowerCase().includes(termo) || 
+        s.descricao.toLowerCase().includes(termo) ||
+        s.categoria.toLowerCase().includes(termo)
+      );
+      carregarServicos(filtrados);
+    }
+
+    function usarServicoNaFatura(nomeServico, valorBase) {
+      document.getElementById('fat-descricao').value = nomeServico;
+      if (valorBase > 0) {
+        document.getElementById('fat-valor').value = valorBase;
+      } else {
+        document.getElementById('fat-valor').value = '';
+      }
+      
+      const btnFaturacao = document.querySelectorAll('.tab-btn-v')[4];
+      btnFaturacao.click();
+      alert(`Serviço "${nomeServico}" selecionado! Complete os dados do cliente para gerar a fatura.`);
+    }
+
     /* ================= CÂMBIO ================= */
     function converterMoeda(origem) {
       const aoa = parseFloat(document.getElementById('calc-aoa').value) || 0;
@@ -554,8 +763,7 @@
     }
 
     function atualizarTaxaGlobal() {
-      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 66;
-      document.getElementById('resumo-taxa-display').innerText = `1 NAD = ${taxa.toFixed(2).replace('.', ',')} Kz`;
+      atualizarDashboardDinamico();
       converterMoeda('AOA');
       calcularTotalEncomenda();
     }
@@ -622,6 +830,8 @@
 
       const novaLinha = document.createElement('tr');
       novaLinha.id = rowId;
+      novaLinha.setAttribute('data-nad', subtotalNad);
+
       novaLinha.innerHTML = `
         <td><strong>${numCodigo}</strong></td>
         <td>${cliente}</td>
@@ -638,6 +848,7 @@
       `;
 
       document.getElementById('tabela-encomendas').appendChild(novaLinha);
+      atualizarDashboardDinamico();
 
       alert(`Encomenda ${numCodigo} guardada com sucesso!`);
       document.getElementById('form-encomenda').reset();
@@ -647,7 +858,10 @@
     function eliminarEncomenda(rowId, codigo) {
       if (confirm(`Tem a certeza que deseja eliminar a encomenda ${codigo}?`)) {
         const linha = document.getElementById(rowId);
-        if (linha) linha.remove();
+        if (linha) {
+          linha.remove();
+          atualizarDashboardDinamico();
+        }
       }
     }
 
@@ -748,6 +962,9 @@
 
       const novaLinha = document.createElement('tr');
       novaLinha.id = rowId;
+      novaLinha.setAttribute('data-valor', valor);
+      novaLinha.setAttribute('data-estado', estado);
+
       novaLinha.innerHTML = `
         <td>${cliente}</td>
         <td>${servico}</td>
@@ -759,6 +976,8 @@
       `;
 
       document.getElementById('tabela-transacoes').appendChild(novaLinha);
+      atualizarDashboardDinamico();
+
       alert('Transação guardada com sucesso!');
       event.target.reset();
     }
@@ -766,7 +985,10 @@
     function eliminarTransacao(rowId) {
       if (confirm('Tem a certeza que deseja eliminar esta transação?')) {
         const linha = document.getElementById(rowId);
-        if (linha) linha.remove();
+        if (linha) {
+          linha.remove();
+          atualizarDashboardDinamico();
+        }
       }
     }
 
@@ -794,6 +1016,7 @@
           <div class="header">
             <h1>APSAN, LDA</h1>
             <p>Fatura de Prestação de Serviços</p>
+            <p><small>NIF: 5002085011 | Santa Clara - Cunene</small></p>
           </div>
           <p><strong>Cliente:</strong> ${cliente}</p>
           <p><strong>NIF:</strong> ${nif}</p>
@@ -834,9 +1057,26 @@
 
     function salvarDespesa(event) {
       event.preventDefault();
-      alert('Despesa guardada!');
+      const val = parseFloat(document.getElementById('desp-val').value) || 0;
+      
+      const elDesp = document.getElementById('dash-despesas');
+      const despAtual = parseFloat(elDesp.innerText.replace(/[^0-9,-]+/g,"").replace(',', '.')) || 0;
+      const novaDespesa = despAtual + val;
+      elDesp.innerText = `- ${formatarKz(novaDespesa)}`;
+
+      alert('Despesa guardada e adicionada ao dashboard!');
       event.target.reset();
     }
+
+    // INICIALIZAÇÃO
+    window.onload = function() {
+      carregarServicos(servicosAPSAN);
+      atualizarDashboardDinamico();
+      
+      // Definir data atual padrão na fatura
+      const hoje = new Date().toISOString().split('T')[0];
+      document.getElementById('fat-data').value = hoje;
+    };
   </script>
 </body>
 </html>

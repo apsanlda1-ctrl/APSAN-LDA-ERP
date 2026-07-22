@@ -35,6 +35,75 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
+    /* CARTÃO BFA DESTAQUE SUPERIOR */
+    .bfa-card-wrapper { margin-bottom: 25px; display: flex; justify-content: center; }
+    .virtual-card-bfa {
+      background: linear-gradient(135deg, #a80000 0%, #d90429 60%, #800000 100%);
+      border-radius: 18px;
+      padding: 24px;
+      color: #ffffff;
+      box-shadow: 0 12px 25px rgba(217, 4, 41, 0.25);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 480px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .virtual-card-bfa::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 220px;
+      height: 220px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .bfa-brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 16px; letter-spacing: 1px; color: #ffffff; }
+    .bfa-brand span { background: #ffffff; color: #d90429; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: 900; }
+    
+    .card-top .chip { width: 42px; height: 30px; background: linear-gradient(135deg, #fef08a, #ca8a04); border-radius: 6px; position: relative; border: 1px solid rgba(0,0,0,0.2); }
+    .card-top .chip::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(0,0,0,0.2); }
+    
+    .card-balance-label { font-size: 11px; text-transform: uppercase; color: #fca5a5; letter-spacing: 0.5px; font-weight: 600; }
+    .card-balance-val { font-size: 26px; font-weight: 700; margin: 4px 0 15px 0; font-family: monospace; display: flex; align-items: center; gap: 8px; }
+    
+    .card-balance-input {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #fca5a5;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: 700;
+      font-family: monospace;
+      padding: 4px 8px;
+      border-radius: 6px;
+      width: 200px;
+      outline: none;
+    }
+
+    .btn-card-action {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: #ffffff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: 0.2s;
+    }
+    .btn-card-action:hover { background: rgba(255, 255, 255, 0.35); }
+
+    .card-number { font-size: 16px; letter-spacing: 3px; font-family: monospace; color: #fecdd3; margin-bottom: 15px; }
+    .card-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .card-holder { font-size: 10px; text-transform: uppercase; color: #fca5a5; }
+    .card-holder div { font-weight: 700; font-size: 13px; color: #ffffff; margin-top: 2px; }
+    .bfa-logo-text { font-size: 18px; font-weight: 900; font-style: italic; color: #ffffff; letter-spacing: -1px; }
+
     /* Cards e KPIs */
     .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
     .kpi-card { background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: space-between; }
@@ -50,41 +119,6 @@
 
     .card-panel { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 20px; }
     .card-panel h3 { font-size: 16px; margin-bottom: 18px; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
-
-    /* ESTILO DO CARTÃO VIRTUAL INTEGRADO */
-    .virtual-card {
-      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #2563eb 100%);
-      border-radius: 16px;
-      padding: 22px;
-      color: #ffffff;
-      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .virtual-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 200px;
-      height: 200px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 50%;
-    }
-    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .card-top .bank-name { font-weight: 700; font-size: 14px; letter-spacing: 1px; color: #93c5fd; }
-    .card-top .chip { width: 38px; height: 28px; background: linear-gradient(135deg, #fef08a, #ca8a04); border-radius: 5px; position: relative; }
-    .card-top .chip::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(0,0,0,0.2); }
-    
-    .card-balance-label { font-size: 11px; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px; }
-    .card-balance-val { font-size: 24px; font-weight: 700; margin: 4px 0 18px 0; font-family: monospace; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
-    
-    .card-number { font-size: 15px; letter-spacing: 3px; font-family: monospace; color: #cbd5e1; margin-bottom: 15px; }
-    .card-footer { display: flex; justify-content: space-between; align-items: flex-end; }
-    .card-holder { font-size: 11px; text-transform: uppercase; }
-    .card-holder div { font-weight: 600; font-size: 13px; color: #ffffff; margin-top: 2px; }
-    .card-brand-logo { font-size: 22px; font-style: italic; font-weight: 800; opacity: 0.9; }
 
     /* Tabela */
     table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
@@ -171,6 +205,47 @@
 
     <!-- ABA VISÃO GERAL -->
     <div id="tab-visao-geral" class="tab-content active">
+
+      <!-- CARTÃO BFA EM DESTAQUE NO TOPO -->
+      <div class="bfa-card-wrapper">
+        <div class="virtual-card-bfa">
+          <div class="card-top">
+            <div class="bfa-brand">
+              <span>BFA</span> Banco de Fomento Angola
+            </div>
+            <div class="chip"></div>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+              <div class="card-balance-label">Saldo Atual em Conta Real (AOA)</div>
+              <div class="card-balance-val">
+                <span id="saldo-texto">3.110.000,00</span> <small style="font-size: 14px; font-weight: normal;">Kz</small>
+                <input type="number" id="saldo-input" class="card-balance-input" style="display: none;" step="0.01">
+              </div>
+            </div>
+
+            <!-- BOTÃO PARA EDITAR E GUARDAR SALDO -->
+            <button id="btn-editar-saldo" class="btn-card-action" onclick="alternarEdicaoSaldo()">
+              <i class="fas fa-pen"></i> <span id="btn-text">Atualizar</span>
+            </button>
+          </div>
+
+          <div class="card-number">•••• •••• •••• 8842</div>
+
+          <div class="card-footer">
+            <div class="card-holder">
+              <span>Titular da Conta</span>
+              <div>APSAN, LDA</div>
+            </div>
+            <div class="bfa-logo-text">
+              BFA <small style="font-size: 9px; font-weight: normal; display: block; text-align: right;">CORPORATE</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPIS LOGO ABAIXO DO CARTÃO -->
       <div class="kpi-grid">
         <div class="kpi-card">
           <div class="kpi-info">
@@ -203,8 +278,6 @@
       </div>
 
       <div class="content-grid">
-        
-        <!-- COLUNA DA ESQUERDA: TRANSAÇÕES -->
         <div class="card-panel">
           <h3>
             <span><i class="fas fa-list-alt"></i> Últimas Transações</span>
@@ -231,53 +304,20 @@
           </div>
         </div>
 
-        <!-- COLUNA DA DIREITA: CARTÃO VIRTUAL DA CONTA E REGISTRO -->
-        <div>
-          <!-- NOVO COMPONENTE: CARTÃO VIRTUAL CORPORATIVO -->
-          <div class="virtual-card">
-            <div class="card-top">
-              <span class="bank-name"><i class="fas fa-building-columns"></i> APSAN BUSINESS</span>
-              <div class="chip"></div>
+        <div class="card-panel">
+          <h3><i class="fas fa-plus-circle"></i> Registar Transação</h3>
+          <form onsubmit="registarTransacao(event)">
+            <div class="form-group">
+              <label>Nome do Cliente:</label>
+              <input type="text" id="cliente" required>
             </div>
-            
-            <div class="card-balance-label">Saldo Real em Conta</div>
-            <div class="card-balance-val">
-              <span id="saldo-cartao-val">3.110.000,00</span> <small style="font-size: 14px;">Kz</small>
-              <button onclick="sincronizarSaldoBanco()" title="Sincronizar com o banco" style="background: transparent; border: none; color: #93c5fd; cursor: pointer; font-size: 14px; margin-left: auto;">
-                <i class="fas fa-sync-alt" id="icon-sync"></i>
-              </button>
+            <div class="form-group">
+              <label>Valor (AOA):</label>
+              <input type="number" id="valor" required>
             </div>
-
-            <div class="card-number">•••• •••• •••• 8842</div>
-
-            <div class="card-footer">
-              <div class="card-holder">
-                <span>Titular da Conta</span>
-                <div>APSAN, LDA</div>
-              </div>
-              <div class="card-brand-logo">
-                <i class="fab fa-cc-visa"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- FORMULÁRIO DE REGISTRO -->
-          <div class="card-panel">
-            <h3><i class="fas fa-plus-circle"></i> Registar Transação</h3>
-            <form onsubmit="registarTransacao(event)">
-              <div class="form-group">
-                <label>Nome do Cliente:</label>
-                <input type="text" id="cliente" required>
-              </div>
-              <div class="form-group">
-                <label>Valor (AOA):</label>
-                <input type="number" id="valor" required>
-              </div>
-              <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> Guardar</button>
-            </form>
-          </div>
+            <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> Guardar</button>
+          </form>
         </div>
-
       </div>
     </div>
 
@@ -369,7 +409,6 @@
       <form id="form-encomenda" onsubmit="salvarNovaEncomenda(event)" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
         
         <div class="modal-body">
-          
           <div class="form-group">
             <label for="enc-cliente">Nome do Cliente:</label>
             <input type="text" id="enc-cliente" placeholder="Ex: Albertina Sampaio" required>
@@ -434,14 +473,12 @@
               <option value="A Caminho">A Caminho</option>
             </select>
           </div>
-
         </div>
 
         <div class="modal-footer">
           <button type="button" class="btn-sm" style="background: #e2e8f0; color: #475569; padding: 10px 16px;" onclick="fecharModalNovaEncomenda()">Cancelar</button>
           <button type="submit" class="btn-action"><i class="fas fa-save"></i> Salvar Encomenda</button>
         </div>
-
       </form>
     </div>
   </div>
@@ -452,6 +489,47 @@
 
   <script>
     let contadorEncomendas = 2;
+    let editandoSaldo = false;
+
+    // CARREGAR SALDO GUARDADO AO INICIAR A PÁGINA
+    window.onload = function() {
+      const saldoSalvo = localStorage.getItem('apsan_bfa_saldo');
+      if (saldoSalvo) {
+        document.getElementById('saldo-texto').innerText = parseFloat(saldoSalvo).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    };
+
+    // ALTERNAR ENTRE EDITA E SALVAR O SALDO
+    function alternarEdicaoSaldo() {
+      const txtSaldo = document.getElementById('saldo-texto');
+      const inputSaldo = document.getElementById('saldo-input');
+      const btnText = document.getElementById('btn-text');
+
+      if (!editandoSaldo) {
+        // Mudar para modo de Edição
+        const valorAtual = parseFloat(txtSaldo.innerText.replace(/\./g, '').replace(',', '.')) || 0;
+        inputSaldo.value = valorAtual;
+        txtSaldo.style.display = 'none';
+        inputSaldo.style.display = 'inline-block';
+        inputSaldo.focus();
+        btnText.innerText = 'Guardar';
+        editandoSaldo = true;
+      } else {
+        // Mudar para modo de Visualização e Guardar
+        const novoValor = parseFloat(inputSaldo.value) || 0;
+        
+        // Guardar no LocalStorage
+        localStorage.setItem('apsan_bfa_saldo', novoValor);
+
+        txtSaldo.innerText = novoValor.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        inputSaldo.style.display = 'none';
+        txtSaldo.style.display = 'inline-block';
+        btnText.innerText = 'Atualizar';
+        editandoSaldo = false;
+
+        alert('Saldo BFA atualizado com sucesso!');
+      }
+    }
 
     function switchTab(event, tabId) {
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -466,32 +544,6 @@
 
     function fecharModalNovaEncomenda() {
       document.getElementById('modal-encomenda').classList.remove('active');
-    }
-
-    // SIMULAÇÃO DE SINCRONIZAÇÃO EM TEMPO REAL VIA API DO BANCO
-    async function sincronizarSaldoBanco() {
-      const icon = document.getElementById('icon-sync');
-      icon.classList.add('fa-spin');
-      
-      try {
-        /* EXEMPLO DE INTEGRAÇÃO REAL DE API:
-        const response = await fetch('https://api.seubanco.com/v1/conta/saldo', {
-          headers: { 'Authorization': 'Bearer SEU_TOKEN_AQUI' }
-        });
-        const data = await response.json();
-        document.getElementById('saldo-cartao-val').innerText = data.saldoFormatado;
-        */
-
-        // Simulando resposta da API bancária após 1 segundo
-        setTimeout(() => {
-          icon.classList.remove('fa-spin');
-          alert("Saldo sincronizado com a conta bancária!");
-        }, 1000);
-
-      } catch (error) {
-        icon.classList.remove('fa-spin');
-        console.error("Erro ao sincronizar saldo:", error);
-      }
     }
 
     function calcularTotalEncomenda() {

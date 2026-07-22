@@ -92,11 +92,28 @@
     td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border); color: var(--dark); }
     tr:hover { background: #f8fafc; }
 
-    /* FORMULÁRIO DE DOCUMENTOS */
-    .doc-preview { background: var(--white); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border); max-width: 850px; margin: 0 auto; font-family: 'Times New Roman', Times, serif; line-height: 1.8; box-shadow: var(--shadow); }
+    /* FORMULÁRIO DE DOCUMENTOS - ESTRUTURA FOLHA A4 COM RODAPÉ FIXO */
+    .doc-preview { 
+      background: var(--white); 
+      padding: 40px; 
+      border-radius: var(--radius); 
+      border: 1px solid var(--border); 
+      max-width: 850px; 
+      min-height: 260mm; /* Simula a altura proporcional de uma página A4 */
+      margin: 0 auto; 
+      font-family: 'Times New Roman', Times, serif; 
+      line-height: 1.8; 
+      box-shadow: var(--shadow); 
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
     .doc-input { border: none; border-bottom: 1px dashed #64748b; font-family: inherit; font-size: inherit; padding: 2px 6px; background: #f8fafc; outline: none; }
     .doc-input:focus { border-bottom-color: var(--primary); background: #eff6ff; }
     
+    .doc-wrapper { display: flex; flex-direction: column; height: 100%; flex: 1; }
+    .doc-footer-section { margin-top: auto; padding-top: 30px; } /* Empurra para o rodapé */
+
     .lang-tabs { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
     .tab-btn-group { display: flex; gap: 8px; }
     .lang-tab { padding: 8px 16px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; }
@@ -212,118 +229,128 @@
 
       <div class="doc-preview" id="doc-preview-container">
         <!-- ================= VERSÃO PORTUGUÊS ================= -->
-        <div id="doc-pt">
-          <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">TERMO DE AUTORIZAÇÃO DE VIAGEM DE MENOR</h3>
-          
-          <!-- PORTUGUÊS: AMBOS OS PAIS -->
-          <div id="pt-ambos-pais">
-            <p style="text-align: justify; margin-bottom: 12px;">
-              Nós, <input type="text" class="doc-input" style="width: 260px;" placeholder="Nome Completo do Pai">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portador do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Documento Pai">, na qualidade de <strong>Pai</strong>,
-            </p>
+        <div id="doc-pt" class="doc-wrapper">
+          <div>
+            <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">TERMO DE AUTORIZAÇÃO DE VIAGEM DE MENOR</h3>
             
-            <p style="text-align: justify; margin-bottom: 16px;">
-              e <input type="text" class="doc-input" style="width: 260px;" placeholder="Nome Completo da Mãe">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portadora do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Documento Mãe">, na qualidade de <strong>Mãe</strong>,
-            </p>
+            <!-- PORTUGUÊS: AMBOS OS PAIS -->
+            <div id="pt-ambos-pais">
+              <p style="text-align: justify; margin-bottom: 12px;">
+                Nós, <input type="text" class="doc-input" style="width: 260px;" placeholder="Nome Completo do Pai">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portador do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Documento Pai">, na qualidade de <strong>Pai</strong>,
+              </p>
+              
+              <p style="text-align: justify; margin-bottom: 16px;">
+                e <input type="text" class="doc-input" style="width: 260px;" placeholder="Nome Completo da Mãe">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portadora do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Documento Mãe">, na qualidade de <strong>Mãe</strong>,
+              </p>
 
-            <p style="text-align: justify; margin-bottom: 16px;">
-              residentes e domiciliados em <input type="text" class="doc-input" style="width: 320px;" placeholder="Endereço Completo dos Pais">,
-            </p>
+              <p style="text-align: justify; margin-bottom: 16px;">
+                residentes e domiciliados em <input type="text" class="doc-input" style="width: 320px;" placeholder="Endereço Completo dos Pais">,
+              </p>
 
-            <p style="text-align: justify; margin-bottom: 20px;">
-              <strong>AUTORIZAMOS</strong> expressamente que o(a) nosso(a) filho(a) menor <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome Completo do Menor">, nascido(a) a <input type="date" class="doc-input">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Passaporte do Menor">, viaje para a República da Namíbia e outros países do itinerário, acompanhado(a) pelo(a) Sr.(a) <input type="text" class="doc-input" style="width: 240px;" placeholder="Nome do Acompanhante">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Doc Acompanhante">, com o grau de parentesco / relação de <input type="text" class="doc-input" style="width: 150px;" placeholder="ex: Tio(a), Acompanhante">.
+              <p style="text-align: justify; margin-bottom: 20px;">
+                <strong>AUTORIZAMOS</strong> expressamente que o(a) nosso(a) filho(a) menor <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome Completo do Menor">, nascido(a) a <input type="date" class="doc-input">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Passaporte do Menor">, viaje para a República da Namíbia e outros países do itinerário, acompanhado(a) pelo(a) Sr.(a) <input type="text" class="doc-input" style="width: 240px;" placeholder="Nome do Acompanhante">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Doc Acompanhante">, com o grau de parentesco / relação de <input type="text" class="doc-input" style="width: 150px;" placeholder="ex: Tio(a), Acompanhante">.
+              </p>
+            </div>
+
+            <!-- PORTUGUÊS: APENAS O PAI -->
+            <div id="pt-apenas-pai" style="display: none;">
+              <p style="text-align: justify; margin-bottom: 16px;">
+                Eu, <input type="text" class="doc-input" style="width: 280px;" placeholder="Nome Completo do Pai">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portador do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 150px;" placeholder="Nº Documento Pai">, residente e domiciliado em <input type="text" class="doc-input" style="width: 300px;" placeholder="Endereço Completo">, na qualidade de <strong>Pai</strong>,
+              </p>
+
+              <p style="text-align: justify; margin-bottom: 20px;">
+                <strong>AUTORIZO</strong> expressamente que o(a) meu(minha) filho(a) menor <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome Completo do Menor">, nascido(a) a <input type="date" class="doc-input">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Passaporte do Menor">, viaje para a República da Namíbia e outros países do itinerário, acompanhado(a) pelo(a) Sr.(a) <input type="text" class="doc-input" style="width: 240px;" placeholder="Nome do Acompanhante">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Doc Acompanhante">, com o grau de parentesco / relação de <input type="text" class="doc-input" style="width: 150px;" placeholder="ex: Tio(a), Acompanhante">.
+              </p>
+            </div>
+
+            <p style="margin-bottom: 20px;">
+              A presente autorização é válida de <input type="date" class="doc-input"> até <input type="date" class="doc-input">.
             </p>
           </div>
 
-          <!-- PORTUGUÊS: APENAS O PAI -->
-          <div id="pt-apenas-pai" style="display: none;">
-            <p style="text-align: justify; margin-bottom: 16px;">
-              Eu, <input type="text" class="doc-input" style="width: 280px;" placeholder="Nome Completo do Pai">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portador do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 150px;" placeholder="Nº Documento Pai">, residente e domiciliado em <input type="text" class="doc-input" style="width: 300px;" placeholder="Endereço Completo">, na qualidade de <strong>Pai</strong>,
-            </p>
+          <!-- SECÇÃO DO RODAPÉ (DATA E ASSINATURAS FIXADAS NA PARTE INFERIOR) -->
+          <div class="doc-footer-section">
+            <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Data atual"></p>
 
-            <p style="text-align: justify; margin-bottom: 20px;">
-              <strong>AUTORIZO</strong> expressamente que o(a) meu(minha) filho(a) menor <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome Completo do Menor">, nascido(a) a <input type="date" class="doc-input">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Passaporte do Menor">, viaje para a República da Namíbia e outros países do itinerário, acompanhado(a) pelo(a) Sr.(a) <input type="text" class="doc-input" style="width: 240px;" placeholder="Nome do Acompanhante">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Doc Acompanhante">, com o grau de parentesco / relação de <input type="text" class="doc-input" style="width: 150px;" placeholder="ex: Tio(a), Acompanhante">.
-            </p>
-          </div>
+            <!-- ASSINATURAS PT -->
+            <div id="pt-assinaturas-ambos" style="display: flex; justify-content: space-between; gap: 20px; text-align: center;">
+              <div style="flex: 1;">
+                <p>_____________________________________</p>
+                <p><strong>Assinatura do Pai</strong></p>
+              </div>
+              <div style="flex: 1;">
+                <p>_____________________________________</p>
+                <p><strong>Assinatura da Mãe</strong></p>
+              </div>
+            </div>
 
-          <p style="margin-bottom: 20px;">
-            A presente autorização é válida de <input type="date" class="doc-input"> até <input type="date" class="doc-input">.
-          </p>
-
-          <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Data atual"></p>
-
-          <!-- ASSINATURAS PT -->
-          <div id="pt-assinaturas-ambos" style="display: flex; justify-content: space-between; gap: 20px; text-align: center; margin-top: 30px;">
-            <div style="flex: 1;">
+            <div id="pt-assinatura-pai" style="display: none; text-align: center;">
               <p>_____________________________________</p>
               <p><strong>Assinatura do Pai</strong></p>
             </div>
-            <div style="flex: 1;">
-              <p>_____________________________________</p>
-              <p><strong>Assinatura da Mãe</strong></p>
-            </div>
-          </div>
-
-          <div id="pt-assinatura-pai" style="display: none; text-align: center; margin-top: 30px;">
-            <p>_____________________________________</p>
-            <p><strong>Assinatura do Pai</strong></p>
           </div>
         </div>
 
         <!-- ================= VERSÃO INGLÊS ================= -->
-        <div id="doc-en" style="display: none;">
-          <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">MINOR TRAVEL AUTHORIZATION FORM</h3>
-          
-          <!-- INGLÊS: AMBOS OS PAIS -->
-          <div id="en-ambos-pais">
-            <p style="text-align: justify; margin-bottom: 12px;">
-              We, <input type="text" class="doc-input" style="width: 260px;" placeholder="Father's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Father's Doc No.">, as the <strong>Father</strong>,
-            </p>
+        <div id="doc-en" class="doc-wrapper" style="display: none;">
+          <div>
+            <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">MINOR TRAVEL AUTHORIZATION FORM</h3>
             
-            <p style="text-align: justify; margin-bottom: 16px;">
-              and <input type="text" class="doc-input" style="width: 260px;" placeholder="Mother's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Mother's Doc No.">, as the <strong>Mother</strong>,
-            </p>
+            <!-- INGLÊS: AMBOS OS PAIS -->
+            <div id="en-ambos-pais">
+              <p style="text-align: justify; margin-bottom: 12px;">
+                We, <input type="text" class="doc-input" style="width: 260px;" placeholder="Father's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Father's Doc No.">, as the <strong>Father</strong>,
+              </p>
+              
+              <p style="text-align: justify; margin-bottom: 16px;">
+                and <input type="text" class="doc-input" style="width: 260px;" placeholder="Mother's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Mother's Doc No.">, as the <strong>Mother</strong>,
+              </p>
 
-            <p style="text-align: justify; margin-bottom: 16px;">
-              residing at <input type="text" class="doc-input" style="width: 320px;" placeholder="Full Address">,
-            </p>
+              <p style="text-align: justify; margin-bottom: 16px;">
+                residing at <input type="text" class="doc-input" style="width: 320px;" placeholder="Full Address">,
+              </p>
 
-            <p style="text-align: justify; margin-bottom: 20px;">
-              <strong>HEREBY EXPRESSLY AUTHORIZE</strong> our minor child <input type="text" class="doc-input" style="width: 250px;" placeholder="Minor's Full Name">, born on <input type="date" class="doc-input">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Minor's Passport No.">, to travel to the Republic of Namibia and other itinerary countries, accompanied by Mr./Mrs. <input type="text" class="doc-input" style="width: 240px;" placeholder="Accompanying Person">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Doc No.">, who is the minor's <input type="text" class="doc-input" style="width: 150px;" placeholder="e.g. Uncle, Guardian">.
+              <p style="text-align: justify; margin-bottom: 20px;">
+                <strong>HEREBY EXPRESSLY AUTHORIZE</strong> our minor child <input type="text" class="doc-input" style="width: 250px;" placeholder="Minor's Full Name">, born on <input type="date" class="doc-input">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Minor's Passport No.">, to travel to the Republic of Namibia and other itinerary countries, accompanied by Mr./Mrs. <input type="text" class="doc-input" style="width: 240px;" placeholder="Accompanying Person">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Doc No.">, who is the minor's <input type="text" class="doc-input" style="width: 150px;" placeholder="e.g. Uncle, Guardian">.
+              </p>
+            </div>
+
+            <!-- INGLÊS: APENAS O PAI -->
+            <div id="en-apenas-pai" style="display: none;">
+              <p style="text-align: justify; margin-bottom: 16px;">
+                I, <input type="text" class="doc-input" style="width: 280px;" placeholder="Father's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 150px;" placeholder="Father's Doc No.">, residing at <input type="text" class="doc-input" style="width: 300px;" placeholder="Full Address">, as the <strong>Father</strong>,
+              </p>
+
+              <p style="text-align: justify; margin-bottom: 20px;">
+                <strong>HEREBY EXPRESSLY AUTHORIZE</strong> my minor child <input type="text" class="doc-input" style="width: 250px;" placeholder="Minor's Full Name">, born on <input type="date" class="doc-input">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Minor's Passport No.">, to travel to the Republic of Namibia and other itinerary countries, accompanied by Mr./Mrs. <input type="text" class="doc-input" style="width: 240px;" placeholder="Accompanying Person">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Doc No.">, who is the minor's <input type="text" class="doc-input" style="width: 150px;" placeholder="e.g. Uncle, Guardian">.
+              </p>
+            </div>
+
+            <p style="margin-bottom: 20px;">
+              This authorization is valid from <input type="date" class="doc-input"> to <input type="date" class="doc-input">.
             </p>
           </div>
 
-          <!-- INGLÊS: APENAS O PAI -->
-          <div id="en-apenas-pai" style="display: none;">
-            <p style="text-align: justify; margin-bottom: 16px;">
-              I, <input type="text" class="doc-input" style="width: 280px;" placeholder="Father's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 150px;" placeholder="Father's Doc No.">, residing at <input type="text" class="doc-input" style="width: 300px;" placeholder="Full Address">, as the <strong>Father</strong>,
-            </p>
+          <!-- SECÇÃO DO RODAPÉ EN -->
+          <div class="doc-footer-section">
+            <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Date"></p>
 
-            <p style="text-align: justify; margin-bottom: 20px;">
-              <strong>HEREBY EXPRESSLY AUTHORIZE</strong> my minor child <input type="text" class="doc-input" style="width: 250px;" placeholder="Minor's Full Name">, born on <input type="date" class="doc-input">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Minor's Passport No.">, to travel to the Republic of Namibia and other itinerary countries, accompanied by Mr./Mrs. <input type="text" class="doc-input" style="width: 240px;" placeholder="Accompanying Person">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Doc No.">, who is the minor's <input type="text" class="doc-input" style="width: 150px;" placeholder="e.g. Uncle, Guardian">.
-            </p>
-          </div>
+            <!-- ASSINATURAS EN -->
+            <div id="en-assinaturas-ambos" style="display: flex; justify-content: space-between; gap: 20px; text-align: center;">
+              <div style="flex: 1;">
+                <p>_____________________________________</p>
+                <p><strong>Father's Signature</strong></p>
+              </div>
+              <div style="flex: 1;">
+                <p>_____________________________________</p>
+                <p><strong>Mother's Signature</strong></p>
+              </div>
+            </div>
 
-          <p style="margin-bottom: 20px;">
-            This authorization is valid from <input type="date" class="doc-input"> to <input type="date" class="doc-input">.
-          </p>
-
-          <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Date"></p>
-
-          <!-- ASSINATURAS EN -->
-          <div id="en-assinaturas-ambos" style="display: flex; justify-content: space-between; gap: 20px; text-align: center; margin-top: 30px;">
-            <div style="flex: 1;">
+            <div id="en-assinatura-pai" style="display: none; text-align: center;">
               <p>_____________________________________</p>
               <p><strong>Father's Signature</strong></p>
             </div>
-            <div style="flex: 1;">
-              <p>_____________________________________</p>
-              <p><strong>Mother's Signature</strong></p>
-            </div>
-          </div>
-
-          <div id="en-assinatura-pai" style="display: none; text-align: center; margin-top: 30px;">
-            <p>_____________________________________</p>
-            <p><strong>Father's Signature</strong></p>
           </div>
         </div>
       </div>
@@ -523,8 +550,8 @@
   function switchLang(lang) {
     document.getElementById('tab-pt').classList.toggle('active', lang === 'pt');
     document.getElementById('tab-en').classList.toggle('active', lang === 'en');
-    document.getElementById('doc-pt').style.display = lang === 'pt' ? 'block' : 'none';
-    document.getElementById('doc-en').style.display = lang === 'en' ? 'block' : 'none';
+    document.getElementById('doc-pt').style.display = lang === 'pt' ? 'flex' : 'none';
+    document.getElementById('doc-en').style.display = lang === 'en' ? 'flex' : 'none';
   }
 
   function switchSubmodel(type) {

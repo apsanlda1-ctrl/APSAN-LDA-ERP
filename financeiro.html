@@ -138,6 +138,13 @@
     .total-highlight { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 6px; text-align: center; margin-top: 10px; }
     .total-highlight h4 { font-size: 18px; color: #1d4ed8; font-weight: 700; margin-top: 2px; }
 
+    /* ESTILOS DA ABA RELATÓRIOS */
+    .relatorios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .kpi-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 8px; text-align: center; }
+    .kpi-card span { font-size: 12px; color: #64748b; font-weight: 600; text-transform: uppercase; }
+    .kpi-card h3 { font-size: 20px; margin-top: 6px; color: #0f172a; }
+    .chart-container { width: 100%; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-top: 15px; }
+
     footer { text-align: center; padding: 20px; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; background: #ffffff; margin-top: 40px; line-height: 1.6; }
 
     @media (max-width: 992px) {
@@ -165,7 +172,7 @@
   <div class="container">
     <div class="page-title">
       <h2>Painel de Gestão Financeira</h2>
-      <button class="btn-action" onclick="alert('Relatório exportado com dados dinâmicos!')">
+      <button class="btn-action" onclick="exportarRelatorioCompleto()">
         <i class="fas fa-file-export"></i> Exportar Relatório
       </button>
     </div>
@@ -379,12 +386,12 @@
             <form onsubmit="salvarDespesa(event)">
               <div class="form-group">
                 <label>Descrição:</label>
-                <input type="text" id="desp-desc" required>
+                <input type="text" id="desp-desc" placeholder="Ex: Material de Escritório" required>
               </div>
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
                 <div class="form-group">
                   <label>Valor (AOA):</label>
-                  <input type="number" id="desp-val" step="0.01" required>
+                  <input type="number" id="desp-val" step="0.01" placeholder="0.00" required>
                 </div>
                 <div class="form-group">
                   <label>Categoria:</label>
@@ -398,10 +405,59 @@
               <button type="submit" class="btn-action"><i class="fas fa-save"></i> Guardar Despesa</button>
             </form>
           </div>
+
+          <div class="card-panel">
+            <h3><i class="fas fa-receipt"></i> Histórico de Despesas Registadas</h3>
+            <div style="overflow-x: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Descrição</th>
+                    <th>Categoria</th>
+                    <th>Valor (AOA)</th>
+                    <th style="text-align: center;">Ação</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-despesas">
+                  <!-- Inseridas dinamicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
 
-        <!-- ABA 7: RELATÓRIOS -->
-        <div id="tab-relatorios" class="tab-content"><div class="card-panel"><h3>Relatórios Financeiros</h3></div></div>
+        <!-- ABA 7: RELATÓRIOS (DINÂMICOS) -->
+        <div id="tab-relatorios" class="tab-content">
+          <div class="card-panel">
+            <h3><i class="fas fa-chart-bar"></i> Relatório Financeiro Executivo & Indicadores</h3>
+            
+            <div class="relatorios-grid">
+              <div class="kpi-card">
+                <span>Total Entradas</span>
+                <h3 id="rel-entradas" style="color: #16a34a;">0,00 Kz</h3>
+              </div>
+              <div class="kpi-card">
+                <span>Total Despesas</span>
+                <h3 id="rel-despesas" style="color: #dc2626;">0,00 Kz</h3>
+              </div>
+              <div class="kpi-card">
+                <span>Resultado Líquido</span>
+                <h3 id="rel-liquido" style="color: #2563eb;">0,00 Kz</h3>
+              </div>
+              <div class="kpi-card">
+                <span>Compras em Namíbia</span>
+                <h3 id="rel-compras-nad" style="color: #d97706;">$ 0,00 NAD</h3>
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <h4 style="font-size: 14px; margin-bottom: 12px; color: #475569;">Balanço Financeiro (Entradas vs. Despesas)</h4>
+              <div id="grafico-barras-container" style="height: 180px; width: 100%;">
+                <!-- SVG Gerado Dinamicamente pelo JS -->
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
 
@@ -564,100 +620,22 @@
   <script>
     let contadorTransacoes = 2;
     let contadorEncomendas = 2;
+    let contadorDespesas = 1;
     let editandoSaldo = false;
+    let totalDespesasAcumulado = 0;
 
     // CATÁLOGO COMPLETO DE SERVIÇOS RETIRADOS DO PANFLETO DA APSAN, LDA
     const servicosAPSAN = [
-      {
-        id: 1,
-        nome: "Acompanhamento hospitalar",
-        categoria: "Saúde & Assistência",
-        descricao: "Apoio e acompanhamento personalizado em deslocações médicas e consultas na Namíbia.",
-        precoBase: "35.000,00 Kz",
-        valorNum: 35000,
-        icone: "fa-user-md"
-      },
-      {
-        id: 2,
-        nome: "Tradução e Interpretação",
-        categoria: "Linguística",
-        descricao: "Suporte linguístico presencial e remoto (Português / Inglês) para reuniões e compras.",
-        precoBase: "25.000,00 Kz / Dia",
-        valorNum: 25000,
-        icone: "fa-language"
-      },
-      {
-        id: 3,
-        nome: "Tradução Oficial Juramentada",
-        categoria: "Linguística",
-        descricao: "Tradução legal de documentos, certificados e processos institucionais válidos internacionalmente.",
-        precoBase: "15.000,00 Kz / Pág",
-        valorNum: 15000,
-        icone: "fa-file-signature"
-      },
-      {
-        id: 4,
-        nome: "Importação & Exportação Ang-Nam",
-        categoria: "Comércio & Logística",
-        descricao: "Gestão completa de desalfandegamento e transporte transfronteiriço de mercadorias.",
-        precoBase: "Sob Consulta / Carga",
-        valorNum: 0,
-        icone: "fa-truck-loading"
-      },
-      {
-        id: 5,
-        nome: "Depósitos na Namíbia",
-        categoria: "Financeiro",
-        descricao: "Assistência e transferência segura para realização de depósitos bancários na Namíbia.",
-        precoBase: "Taxa de Serviço 5%",
-        valorNum: 0,
-        icone: "fa-piggy-bank"
-      },
-      {
-        id: 6,
-        nome: "Assistência com Câmbio de moeda",
-        categoria: "Financeiro",
-        descricao: "Assessoria financeira para conversão de Kwanzas (AOA) para Dólares Namibianos (NAD) com segurança.",
-        precoBase: "Conforme Taxa do Dia",
-        valorNum: 0,
-        icone: "fa-coins"
-      },
-      {
-        id: 7,
-        nome: "Criação de Websites",
-        categoria: "Tecnologia",
-        descricao: "Desenvolvimento de páginas web corporativas, portais institucionais e plataformas digitais.",
-        precoBase: "150.000,00 Kz",
-        valorNum: 150000,
-        icone: "fa-laptop-code"
-      },
-      {
-        id: 8,
-        nome: "Serviços de Contabilidade",
-        categoria: "Gestão & Finanças",
-        descricao: "Organização contabilística, elaboração de relatórios e consultoria financeira para empresas.",
-        precoBase: "60.000,00 Kz / Mês",
-        valorNum: 60000,
-        icone: "fa-calculator"
-      },
-      {
-        id: 9,
-        nome: "Marketing Digital",
-        categoria: "Comunicação & Vendas",
-        descricao: "Gestão de redes sociais, publicidade direcionada e promoção de marca digitalmente.",
-        precoBase: "40.000,00 Kz / Mês",
-        valorNum: 40000,
-        icone: "fa-bullhorn"
-      },
-      {
-        id: 10,
-        nome: "Compras na Namíbia",
-        categoria: "Comércio & Logística",
-        descricao: "Serviço de compra sob encomenda de bens, materiais e peças diretamente no mercado namibiano.",
-        precoBase: "Comissão de Gestão",
-        valorNum: 0,
-        icone: "fa-shopping-cart"
-      }
+      { id: 1, nome: "Acompanhamento hospitalar", categoria: "Saúde & Assistência", descricao: "Apoio e acompanhamento personalizado em deslocações médicas e consultas na Namíbia.", precoBase: "35.000,00 Kz", valorNum: 35000, icone: "fa-user-md" },
+      { id: 2, nome: "Tradução e Interpretação", categoria: "Linguística", descricao: "Suporte linguístico presencial e remoto (Português / Inglês) para reuniões e compras.", precoBase: "25.000,00 Kz / Dia", valorNum: 25000, icone: "fa-language" },
+      { id: 3, nome: "Tradução Oficial Juramentada", categoria: "Linguística", descricao: "Tradução legal de documentos, certificados e processos institucionais válidos internacionalmente.", precoBase: "15.000,00 Kz / Pág", valorNum: 15000, icone: "fa-file-signature" },
+      { id: 4, nome: "Importação & Exportação Ang-Nam", categoria: "Comércio & Logística", descricao: "Gestão completa de desalfandegamento e transporte transfronteiriço de mercadorias.", precoBase: "Sob Consulta / Carga", valorNum: 0, icone: "fa-truck-loading" },
+      { id: 5, nome: "Depósitos na Namíbia", categoria: "Financeiro", descricao: "Assistência e transferência segura para realização de depósitos bancários na Namíbia.", precoBase: "Taxa de Serviço 5%", valorNum: 0, icone: "fa-piggy-bank" },
+      { id: 6, nome: "Assistência com Câmbio de moeda", categoria: "Financeiro", descricao: "Assessoria financeira para conversão de Kwanzas (AOA) para Dólares Namibianos (NAD) com segurança.", precoBase: "Conforme Taxa do Dia", valorNum: 0, icone: "fa-coins" },
+      { id: 7, nome: "Criação de Websites", categoria: "Tecnologia", descricao: "Desenvolvimento de páginas web corporativas, portais institucionais e plataformas digitais.", precoBase: "150.000,00 Kz", valorNum: 150000, icone: "fa-laptop-code" },
+      { id: 8, nome: "Serviços de Contabilidade", categoria: "Gestão & Finanças", descricao: "Organização contabilística, elaboração de relatórios e consultoria financeira para empresas.", precoBase: "60.000,00 Kz / Mês", valorNum: 60000, icone: "fa-calculator" },
+      { id: 9, nome: "Marketing Digital", categoria: "Comunicação & Vendas", descricao: "Gestão de redes sociais, publicidade direcionada e promoção de marca digitalmente.", precoBase: "40.000,00 Kz / Mês", valorNum: 40000, icone: "fa-bullhorn" },
+      { id: 10, nome: "Compras na Namíbia", categoria: "Comércio & Logística", descricao: "Serviço de compra sob encomenda de bens, materiais e peças diretamente no mercado namibiano.", precoBase: "Comissão de Gestão", valorNum: 0, icone: "fa-shopping-cart" }
     ];
 
     function formatarKz(valor) {
@@ -672,7 +650,7 @@
       event.currentTarget.classList.add('active');
     }
 
-    /* ================= DADOS DINÂMICOS DO DASHBOARD ================= */
+    /* ================= DADOS DINÂMICOS DO DASHBOARD E RELATÓRIOS ================= */
     function atualizarDashboardDinamico() {
       let totalEntradas = 0;
       document.querySelectorAll('#tabela-transacoes tr').forEach(row => {
@@ -691,9 +669,49 @@
 
       const taxa = parseFloat(document.getElementById('taxa-dia').value) || 66;
 
+      // Atualizar Painel Lateral
       document.getElementById('dash-entradas').innerText = `+ ${formatarKz(totalEntradas)}`;
+      document.getElementById('dash-despesas').innerText = `- ${formatarKz(totalDespesasAcumulado)}`;
       document.getElementById('dash-compras-nad').innerText = `$ ${totalComprasNad.toLocaleString('pt-PT', {minimumFractionDigits: 2})} NAD`;
       document.getElementById('dash-taxa').innerText = `1 NAD = ${taxa.toFixed(2).replace('.', ',')} Kz`;
+
+      // Atualizar Aba Relatórios
+      document.getElementById('rel-entradas').innerText = formatarKz(totalEntradas);
+      document.getElementById('rel-despesas').innerText = formatarKz(totalDespesasAcumulado);
+      
+      const saldoLiquido = totalEntradas - totalDespesasAcumulado;
+      const elLiquido = document.getElementById('rel-liquido');
+      elLiquido.innerText = formatarKz(saldoLiquido);
+      elLiquido.style.color = saldoLiquido >= 0 ? '#16a34a' : '#dc2626';
+
+      document.getElementById('rel-compras-nad').innerText = `$ ${totalComprasNad.toLocaleString('pt-PT', {minimumFractionDigits: 2})} NAD`;
+
+      // Renderizar Gráfico SVG
+      renderizarGraficoRelatorio(totalEntradas, totalDespesasAcumulado);
+    }
+
+    function renderizarGraficoRelatorio(entradas, despesas) {
+      const max = Math.max(entradas, despesas, 1000);
+      const hEntradas = Math.round((entradas / max) * 120);
+      const hDespesas = Math.round((despesas / max) * 120);
+
+      const svgHtml = `
+        <svg width="100%" height="160" viewBox="0 0 300 160" style="background:#f8fafc; border-radius:6px;">
+          <!-- Linha de Base -->
+          <line x1="20" y1="130" x2="280" y2="130" stroke="#cbd5e1" stroke-width="2" />
+          
+          <!-- Barra Entradas -->
+          <rect x="70" y="${130 - hEntradas}" width="45" height="${hEntradas}" fill="#22c55e" rx="4" />
+          <text x="92" y="${120 - hEntradas}" font-size="11" fill="#15803d" text-anchor="middle" font-weight="bold">${(entradas/1000).toFixed(0)}k</text>
+          <text x="92" y="148" font-size="11" fill="#64748b" text-anchor="middle">Entradas</text>
+
+          <!-- Barra Despesas -->
+          <rect x="180" y="${130 - hDespesas}" width="45" height="${hDespesas}" fill="#ef4444" rx="4" />
+          <text x="202" y="${120 - hDespesas}" font-size="11" fill="#b91c1c" text-anchor="middle" font-weight="bold">${(despesas/1000).toFixed(0)}k</text>
+          <text x="202" y="148" font-size="11" fill="#64748b" text-anchor="middle">Despesas</text>
+        </svg>
+      `;
+      document.getElementById('grafico-barras-container').innerHTML = svgHtml;
     }
 
     /* ================= CATÁLOGO E PESQUISA DE SERVIÇOS ================= */
@@ -949,7 +967,7 @@
       window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
     }
 
-    /* ================= TRANSAÇÕES & SALDO ================= */
+    /* ================= TRANSAÇÕES, DESPESAS E SALDO ================= */
     function salvarTransacao(event) {
       event.preventDefault();
       const cliente = document.getElementById('trans-cliente').value;
@@ -987,6 +1005,45 @@
         const linha = document.getElementById(rowId);
         if (linha) {
           linha.remove();
+          atualizarDashboardDinamico();
+        }
+      }
+    }
+
+    function salvarDespesa(event) {
+      event.preventDefault();
+      const desc = document.getElementById('desp-desc').value;
+      const val = parseFloat(document.getElementById('desp-val').value) || 0;
+      const cat = document.getElementById('desp-cat').value;
+
+      totalDespesasAcumulado += val;
+
+      const rowId = `row-desp-${contadorDespesas++}`;
+      const novaLinha = document.createElement('tr');
+      novaLinha.id = rowId;
+      novaLinha.innerHTML = `
+        <td>${desc}</td>
+        <td><span class="service-cat">${cat}</span></td>
+        <td style="color: #dc2626; font-weight: 600;">- ${formatarKz(val)}</td>
+        <td style="text-align: center;">
+          <button class="btn-sm btn-delete" onclick="eliminarDespesa('${rowId}', ${val})"><i class="fas fa-trash"></i></button>
+        </td>
+      `;
+
+      document.getElementById('tabela-despesas').appendChild(novaLinha);
+      atualizarDashboardDinamico();
+
+      alert('Despesa registada com sucesso!');
+      event.target.reset();
+    }
+
+    function eliminarDespesa(rowId, valor) {
+      if (confirm('Deseja eliminar esta despesa?')) {
+        const linha = document.getElementById(rowId);
+        if (linha) {
+          linha.remove();
+          totalDespesasAcumulado -= valor;
+          if (totalDespesasAcumulado < 0) totalDespesasAcumulado = 0;
           atualizarDashboardDinamico();
         }
       }
@@ -1055,17 +1112,41 @@
       }
     }
 
-    function salvarDespesa(event) {
-      event.preventDefault();
-      const val = parseFloat(document.getElementById('desp-val').value) || 0;
-      
-      const elDesp = document.getElementById('dash-despesas');
-      const despAtual = parseFloat(elDesp.innerText.replace(/[^0-9,-]+/g,"").replace(',', '.')) || 0;
-      const novaDespesa = despAtual + val;
-      elDesp.innerText = `- ${formatarKz(novaDespesa)}`;
+    function exportarRelatorioCompleto() {
+      const entradas = document.getElementById('rel-entradas').innerText;
+      const despesas = document.getElementById('rel-despesas').innerText;
+      const liquido = document.getElementById('rel-liquido').innerText;
+      const comprasNad = document.getElementById('rel-compras-nad').innerText;
 
-      alert('Despesa guardada e adicionada ao dashboard!');
-      event.target.reset();
+      const win = window.open('', '_blank');
+      win.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Relatório Financeiro Executivo - APSAN, LDA</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; }
+            .header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 15px; margin-bottom: 20px; }
+            .kpi { margin: 10px 0; font-size: 16px; }
+            .kpi strong { color: #2563eb; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>APSAN, LDA</h1>
+            <h2>Relatório Financeiro Geral</h2>
+            <p>Data de Geração: ${new Date().toLocaleDateString('pt-PT')}</p>
+          </div>
+          <div class="kpi">Total de Entradas: <strong>${entradas}</strong></div>
+          <div class="kpi">Total de Despesas: <strong>${despesas}</strong></div>
+          <div class="kpi">Resultado Líquido: <strong>${liquido}</strong></div>
+          <div class="kpi">Volume de Compras na Namíbia: <strong>${comprasNad}</strong></div>
+          <hr style="margin-top: 20px;">
+          <button onclick="window.print()" style="padding: 10px 15px; background: #2563eb; color: #fff; border: none; border-radius: 5px; cursor: pointer; margin-top: 15px;">Imprimir / Salvar em PDF</button>
+        </body>
+        </html>
+      `);
+      win.document.close();
     }
 
     // INICIALIZAÇÃO

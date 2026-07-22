@@ -7,6 +7,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- BIBLIOTECAS DE EXPORTAÇÃO (PDF E WORD) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -31,7 +35,6 @@
     .sidebar-header { padding: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
     .logo-small { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: var(--primary); }
     .toggle-sidebar { background: none; border: none; font-size: 20px; color: var(--secondary); cursor: pointer; padding: 8px; border-radius: var(--radius); }
-    .toggle-sidebar:hover { background: var(--light); color: var(--primary); }
 
     .user-info { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
     .user-avatar { width: 42px; height: 42px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
@@ -46,7 +49,6 @@
 
     .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
     .btn-logout { width: 100%; padding: 10px; background: #fee2e2; color: var(--danger); border: none; border-radius: var(--radius); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-    .btn-logout:hover { background: var(--danger); color: var(--white); }
 
     /* MAIN CONTENT */
     .main-content { margin-left: var(--sidebar-width); min-height: 100vh; transition: all 0.3s; flex: 1; }
@@ -54,10 +56,7 @@
     .top-header { height: var(--header-height); background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 50; }
     .header-left h2 { font-size: 22px; font-weight: 700; color: var(--dark); }
     .breadcrumb { font-size: 13px; color: var(--secondary); }
-    .header-right { display: flex; align-items: center; gap: 20px; }
     .date-time { display: flex; flex-direction: column; align-items: flex-end; font-size: 13px; }
-    #current-date { font-weight: 600; color: var(--dark); }
-    #current-time { color: var(--secondary); }
 
     .content-section { display: none; padding: 25px; animation: fadeIn 0.2s ease; }
     .content-section.active { display: block; }
@@ -72,17 +71,18 @@
     .stat-icon.purple { background: #ede9fe; color: #7c3aed; }
     .stat-icon.orange { background: #fef3c7; color: #f59e0b; }
     .stat-info h3 { font-size: 22px; font-weight: 700; color: var(--dark); }
-    .stat-info p { font-size: 12px; color: var(--secondary); }
 
     .card { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; }
     .card-body { padding: 20px; }
 
-    .section-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+    .section-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
     .section-toolbar h3 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
     
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
     .btn-primary { padding: 9px 16px; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
     .btn-primary:hover { background: var(--primary-dark); }
     .btn-secondary { padding: 9px 16px; background: var(--white); color: var(--dark); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-success { padding: 9px 16px; background: var(--success); color: var(--white); border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
 
     /* TABELAS */
     .table-container { overflow-x: auto; }
@@ -91,11 +91,6 @@
     th { padding: 12px 14px; font-size: 12px; font-weight: 600; color: var(--secondary); border-bottom: 1px solid var(--border); }
     td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border); color: var(--dark); }
     tr:hover { background: #f8fafc; }
-    
-    .badge { padding: 4px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-    .badge-success { background: #d1fae5; color: #065f46; }
-    .badge-warning { background: #fef3c7; color: #92400e; }
-    .badge-info { background: #dbeafe; color: #1e40af; }
 
     /* FORMULÁRIO DE DOCUMENTOS */
     .doc-preview { background: var(--white); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border); max-width: 850px; margin: 0 auto; font-family: 'Times New Roman', Times, serif; line-height: 1.8; box-shadow: var(--shadow); }
@@ -106,12 +101,12 @@
     .lang-tab { padding: 8px 16px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; }
     .lang-tab.active { background: var(--primary); color: var(--white); border-color: var(--primary); }
 
-    /* GRID DE CARDS */
-    .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
     .template-item { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; transition: 0.2s; }
     .template-item:hover { border-color: var(--primary); box-shadow: var(--shadow); }
     .template-item i { font-size: 32px; color: var(--primary); margin-bottom: 10px; }
-    .template-item h4 { font-size: 15px; margin-bottom: 4px; }
+
+    .form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); outline: none; margin-bottom: 12px; font-size: 13px; }
 
     .toast { position: fixed; bottom: 25px; right: 25px; background: var(--dark); color: var(--white); padding: 14px 20px; border-radius: var(--radius); display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-lg); transform: translateX(150%); transition: transform 0.3s ease; z-index: 2000; font-size: 14px; }
     .toast.show { transform: translateX(0); }
@@ -172,36 +167,28 @@
     <!-- 1. DASHBOARD -->
     <section id="section-dashboard" class="content-section active">
       <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-file-signature"></i></div><div class="stat-info"><h3>42</h3><p>Traduções Concluídas</p></div></div>
-        <div class="stat-card"><div class="stat-icon green"><i class="fas fa-stamp"></i></div><div class="stat-info"><h3>18</h3><p>Autenticadas (Notário)</p></div></div>
-        <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-plane"></i></div><div class="stat-info"><h3>15</h3><p>Viagens de Menores</p></div></div>
-        <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-info"><h3>29</h3><p>Clientes Ativos</p></div></div>
+        <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-file-signature"></i></div><div class="stat-info"><h3 id="count-traducoes">0</h3><p>Traduções Registadas</p></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fas fa-stamp"></i></div><div class="stat-info"><h3 id="count-notario">0</h3><p>Em Notário</p></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="count-clientes">0</h3><p>Clientes Registados</p></div></div>
+        <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-folder"></i></div><div class="stat-info"><h3 id="count-ficheiros">0</h3><p>Ficheiros Arquivados</p></div></div>
       </div>
 
       <div class="card">
         <div class="card-body">
-          <h4 style="margin-bottom: 15px;">Últimos Pedidos de Tradução</h4>
-          <div class="table-container">
-            <table>
-              <thead><tr><th>Código</th><th>Cliente</th><th>Documento</th><th>Idiomas</th><th>Data</th><th>Estado</th></tr></thead>
-              <tbody>
-                <tr><td>#TR-801</td><td>António Mateus</td><td>Certidão de Nascimento</td><td>PT -> EN</td><td>20/07/2026</td><td><span class="badge badge-success">Pronto</span></td></tr>
-                <tr><td>#TR-802</td><td>Helena Gabriel</td><td>Procuração Notarial</td><td>PT -> EN</td><td>21/07/2026</td><td><span class="badge badge-warning">Em Notário</span></td></tr>
-                <tr><td>#TR-803</td><td>John Smith</td><td>Registo Criminal</td><td>EN -> PT</td><td>22/07/2026</td><td><span class="badge badge-info">Em Tradução</span></td></tr>
-              </tbody>
-            </table>
-          </div>
+          <h4 style="margin-bottom: 15px;">Atividades Recentes do Módulo</h4>
+          <p style="color: var(--secondary); font-size: 14px;">Utilize o menu lateral para navegar entre as ferramentas operacionais. Todos os registos efetuados serão salvos na memória do seu navegador.</p>
         </div>
       </div>
     </section>
 
-    <!-- 2. VIAGEM MENORES -->
+    <!-- 2. VIAGEM MENORES (COM DADOS COMPLETOS DO PAI E MÃE) -->
     <section id="section-viagem-menores" class="content-section">
       <div class="section-toolbar">
         <h3><i class="fas fa-plane-departure"></i> Autorização de Viagem para Menor</h3>
-        <div>
+        <div class="btn-group">
           <button class="btn-secondary" onclick="limparFormularioViagem()"><i class="fas fa-eraser"></i> Limpar</button>
-          <button class="btn-primary" onclick="showToast('Autorização guardada com sucesso!')"><i class="fas fa-save"></i> Guardar & Imprimir</button>
+          <button class="btn-primary" onclick="exportarPDF('doc-preview-container', 'Autorizacao_Viagem_Menor.pdf')"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+          <button class="btn-success" onclick="exportarWord('doc-preview-container', 'Autorizacao_Viagem_Menor.doc')"><i class="fas fa-file-word"></i> Exportar Word</button>
         </div>
       </div>
       
@@ -210,23 +197,81 @@
         <button id="tab-en" class="lang-tab" onclick="switchLang('en')">English</button>
       </div>
 
-      <div class="doc-preview">
+      <div class="doc-preview" id="doc-preview-container">
+        <!-- VERSÃO PORTUGUÊS -->
         <div id="doc-pt">
-          <h3 style="text-align: center; margin-bottom: 20px; text-decoration: underline;">TERMO DE AUTORIZAÇÃO DE VIAGEM DE MENOR</h3>
-          <p>Eu, <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome do Pai/Mãe/Tutor">, de nacionalidade <input type="text" class="doc-input" style="width: 120px;" placeholder="Angolana">, portador(a) do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Documento">, residente em <input type="text" class="doc-input" style="width: 220px;" placeholder="Endereço">, na qualidade de progenitor/tutor legal,</p><br>
-          <p><strong>AUTORIZO</strong> expressamente que o(a) meu/minha filho(a) menor <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome do Menor">, nascido(a) a <input type="date" class="doc-input">, portador(a) do Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Passaporte">, viaje para a República da Namíbia, acompanhado(a) pelo(a) Sr.(a) <input type="text" class="doc-input" style="width: 230px;" placeholder="Nome Acompanhante">, portador(a) do Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Passaporte"></p><br>
-          <p>Válido de <input type="date" class="doc-input"> até <input type="date" class="doc-input">.</p><br>
-          <p style="text-align: right;">Luanda, <input type="text" class="doc-input" style="width: 150px;" placeholder="Data"></p><br>
-          <div style="text-align: center;"><p>____________________________________________________</p><p>Assinatura do Responsável Legal</p></div>
+          <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">TERMO DE AUTORIZAÇÃO DE VIAGEM DE MENOR</h3>
+          
+          <p style="text-align: justify; margin-bottom: 12px;">
+            Nós, <input type="text" class="doc-input" style="width: 260px;" placeholder="Nome Completo do Pai">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portador do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Documento Pai">, na qualidade de <strong>Pai</strong>,
+          </p>
+          
+          <p style="text-align: justify; margin-bottom: 16px;">
+            e <input type="text" class="doc-input" style="width: 260px;" placeholder="Nome Completo da Mãe">, de nacionalidade <input type="text" class="doc-input" style="width: 110px;" value="Angolana">, portadora do B.I./Passaporte nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Documento Mãe">, na qualidade de <strong>Mãe</strong>,
+          </p>
+
+          <p style="text-align: justify; margin-bottom: 16px;">
+            residentes e domiciliados em <input type="text" class="doc-input" style="width: 320px;" placeholder="Endereço Completo dos Pais">,
+          </p>
+
+          <p style="text-align: justify; margin-bottom: 20px;">
+            <strong>AUTORIZAMOS</strong> expressamente que o(a) nosso(a) filho(a) menor <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome Completo do Menor">, nascido(a) a <input type="date" class="doc-input">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Passaporte do Menor">, viaje para a República da Namíbia e outros países do itinerário, acompanhado(a) pelo(a) Sr.(a) <input type="text" class="doc-input" style="width: 240px;" placeholder="Nome do Acompanhante">, portador(a) do Passaporte/B.I. nº <input type="text" class="doc-input" style="width: 140px;" placeholder="Nº Doc Acompanhante">, com o grau de parentesco / relação de <input type="text" class="doc-input" style="width: 150px;" placeholder="ex: Tio(a), Acompanhante">.
+          </p>
+
+          <p style="margin-bottom: 20px;">
+            A presente autorização é válida de <input type="date" class="doc-input"> até <input type="date" class="doc-input">.
+          </p>
+
+          <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Data atual"></p>
+
+          <div style="display: flex; justify-content: space-between; gap: 20px; text-align: center; margin-top: 30px;">
+            <div style="flex: 1;">
+              <p>_____________________________________</p>
+              <p><strong>Assinatura do Pai</strong></p>
+            </div>
+            <div style="flex: 1;">
+              <p>_____________________________________</p>
+              <p><strong>Assinatura da Mãe</strong></p>
+            </div>
+          </div>
         </div>
 
+        <!-- VERSÃO INGLÊS -->
         <div id="doc-en" style="display: none;">
-          <h3 style="text-align: center; margin-bottom: 20px; text-decoration: underline;">MINOR TRAVEL AUTHORIZATION FORM</h3>
-          <p>I, <input type="text" class="doc-input" style="width: 250px;" placeholder="Parent/Guardian Full Name">, of <input type="text" class="doc-input" style="width: 120px;" placeholder="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Doc Number">, residing at <input type="text" class="doc-input" style="width: 220px;" placeholder="Address">, as parent/legal guardian,</p><br>
-          <p><strong>HEREBY AUTHORIZE</strong> my minor child <input type="text" class="doc-input" style="width: 250px;" placeholder="Minor's Name">, born on <input type="date" class="doc-input">, holder of Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Passport No.">, to travel to the Republic of Namibia, accompanied by Mr./Mrs. <input type="text" class="doc-input" style="width: 230px;" placeholder="Accompanying Person">, holder of Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Passport No."></p><br>
-          <p>Valid from <input type="date" class="doc-input"> to <input type="date" class="doc-input">.</p><br>
-          <p style="text-align: right;">Luanda, <input type="text" class="doc-input" style="width: 150px;" placeholder="Date"></p><br>
-          <div style="text-align: center;"><p>____________________________________________________</p><p>Signature of Parent / Legal Guardian</p></div>
+          <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">MINOR TRAVEL AUTHORIZATION FORM</h3>
+          
+          <p style="text-align: justify; margin-bottom: 12px;">
+            We, <input type="text" class="doc-input" style="width: 260px;" placeholder="Father's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Father's Doc No.">, as the <strong>Father</strong>,
+          </p>
+          
+          <p style="text-align: justify; margin-bottom: 16px;">
+            and <input type="text" class="doc-input" style="width: 260px;" placeholder="Mother's Full Name">, of <input type="text" class="doc-input" style="width: 110px;" value="Angolan"> nationality, holder of ID/Passport No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Mother's Doc No.">, as the <strong>Mother</strong>,
+          </p>
+
+          <p style="text-align: justify; margin-bottom: 16px;">
+            residing at <input type="text" class="doc-input" style="width: 320px;" placeholder="Full Address">,
+          </p>
+
+          <p style="text-align: justify; margin-bottom: 20px;">
+            <strong>HEREBY EXPRESSLY AUTHORIZE</strong> our minor child <input type="text" class="doc-input" style="width: 250px;" placeholder="Minor's Full Name">, born on <input type="date" class="doc-input">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Minor's Passport No.">, to travel to the Republic of Namibia and other itinerary countries, accompanied by Mr./Mrs. <input type="text" class="doc-input" style="width: 240px;" placeholder="Accompanying Person">, holder of Passport/ID No. <input type="text" class="doc-input" style="width: 140px;" placeholder="Doc No.">, who is the minor's <input type="text" class="doc-input" style="width: 150px;" placeholder="e.g. Uncle, Guardian">.
+          </p>
+
+          <p style="margin-bottom: 20px;">
+            This authorization is valid from <input type="date" class="doc-input"> to <input type="date" class="doc-input">.
+          </p>
+
+          <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Date"></p>
+
+          <div style="display: flex; justify-content: space-between; gap: 20px; text-align: center; margin-top: 30px;">
+            <div style="flex: 1;">
+              <p>_____________________________________</p>
+              <p><strong>Father's Signature</strong></p>
+            </div>
+            <div style="flex: 1;">
+              <p>_____________________________________</p>
+              <p><strong>Mother's Signature</strong></p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -237,25 +282,20 @@
         <h3><i class="fas fa-copy"></i> Modelos Rápidos de Tradução</h3>
       </div>
       <div class="grid-cards">
-        <div class="template-item" onclick="showToast('Modelo de Certidão Carregado!')">
+        <div class="template-item" onclick="carregarTemplate('Certidão de Nascimento', 'CERTIDÃO DE NASCIMENTO\n\nCertifico que aos... nasceu no município de...')">
           <i class="fas fa-certificate"></i>
-          <h4>Certidões de Nascimento</h4>
-          <p style="font-size: 12px; color: var(--secondary);">Estrutura padrão PT/EN</p>
+          <h4>Certidão de Nascimento</h4>
+          <p style="font-size: 12px; color: var(--secondary);">Clique para usar na Tradução Direta</p>
         </div>
-        <div class="template-item" onclick="showToast('Modelo de Registo Criminal Carregado!')">
+        <div class="template-item" onclick="carregarTemplate('Registo Criminal', 'CERTIFICADO DE REGISTO CRIMINAL\n\nCertifica-se que nada consta nas folhas de registo de...')">
           <i class="fas fa-shield-alt"></i>
           <h4>Registo Criminal</h4>
-          <p style="font-size: 12px; color: var(--secondary);">Tradução oficial para Vistos</p>
+          <p style="font-size: 12px; color: var(--secondary);">Clique para usar na Tradução Direta</p>
         </div>
-        <div class="template-item" onclick="showToast('Modelo Académico Carregado!')">
+        <div class="template-item" onclick="carregarTemplate('Diploma Académico', 'REPÚBLICA DE ANGOLA\nDIPLOMA ACADÉMICO\n\nConferido o grau de Licenciado a...')">
           <i class="fas fa-graduation-cap"></i>
           <h4>Diplomas e Certificados</h4>
-          <p style="font-size: 12px; color: var(--secondary);">Histórico Escolar e Graus</p>
-        </div>
-        <div class="template-item" onclick="showToast('Modelo de Procuração Carregado!')">
-          <i class="fas fa-file-contract"></i>
-          <h4>Procurações Notariais</h4>
-          <p style="font-size: 12px; color: var(--secondary);">Documentos de Empresas</p>
+          <p style="font-size: 12px; color: var(--secondary);">Clique para usar na Tradução Direta</p>
         </div>
       </div>
     </section>
@@ -264,16 +304,19 @@
     <section id="section-traducao-direta" class="content-section">
       <div class="section-toolbar">
         <h3><i class="fas fa-pen-nib"></i> Tradução Livre e Edição Rápida</h3>
-        <button class="btn-primary" onclick="showToast('Texto Traduzido e Guardado!')"><i class="fas fa-save"></i> Guardar Tradução</button>
+        <div class="btn-group">
+          <button class="btn-primary" onclick="exportarPDF('editor-traducao-box', 'Traducao_Oficial.pdf')"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn-success" onclick="exportarWord('editor-traducao-box', 'Traducao_Oficial.doc')"><i class="fas fa-file-word"></i> Word</button>
+        </div>
       </div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;" id="editor-traducao-box">
         <div class="card"><div class="card-body">
           <h4 style="margin-bottom: 10px;">Texto Original (Português)</h4>
-          <textarea style="width: 100%; height: 250px; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); outline: none;" placeholder="Cole aqui o texto em português..."></textarea>
+          <textarea id="texto-origem" class="form-control" style="height: 300px;" placeholder="Cole ou escolha um modelo..."></textarea>
         </div></div>
         <div class="card"><div class="card-body">
           <h4 style="margin-bottom: 10px;">Tradução (Inglês)</h4>
-          <textarea style="width: 100%; height: 250px; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); outline: none;" placeholder="Escreva ou edite a tradução aqui..."></textarea>
+          <textarea id="texto-destino" class="form-control" style="height: 300px;" placeholder="Digite a tradução aqui..."></textarea>
         </div></div>
       </div>
     </section>
@@ -282,16 +325,22 @@
     <section id="section-autenticacao" class="content-section">
       <div class="section-toolbar">
         <h3><i class="fas fa-stamp"></i> Controlo de Legalização & Notariado</h3>
-        <button class="btn-primary" onclick="showToast('Nova Entrada em Notário!')"><i class="fas fa-plus"></i> Novo Envio para Notário</button>
       </div>
+      <div class="card"><div class="card-body">
+        <h4 style="margin-bottom: 12px;">Registar Novo Pedido de Notário</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          <input type="text" id="notario-cliente" class="form-control" placeholder="Nome do Cliente">
+          <input type="text" id="notario-cartorio" class="form-control" placeholder="Cartório / Entidade">
+          <input type="date" id="notario-data" class="form-control">
+          <button class="btn-primary" style="height: 40px;" onclick="salvarNotario()"><i class="fas fa-plus"></i> Registar</button>
+        </div>
+      </div></div>
+
       <div class="card"><div class="card-body">
         <div class="table-container">
           <table>
-            <thead><tr><th>Doc ID</th><th>Cliente</th><th>Entidade</th><th>Data Envio</th><th>Previsão</th><th>Estado Notarial</th></tr></thead>
-            <tbody>
-              <tr><td>#NOT-102</td><td>Helena Gabriel</td><td>1º Cartório Notarial de Luanda</td><td>21/07/2026</td><td>23/07/2026</td><td><span class="badge badge-warning">Em Processamento</span></td></tr>
-              <tr><td>#NOT-099</td><td>Carlos Silva</td><td>MIREX / Embaixada Namíbia</td><td>18/07/2026</td><td>20/07/2026</td><td><span class="badge badge-success">Reconhecido & Selado</span></td></tr>
-            </tbody>
+            <thead><tr><th>Cliente</th><th>Cartório / Entidade</th><th>Data Envio</th><th>Ação</th></tr></thead>
+            <tbody id="tabela-notario"></tbody>
           </table>
         </div>
       </div></div>
@@ -301,16 +350,22 @@
     <section id="section-clientes" class="content-section">
       <div class="section-toolbar">
         <h3><i class="fas fa-users"></i> Gestão de Clientes de Tradução</h3>
-        <button class="btn-primary" onclick="showToast('Novo Cliente Adicionado!')"><i class="fas fa-user-plus"></i> Adicionar Cliente</button>
       </div>
+      <div class="card"><div class="card-body">
+        <h4 style="margin-bottom: 12px;">Novo Cliente</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          <input type="text" id="cliente-nome" class="form-control" placeholder="Nome Completo">
+          <input type="text" id="cliente-telefone" class="form-control" placeholder="Telefone / WhatsApp">
+          <input type="text" id="cliente-nif" class="form-control" placeholder="NIF / Passaporte">
+          <button class="btn-primary" style="height: 40px;" onclick="salvarCliente()"><i class="fas fa-user-plus"></i> Guardar Cliente</button>
+        </div>
+      </div></div>
+
       <div class="card"><div class="card-body">
         <div class="table-container">
           <table>
-            <thead><tr><th>Nome</th><th>Telefone / WhatsApp</th><th>NIF / Passaporte</th><th>Total Solicitado</th><th>Ações</th></tr></thead>
-            <tbody>
-              <tr><td>António Mateus</td><td>+244 923 000 000</td><td>005849201LA032</td><td>4 Documentos</td><td><button class="btn-secondary" style="padding: 4px 8px; font-size: 11px;">Ver Histórico</button></td></tr>
-              <tr><td>Helena Gabriel</td><td>+244 912 111 222</td><td>N2049182</td><td>2 Documentos</td><td><button class="btn-secondary" style="padding: 4px 8px; font-size: 11px;">Ver Histórico</button></td></tr>
-            </tbody>
+            <thead><tr><th>Nome</th><th>Telefone</th><th>NIF / Passaporte</th><th>Ações</th></tr></thead>
+            <tbody id="tabela-clientes"></tbody>
           </table>
         </div>
       </div></div>
@@ -319,48 +374,41 @@
     <!-- 7. ARQUIVO DE PDFS -->
     <section id="section-arquivo-pdfs" class="content-section">
       <div class="section-toolbar">
-        <h3><i class="fas fa-folder-open"></i> Repositório Digital / PDFs Prontos</h3>
-        <button class="btn-primary" onclick="showToast('Upload de PDF iniciado...')"><i class="fas fa-upload"></i> Carregar PDF Escaneado</button>
+        <h3><i class="fas fa-folder-open"></i> Repositório Digital de Ficheiros</h3>
       </div>
-      <div class="grid-cards">
-        <div class="card" style="padding: 15px; text-align: center;">
-          <i class="fas fa-file-pdf" style="font-size: 40px; color: #ef4444; margin-bottom: 8px;"></i>
-          <h4 style="font-size: 14px;">Certidao_Antonio.pdf</h4>
-          <p style="font-size: 12px; color: var(--secondary);">20/07/2026 - 1.2 MB</p>
-          <button class="btn-secondary" style="margin-top: 10px; width: 100%;"><i class="fas fa-download"></i> Baixar PDF</button>
-        </div>
-        <div class="card" style="padding: 15px; text-align: center;">
-          <i class="fas fa-file-pdf" style="font-size: 40px; color: #ef4444; margin-bottom: 8px;"></i>
-          <h4 style="font-size: 14px;">Procuracao_Helena.pdf</h4>
-          <p style="font-size: 12px; color: var(--secondary);">21/07/2026 - 2.4 MB</p>
-          <button class="btn-secondary" style="margin-top: 10px; width: 100%;"><i class="fas fa-download"></i> Baixar PDF</button>
-        </div>
-      </div>
+
+      <div class="card"><div class="card-body">
+        <h4 style="margin-bottom: 12px;">Carregar Ficheiro para o Repositório</h4>
+        <input type="file" id="upload-file-input" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png">
+        <button class="btn-primary" onclick="salvarFicheiro()"><i class="fas fa-upload"></i> Guardar Ficheiro</button>
+      </div></div>
+
+      <div class="grid-cards" id="grid-ficheiros"></div>
     </section>
 
     <!-- 8. ORÇAMENTOS & TARIFAS -->
     <section id="section-orcamentos" class="content-section">
       <div class="section-toolbar">
-        <h3><i class="fas fa-calculator"></i> Tabela de Preços e Calculadora de Orçamentos</h3>
+        <h3><i class="fas fa-calculator"></i> Calculadora de Orçamentos</h3>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
         <div class="card"><div class="card-body">
           <h4 style="margin-bottom: 15px;">Simulador de Orçamento</h4>
           <div style="margin-bottom: 12px;">
-            <label style="font-size: 12px; font-weight: 600;">Tipo de Servico:</label>
-            <select id="servico-tipo" class="doc-input" style="width: 100%; padding: 8px;" onchange="calcularOrcamento()">
-              <option value="simples">Tradução Simples (Por Lauda)</option>
-              <option value="juramentada">Tradução Juramentada Oficial</option>
-              <option value="notario">Tradução + Autenticação Notarial</option>
+            <label style="font-size: 12px; font-weight: 600;">Tipo de Serviço:</label>
+            <select id="servico-tipo" class="form-control" onchange="calcularOrcamento()">
+              <option value="simples">Tradução Simples (7.000 Kz / lauda)</option>
+              <option value="juramentada">Tradução Juramentada (10.000 Kz / lauda)</option>
+              <option value="notario">Tradução + Notário (18.000 Kz / lauda)</option>
             </select>
           </div>
           <div style="margin-bottom: 12px;">
             <label style="font-size: 12px; font-weight: 600;">Número de Páginas / Laudas:</label>
-            <input type="number" id="qtd-paginas" value="1" min="1" class="doc-input" style="width: 100%; padding: 8px;" oninput="calcularOrcamento()">
+            <input type="number" id="qtd-paginas" value="1" min="1" class="form-control" oninput="calcularOrcamento()">
           </div>
           <div style="background: var(--light); padding: 15px; border-radius: var(--radius); text-align: center; margin-top: 15px;">
             <span style="font-size: 13px; color: var(--secondary);">Total Estimado:</span>
-            <h2 id="valor-total" style="color: var(--primary);">15.000 Kz</h2>
+            <h2 id="valor-total" style="color: var(--primary);">10.000 Kz</h2>
           </div>
         </div></div>
 
@@ -373,7 +421,6 @@
                 <tr><td>Autorização de Viagem (Menores)</td><td>15.000 Kz</td></tr>
                 <tr><td>Tradução Juramentada (por página)</td><td>10.000 Kz</td></tr>
                 <tr><td>Taxa de Reconhecimento Notarial</td><td>8.000 Kz</td></tr>
-                <tr><td>Urgência (Entrega 24h)</td><td>+ 50%</td></tr>
               </tbody>
             </table>
           </div>
@@ -390,12 +437,14 @@
 </div>
 
 <script>
+  let dbNotario = JSON.parse(localStorage.getItem('apsan_notario')) || [];
+  let dbClientes = JSON.parse(localStorage.getItem('apsan_clientes')) || [];
+  let dbFicheiros = JSON.parse(localStorage.getItem('apsan_ficheiros')) || [];
+
   function updateClock() {
     const now = new Date();
-    const dateEl = document.getElementById('current-date');
-    const timeEl = document.getElementById('current-time');
-    if (dateEl) dateEl.innerText = now.toLocaleDateString('pt-PT');
-    if (timeEl) timeEl.innerText = now.toLocaleTimeString('pt-PT');
+    document.getElementById('current-date').innerText = now.toLocaleDateString('pt-PT');
+    document.getElementById('current-time').innerText = now.toLocaleTimeString('pt-PT');
   }
   setInterval(updateClock, 1000);
   updateClock();
@@ -413,6 +462,7 @@
       document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
       element.classList.add('active');
     }
+    atualizarTabelas();
   }
 
   function switchLang(lang) {
@@ -424,30 +474,194 @@
 
   function limparFormularioViagem() {
     document.querySelectorAll('#section-viagem-menores input').forEach(input => input.value = '');
-    showToast('Formulário limpo.');
+    showToast('Formulário limpo com sucesso.');
+  }
+
+  function exportarPDF(elementId, filename) {
+    const element = document.getElementById(elementId);
+    const opt = {
+      margin:       10,
+      filename:     filename,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+    showToast('A transferir PDF...');
+  }
+
+  function exportarWord(elementId, filename) {
+    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Documento APSAN</title></head><body>";
+    const footer = "</body></html>";
+    const html = header + document.getElementById(elementId).innerHTML + footer;
+
+    const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+    saveAs(blob, filename);
+    showToast('A transferir ficheiro Word...');
+  }
+
+  function carregarTemplate(titulo, texto) {
+    document.getElementById('texto-origem').value = texto;
+    showSection('traducao-direta');
+    showToast(`Modelo '${titulo}' carregado na Tradução Direta!`);
+  }
+
+  function salvarNotario() {
+    const cliente = document.getElementById('notario-cliente').value;
+    const cartorio = document.getElementById('notario-cartorio').value;
+    const data = document.getElementById('notario-data').value;
+
+    if (!cliente || !cartorio) {
+      alert('Por favor, preencha os campos obrigatórios.');
+      return;
+    }
+
+    dbNotario.push({ id: Date.now(), cliente, cartorio, data });
+    localStorage.setItem('apsan_notario', JSON.stringify(dbNotario));
+    
+    document.getElementById('notario-cliente').value = '';
+    document.getElementById('notario-cartorio').value = '';
+    
+    atualizarTabelas();
+    showToast('Pedido de Notário guardado!');
+  }
+
+  function eliminarNotario(id) {
+    dbNotario = dbNotario.filter(item => item.id !== id);
+    localStorage.setItem('apsan_notario', JSON.stringify(dbNotario));
+    atualizarTabelas();
+    showToast('Registo removido.');
+  }
+
+  function salvarCliente() {
+    const nome = document.getElementById('cliente-nome').value;
+    const telefone = document.getElementById('cliente-telefone').value;
+    const nif = document.getElementById('cliente-nif').value;
+
+    if (!nome) {
+      alert('Preencha o nome do cliente.');
+      return;
+    }
+
+    dbClientes.push({ id: Date.now(), nome, telefone, nif });
+    localStorage.setItem('apsan_clientes', JSON.stringify(dbClientes));
+
+    document.getElementById('cliente-nome').value = '';
+    document.getElementById('cliente-telefone').value = '';
+    document.getElementById('cliente-nif').value = '';
+
+    atualizarTabelas();
+    showToast('Cliente guardado!');
+  }
+
+  function eliminarCliente(id) {
+    dbClientes = dbClientes.filter(item => item.id !== id);
+    localStorage.setItem('apsan_clientes', JSON.stringify(dbClientes));
+    atualizarTabelas();
+    showToast('Cliente removido.');
+  }
+
+  function salvarFicheiro() {
+    const fileInput = document.getElementById('upload-file-input');
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert('Selecione um ficheiro primeiro.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      dbFicheiros.push({
+        id: Date.now(),
+        nome: file.name,
+        tamanho: (file.size / 1024).toFixed(1) + ' KB',
+        data: new Date().toLocaleDateString('pt-PT'),
+        conteudo: e.target.result
+      });
+      localStorage.setItem('apsan_ficheiros', JSON.stringify(dbFicheiros));
+      fileInput.value = '';
+      atualizarTabelas();
+      showToast('Ficheiro carregado e guardado!');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function eliminarFicheiro(id) {
+    dbFicheiros = dbFicheiros.filter(item => item.id !== id);
+    localStorage.setItem('apsan_ficheiros', JSON.stringify(dbFicheiros));
+    atualizarTabelas();
+    showToast('Ficheiro eliminado.');
+  }
+
+  function baixarFicheiro(id) {
+    const item = dbFicheiros.find(f => f.id === id);
+    if (item) {
+      const a = document.createElement('a');
+      a.href = item.conteudo;
+      a.download = item.nome;
+      a.click();
+    }
+  }
+
+  function atualizarTabelas() {
+    document.getElementById('count-notario').innerText = dbNotario.length;
+    document.getElementById('count-clientes').innerText = dbClientes.length;
+    document.getElementById('count-ficheiros').innerText = dbFicheiros.length;
+    document.getElementById('count-traducoes').innerText = dbNotario.length + dbClientes.length;
+
+    const tbodyNotario = document.getElementById('tabela-notario');
+    tbodyNotario.innerHTML = dbNotario.map(n => `
+      <tr>
+        <td>${n.cliente}</td>
+        <td>${n.cartorio}</td>
+        <td>${n.data || 'N/A'}</td>
+        <td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarNotario(${n.id})"><i class="fas fa-trash"></i></button></td>
+      </tr>
+    `).join('');
+
+    const tbodyClientes = document.getElementById('tabela-clientes');
+    tbodyClientes.innerHTML = dbClientes.map(c => `
+      <tr>
+        <td>${c.nome}</td>
+        <td>${c.telefone || 'N/A'}</td>
+        <td>${c.nif || 'N/A'}</td>
+        <td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarCliente(${c.id})"><i class="fas fa-trash"></i></button></td>
+      </tr>
+    `).join('');
+
+    const gridFicheiros = document.getElementById('grid-ficheiros');
+    gridFicheiros.innerHTML = dbFicheiros.map(f => `
+      <div class="card" style="padding: 15px; text-align: center;">
+        <i class="fas fa-file-alt" style="font-size: 36px; color: var(--primary); margin-bottom: 8px;"></i>
+        <h4 style="font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${f.nome}</h4>
+        <p style="font-size: 11px; color: var(--secondary);">${f.data} - ${f.tamanho}</p>
+        <div style="display: flex; gap: 6px; margin-top: 10px;">
+          <button class="btn-primary" style="flex: 1; padding: 6px; font-size: 11px;" onclick="baixarFicheiro(${f.id})"><i class="fas fa-download"></i> Baixar</button>
+          <button class="btn-secondary" style="padding: 6px; color: var(--danger);" onclick="eliminarFicheiro(${f.id})"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
   }
 
   function calcularOrcamento() {
     const tipo = document.getElementById('servico-tipo').value;
     const paginas = parseInt(document.getElementById('qtd-paginas').value) || 1;
-    let precoPagina = 10000;
-
-    if (tipo === 'simples') precoPagina = 7000;
-    if (tipo === 'notario') precoPagina = 18000;
-
-    const total = precoPagina * paginas;
-    document.getElementById('valor-total').innerText = total.toLocaleString('pt-PT') + ' Kz';
+    let preco = 10000;
+    if (tipo === 'simples') preco = 7000;
+    if (tipo === 'notario') preco = 18000;
+    document.getElementById('valor-total').innerText = (preco * paginas).toLocaleString('pt-PT') + ' Kz';
   }
 
   function showToast(message) {
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
-    if (toast && toastMsg) {
-      toastMsg.innerText = message;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+    toastMsg.innerText = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
   }
+
+  atualizarTabelas();
 </script>
 
 </body>

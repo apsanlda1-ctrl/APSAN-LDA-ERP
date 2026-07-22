@@ -57,20 +57,38 @@
     /* Tabelas */
     table { width: 100%; border-collapse: collapse; font-size: 14px; text-align: left; }
     th { background: #f8fafc; color: #475569; padding: 12px 10px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
-    td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+    td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: middle; }
     
-    .badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+    .badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block; }
     .badge-pago { background: #dcfce7; color: #15803d; }
     .badge-pendente { background: #fef3c7; color: #b45309; }
+    .badge-caminho { background: #e0f2fe; color: #0369a1; }
+
+    /* Botões de Ação na Tabela */
+    .btn-sm { padding: 6px 10px; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; text-decoration: none; }
+    .btn-pdf { background: #fee2e2; color: #991b1b; }
+    .btn-pdf:hover { background: #fca5a5; }
+    .btn-ops { background: #dcfce7; color: #166534; }
+    .btn-ops:hover { background: #86efac; }
 
     /* Formulários e Inputs */
     .form-group { margin-bottom: 15px; }
     .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #475569; }
-    .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
-    .form-group input:focus, .form-group select:focus { border-color: #2563eb; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #2563eb; }
 
-    .btn-action { width: 100%; padding: 10px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+    .btn-action { padding: 10px 16px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
     .btn-action:hover { background: #1d4ed8; }
+
+    /* Estrutura do Modal */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal-card { background: #ffffff; width: 100%; max-width: 550px; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+    .modal-header { background: #1e3a5f; color: #ffffff; padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .modal-header h3 { font-size: 18px; font-weight: 600; }
+    .modal-close { background: transparent; border: none; color: #ffffff; font-size: 20px; cursor: pointer; }
+    .modal-body { padding: 24px; }
+    .modal-footer { padding: 15px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; }
 
     /* Footer */
     footer { text-align: center; padding: 20px; font-size: 13px; color: #94a3b8; border-top: 1px solid #e2e8f0; background: #ffffff; margin-top: 40px; }
@@ -100,7 +118,7 @@
   <div class="container">
     <div class="page-title">
       <h2>Painel de Gestão Financeira</h2>
-      <button class="btn-action" style="width: auto; padding: 8px 16px;" onclick="alert('Relatório exportado em PDF!')">
+      <button class="btn-action" onclick="alert('Relatório exportado em PDF!')">
         <i class="fas fa-file-export"></i> Exportar Relatório
       </button>
     </div>
@@ -215,7 +233,7 @@
               <label for="valor">Valor (AOA):</label>
               <input type="number" id="valor" placeholder="0.00" required>
             </div>
-            <button type="submit" class="btn-action"><i class="fas fa-save"></i> Guardar</button>
+            <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> Guardar</button>
           </form>
         </div>
       </div>
@@ -245,45 +263,65 @@
           <form onsubmit="alert('Taxa oficial atualizada!'); return false;">
             <div class="form-group">
               <label>Nova Taxa Oficial (NAD/AOA):</label>
-              <input type="number" value="48.00" step="0.01">
+              <input type="number" id="taxa-dia" value="48.00" step="0.01">
             </div>
-            <button type="submit" class="btn-action"><i class="fas fa-sync"></i> Atualizar Taxa</button>
+            <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-sync"></i> Atualizar Taxa</button>
           </form>
         </div>
       </div>
     </div>
 
-    <!-- ABA 3: COMPRAS NAMÍBIA -->
+    <!-- ABA 3: COMPRAS NAMÍBIA (ENCOMENDAS) -->
     <div id="tab-compras" class="tab-content">
       <div class="card-panel">
-        <h3><i class="fas fa-shopping-bag"></i> Gestão de Fundos e Aquisições na Namíbia</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Cód. Encomenda</th>
-              <th>Produto / Descrição</th>
-              <th>Valor NAD</th>
-              <th>Cobrado em AOA</th>
-              <th>Estado Logístico</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>#NAM-2026-01</td>
-              <td>Peças Automóveis (Windhoek)</td>
-              <td>$ 10.000 NAD</td>
-              <td>480.000 Kz</td>
-              <td><span class="badge badge-pago">Comprado</span></td>
-            </tr>
-            <tr>
-              <td>#NAM-2026-02</td>
-              <td>Equipamento Hospitalar</td>
-              <td>$ 35.200 NAD</td>
-              <td>1.689.600 Kz</td>
-              <td><span class="badge badge-pendente">A Caminho</span></td>
-            </tr>
-          </tbody>
-        </table>
+        <h3>
+          <span><i class="fas fa-shopping-bag"></i> Gestão de Fundos e Aquisições na Namíbia</span>
+          <button class="btn-action" onclick="abrirModalNovaEncomenda()">
+            <i class="fas fa-plus-circle"></i> Nova Encomenda
+          </button>
+        </h3>
+        
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Cód. Encomenda</th>
+                <th>Cliente</th>
+                <th>Produto / Descrição</th>
+                <th>Valor NAD</th>
+                <th>Cobrado em AOA</th>
+                <th>Estado Logístico</th>
+                <th style="text-align: center;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-encomendas">
+              <tr>
+                <td><strong>#NAM-2026-01</strong></td>
+                <td>João Manuel</td>
+                <td>Peças Automóveis (Windhoek)</td>
+                <td>$ 10.000 NAD</td>
+                <td>480.000 Kz</td>
+                <td><span class="badge badge-pago">Comprado</span></td>
+                <td style="text-align: center;">
+                  <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-01', 'João Manuel', 'Peças Automóveis (Windhoek)', '10000', '480000')"><i class="fas fa-file-pdf"></i> PDF</button>
+                  <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-01', 'João Manuel', 'Peças Automóveis (Windhoek)', '10000', '480000')"><i class="fas fa-paper-plane"></i> Operações</button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>#NAM-2026-02</strong></td>
+                <td>Clínica Central</td>
+                <td>Equipamento Hospitalar</td>
+                <td>$ 35.200 NAD</td>
+                <td>1.689.600 Kz</td>
+                <td><span class="badge badge-caminho">A Caminho</span></td>
+                <td style="text-align: center;">
+                  <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-02', 'Clínica Central', 'Equipamento Hospitalar', '35200', '1689600')"><i class="fas fa-file-pdf"></i> PDF</button>
+                  <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-02', 'Clínica Central', 'Equipamento Hospitalar', '35200', '1689600')"><i class="fas fa-paper-plane"></i> Operações</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
@@ -291,7 +329,7 @@
     <div id="tab-faturacao" class="tab-content">
       <div class="card-panel">
         <h3><i class="fas fa-file-invoice-dollar"></i> Emissão e Controlo de Faturas</h3>
-        <button class="btn-action" style="width: auto; margin-bottom: 15px;" onclick="alert('Nova Fatura Criada!')">
+        <button class="btn-action" style="margin-bottom: 15px;" onclick="alert('Nova Fatura Criada!')">
           <i class="fas fa-plus"></i> Criar Nova Fatura
         </button>
         <table>
@@ -312,7 +350,7 @@
               <td>Tradução Juramentada</td>
               <td>20/07/2026</td>
               <td>120.000 Kz</td>
-              <td><button style="padding: 4px 8px; border: none; background: #e2e8f0; border-radius: 4px; cursor: pointer;">PDF</button></td>
+              <td><button class="btn-sm btn-pdf">PDF</button></td>
             </tr>
           </tbody>
         </table>
@@ -356,12 +394,56 @@
         <h3><i class="fas fa-chart-bar"></i> Relatórios de Desempenho e Contabilidade</h3>
         <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Gere balanços detalhados do fluxo financeiro entre Angola e Namíbia.</p>
         <div style="display: flex; gap: 10px;">
-          <button class="btn-action" style="width: auto;" onclick="alert('Gerando Balanço Mensal...')"><i class="fas fa-file-pdf"></i> Balanço Mensal (PDF)</button>
-          <button class="btn-action" style="width: auto; background: #16a34a;" onclick="alert('Exportando para Excel...')"><i class="fas fa-file-excel"></i> Exportar Excel</button>
+          <button class="btn-action" onclick="alert('Gerando Balanço Mensal...')"><i class="fas fa-file-pdf"></i> Balanço Mensal (PDF)</button>
+          <button class="btn-action" style="background: #16a34a;" onclick="alert('Exportando para Excel...')"><i class="fas fa-file-excel"></i> Exportar Excel</button>
         </div>
       </div>
     </div>
 
+  </div>
+
+  <!-- MODAL: NOVA ENCOMENDA NAMÍBIA -->
+  <div id="modal-encomenda" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fas fa-cart-plus"></i> Nova Encomenda para Namíbia</h3>
+        <button class="modal-close" onclick="fecharModalNovaEncomenda()">&times;</button>
+      </div>
+      <form onsubmit="salvarNovaEncomenda(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="enc-cliente">Nome do Cliente:</label>
+            <input type="text" id="enc-cliente" placeholder="Ex: Mateus Gabriel" required>
+          </div>
+          <div class="form-group">
+            <label for="enc-descricao">Descrição do Produto / Encomenda:</label>
+            <textarea id="enc-descricao" rows="3" placeholder="Ex: 2x Pneus Michelin + Peças de Motor" required></textarea>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            <div class="form-group">
+              <label for="enc-valor-nad">Valor na Namíbia ($ NAD):</label>
+              <input type="number" id="enc-valor-nad" placeholder="0.00" oninput="calcularValorAOA()" required>
+            </div>
+            <div class="form-group">
+              <label for="enc-valor-aoa">Cobrado ao Cliente (AOA Kz):</label>
+              <input type="number" id="enc-valor-aoa" placeholder="0.00" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="enc-estado">Estado Inicial:</label>
+            <select id="enc-estado">
+              <option value="Pendente">Pendente</option>
+              <option value="Comprado">Comprado</option>
+              <option value="A Caminho">A Caminho</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-sm" style="background: #e2e8f0; color: #475569; padding: 10px 16px;" onclick="fecharModalNovaEncomenda()">Cancelar</button>
+          <button type="submit" class="btn-action"><i class="fas fa-save"></i> Salvar Encomenda</button>
+        </div>
+      </form>
+    </div>
   </div>
 
   <footer>
@@ -369,6 +451,8 @@
   </footer>
 
   <script>
+    let contadorEncomendas = 3;
+
     // Alternar entre abas
     function switchTab(event, tabId) {
       const contents = document.querySelectorAll('.tab-content');
@@ -381,7 +465,119 @@
       event.currentTarget.classList.add('active');
     }
 
-    // Registar Transação Básica
+    // Modal Control
+    function abrirModalNovaEncomenda() {
+      document.getElementById('modal-encomenda').classList.add('active');
+    }
+
+    function fecharModalNovaEncomenda() {
+      document.getElementById('modal-encomenda').classList.remove('active');
+    }
+
+    // Calcular automático AOA com base na taxa de câmbio atual
+    function calcularValorAOA() {
+      const valorNad = parseFloat(document.getElementById('enc-valor-nad').value) || 0;
+      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 48;
+      const totalAoa = valorNad * taxa;
+      document.getElementById('enc-valor-aoa').value = totalAoa;
+    }
+
+    // Salvar Encomenda na Tabela
+    function salvarNovaEncomenda(event) {
+      event.preventDefault();
+
+      const cliente = document.getElementById('enc-cliente').value;
+      const descricao = document.getElementById('enc-descricao').value;
+      const valorNad = parseFloat(document.getElementById('enc-valor-nad').value).toLocaleString('pt-PT');
+      const valorAoa = parseFloat(document.getElementById('enc-valor-aoa').value).toLocaleString('pt-PT');
+      const estado = document.getElementById('enc-estado').value;
+
+      const codigo = `#NAM-2026-0${contadorEncomendas++}`;
+
+      let badgeClass = 'badge-pendente';
+      if (estado === 'Comprado') badgeClass = 'badge-pago';
+      if (estado === 'A Caminho') badgeClass = 'badge-caminho';
+
+      const novaLinha = document.createElement('tr');
+      novaLinha.innerHTML = `
+        <td><strong>${codigo}</strong></td>
+        <td>${cliente}</td>
+        <td>${descricao}</td>
+        <td>$ ${valorNad} NAD</td>
+        <td>${valorAoa} Kz</td>
+        <td><span class="badge ${badgeClass}">${estado}</span></td>
+        <td style="text-align: center;">
+          <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('${codigo}', '${cliente}', '${descricao}', '${valorNad}', '${valorAoa}')"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('${codigo}', '${cliente}', '${descricao}', '${valorNad}', '${valorAoa}')"><i class="fas fa-paper-plane"></i> Operações</button>
+        </td>
+      `;
+
+      document.getElementById('tabela-encomendas').appendChild(novaLinha);
+
+      alert(`Encomenda ${codigo} salva com sucesso!`);
+      event.target.reset();
+      fecharModalNovaEncomenda();
+    }
+
+    // Gerar Guia/PDF Pronta para Impressão
+    function gerarPDFEncomenda(codigo, cliente, descricao, valorNad, valorAoa) {
+      const janelaPDF = window.open('', '_blank');
+      janelaPDF.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Guia de Encomenda - ${codigo}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; }
+            .header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 15px; margin-bottom: 30px; }
+            .header h1 { color: #1e3a5f; margin: 0; }
+            .info-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+            .info-box p { margin: 8px 0; font-size: 15px; }
+            .footer { margin-top: 50px; text-align: center; font-size: 12px; color: #64748b; }
+            .btn-print { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 14px; margin-bottom: 20px; }
+            @media print { .btn-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar em PDF</button>
+          <div class="header">
+            <h1>APSAN, LDA</h1>
+            <p>Guia de Autorização de Compra & Logística (Namíbia)</p>
+          </div>
+          <div class="info-box">
+            <p><strong>Código da Encomenda:</strong> ${codigo}</p>
+            <p><strong>Cliente Requerente:</strong> ${cliente}</p>
+            <p><strong>Descrição do Item:</strong> ${descricao}</p>
+            <p><strong>Valor Aprovado (Namíbia):</strong> $ ${valorNad} NAD</p>
+            <p><strong>Valor Total Pago (Angola):</strong> ${valorAoa} Kz</p>
+            <p><strong>Data de Emissão:</strong> ${new Date().toLocaleDateString('pt-PT')}</p>
+          </div>
+          <p>Esta guia confirma que a verba financeira foi devidamente registada pelo Departamento Financeiro para aquisição pelas Operações.</p>
+          <div class="footer">
+            APSAN, LDA - Serviços Integrados Angola-Namíbia
+          </div>
+        </body>
+        </html>
+      `);
+      janelaPDF.document.close();
+    }
+
+    // Enviar mensagem direta com os detalhes para as Operações
+    function enviarParaOperacoes(codigo, cliente, descricao, valorNad, valorAoa) {
+      const mensagem = `*APSAN, LDA - NOTIFICAÇÃO DE OPERAÇÕES*%0A%0A` +
+        `📦 *Nova Encomenda Aprovada para Compras na Namíbia!*%0A` +
+        `• *Código:* ${codigo}%0A` +
+        `• *Cliente:* ${cliente}%0A` +
+        `• *Descrição:* ${descricao}%0A` +
+        `• *Valor de Compra:* $ ${valorNad} NAD%0A` +
+        `• *Valor Pago AOA:* ${valorAoa} Kz%0A%0A` +
+        ` Favor proceder com a compra e logística de envio.`;
+
+      alert(`Redirecionando para envio das informações da encomenda ${codigo} para o departamento de Operações!`);
+      window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
+    }
+
+    // Registar Transação Básica (Aba 1)
     function registarTransacao(event) {
       event.preventDefault();
       const cliente = document.getElementById('cliente').value;
@@ -390,7 +586,7 @@
       event.target.reset();
     }
 
-    // Conversor Rápido
+    // Conversor Rápido (Aba 2)
     function converterMoeda(origem) {
       const aoa = parseFloat(document.getElementById('calc-aoa').value) || 0;
       const taxa = parseFloat(document.getElementById('calc-taxa').value) || 48;

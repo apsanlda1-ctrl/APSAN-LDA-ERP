@@ -6,94 +6,91 @@
   <title>APSAN, LDA - Acesso ao Sistema</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Estilos específicos para a tela de Login */
-    body { background: linear-gradient(135deg, #1e3a5f, #2563eb); }
-    .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .login-card { background: #ffffff; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); width: 100%; max-width: 480px; overflow: hidden; animation: slideUp 0.5s ease; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .logo-section { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: #ffffff; padding: 40px 30px; text-align: center; }
-    .logo-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
-    .logo-section h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-    .login-form { padding: 40px 30px; }
-    .login-form h2 { font-size: 22px; margin-bottom: 24px; color: var(--dark); text-align: center; }
-    .department-selector { margin-bottom: 24px; }
-    .department-selector label { display: block; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
-    .department-selector select { width: 100%; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 15px; background: #ffffff; cursor: pointer; }
-    .input-group { position: relative; margin-bottom: 20px; }
-    .input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--secondary); }
-    .input-group input { width: 100%; padding: 14px 16px 14px 48px; border: 2px solid var(--border); border-radius: var(--radius); font-size: 15px; }
-    .btn-login { width: 100%; padding: 14px; background: var(--primary); color: #ffffff; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .btn-login:hover { background: var(--primary-dark); }
-    .login-footer { display: flex; justify-content: space-between; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 14px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #1e3a5f, #2563eb); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    
+    .login-card { background: #ffffff; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); width: 100%; max-width: 450px; overflow: hidden; }
+    .logo-section { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: #ffffff; padding: 35px 25px; text-align: center; }
+    .logo-icon { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 32px; }
+    .logo-section h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
+    .logo-section p { font-size: 14px; opacity: 0.9; }
+    
+    .login-form { padding: 30px 25px; }
+    .login-form h2 { font-size: 20px; margin-bottom: 20px; color: #1e293b; text-align: center; }
+    
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #334155; }
+    .department-select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #ffffff; color: #1e293b; cursor: pointer; outline: none; }
+    .department-select:focus { border-color: #2563eb; }
+    
+    .input-group { position: relative; margin-bottom: 18px; }
+    .input-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 16px; }
+    .input-group input { width: 100%; padding: 12px 14px 12px 42px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none; }
+    .input-group input:focus { border-color: #2563eb; }
+    
+    .btn-login { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+    .btn-login:hover { background: #1d4ed8; }
+    
+    .login-footer { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b; }
+    .login-footer a { color: #2563eb; text-decoration: none; }
   </style>
 </head>
 <body>
 
-<div class="login-container">
-  <div class="login-card">
-    <div class="logo-section">
-      <div class="logo-icon"><i class="fas fa-building" style="font-size: 40px;"></i></div>
-      <h1>APSAN, LDA</h1>
-      <p>Sistema de Gestão Integrado (Angola - Namíbia)</p>
-    </div>
-    
-    <form class="login-form" onsubmit="redirecionarDepartamento(event)">
-      <h2>Acesso ao Sistema</h2>
-      
-      <div class="department-selector">
-        <label for="department-select">Selecione o Departamento:</label>
-        <select id="department-select" required>
-          <option value="traducao" selected>📜 Tradução Oficial Juramentada</option>
-          <option value="hospitalar">🏥 Acompanhamento Hospitalar</option>
-          <option value="administrativo">📋 Administrativo</option>
-          <option value="financeiro">💰 Financeiro</option>
-          <option value="operacoes">⚙️ Operações e Logística</option>
-        </select>
-      </div>
-
-      <div class="input-group">
-        <i class="fas fa-user"></i>
-        <input type="text" placeholder="Nome de Utilizador" value="admin.apsan" required>
-      </div>
-
-      <div class="input-group">
-        <i class="fas fa-lock"></i>
-        <input type="password" placeholder="Palavra-passe" value="123456" required>
-      </div>
-
-      <button type="submit" class="btn-login">
-        <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
-      </button>
-
-      <div class="login-footer">
-        <a href="#" style="color: var(--primary); text-decoration: none;">Recuperar palavra-passe</a>
-        <span>v3.5.0</span>
-      </div>
-    </form>
+<div class="login-card">
+  <div class="logo-section">
+    <div class="logo-icon"><i class="fas fa-building"></i></div>
+    <h1>APSAN, LDA</h1>
+    <p>Sistema de Gestão Integrado (Angola - Namíbia)</p>
   </div>
+  
+  <form class="login-form" onsubmit="redirecionarDepartamento(event)">
+    <h2>Acesso ao Sistema</h2>
+    
+    <div class="form-group">
+      <label for="department-select">Selecione o Departamento:</label>
+      <select id="department-select" class="department-select" required>
+        <option value="traducao">📜 Tradução Oficial Juramentada</option>
+        <option value="hospitalar" selected>🏥 Acompanhamento Hospitalar</option>
+        <option value="administrativo">📋 Administrativo</option>
+        <option value="financeiro">💰 Financeiro</option>
+        <option value="operacoes">⚙️ Operações e Logística</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <i class="fas fa-user"></i>
+      <input type="text" value="admin.apsan" placeholder="Nome de Utilizador" required>
+    </div>
+
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" value="123456" placeholder="Palavra-passe" required>
+    </div>
+
+    <button type="submit" class="btn-login">
+      <i class="fas fa-sign-in-alt"></i> Entrar no Sistema
+    </button>
+
+    <div class="login-footer">
+      <a href="#">Recuperar palavra-passe</a>
+      <span>v3.5.0</span>
+    </div>
+  </form>
 </div>
 
 <script>
   function redirecionarDepartamento(event) {
-    event.preventDefault(); // Impede o recarregamento normal da página
-    
+    event.preventDefault();
     const departamento = document.getElementById('department-select').value;
     
-    // Redireciona para o ficheiro correspondente
     if (departamento === 'traducao') {
       window.location.href = 'traducao.html';
     } else if (departamento === 'hospitalar') {
       window.location.href = 'hospitalar.html';
-    } else if (departamento === 'administrativo') {
-      window.location.href = 'administrativo.html';
-    } else if (departamento === 'financeiro') {
-      window.location.href = 'financeiro.html';
-    } else if (departamento === 'operacoes') {
-      window.location.href = 'operacoes.html';
     } else {
-      alert('Departamento em desenvolvimento.');
+      alert('A redirecionar para o departamento de ' + departamento);
     }
   }
 </script>

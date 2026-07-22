@@ -72,14 +72,14 @@
     .card-holder { font-size: 9px; text-transform: uppercase; color: #fca5a5; }
     .card-holder div { font-weight: 700; font-size: 11px; color: #ffffff; margin-top: 2px; }
 
-    /* CARD RESUMO DASHBOARD (LADO DIREITO) */
+    /* CARD RESUMO DASHBOARD */
     .summary-box { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; padding: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
     .summary-box h3 { font-size: 15px; margin-bottom: 14px; color: #0f172a; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; display: flex; align-items: center; gap: 8px; }
     .summary-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; }
     .summary-item span { color: #64748b; }
     .summary-item strong { font-weight: 700; color: #1e293b; }
 
-    /* ESTRUTURA DOS CARDS DO PAINEL */
+    /* CARDS DO PAINEL */
     .card-panel { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 20px; }
     .card-panel h3 { font-size: 16px; margin-bottom: 18px; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
 
@@ -91,11 +91,14 @@
     .badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase; display: inline-block; }
     .badge-pago { background: #dcfce7; color: #15803d; }
     .badge-pendente { background: #fef3c7; color: #b45309; }
+    .badge-caminho { background: #e0f2fe; color: #0369a1; }
 
     /* BOTÕES */
     .btn-sm { padding: 6px 10px; border: none; border-radius: 5px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 4px; text-decoration: none; }
     .btn-pdf { background: #fee2e2; color: #991b1b; }
     .btn-pdf:hover { background: #fca5a5; }
+    .btn-ops { background: #dcfce7; color: #166534; }
+    .btn-ops:hover { background: #86efac; }
     .btn-delete { background: #f1f5f9; color: #ef4444; }
     .btn-delete:hover { background: #fee2e2; }
 
@@ -106,6 +109,22 @@
 
     .btn-action { padding: 10px 16px; background: #2563eb; color: #ffffff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px; }
     .btn-action:hover { background: #1d4ed8; }
+
+    /* ESTRUTURA DO MODAL */
+    .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); z-index: 1000; align-items: center; justify-content: center; padding: 15px; }
+    .modal-overlay.active { display: flex; }
+    .modal-card { background: #ffffff; width: 100%; max-width: 620px; max-height: 90vh; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2); display: flex; flex-direction: column; }
+    .modal-header { background: #1e3a5f; color: #ffffff; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+    .modal-header h3 { font-size: 16px; font-weight: 600; }
+    .modal-close { background: transparent; border: none; color: #ffffff; font-size: 20px; cursor: pointer; }
+    
+    .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
+    .modal-footer { padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 10px; flex-shrink: 0; }
+
+    .calc-box { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; margin-top: 10px; }
+    .calc-box-title { font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 8px; }
+    .total-highlight { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 6px; text-align: center; margin-top: 10px; }
+    .total-highlight h4 { font-size: 18px; color: #1d4ed8; font-weight: 700; margin-top: 2px; }
 
     footer { text-align: center; padding: 20px; font-size: 13px; color: #94a3b8; border-top: 1px solid #e2e8f0; background: #ffffff; margin-top: 40px; }
 
@@ -144,20 +163,19 @@
       <!-- COLUNA DA ESQUERDA: MENU VERTICAL + PÁGINAS -->
       <div class="main-content-area">
 
-        <!-- MENU EM ORDEM VERTICAL (UM ABAIXO DO OUTRO) -->
+        <!-- MENU VERTICAL -->
         <div class="vertical-menu-tabs">
           <button class="tab-btn-v active" onclick="switchTab(event, 'tab-visao-geral')"><i class="fas fa-chart-pie"></i> Visão Geral & Transações</button>
+          <button class="tab-btn-v" onclick="switchTab(event, 'tab-compras')"><i class="fas fa-shopping-bag"></i> Compras Namíbia & Encomendas</button>
+          <button class="tab-btn-v" onclick="switchTab(event, 'tab-cambio')"><i class="fas fa-exchange-alt"></i> Câmbio AOA/NAD</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-faturacao')"><i class="fas fa-file-invoice-dollar"></i> Faturação (Criar / Gerar)</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-despesas')"><i class="fas fa-receipt"></i> Despesas</button>
-          <button class="tab-btn-v" onclick="switchTab(event, 'tab-compras')"><i class="fas fa-shopping-bag"></i> Compras Namíbia</button>
-          <button class="tab-btn-v" onclick="switchTab(event, 'tab-cambio')"><i class="fas fa-exchange-alt"></i> Câmbio AOA/NAD</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-relatorios')"><i class="fas fa-file-pdf"></i> Relatórios</button>
         </div>
 
-        <!-- CONTEÚDO 1: VISÃO GERAL & TRANSAÇÕES -->
+        <!-- ABA 1: VISÃO GERAL & TRANSAÇÕES -->
         <div id="tab-visao-geral" class="tab-content active">
           
-          <!-- NOVO REGISTO DE TRANSAÇÃO -->
           <div class="card-panel">
             <h3><i class="fas fa-plus-circle"></i> Criar / Registar Transação</h3>
             <form onsubmit="salvarTransacao(event)">
@@ -188,7 +206,6 @@
             </form>
           </div>
 
-          <!-- TABELA COM ÚLTIMAS TRANSAÇÕES E OPÇÕES DE ELIMINAR -->
           <div class="card-panel">
             <h3><span><i class="fas fa-list-alt"></i> Últimas Transações</span></h3>
             <div style="overflow-x: auto;">
@@ -219,7 +236,80 @@
 
         </div>
 
-        <!-- CONTEÚDO 2: FATURAÇÃO (CRIAR / GERAR FATURAS) -->
+        <!-- ABA 2: COMPRAS NAMÍBIA & ENCOMENDAS (FUNCIONAL) -->
+        <div id="tab-compras" class="tab-content">
+          <div class="card-panel">
+            <h3>
+              <span><i class="fas fa-shopping-bag"></i> Gestão de Fundos e Aquisições na Namíbia</span>
+              <button class="btn-action" onclick="abrirModalNovaEncomenda()">
+                <i class="fas fa-plus-circle"></i> Nova Encomenda
+              </button>
+            </h3>
+            
+            <div style="overflow-x: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cód. Encomenda</th>
+                    <th>Cliente</th>
+                    <th>Descrição</th>
+                    <th>Qtd.</th>
+                    <th>Total NAD</th>
+                    <th>Total AOA</th>
+                    <th>Estado Logístico</th>
+                    <th style="text-align: center;">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-encomendas">
+                  <tr id="row-NAM-2026-01">
+                    <td><strong>#NAM-2026-01</strong></td>
+                    <td>Albertina Sampaio</td>
+                    <td>Caixas de Manteiga</td>
+                    <td><strong>4</strong></td>
+                    <td>$ 800,00 NAD</td>
+                    <td><strong>66.128,00 Kz</strong></td>
+                    <td><span class="badge badge-pendente">Pendente</span></td>
+                    <td style="text-align: center;">
+                      <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '52800', '5000', '8448', '66128')"><i class="fas fa-file-pdf"></i> PDF</button>
+                      <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('#NAM-2026-01', 'Albertina Sampaio', 'Caixas de Manteiga', '4', '800', '66128')"><i class="fas fa-paper-plane"></i> Ops</button>
+                      <button class="btn-sm btn-delete" title="Eliminar" onclick="eliminarEncomenda('row-NAM-2026-01', '#NAM-2026-01')"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA 3: CÂMBIO AOA/NAD (FUNCIONAL) -->
+        <div id="tab-cambio" class="tab-content">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div class="card-panel">
+              <h3><i class="fas fa-calculator"></i> Conversor AOA ↔ NAD</h3>
+              <div class="form-group">
+                <label>Valor em Kwanzas (AOA):</label>
+                <input type="number" id="calc-aoa" placeholder="Digite o valor em Kz" oninput="converterMoeda('AOA')">
+              </div>
+              <div style="background: #f1f5f9; padding: 15px; border-radius: 8px; text-align: center; margin-top: 15px;">
+                <span style="font-size: 13px; color: #64748b;">Resultado Estimado na Namíbia:</span>
+                <h3 id="calc-resultado" style="color: #2563eb; font-size: 24px; margin-top: 5px;">$ 0,00 NAD</h3>
+              </div>
+            </div>
+
+            <div class="card-panel">
+              <h3><i class="fas fa-cog"></i> Taxa de Câmbio do Dia</h3>
+              <div class="form-group">
+                <label>Taxa de Referência (1 NAD = X Kz):</label>
+                <input type="number" id="taxa-dia" value="66.00" step="0.01" oninput="atualizarTaxaGlobal()">
+              </div>
+              <p style="font-size: 12px; color: #64748b; margin-top: 10px;">
+                <i class="fas fa-info-circle"></i> Esta taxa é utilizada automaticamente no cálculo de todas as encomendas e conversões do sistema.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABA 4: FATURAÇÃO -->
         <div id="tab-faturacao" class="tab-content">
           <div class="card-panel">
             <h3><i class="fas fa-file-invoice"></i> Criar & Emitir Fatura</h3>
@@ -253,7 +343,7 @@
           </div>
         </div>
 
-        <!-- CONTEÚDO 3: DESPESAS -->
+        <!-- ABA 5: DESPESAS -->
         <div id="tab-despesas" class="tab-content">
           <div class="card-panel">
             <h3><i class="fas fa-plus-circle"></i> Registar Nova Despesa</h3>
@@ -281,10 +371,8 @@
           </div>
         </div>
 
-        <!-- CONTEÚDO DEMAIS ABAS -->
-        <div id="tab-compras" class="tab-content"><div class="card-panel"><h3>Compras Namíbia</h3></div></div>
-        <div id="tab-cambio" class="tab-content"><div class="card-panel"><h3>Câmbio AOA/NAD</h3></div></div>
-        <div id="tab-relatorios" class="tab-content"><div class="card-panel"><h3>Relatórios</h3></div></div>
+        <!-- ABA 6: RELATÓRIOS -->
+        <div id="tab-relatorios" class="tab-content"><div class="card-panel"><h3>Relatórios Financeiros</h3></div></div>
 
       </div>
 
@@ -341,13 +429,97 @@
             <strong>$ 45.200,00 NAD</strong>
           </div>
           <div class="summary-item">
-            <span>Taxa Câmbio (Referência):</span>
-            <strong>1 NAD = 66,00 Kz</strong>
+            <span>Taxa Câmbio Atual:</span>
+            <strong id="resumo-taxa-display">1 NAD = 66,00 Kz</strong>
           </div>
         </div>
 
       </div>
 
+    </div>
+  </div>
+
+  <!-- MODAL DE CRIAR ENCOMENDA NAMÍBIA -->
+  <div id="modal-encomenda" class="modal-overlay">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><i class="fas fa-cart-plus"></i> Nova Encomenda para Namíbia</h3>
+        <button class="modal-close" onclick="fecharModalNovaEncomenda()">&times;</button>
+      </div>
+
+      <form id="form-encomenda" onsubmit="salvarNovaEncomenda(event)" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="enc-cliente">Nome do Cliente:</label>
+            <input type="text" id="enc-cliente" placeholder="Ex: Albertina Sampaio" required>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label for="enc-descricao">Descrição do Produto:</label>
+              <input type="text" id="enc-descricao" placeholder="Ex: Caixas de Manteiga" required>
+            </div>
+            <div class="form-group">
+              <label for="enc-qtd">Quantidade:</label>
+              <input type="number" id="enc-qtd" value="1" min="1" required oninput="calcularTotalEncomenda()">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="form-group">
+              <label for="enc-valor-unit-nad">Valor Unitário ($ NAD):</label>
+              <input type="number" id="enc-valor-unit-nad" placeholder="0.00" step="0.01" oninput="calcularTotalEncomenda()" required>
+            </div>
+            <div class="form-group">
+              <label for="enc-valor-produto-aoa">Subtotal Produto em Kwanzas (AOA):</label>
+              <input type="number" id="enc-valor-produto-aoa" placeholder="0.00" readonly style="background: #f1f5f9; font-weight: 600;">
+            </div>
+          </div>
+
+          <div class="calc-box">
+            <div class="calc-box-title"><i class="fas fa-coins"></i> Taxas & Custos Adicionais</div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+              <div class="form-group">
+                <label for="enc-taxa-servico">Prestação de Serviço (AOA):</label>
+                <input type="number" id="enc-taxa-servico" placeholder="0.00" value="0" oninput="calcularTotalEncomenda()">
+              </div>
+
+              <div class="form-group">
+                <label for="enc-taxa-alfandega-pct">% Estimativa Alfândega:</label>
+                <input type="number" id="enc-taxa-alfandega-pct" value="16" placeholder="16%" oninput="calcularTotalEncomenda()">
+              </div>
+            </div>
+
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 5px;">
+              <label style="font-size: 12px; font-weight: 600; color: #475569; display: flex; align-items: center; gap: 6px;">
+                <input type="checkbox" id="chk-tem-alfandega" checked onchange="calcularTotalEncomenda()">
+                Sujeito a Alfândega em Angola?
+              </label>
+              <span id="label-valor-alfandega" style="font-size: 12px; font-weight: 700; color: #d97706;">0,00 Kz</span>
+            </div>
+          </div>
+
+          <div class="total-highlight">
+            <span style="font-size: 12px; color: #475569; font-weight: 600;">TOTAL GERAL A PAGAR PELO CLIENTE:</span>
+            <h4 id="enc-total-aoa">0,00 Kz</h4>
+          </div>
+
+          <div class="form-group" style="margin-top: 10px;">
+            <label for="enc-estado">Estado Inicial Logístico:</label>
+            <select id="enc-estado">
+              <option value="Pendente">Pendente</option>
+              <option value="Comprado">Comprado</option>
+              <option value="A Caminho">A Caminho</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-sm" style="background: #e2e8f0; color: #475569; padding: 10px 16px;" onclick="fecharModalNovaEncomenda()">Cancelar</button>
+          <button type="submit" class="btn-action"><i class="fas fa-save"></i> Salvar Encomenda</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -357,6 +529,7 @@
 
   <script>
     let contadorTransacoes = 2;
+    let contadorEncomendas = 2;
     let editandoSaldo = false;
 
     function formatarKz(valor) {
@@ -371,7 +544,198 @@
       event.currentTarget.classList.add('active');
     }
 
-    // SALVAR NOVA TRANSAÇÃO
+    /* ================= CÂMBIO ================= */
+    function converterMoeda(origem) {
+      const aoa = parseFloat(document.getElementById('calc-aoa').value) || 0;
+      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 66;
+      if (origem === 'AOA' && taxa > 0) {
+        document.getElementById('calc-resultado').innerText = `$ ${(aoa / taxa).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2})} NAD`;
+      }
+    }
+
+    function atualizarTaxaGlobal() {
+      const taxa = parseFloat(document.getElementById('taxa-dia').value) || 66;
+      document.getElementById('resumo-taxa-display').innerText = `1 NAD = ${taxa.toFixed(2).replace('.', ',')} Kz`;
+      converterMoeda('AOA');
+      calcularTotalEncomenda();
+    }
+
+    /* ================= ENCOMENDAS (NAMÍBIA) ================= */
+    function abrirModalNovaEncomenda() {
+      document.getElementById('modal-encomenda').classList.add('active');
+    }
+
+    function fecharModalNovaEncomenda() {
+      document.getElementById('modal-encomenda').classList.remove('active');
+    }
+
+    function calcularTotalEncomenda() {
+      const valorUnitNad = parseFloat(document.getElementById('enc-valor-unit-nad').value) || 0;
+      const quantidade = parseFloat(document.getElementById('enc-qtd').value) || 1;
+      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 66;
+      
+      const subtotalNad = valorUnitNad * quantidade;
+      const produtoAoa = subtotalNad * taxaDia;
+      document.getElementById('enc-valor-produto-aoa').value = produtoAoa.toFixed(2);
+
+      const taxaServico = parseFloat(document.getElementById('enc-taxa-servico').value) || 0;
+      const temAlfandega = document.getElementById('chk-tem-alfandega').checked;
+      const pctAlfandega = parseFloat(document.getElementById('enc-taxa-alfandega-pct').value) || 0;
+      
+      let valorAlfandega = 0;
+      if (temAlfandega && produtoAoa > 0) {
+        valorAlfandega = (produtoAoa * pctAlfandega) / 100;
+      }
+      
+      document.getElementById('label-valor-alfandega').innerText = formatarKz(valorAlfandega);
+
+      const totalGeral = produtoAoa + taxaServico + valorAlfandega;
+      document.getElementById('enc-total-aoa').innerText = formatarKz(totalGeral);
+    }
+
+    function salvarNovaEncomenda(event) {
+      event.preventDefault();
+
+      const cliente = document.getElementById('enc-cliente').value;
+      const descricao = document.getElementById('enc-descricao').value;
+      const quantidade = parseFloat(document.getElementById('enc-qtd').value) || 1;
+      const valorUnitNad = parseFloat(document.getElementById('enc-valor-unit-nad').value) || 0;
+      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 66;
+      
+      const subtotalNad = valorUnitNad * quantidade;
+      const produtoAoa = subtotalNad * taxaDia;
+      
+      const taxaServico = parseFloat(document.getElementById('enc-taxa-servico').value) || 0;
+      const temAlfandega = document.getElementById('chk-tem-alfandega').checked;
+      const pctAlfandega = parseFloat(document.getElementById('enc-taxa-alfandega-pct').value) || 0;
+      const valorAlfandega = temAlfandega ? (produtoAoa * pctAlfandega) / 100 : 0;
+      
+      const totalGeral = produtoAoa + taxaServico + valorAlfandega;
+      const estado = document.getElementById('enc-estado').value;
+
+      const numCodigo = `#NAM-2026-0${contadorEncomendas++}`;
+      const rowId = `row-${numCodigo.replace('#', '')}`;
+
+      let badgeClass = 'badge-pendente';
+      if (estado === 'Comprado') badgeClass = 'badge-pago';
+      if (estado === 'A Caminho') badgeClass = 'badge-caminho';
+
+      const novaLinha = document.createElement('tr');
+      novaLinha.id = rowId;
+      novaLinha.innerHTML = `
+        <td><strong>${numCodigo}</strong></td>
+        <td>${cliente}</td>
+        <td>${descricao}</td>
+        <td><strong>${quantidade}</strong></td>
+        <td>$ ${subtotalNad.toLocaleString('pt-PT', {minimumFractionDigits: 2})} NAD</td>
+        <td><strong>${formatarKz(totalGeral)}</strong></td>
+        <td><span class="badge ${badgeClass}">${estado}</span></td>
+        <td style="text-align: center;">
+          <button class="btn-sm btn-pdf" onclick="gerarPDFEncomenda('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${subtotalNad}', '${produtoAoa}', '${taxaServico}', '${valorAlfandega}', '${totalGeral}')"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn-sm btn-ops" onclick="enviarParaOperacoes('${numCodigo}', '${cliente}', '${descricao}', '${quantidade}', '${subtotalNad}', '${totalGeral}')"><i class="fas fa-paper-plane"></i> Ops</button>
+          <button class="btn-sm btn-delete" title="Eliminar" onclick="eliminarEncomenda('${rowId}', '${numCodigo}')"><i class="fas fa-trash"></i></button>
+        </td>
+      `;
+
+      document.getElementById('tabela-encomendas').appendChild(novaLinha);
+
+      alert(`Encomenda ${numCodigo} guardada com sucesso!`);
+      document.getElementById('form-encomenda').reset();
+      fecharModalNovaEncomenda();
+    }
+
+    function eliminarEncomenda(rowId, codigo) {
+      if (confirm(`Tem a certeza que deseja eliminar a encomenda ${codigo}?`)) {
+        const linha = document.getElementById(rowId);
+        if (linha) linha.remove();
+      }
+    }
+
+    function gerarPDFEncomenda(codigo, cliente, descricao, quantidade, valorNad, produtoAoa, taxaServico, valorAlfandega, totalGeral) {
+      const janelaPDF = window.open('', '_blank');
+      janelaPDF.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Guia de Encomenda - ${codigo}</title>
+          <style>
+            body { font-family: Arial, sans-serif; padding: 40px; color: #1e293b; }
+            .header { text-align: center; border-bottom: 2px solid #2563eb; padding-bottom: 15px; margin-bottom: 25px; }
+            .info-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+            table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; font-size: 13px; }
+            th { background: #f1f5f9; }
+            .total-row { font-weight: bold; background: #eff6ff; color: #1d4ed8; }
+            .btn-print { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
+            @media print { .btn-print { display: none; } }
+          </style>
+        </head>
+        <body>
+          <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar em PDF</button>
+          <div class="header">
+            <h1>APSAN, LDA</h1>
+            <p>Guia de Autorização de Compra & Orçamento Integrado</p>
+          </div>
+          <div class="info-box">
+            <p><strong>Código da Encomenda:</strong> ${codigo}</p>
+            <p><strong>Cliente Requerente:</strong> ${cliente}</p>
+            <p><strong>Descrição do Item:</strong> ${descricao}</p>
+            <p><strong>Quantidade:</strong> ${quantidade}</p>
+            <p><strong>Data de Emissão:</strong> ${new Date().toLocaleDateString('pt-PT')}</p>
+          </div>
+
+          <h3>Discriminação de Custos</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Descrição do Custo</th>
+                <th>Moeda Origem</th>
+                <th>Valor (AOA Kz)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Custo do Produto (${quantidade}x) na Namíbia</td>
+                <td>$ ${parseFloat(valorNad).toLocaleString('pt-PT', {minimumFractionDigits: 2})} NAD</td>
+                <td>${formatarKz(produtoAoa)}</td>
+              </tr>
+              <tr>
+                <td>Taxa de Prestação de Serviço (APSAN)</td>
+                <td>AOA</td>
+                <td>${formatarKz(taxaServico)}</td>
+              </tr>
+              <tr>
+                <td>Estimativa de Taxa Alfandegária</td>
+                <td>AOA</td>
+                <td>${formatarKz(valorAlfandega)}</td>
+              </tr>
+              <tr class="total-row">
+                <td colspan="2">TOTAL GERAL A PAGAR</td>
+                <td>${formatarKz(totalGeral)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </body>
+        </html>
+      `);
+      janelaPDF.document.close();
+    }
+
+    function enviarParaOperacoes(codigo, cliente, descricao, quantidade, valorNad, totalGeral) {
+      const mensagem = `*APSAN, LDA - NOTIFICAÇÃO DE OPERAÇÕES*%0A%0A` +
+        `📦 *Nova Encomenda Aprovada para Compras na Namíbia!*%0A` +
+        `• *Código:* ${codigo}%0A` +
+        `• *Cliente:* ${cliente}%0A` +
+        `• *Descrição:* ${descricao}%0A` +
+        `• *Quantidade:* ${quantidade}%0A` +
+        `• *Valor de Compra Namíbia:* $ ${valorNad} NAD%0A` +
+        `• *Total Cobrado:* ${formatarKz(totalGeral)}%0A%0A` +
+        ` Favor proceder com a compra e logística de envio.`;
+
+      window.open(`https://api.whatsapp.com/send?text=${mensagem}`, '_blank');
+    }
+
+    /* ================= TRANSAÇÕES & SALDO ================= */
     function salvarTransacao(event) {
       event.preventDefault();
       const cliente = document.getElementById('trans-cliente').value;
@@ -399,7 +763,6 @@
       event.target.reset();
     }
 
-    // ELIMINAR TRANSAÇÃO
     function eliminarTransacao(rowId) {
       if (confirm('Tem a certeza que deseja eliminar esta transação?')) {
         const linha = document.getElementById(rowId);
@@ -407,7 +770,6 @@
       }
     }
 
-    // GERAR FATURA EM PDF
     function gerarFatura(event) {
       event.preventDefault();
       const cliente = document.getElementById('fat-cliente').value;
@@ -447,7 +809,6 @@
       win.document.close();
     }
 
-    // EDICÃO DO SALDO DO CARTÃO BFA
     function alternarEdicaoSaldo() {
       const txtSaldo = document.getElementById('saldo-texto');
       const inputSaldo = document.getElementById('saldo-input');

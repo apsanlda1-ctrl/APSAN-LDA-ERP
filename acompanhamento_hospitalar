@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APSAN, LDA - Acompanhamento Hospitalar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- BIBLIOTECAS DE EXPORTAÇÃO (PDF E WORD) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #0284c7; --primary-dark: #0369a1; --primary-light: #e0f2fe;
+      --secondary: #64748b; --success: #10b981; --danger: #ef4444;
+      --warning: #f59e0b; --dark: #1e293b; --light: #f8fafc;
+      --white: #ffffff; --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+      --radius: 8px; --radius-lg: 12px;
+      --sidebar-width: 280px; --sidebar-collapsed: 80px; --header-height: 70px;
+    }
+
+    body { font-family: 'Inter', sans-serif; background: #f1f5f9; color: var(--dark); line-height: 1.6; }
+
+    .app-layout { display: flex; min-height: 100vh; }
+
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-width); background: var(--white); height: 100vh; position: fixed; left: 0; top: 0; border-right: 1px solid var(--border); display: flex; flex-direction: column; transition: all 0.3s; z-index: 100; }
+    .sidebar.collapsed { width: var(--sidebar-collapsed); }
+    .sidebar.collapsed .logo-small span, .sidebar.collapsed .user-details, .sidebar.collapsed .sidebar-nav li span, .sidebar.collapsed .btn-logout span { display: none; }
+    .sidebar-header { padding: 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+    .logo-small { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; color: var(--primary); }
+    .toggle-sidebar { background: none; border: none; font-size: 20px; color: var(--secondary); cursor: pointer; padding: 8px; border-radius: var(--radius); }
+
+    .user-info { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+    .user-avatar { width: 42px; height: 42px; background: var(--primary-light); color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .user-details h4 { font-size: 14px; font-weight: 600; color: var(--dark); }
+    .user-details span { font-size: 12px; color: var(--secondary); }
+
+    .sidebar-nav { flex: 1; padding: 12px; overflow-y: auto; }
+    .sidebar-nav ul { list-style: none; }
+    .sidebar-nav li { padding: 10px 14px; border-radius: var(--radius); cursor: pointer; display: flex; align-items: center; gap: 12px; color: var(--secondary); font-weight: 500; font-size: 14px; transition: all 0.2s; margin-bottom: 2px; }
+    .sidebar-nav li:hover, .sidebar-nav li.active { background: var(--primary-light); color: var(--primary); }
+    .sidebar-nav li i { font-size: 16px; width: 22px; text-align: center; flex-shrink: 0; }
+
+    .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
+    .btn-logout { width: 100%; padding: 10px; background: #fee2e2; color: var(--danger); border: none; border-radius: var(--radius); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+
+    /* MAIN CONTENT */
+    .main-content { margin-left: var(--sidebar-width); min-height: 100vh; transition: all 0.3s; flex: 1; }
+    .sidebar.collapsed + .main-content { margin-left: var(--sidebar-collapsed); }
+    .top-header { height: var(--header-height); background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; position: sticky; top: 0; z-index: 50; }
+    .header-left h2 { font-size: 22px; font-weight: 700; color: var(--dark); }
+    .breadcrumb { font-size: 13px; color: var(--secondary); }
+    .date-time { display: flex; flex-direction: column; align-items: flex-end; font-size: 13px; }
+
+    .content-section { display: none; padding: 25px; animation: fadeIn 0.2s ease; }
+    .content-section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    /* CARDS & STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+    .stat-card { background: var(--white); border-radius: var(--radius-lg); padding: 18px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
+    .stat-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .stat-icon.blue { background: #e0f2fe; color: #0284c7; }
+    .stat-icon.green { background: #d1fae5; color: #10b981; }
+    .stat-icon.purple { background: #ede9fe; color: #7c3aed; }
+    .stat-icon.orange { background: #fef3c7; color: #f59e0b; }
+    .stat-info h3 { font-size: 22px; font-weight: 700; color: var(--dark); }
+
+    .card { background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px; }
+    .card-body { padding: 20px; }
+
+    .section-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .section-toolbar h3 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+    
+    .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-primary { padding: 9px 16px; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-secondary { padding: 9px 16px; background: var(--white); color: var(--dark); border: 1px solid var(--border); border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-success { padding: 9px 16px; background: var(--success); color: var(--white); border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+
+    /* TABELAS */
+    .table-container { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    thead { background: var(--light); }
+    th { padding: 12px 14px; font-size: 12px; font-weight: 600; color: var(--secondary); border-bottom: 1px solid var(--border); }
+    td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border); color: var(--dark); }
+    tr:hover { background: #f8fafc; }
+
+    /* FORMULÁRIO FOLHA A4 COM RODAPÉ FIXO */
+    .doc-preview { 
+      background: var(--white); 
+      padding: 40px; 
+      border-radius: var(--radius); 
+      border: 1px solid var(--border); 
+      max-width: 850px; 
+      min-height: 260mm;
+      margin: 0 auto; 
+      font-family: 'Times New Roman', Times, serif; 
+      line-height: 1.8; 
+      box-shadow: var(--shadow); 
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .doc-input { border: none; border-bottom: 1px dashed #64748b; font-family: inherit; font-size: inherit; padding: 2px 6px; background: #f8fafc; outline: none; }
+    .doc-input:focus { border-bottom-color: var(--primary); background: #f0f9ff; }
+    
+    .doc-wrapper { display: flex; flex-direction: column; height: 100%; flex: 1; }
+    .doc-footer-section { margin-top: auto; padding-top: 30px; }
+
+    .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+
+    .form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius); outline: none; margin-bottom: 12px; font-size: 13px; }
+
+    .toast { position: fixed; bottom: 25px; right: 25px; background: var(--dark); color: var(--white); padding: 14px 20px; border-radius: var(--radius); display: flex; align-items: center; gap: 10px; box-shadow: var(--shadow-lg); transform: translateX(150%); transition: transform 0.3s ease; z-index: 2000; font-size: 14px; }
+    .toast.show { transform: translateX(0); }
+    .toast i { color: var(--success); }
+  </style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- SIDEBAR DO DEPARTAMENTO HOSPITALAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-small"><i class="fas fa-hospital-user"></i> <span>APSAN, LDA</span></div>
+      <button class="toggle-sidebar" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    </div>
+    
+    <div class="user-info">
+      <div class="user-avatar"><i class="fas fa-user-nurse"></i></div>
+      <div class="user-details">
+        <h4>Afonso Santos</h4>
+        <span>Dep. Hospitalar</span>
+      </div>
+    </div>
+    
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="active" onclick="showSection('dashboard', this)"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+        <li onclick="showSection('pacientes', this)"><i class="fas fa-procedures"></i><span>Gestão de Pacientes</span></li>
+        <li onclick="showSection('agendamentos', this)"><i class="fas fa-calendar-check"></i><span>Agendamentos</span></li>
+        <li onclick="showSection('relatorio-doc', this)"><i class="fas fa-notes-medical"></i><span>Ficha de Acompanhamento</span></li>
+        <li onclick="showSection('arquivo-medico', this)"><i class="fas fa-file-medical"></i><span>Exames & Documentos</span></li>
+        <li onclick="showSection('tarifas-hospital', this)"><i class="fas fa-calculator"></i><span>Orçamentos de Apoio</span></li>
+      </ul>
+    </nav>
+    
+    <div class="sidebar-footer">
+      <a href="index.html" class="btn-logout"><i class="fas fa-sign-out-alt"></i><span>Sair / Mudar Dep.</span></a>
+    </div>
+  </aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="main-content">
+    <header class="top-header">
+      <div class="header-left">
+        <h2>Acompanhamento Hospitalar</h2>
+        <span class="breadcrumb">APSAN > Módulo de Assistência Médica</span>
+      </div>
+      <div class="header-right">
+        <div class="date-time">
+          <span id="current-date"></span>
+          <span id="current-time"></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 1. DASHBOARD -->
+    <section id="section-dashboard" class="content-section active">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-procedures"></i></div><div class="stat-info"><h3 id="count-pacientes">0</h3><p>Pacientes Ativos</p></div></div>
+        <div class="stat-card"><div class="stat-icon green"><i class="fas fa-calendar-alt"></i></div><div class="stat-info"><h3 id="count-agendamentos">0</h3><p>Agendamentos</p></div></div>
+        <div class="stat-card"><div class="stat-icon purple"><i class="fas fa-file-medical-alt"></i></div><div class="stat-info"><h3 id="count-fichas">0</h3><p>Fichas Emitidas</p></div></div>
+        <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-folder-open"></i></div><div class="stat-info"><h3 id="count-documentos">0</h3><p>Documentos em Arquivo</p></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h4 style="margin-bottom: 15px;">Resumo do Serviço de Assistência Hospitalar</h4>
+          <p style="color: var(--secondary); font-size: 14px;">Este departamento coordena a presença, apoio, tradução/mediação médica e acompanhamento contínuo dos clientes da APSAN, LDA em unidades hospitalares nacionais e internacionais.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. GESTÃO DE PACIENTES -->
+    <section id="section-pacientes" class="content-section">
+      <div class="section-toolbar">
+        <h3><i class="fas fa-user-plus"></i> Registo e Lista de Pacientes</h3>
+      </div>
+      
+      <div class="card"><div class="card-body">
+        <h4 style="margin-bottom: 12px;">Registar Novo Paciente</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+          <input type="text" id="paciente-nome" class="form-control" placeholder="Nome Completo do Paciente">
+          <input type="text" id="paciente-contacto" class="form-control" placeholder="Telefone / WhatsApp">
+          <input type="text" id="paciente-hospital" class="form-control" placeholder="Hospital / Clínica">
+          <input type="text" id="paciente-diagnostico" class="form-control" placeholder="Especialidade / Motivo">
+          <button class="btn-primary" style="height: 40px;" onclick="salvarPaciente()"><i class="fas fa-plus"></i> Guardar Paciente</button>
+        </div>
+      </div></div>
+
+      <div class="card"><div class="card-body">
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Nome</th><th>Contacto</th><th>Hospital / Clínica</th><th>Motivo / Especialidade</th><th>Ação</th></tr></thead>
+            <tbody id="tabela-pacientes"></tbody>
+          </table>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 3. AGENDAMENTOS -->
+    <section id="section-agendamentos" class="content-section">
+      <div class="section-toolbar">
+        <h3><i class="fas fa-calendar-check"></i> Marcação de Acompanhamentos</h3>
+      </div>
+
+      <div class="card"><div class="card-body">
+        <h4 style="margin-bottom: 12px;">Novo Agendamento</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+          <input type="text" id="agenda-paciente" class="form-control" placeholder="Nome do Paciente">
+          <input type="date" id="agenda-data" class="form-control">
+          <input type="time" id="agenda-hora" class="form-control">
+          <input type="text" id="agenda-local" class="form-control" placeholder="Hospital / Gabinete">
+          <button class="btn-primary" style="height: 40px;" onclick="salvarAgendamento()"><i class="fas fa-calendar-plus"></i> Agendar</button>
+        </div>
+      </div></div>
+
+      <div class="card"><div class="card-body">
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Paciente</th><th>Data</th><th>Hora</th><th>Local / Hospital</th><th>Ação</th></tr></thead>
+            <tbody id="tabela-agendamentos"></tbody>
+          </table>
+        </div>
+      </div></div>
+    </section>
+
+    <!-- 4. FICHA DE ACOMPANHAMENTO (DOCUMENTO COM RODAPÉ FIXADO) -->
+    <section id="section-relatorio-doc" class="content-section">
+      <div class="section-toolbar">
+        <h3><i class="fas fa-notes-medical"></i> Emissão de Ficha de Acompanhamento</h3>
+        <div class="btn-group">
+          <button class="btn-secondary" onclick="limparFicha()"><i class="fas fa-eraser"></i> Limpar</button>
+          <button class="btn-primary" onclick="exportarPDF('doc-hospital-container', 'Ficha_Acompanhamento_Hospitalar.pdf')"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+          <button class="btn-success" onclick="exportarWord('doc-hospital-container', 'Ficha_Acompanhamento_Hospitalar.doc')"><i class="fas fa-file-word"></i> Exportar Word</button>
+        </div>
+      </div>
+
+      <div class="doc-preview" id="doc-hospital-container">
+        <div class="doc-wrapper">
+          <div>
+            <h3 style="text-align: center; margin-bottom: 20px; text-decoration: underline; text-transform: uppercase;">Relatório de Acompanhamento Hospitalar</h3>
+            
+            <p style="text-align: justify; margin-bottom: 12px;">
+              A empresa <strong>APSAN, LDA</strong>, representada no ato pelo(a) assistente de acompanhamento <input type="text" class="doc-input" style="width: 250px;" placeholder="Nome do Acompanhante / Técnico">, declara para os devidos fins que prestou o devido suporte e assistência ao(à) paciente:
+            </p>
+
+            <p style="margin-bottom: 10px;">
+              <strong>Nome do Paciente:</strong> <input type="text" class="doc-input" style="width: 380px;" placeholder="Nome Completo do Paciente">
+            </p>
+
+            <p style="margin-bottom: 10px;">
+              <strong>Documento de Identificação / Passaporte nº:</strong> <input type="text" class="doc-input" style="width: 220px;" placeholder="Nº Documento">
+            </p>
+
+            <p style="margin-bottom: 10px;">
+              <strong>Unidade Hospitalar / Clínica:</strong> <input type="text" class="doc-input" style="width: 320px;" placeholder="Nome do Hospital">
+            </p>
+
+            <p style="margin-bottom: 10px;">
+              <strong>Médico Assistente / Especialidade:</strong> <input type="text" class="doc-input" style="width: 300px;" placeholder="Dr.(a) / Especialidade">
+            </p>
+
+            <p style="margin-bottom: 15px;">
+              <strong>Data e Hora da Assistência:</strong> <input type="date" class="doc-input"> às <input type="time" class="doc-input">
+            </p>
+
+            <div style="margin-top: 15px; margin-bottom: 20px;">
+              <p><strong>Descrição dos Serviços Prestados e Observações Clínicas/Logísticas:</strong></p>
+              <textarea class="doc-input" style="width: 100%; height: 120px; margin-top: 8px; resize: none; border: 1px solid #cbd5e1; padding: 8px; border-radius: 4px;" placeholder="Descreva os detalhes da consulta, internamento, auxílio linguístico/logístico ou encaminhamento..."></textarea>
+            </div>
+          </div>
+
+          <!-- RODAPÉ FIXADO NA PARTE INFERIOR DA PÁGINA A4 -->
+          <div class="doc-footer-section">
+            <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Data atual"></p>
+
+            <div style="display: flex; justify-content: space-between; gap: 20px; text-align: center;">
+              <div style="flex: 1;">
+                <p>_____________________________________</p>
+                <p><strong>Assinatura do Assistente APSAN</strong></p>
+              </div>
+              <div style="flex: 1;">
+                <p>_____________________________________</p>
+                <p><strong>Assinatura do Paciente / Responsável</strong></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. ARQUIVO MÉDICO DIGITAL -->
+    <section id="section-arquivo-medico" class="content-section">
+      <div class="section-toolbar">
+        <h3><i class="fas fa-file-medical"></i> Repositório de Documentos Médicos</h3>
+      </div>
+
+      <div class="card"><div class="card-body">
+        <h4 style="margin-bottom: 12px;">Anexar Receita, Exame ou Boletim</h4>
+        <input type="file" id="upload-medico-input" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png">
+        <button class="btn-primary" onclick="salvarFicheiroMedico()"><i class="fas fa-upload"></i> Guardar no Ficheiro</button>
+      </div></div>
+
+      <div class="grid-cards" id="grid-ficheiros-medicos"></div>
+    </section>
+
+    <!-- 6. ORÇAMENTOS & TARIFAS -->
+    <section id="section-tarifas-hospital" class="content-section">
+      <div class="section-toolbar">
+        <h3><i class="fas fa-calculator"></i> Calculadora de Serviços Hospitalares</h3>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div class="card"><div class="card-body">
+          <h4 style="margin-bottom: 15px;">Simulador de Tarifas</h4>
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 12px; font-weight: 600;">Tipo de Assistência:</label>
+            <select id="servico-hosp-tipo" class="form-control" onchange="calcularTarifaHosp()">
+              <option value="consulta">Acompanhamento em Consulta (15.000 Kz)</option>
+              <option value="diaria">Acompanhamento Diário / Internamento (30.000 Kz / dia)</option>
+              <option value="translado">Apoio em Translado Médico / Urgência (25.000 Kz)</option>
+            </select>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label style="font-size: 12px; font-weight: 600;">Quantidade (Dias ou Consultas):</label>
+            <input type="number" id="qtd-hosp" value="1" min="1" class="form-control" oninput="calcularTarifaHosp()">
+          </div>
+          <div style="background: var(--light); padding: 15px; border-radius: var(--radius); text-align: center; margin-top: 15px;">
+            <span style="font-size: 13px; color: var(--secondary);">Total Estimado:</span>
+            <h2 id="valor-hosp-total" style="color: var(--primary);">15.000 Kz</h2>
+          </div>
+        </div></div>
+
+        <div class="card"><div class="card-body">
+          <h4 style="margin-bottom: 15px;">Tabela Oficial APSAN - Apoio Hospitalar</h4>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>Serviço</th><th>Valor Base</th></tr></thead>
+              <tbody>
+                <tr><td>Acompanhamento em Consulta Simples</td><td>15.000 Kz</td></tr>
+                <tr><td>Turno de Assistência em Internamento (24h)</td><td>30.000 Kz</td></tr>
+                <tr><td>Tradução e Mediação Médica Especializada</td><td>20.000 Kz</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast" class="toast">
+  <i class="fas fa-check-circle"></i>
+  <span id="toast-message">Operação concluída com sucesso!</span>
+</div>
+
+<script>
+  let dbPacientes = JSON.parse(localStorage.getItem('apsan_pacientes')) || [];
+  let dbAgendamentos = JSON.parse(localStorage.getItem('apsan_agendamentos_hosp')) || [];
+  let dbMedicosDocs = JSON.parse(localStorage.getItem('apsan_medicos_docs')) || [];
+
+  function updateClock() {
+    const now = new Date();
+    document.getElementById('current-date').innerText = now.toLocaleDateString('pt-PT');
+    document.getElementById('current-time').innerText = now.toLocaleTimeString('pt-PT');
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+  }
+
+  function showSection(sectionId, element) {
+    document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+    const target = document.getElementById(`section-${sectionId}`);
+    if (target) target.classList.add('active');
+    
+    if (element) {
+      document.querySelectorAll('.sidebar-nav li').forEach(li => li.classList.remove('active'));
+      element.classList.add('active');
+    }
+    atualizarTabelas();
+  }
+
+  function salvarPaciente() {
+    const nome = document.getElementById('paciente-nome').value;
+    const contacto = document.getElementById('paciente-contacto').value;
+    const hospital = document.getElementById('paciente-hospital').value;
+    const diagnostico = document.getElementById('paciente-diagnostico').value;
+
+    if (!nome) {
+      alert('Por favor, informe o nome do paciente.');
+      return;
+    }
+
+    dbPacientes.push({ id: Date.now(), nome, contacto, hospital, diagnostico });
+    localStorage.setItem('apsan_pacientes', JSON.stringify(dbPacientes));
+
+    document.getElementById('paciente-nome').value = '';
+    document.getElementById('paciente-contacto').value = '';
+    document.getElementById('paciente-hospital').value = '';
+    document.getElementById('paciente-diagnostico').value = '';
+
+    atualizarTabelas();
+    showToast('Paciente guardado com sucesso!');
+  }
+
+  function eliminarPaciente(id) {
+    dbPacientes = dbPacientes.filter(p => p.id !== id);
+    localStorage.setItem('apsan_pacientes', JSON.stringify(dbPacientes));
+    atualizarTabelas();
+    showToast('Paciente removido.');
+  }
+
+  function salvarAgendamento() {
+    const paciente = document.getElementById('agenda-paciente').value;
+    const data = document.getElementById('agenda-data').value;
+    const hora = document.getElementById('agenda-hora').value;
+    const local = document.getElementById('agenda-local').value;
+
+    if (!paciente || !data) {
+      alert('Preencha o nome do paciente e a data.');
+      return;
+    }
+
+    dbAgendamentos.push({ id: Date.now(), paciente, data, hora, local });
+    localStorage.setItem('apsan_agendamentos_hosp', JSON.stringify(dbAgendamentos));
+
+    document.getElementById('agenda-paciente').value = '';
+    document.getElementById('agenda-local').value = '';
+
+    atualizarTabelas();
+    showToast('Agendamento registado!');
+  }
+
+  function eliminarAgendamento(id) {
+    dbAgendamentos = dbAgendamentos.filter(a => a.id !== id);
+    localStorage.setItem('apsan_agendamentos_hosp', JSON.stringify(dbAgendamentos));
+    atualizarTabelas();
+    showToast('Agendamento cancelado.');
+  }
+
+  function salvarFicheiroMedico() {
+    const fileInput = document.getElementById('upload-medico-input');
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert('Selecione um ficheiro primeiro.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      dbMedicosDocs.push({
+        id: Date.now(),
+        nome: file.name,
+        tamanho: (file.size / 1024).toFixed(1) + ' KB',
+        data: new Date().toLocaleDateString('pt-PT'),
+        conteudo: e.target.result
+      });
+      localStorage.setItem('apsan_medicos_docs', JSON.stringify(dbMedicosDocs));
+      fileInput.value = '';
+      atualizarTabelas();
+      showToast('Documento guardado no repositório!');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function eliminarFicheiroMedico(id) {
+    dbMedicosDocs = dbMedicosDocs.filter(f => f.id !== id);
+    localStorage.setItem('apsan_medicos_docs', JSON.stringify(dbMedicosDocs));
+    atualizarTabelas();
+    showToast('Documento removido.');
+  }
+
+  function baixarFicheiroMedico(id) {
+    const item = dbMedicosDocs.find(f => f.id === id);
+    if (item) {
+      const a = document.createElement('a');
+      a.href = item.conteudo;
+      a.download = item.nome;
+      a.click();
+    }
+  }
+
+  function limparFicha() {
+    document.querySelectorAll('#section-relatorio-doc input, #section-relatorio-doc textarea').forEach(i => i.value = '');
+    showToast('Ficha limpa com sucesso.');
+  }
+
+  function exportarPDF(elementId, filename) {
+    const element = document.getElementById(elementId);
+    const opt = {
+      margin:       10,
+      filename:     filename,
+      image:        { type: 'jpeg', quality: 0.98 },
+      html2canvas:  { scale: 2 },
+      jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+    showToast('A transferir PDF...');
+  }
+
+  function exportarWord(elementId, filename) {
+    const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Documento APSAN</title></head><body>";
+    const footer = "</body></html>";
+    const html = header + document.getElementById(elementId).innerHTML + footer;
+
+    const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
+    saveAs(blob, filename);
+    showToast('A transferir ficheiro Word...');
+  }
+
+  function calcularTarifaHosp() {
+    const tipo = document.getElementById('servico-hosp-tipo').value;
+    const qtd = parseInt(document.getElementById('qtd-hosp').value) || 1;
+    let preco = 15000;
+    if (tipo === 'diaria') preco = 30000;
+    if (tipo === 'translado') preco = 25000;
+    document.getElementById('valor-hosp-total').innerText = (preco * qtd).toLocaleString('pt-PT') + ' Kz';
+  }
+
+  function atualizarTabelas() {
+    document.getElementById('count-pacientes').innerText = dbPacientes.length;
+    document.getElementById('count-agendamentos').innerText = dbAgendamentos.length;
+    document.getElementById('count-fichas').innerText = dbPacientes.length + dbAgendamentos.length;
+    document.getElementById('count-documentos').innerText = dbMedicosDocs.length;
+
+    const tbodyPacientes = document.getElementById('tabela-pacientes');
+    tbodyPacientes.innerHTML = dbPacientes.map(p => `
+      <tr>
+        <td>${p.nome}</td>
+        <td>${p.contacto || 'N/A'}</td>
+        <td>${p.hospital || 'N/A'}</td>
+        <td>${p.diagnostico || 'N/A'}</td>
+        <td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarPaciente(${p.id})"><i class="fas fa-trash"></i></button></td>
+      </tr>
+    `).join('');
+
+    const tbodyAgenda = document.getElementById('tabela-agendamentos');
+    tbodyAgenda.innerHTML = dbAgendamentos.map(a => `
+      <tr>
+        <td>${a.paciente}</td>
+        <td>${a.data}</td>
+        <td>${a.hora || 'N/A'}</td>
+        <td>${a.local || 'N/A'}</td>
+        <td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarAgendamento(${a.id})"><i class="fas fa-trash"></i></button></td>
+      </tr>
+    `).join('');
+
+    const gridDocs = document.getElementById('grid-ficheiros-medicos');
+    gridDocs.innerHTML = dbMedicosDocs.map(f => `
+      <div class="card" style="padding: 15px; text-align: center;">
+        <i class="fas fa-file-medical-alt" style="font-size: 36px; color: var(--primary); margin-bottom: 8px;"></i>
+        <h4 style="font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${f.nome}</h4>
+        <p style="font-size: 11px; color: var(--secondary);">${f.data} - ${f.tamanho}</p>
+        <div style="display: flex; gap: 6px; margin-top: 10px;">
+          <button class="btn-primary" style="flex: 1; padding: 6px; font-size: 11px;" onclick="baixarFicheiroMedico(${f.id})"><i class="fas fa-download"></i> Baixar</button>
+          <button class="btn-secondary" style="padding: 6px; color: var(--danger);" onclick="eliminarFicheiroMedico(${f.id})"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    toastMsg.innerText = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  atualizarTabelas();
+</script>
+
+</body>
+</html>

@@ -51,6 +51,41 @@
     .card-panel { background: #ffffff; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); margin-bottom: 20px; }
     .card-panel h3 { font-size: 16px; margin-bottom: 18px; color: #1e293b; display: flex; align-items: center; justify-content: space-between; }
 
+    /* ESTILO DO CARTÃO VIRTUAL INTEGRADO */
+    .virtual-card {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #2563eb 100%);
+      border-radius: 16px;
+      padding: 22px;
+      color: #ffffff;
+      box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .virtual-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-top .bank-name { font-weight: 700; font-size: 14px; letter-spacing: 1px; color: #93c5fd; }
+    .card-top .chip { width: 38px; height: 28px; background: linear-gradient(135deg, #fef08a, #ca8a04); border-radius: 5px; position: relative; }
+    .card-top .chip::after { content: ''; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: rgba(0,0,0,0.2); }
+    
+    .card-balance-label { font-size: 11px; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.5px; }
+    .card-balance-val { font-size: 24px; font-weight: 700; margin: 4px 0 18px 0; font-family: monospace; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; }
+    
+    .card-number { font-size: 15px; letter-spacing: 3px; font-family: monospace; color: #cbd5e1; margin-bottom: 15px; }
+    .card-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+    .card-holder { font-size: 11px; text-transform: uppercase; }
+    .card-holder div { font-weight: 600; font-size: 13px; color: #ffffff; margin-top: 2px; }
+    .card-brand-logo { font-size: 22px; font-style: italic; font-weight: 800; opacity: 0.9; }
+
     /* Tabela */
     table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
     th { background: #f8fafc; color: #475569; padding: 12px 10px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
@@ -168,6 +203,8 @@
       </div>
 
       <div class="content-grid">
+        
+        <!-- COLUNA DA ESQUERDA: TRANSAÇÕES -->
         <div class="card-panel">
           <h3>
             <span><i class="fas fa-list-alt"></i> Últimas Transações</span>
@@ -194,20 +231,53 @@
           </div>
         </div>
 
-        <div class="card-panel">
-          <h3><i class="fas fa-plus-circle"></i> Registar Transação</h3>
-          <form onsubmit="registarTransacao(event)">
-            <div class="form-group">
-              <label>Nome do Cliente:</label>
-              <input type="text" id="cliente" required>
+        <!-- COLUNA DA DIREITA: CARTÃO VIRTUAL DA CONTA E REGISTRO -->
+        <div>
+          <!-- NOVO COMPONENTE: CARTÃO VIRTUAL CORPORATIVO -->
+          <div class="virtual-card">
+            <div class="card-top">
+              <span class="bank-name"><i class="fas fa-building-columns"></i> APSAN BUSINESS</span>
+              <div class="chip"></div>
             </div>
-            <div class="form-group">
-              <label>Valor (AOA):</label>
-              <input type="number" id="valor" required>
+            
+            <div class="card-balance-label">Saldo Real em Conta</div>
+            <div class="card-balance-val">
+              <span id="saldo-cartao-val">3.110.000,00</span> <small style="font-size: 14px;">Kz</small>
+              <button onclick="sincronizarSaldoBanco()" title="Sincronizar com o banco" style="background: transparent; border: none; color: #93c5fd; cursor: pointer; font-size: 14px; margin-left: auto;">
+                <i class="fas fa-sync-alt" id="icon-sync"></i>
+              </button>
             </div>
-            <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> Guardar</button>
-          </form>
+
+            <div class="card-number">•••• •••• •••• 8842</div>
+
+            <div class="card-footer">
+              <div class="card-holder">
+                <span>Titular da Conta</span>
+                <div>APSAN, LDA</div>
+              </div>
+              <div class="card-brand-logo">
+                <i class="fab fa-cc-visa"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- FORMULÁRIO DE REGISTRO -->
+          <div class="card-panel">
+            <h3><i class="fas fa-plus-circle"></i> Registar Transação</h3>
+            <form onsubmit="registarTransacao(event)">
+              <div class="form-group">
+                <label>Nome do Cliente:</label>
+                <input type="text" id="cliente" required>
+              </div>
+              <div class="form-group">
+                <label>Valor (AOA):</label>
+                <input type="number" id="valor" required>
+              </div>
+              <button type="submit" class="btn-action" style="width: 100%; justify-content: center;"><i class="fas fa-save"></i> Guardar</button>
+            </form>
+          </div>
         </div>
+
       </div>
     </div>
 
@@ -316,7 +386,6 @@
             </div>
           </div>
 
-          <!-- VALOR EM NAD E CÁLCULO MULTIPLICADO -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
             <div class="form-group">
               <label for="enc-valor-unit-nad">Valor Unitário ($ NAD):</label>
@@ -328,7 +397,6 @@
             </div>
           </div>
 
-          <!-- TAXAS -->
           <div class="calc-box">
             <div class="calc-box-title"><i class="fas fa-coins"></i> Taxas & Custos Adicionais</div>
             
@@ -353,7 +421,6 @@
             </div>
           </div>
 
-          <!-- TOTAL GERAL -->
           <div class="total-highlight">
             <span style="font-size: 12px; color: #475569; font-weight: 600;">TOTAL GERAL A PAGAR PELO CLIENTE:</span>
             <h4 id="enc-total-aoa">0.00 Kz</h4>
@@ -401,23 +468,42 @@
       document.getElementById('modal-encomenda').classList.remove('active');
     }
 
-    // CÁLCULO ATUALIZADO (VALOR * QUANTIDADE * CÂMBIO)
+    // SIMULAÇÃO DE SINCRONIZAÇÃO EM TEMPO REAL VIA API DO BANCO
+    async function sincronizarSaldoBanco() {
+      const icon = document.getElementById('icon-sync');
+      icon.classList.add('fa-spin');
+      
+      try {
+        /* EXEMPLO DE INTEGRAÇÃO REAL DE API:
+        const response = await fetch('https://api.seubanco.com/v1/conta/saldo', {
+          headers: { 'Authorization': 'Bearer SEU_TOKEN_AQUI' }
+        });
+        const data = await response.json();
+        document.getElementById('saldo-cartao-val').innerText = data.saldoFormatado;
+        */
+
+        // Simulando resposta da API bancária após 1 segundo
+        setTimeout(() => {
+          icon.classList.remove('fa-spin');
+          alert("Saldo sincronizado com a conta bancária!");
+        }, 1000);
+
+      } catch (error) {
+        icon.classList.remove('fa-spin');
+        console.error("Erro ao sincronizar saldo:", error);
+      }
+    }
+
     function calcularTotalEncomenda() {
       const valorUnitNad = parseFloat(document.getElementById('enc-valor-unit-nad').value) || 0;
       const quantidade = parseFloat(document.getElementById('enc-qtd').value) || 1;
-      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 66; // Câmbio alterado para 66 Kz
+      const taxaDia = parseFloat(document.getElementById('taxa-dia').value) || 66;
       
-      // Subtotal do Produto em NAD
       const subtotalNad = valorUnitNad * quantidade;
-
-      // Converter Subtotal em AOA
       const produtoAoa = subtotalNad * taxaDia;
       document.getElementById('enc-valor-produto-aoa').value = produtoAoa.toFixed(2);
 
-      // Serviço AOA
       const taxaServico = parseFloat(document.getElementById('enc-taxa-servico').value) || 0;
-
-      // Alfândega AOA
       const temAlfandega = document.getElementById('chk-tem-alfandega').checked;
       const pctAlfandega = parseFloat(document.getElementById('enc-taxa-alfandega-pct').value) || 0;
       
@@ -428,7 +514,6 @@
       
       document.getElementById('label-valor-alfandega').innerText = `${valorAlfandega.toLocaleString('pt-PT')} Kz`;
 
-      // Total Geral
       const totalGeral = produtoAoa + taxaServico + valorAlfandega;
       document.getElementById('enc-total-aoa').innerText = `${totalGeral.toLocaleString('pt-PT')} Kz`;
     }

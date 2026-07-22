@@ -204,12 +204,31 @@ tr:hover { background: #f8fafc; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
+/* STATUS BADGES RH */
+.status-ativo { background: #d1fae5; color: #15803d; }
+.status-ferias { background: #fef3c7; color: #92400e; }
+.status-licenca { background: #dbeafe; color: #0c4a6e; }
+.status-desligado { background: #fee2e2; color: #7f1d1d; }
+.status-pendente { background: #fef3c7; color: #92400e; }
+.status-aprovado { background: #d1fae5; color: #15803d; }
+.status-rejeitado { background: #fee2e2; color: #7f1d1d; }
+
+/* FOLHA PAGAMENTO */
+.folha-resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.folha-item { background: var(--white); border-radius: var(--radius); padding: 16px; border: 1px solid var(--border); }
+.folha-item h4 { font-size: 13px; color: var(--secondary); margin-bottom: 4px; }
+.folha-item p { font-size: 20px; font-weight: 700; color: var(--dark); }
+
+/* TEAL STAT ICON */
+.stat-icon.teal { background: #ccfbf1; color: #0d9488; }
+
 /* LANG TABS */
 .lang-tabs { display: flex; gap: 0; margin-bottom: 24px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; width: fit-content; }
 .lang-tab { padding: 12px 24px; background: var(--white); border: none; border-bottom: 3px solid transparent; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--secondary); }
 .lang-tab:hover { background: #f8fafc; color: var(--dark); }
 .lang-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--primary-light); }
 </style>
+<base target="_blank">
 </head>
 <body>
 
@@ -234,6 +253,7 @@ tr:hover { background: #f8fafc; }
 <option value="traducao" selected>📜 Tradução Oficial Juramentada</option>
 <option value="administrativo">📋 Administrativo</option>
 <option value="financeiro">💰 Financeiro</option>
+<option value="rh">👥 Recursos Humanos</option>
 </select>
 </div>
 <div class="input-group">
@@ -310,6 +330,17 @@ tr:hover { background: #f8fafc; }
 <li onclick="showSection('fin-pagamentos')"><i class="fas fa-money-bill-wave"></i><span>Pagamentos</span></li>
 <li onclick="showSection('fin-orcamento')"><i class="fas fa-chart-pie"></i><span>Orçamento</span></li>
 <li onclick="showSection('fin-relatorios')"><i class="fas fa-file-invoice"></i><span>Relatórios</span></li>
+<li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
+</ul>
+<!-- RECURSOS HUMANOS -->
+<ul id="menu-rh" style="display: none;">
+<li class="active" onclick="showSection('rh-dashboard')"><i class="fas fa-chart-line"></i><span>Dashboard</span></li>
+<li onclick="showSection('rh-funcionarios')"><i class="fas fa-users"></i><span>Funcionários RH</span></li>
+<li onclick="showSection('rh-folha-pagamento')"><i class="fas fa-money-check-alt"></i><span>Folha de Pagamento</span></li>
+<li onclick="showSection('rh-recrutamento')"><i class="fas fa-user-plus"></i><span>Recrutamento</span></li>
+<li onclick="showSection('rh-ferias-licencas')"><i class="fas fa-calendar-alt"></i><span>Férias & Licenças</span></li>
+<li onclick="showSection('rh-avaliacao')"><i class="fas fa-star"></i><span>Avaliação de Desempenho</span></li>
+<li onclick="showSection('rh-relatorios')"><i class="fas fa-file-alt"></i><span>Relatórios RH</span></li>
 <li onclick="showSection('configuracoes')"><i class="fas fa-cog"></i><span>Configurações</span></li>
 </ul>
 </nav>
@@ -833,6 +864,223 @@ for a period of <input type="text" id="en-periodo" style="border: none; border-b
 </div>
 </section>
 
+<!-- ========== RECURSOS HUMANOS ========== -->
+<section id="section-rh-dashboard" class="content-section">
+<div class="stats-grid">
+<div class="stat-card"><div class="stat-icon blue"><i class="fas fa-users"></i></div><div class="stat-info"><h3 id="stat-rh-funcionarios">0</h3><p>Funcionários</p><span class="trend">Ativos</span></div></div>
+<div class="stat-card"><div class="stat-icon green"><i class="fas fa-money-check-alt"></i></div><div class="stat-info"><h3 id="stat-rh-salarios">0</h3><p>Salários</p><span class="trend">Este mês</span></div></div>
+<div class="stat-card"><div class="stat-icon orange"><i class="fas fa-calendar-alt"></i></div><div class="stat-info"><h3 id="stat-rh-ferias">0</h3><p>Férias</p><span class="trend">Pendentes</span></div></div>
+<div class="stat-card"><div class="stat-icon purple"><i class="fas fa-user-plus"></i></div><div class="stat-info"><h3 id="stat-rh-vagas">0</h3><p>Vagas</p><span class="trend">Abertas</span></div></div>
+</div>
+<div class="dashboard-grid">
+<div class="card"><div class="card-header"><h3><i class="fas fa-chart-bar"></i> Estatísticas RH</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-chart-pie"></i><p>Dados indisponíveis</p></div></div></div>
+<div class="card"><div class="card-header"><h3><i class="fas fa-list-check"></i> Atividades Recentes RH</h3></div><div class="card-body"><div class="empty-state"><i class="fas fa-clipboard-list"></i><p>Sem atividades</p></div></div></div>
+</div>
+</section>
+
+<section id="section-rh-funcionarios" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-users"></i> Funcionários</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-rh-funcionarios" placeholder="Pesquisar funcionário..." onkeyup="filterTable('rh-funcionarios-table', 'search-rh-funcionarios')">
+</div>
+<button class="btn-primary" onclick="openModalRHFuncionario()"><i class="fas fa-plus"></i> Novo Funcionário</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-users"></i> Funcionários Registados</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="rh-funcionarios-table">
+<thead>
+<tr>
+<th>Nome</th>
+<th>Cargo</th>
+<th>Departamento</th>
+<th>Telefone</th>
+<th>Salário</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="rh-funcionarios-tbody">
+</tbody>
+</table>
+</div>
+<div id="rh-funcionarios-empty" class="empty-state">
+<i class="fas fa-user-plus"></i>
+<p>Nenhum funcionário registado</p>
+<span>Clique em "Novo Funcionário" para começar</span>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-rh-folha-pagamento" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-money-check-alt"></i> Folha de Pagamento</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-rh-folha" placeholder="Pesquisar..." onkeyup="filterTable('rh-folha-table', 'search-rh-folha')">
+</div>
+<button class="btn-primary" onclick="openModalFolhaPagamento()"><i class="fas fa-plus"></i> Nova Folha</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-money-check-alt"></i> Folhas de Pagamento</h3></div>
+<div class="card-body">
+<div class="folha-resumo" id="folha-resumo">
+<div class="folha-item"><h4>Total Vencimentos</h4><p id="folha-total-vencimentos">0,00 AOA</p></div>
+<div class="folha-item"><h4>Total Descontos</h4><p id="folha-total-descontos">0,00 AOA</p></div>
+<div class="folha-item"><h4>Total Líquido</h4><p id="folha-total-liquido">0,00 AOA</p></div>
+</div>
+<div class="table-container">
+<table id="rh-folha-table">
+<thead>
+<tr>
+<th>Funcionário</th>
+<th>Mês/Ano</th>
+<th>Vencimentos</th>
+<th>Descontos</th>
+<th>Líquido</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="rh-folha-tbody">
+</tbody>
+</table>
+</div>
+<div id="rh-folha-empty" class="empty-state">
+<i class="fas fa-money-check-alt"></i>
+<p>Nenhuma folha de pagamento registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-rh-recrutamento" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-user-plus"></i> Recrutamento</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-rh-recrutamento" placeholder="Pesquisar vaga..." onkeyup="filterTable('rh-recrutamento-table', 'search-rh-recrutamento')">
+</div>
+<button class="btn-primary" onclick="openModalVaga()"><i class="fas fa-plus"></i> Nova Vaga</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-briefcase"></i> Vagas Abertas</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="rh-recrutamento-table">
+<thead>
+<tr>
+<th>Título</th>
+<th>Departamento</th>
+<th>Candidatos</th>
+<th>Data Abertura</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="rh-recrutamento-tbody">
+</tbody>
+</table>
+</div>
+<div id="rh-recrutamento-empty" class="empty-state">
+<i class="fas fa-briefcase"></i>
+<p>Nenhuma vaga registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-rh-ferias-licencas" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-calendar-alt"></i> Férias & Licenças</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-rh-ferias" placeholder="Pesquisar..." onkeyup="filterTable('rh-ferias-table', 'search-rh-ferias')">
+</div>
+<button class="btn-primary" onclick="openModalFerias()"><i class="fas fa-plus"></i> Novo Pedido</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-calendar-alt"></i> Pedidos de Férias & Licenças</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="rh-ferias-table">
+<thead>
+<tr>
+<th>Funcionário</th>
+<th>Tipo</th>
+<th>Data Início</th>
+<th>Data Fim</th>
+<th>Dias</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="rh-ferias-tbody">
+</tbody>
+</table>
+</div>
+<div id="rh-ferias-empty" class="empty-state">
+<i class="fas fa-calendar-times"></i>
+<p>Nenhum pedido registado</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-rh-avaliacao" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-star"></i> Avaliação de Desempenho</h3>
+<div class="search-box">
+<i class="fas fa-search"></i>
+<input type="text" id="search-rh-avaliacao" placeholder="Pesquisar..." onkeyup="filterTable('rh-avaliacao-table', 'search-rh-avaliacao')">
+</div>
+<button class="btn-primary" onclick="openModalAvaliacao()"><i class="fas fa-plus"></i> Nova Avaliação</button>
+</div>
+<div class="card">
+<div class="card-header"><h3><i class="fas fa-star"></i> Avaliações Realizadas</h3></div>
+<div class="card-body">
+<div class="table-container">
+<table id="rh-avaliacao-table">
+<thead>
+<tr>
+<th>Funcionário</th>
+<th>Período</th>
+<th>Nota</th>
+<th>Avaliador</th>
+<th>Data</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="rh-avaliacao-tbody">
+</tbody>
+</table>
+</div>
+<div id="rh-avaliacao-empty" class="empty-state">
+<i class="fas fa-star"></i>
+<p>Nenhuma avaliação registada</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="section-rh-relatorios" class="content-section">
+<div class="section-toolbar">
+<h3><i class="fas fa-file-alt"></i> Relatórios RH</h3>
+</div>
+<div class="card">
+<div class="card-body">
+<div class="empty-state">
+<i class="fas fa-chart-bar"></i>
+<p>Sem dados para relatório</p>
+</div>
+</div>
+</div>
+</section>
+
 <!-- ========== CONFIGURAÇÕES ========== -->
 <section id="section-configuracoes" class="content-section">
 <div class="card">
@@ -927,6 +1175,296 @@ for a period of <input type="text" id="en-periodo" style="border: none; border-b
 </div>
 </div>
 
+<!-- Modal RH Funcionário -->
+<div id="modal-rh-funcionario" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2 id="modal-rh-funcionario-titulo">Novo Funcionário</h2>
+<button class="modal-close" onclick="closeModal('modal-rh-funcionario')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-rh-funcionario" onsubmit="salvarRHFuncionario(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Nome Completo *</label>
+<input type="text" id="rh-func-nome" required>
+</div>
+<div class="form-group">
+<label>Email *</label>
+<input type="email" id="rh-func-email" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Telefone *</label>
+<input type="tel" id="rh-func-telefone" required>
+</div>
+<div class="form-group">
+<label>Data Nasc. *</label>
+<input type="date" id="rh-func-data-nasc" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Cargo *</label>
+<input type="text" id="rh-func-cargo" required>
+</div>
+<div class="form-group">
+<label>Departamento *</label>
+<select id="rh-func-departamento" required>
+<option value="">Selecione</option>
+<option value="Acompanhamento Hospitalar">Acompanhamento Hospitalar</option>
+<option value="Tradução Oficial Juramentada">Tradução Oficial Juramentada</option>
+<option value="Administrativo">Administrativo</option>
+<option value="Financeiro">Financeiro</option>
+<option value="Recursos Humanos">Recursos Humanos</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Salário Base (AOA) *</label>
+<input type="number" id="rh-func-salario" required>
+</div>
+<div class="form-group">
+<label>Data Admissão *</label>
+<input type="date" id="rh-func-data-admissao" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Tipo Contrato *</label>
+<select id="rh-func-tipo-contrato" required>
+<option value="">Selecione</option>
+<option value="efetivo">Efetivo</option>
+<option value="temporario">Temporário</option>
+<option value="estagio">Estágio</option>
+<option value="prestacao-servicos">Prestação de Serviços</option>
+</select>
+</div>
+<div class="form-group">
+<label>Status *</label>
+<select id="rh-func-status" required>
+<option value="ativo">Ativo</option>
+<option value="ferias">Em Férias</option>
+<option value="licenca">Em Licença</option>
+<option value="desligado">Desligado</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Morada</label>
+<textarea id="rh-func-morada"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-rh-funcionario')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Folha Pagamento -->
+<div id="modal-folha-pagamento" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Nova Folha de Pagamento</h2>
+<button class="modal-close" onclick="closeModal('modal-folha-pagamento')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-folha-pagamento" onsubmit="salvarFolhaPagamento(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Funcionário *</label>
+<select id="folha-funcionario" required>
+<option value="">-- Selecione --</option>
+</select>
+</div>
+<div class="form-group">
+<label>Mês/Ano *</label>
+<input type="month" id="folha-mes-ano" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Vencimentos (AOA) *</label>
+<input type="number" id="folha-vencimentos" required>
+</div>
+<div class="form-group">
+<label>Descontos (AOA) *</label>
+<input type="number" id="folha-descontos" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Líquido (AOA)</label>
+<input type="number" id="folha-liquido" readonly>
+</div>
+<div class="form-group">
+<label>Status</label>
+<select id="folha-status">
+<option value="pendente">Pendente</option>
+<option value="aprovado">Aprovado</option>
+<option value="pago">Pago</option>
+</select>
+</div>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-folha-pagamento')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Vaga -->
+<div id="modal-vaga" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Nova Vaga</h2>
+<button class="modal-close" onclick="closeModal('modal-vaga')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-vaga" onsubmit="salvarVaga(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Título da Vaga *</label>
+<input type="text" id="vaga-titulo" required>
+</div>
+<div class="form-group">
+<label>Departamento *</label>
+<select id="vaga-departamento" required>
+<option value="">Selecione</option>
+<option value="Acompanhamento Hospitalar">Acompanhamento Hospitalar</option>
+<option value="Tradução Oficial Juramentada">Tradução Oficial Juramentada</option>
+<option value="Administrativo">Administrativo</option>
+<option value="Financeiro">Financeiro</option>
+<option value="Recursos Humanos">Recursos Humanos</option>
+</select>
+</div>
+</div>
+<div class="form-group">
+<label>Descrição *</label>
+<textarea id="vaga-descricao" required></textarea>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Número de Candidatos</label>
+<input type="number" id="vaga-candidatos" value="0" min="0">
+</div>
+<div class="form-group">
+<label>Status</label>
+<select id="vaga-status">
+<option value="aberta">Aberta</option>
+<option value="em-analise">Em Análise</option>
+<option value="fechada">Fechada</option>
+</select>
+</div>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-vaga')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Férias -->
+<div id="modal-ferias" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Novo Pedido de Férias/Licença</h2>
+<button class="modal-close" onclick="closeModal('modal-ferias')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-ferias" onsubmit="salvarFerias(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Funcionário *</label>
+<select id="ferias-funcionario" required>
+<option value="">-- Selecione --</option>
+</select>
+</div>
+<div class="form-group">
+<label>Tipo *</label>
+<select id="ferias-tipo" required>
+<option value="ferias">Férias</option>
+<option value="licenca-medica">Licença Médica</option>
+<option value="licenca-familiar">Licença Familiar</option>
+<option value="outra">Outra</option>
+</select>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Data Início *</label>
+<input type="date" id="ferias-data-inicio" required>
+</div>
+<div class="form-group">
+<label>Data Fim *</label>
+<input type="date" id="ferias-data-fim" required>
+</div>
+</div>
+<div class="form-group">
+<label>Observações</label>
+<textarea id="ferias-observacoes"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-ferias')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Modal Avaliação -->
+<div id="modal-avaliacao" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<h2>Nova Avaliação de Desempenho</h2>
+<button class="modal-close" onclick="closeModal('modal-avaliacao')">&times;</button>
+</div>
+<div class="modal-body">
+<form id="form-avaliacao" onsubmit="salvarAvaliacao(event)">
+<div class="form-row">
+<div class="form-group">
+<label>Funcionário *</label>
+<select id="avaliacao-funcionario" required>
+<option value="">-- Selecione --</option>
+</select>
+</div>
+<div class="form-group">
+<label>Período *</label>
+<input type="text" id="avaliacao-periodo" placeholder="Ex: 2026 - 1º Trimestre" required>
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label>Nota (0-10) *</label>
+<input type="number" id="avaliacao-nota" min="0" max="10" step="0.1" required>
+</div>
+<div class="form-group">
+<label>Avaliador *</label>
+<input type="text" id="avaliacao-avaliador" required>
+</div>
+</div>
+<div class="form-group">
+<label>Comentários</label>
+<textarea id="avaliacao-comentarios"></textarea>
+</div>
+<div class="modal-footer">
+<button type="submit" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+<button type="button" class="btn-secondary" onclick="closeModal('modal-avaliacao')">Cancelar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
 <!-- Toast -->
 <div id="toast" class="toast">
 <i class="fas fa-check-circle"></i>
@@ -939,7 +1477,8 @@ const DEPARTAMENTOS = {
 acompanhamento: { nome: "Acompanhamento Hospitalar", username: "admin.apsan", password: "apsan2026", menu: "menu-acompanhamento", cor: "#2563eb", userName: "Dr. Silva", icon: "fa-user-md" },
 traducao: { nome: "Tradução Oficial Juramentada", username: "traducao.apsan", password: "trad2026", menu: "menu-traducao", cor: "#7c3aed", userName: "Trad. Ana", icon: "fa-stamp" },
 administrativo: { nome: "Administrativo", username: "administrativo.apsan", password: "adm2026", menu: "menu-administrativo", cor: "#64748b", userName: "Adm. Carlos", icon: "fa-user-tie" },
-financeiro: { nome: "Financeiro", username: "financeiro.apsan", password: "fin2026", menu: "menu-financeiro", cor: "#059669", userName: "Fin. João", icon: "fa-chart-line" }
+financeiro: { nome: "Financeiro", username: "financeiro.apsan", password: "fin2026", menu: "menu-financeiro", cor: "#059669", userName: "Fin. João", icon: "fa-chart-line" },
+rh: { nome: "Recursos Humanos", username: "rh.apsan", password: "rh2026", menu: "menu-rh", cor: "#0d9488", userName: "RH. Maria", icon: "fa-users" }
 };
 
 // Base de dados
@@ -952,7 +1491,12 @@ clientes: [],
 funcionarios: [],
 departamentos: [],
 faturas: [],
-viagens: []
+viagens: [],
+rh_funcionarios: [],
+rh_folhas: [],
+rh_vagas: [],
+rh_ferias: [],
+rh_avaliacoes: []
 };
 
 let currentDepartment = null;
@@ -1010,6 +1554,7 @@ document.getElementById('dashboard-screen').classList.add('active');
 if (deptKey === 'traducao') showSection('viagem-menores');
 else if (deptKey === 'administrativo') showSection('admin-dashboard');
 else if (deptKey === 'financeiro') showSection('fin-dashboard');
+else if (deptKey === 'rh') showSection('rh-dashboard');
 else showSection('dashboard');
 
 showToast('Bem-vindo ao Departamento de ' + dept.nome + '!');
@@ -1058,6 +1603,9 @@ var titles = {
 'admin-departamentos': 'Departamentos', 'admin-documentos': 'Documentos Internos',
 'fin-dashboard': 'Dashboard Financeiro', 'fin-faturacao': 'Faturação', 'fin-pagamentos': 'Pagamentos',
 'fin-orcamento': 'Orçamento', 'fin-relatorios': 'Relatórios Financeiros',
+'rh-dashboard': 'Dashboard RH', 'rh-funcionarios': 'Funcionários RH', 'rh-folha-pagamento': 'Folha de Pagamento',
+'rh-recrutamento': 'Recrutamento', 'rh-ferias-licencas': 'Férias & Licenças',
+'rh-avaliacao': 'Avaliação de Desempenho', 'rh-relatorios': 'Relatórios RH',
 'configuracoes': 'Configurações'
 };
 
@@ -1513,6 +2061,470 @@ showToast('Funcionalidade em desenvolvimento...');
 function saveSettings() {
 showToast('Configurações guardadas com sucesso!');
 }
+
+// ============ RECURSOS HUMANOS ============
+let rhEditingId = null;
+
+// --- Funcionários RH ---
+function openModalRHFuncionario(funcId = null) {
+rhEditingId = funcId;
+var titulo = document.getElementById('modal-rh-funcionario-titulo');
+var form = document.getElementById('form-rh-funcionario');
+
+if (funcId) {
+titulo.textContent = 'Editar Funcionário';
+var func = database.rh_funcionarios.find(f => f.id == funcId);
+if (func) {
+document.getElementById('rh-func-nome').value = func.nome;
+document.getElementById('rh-func-email').value = func.email;
+document.getElementById('rh-func-telefone').value = func.telefone;
+document.getElementById('rh-func-data-nasc').value = func.dataNasc;
+document.getElementById('rh-func-cargo').value = func.cargo;
+document.getElementById('rh-func-departamento').value = func.departamento;
+document.getElementById('rh-func-salario').value = func.salario;
+document.getElementById('rh-func-data-admissao').value = func.dataAdmissao;
+document.getElementById('rh-func-tipo-contrato').value = func.tipoContrato;
+document.getElementById('rh-func-status').value = func.status;
+document.getElementById('rh-func-morada').value = func.morada || '';
+}
+} else {
+titulo.textContent = 'Novo Funcionário';
+form.reset();
+}
+
+openModal('modal-rh-funcionario');
+}
+
+function salvarRHFuncionario(event) {
+event.preventDefault();
+
+var func = {
+id: rhEditingId || Date.now(),
+nome: document.getElementById('rh-func-nome').value,
+email: document.getElementById('rh-func-email').value,
+telefone: document.getElementById('rh-func-telefone').value,
+dataNasc: document.getElementById('rh-func-data-nasc').value,
+cargo: document.getElementById('rh-func-cargo').value,
+departamento: document.getElementById('rh-func-departamento').value,
+salario: parseFloat(document.getElementById('rh-func-salario').value),
+dataAdmissao: document.getElementById('rh-func-data-admissao').value,
+tipoContrato: document.getElementById('rh-func-tipo-contrato').value,
+status: document.getElementById('rh-func-status').value,
+morada: document.getElementById('rh-func-morada').value,
+dataCriacao: new Date().toISOString()
+};
+
+if (rhEditingId) {
+var index = database.rh_funcionarios.findIndex(f => f.id == rhEditingId);
+if (index > -1) database.rh_funcionarios[index] = func;
+showToast('Funcionário atualizado com sucesso!');
+} else {
+database.rh_funcionarios.push(func);
+showToast('Funcionário registado com sucesso!');
+}
+
+salvarDados();
+listarRHFuncionarios();
+closeModal('modal-rh-funcionario');
+rhEditingId = null;
+}
+
+function listarRHFuncionarios() {
+var tbody = document.getElementById('rh-funcionarios-tbody');
+var empty = document.getElementById('rh-funcionarios-empty');
+
+if (database.rh_funcionarios.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-rh-funcionarios').textContent = '0';
+return;
+}
+
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+
+tbody.innerHTML = '';
+database.rh_funcionarios.forEach(function(f) {
+var statusClass = 'status-' + f.status;
+var row = '<tr>' +
+'<td>' + f.nome + '</td>' +
+'<td>' + f.cargo + '</td>' +
+'<td>' + f.departamento + '</td>' +
+'<td>' + f.telefone + '</td>' +
+'<td>' + f.salario.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + f.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-edit" onclick="openModalRHFuncionario(' + f.id + ')">Editar</button> <button class="btn-delete" onclick="deletarRHFuncionario(' + f.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+
+document.getElementById('stat-rh-funcionarios').textContent = database.rh_funcionarios.filter(f => f.status === 'ativo').length;
+}
+
+function deletarRHFuncionario(id) {
+if (confirm('Tem certeza que deseja eliminar este funcionário?')) {
+database.rh_funcionarios = database.rh_funcionarios.filter(f => f.id != id);
+salvarDados();
+listarRHFuncionarios();
+showToast('Funcionário eliminado!');
+}
+}
+
+// --- Folha de Pagamento ---
+function openModalFolhaPagamento() {
+preencherSeletorFuncionarios('folha-funcionario');
+document.getElementById('form-folha-pagamento').reset();
+document.getElementById('folha-liquido').value = '';
+openModal('modal-folha-pagamento');
+}
+
+function salvarFolhaPagamento(event) {
+event.preventDefault();
+
+var vencimentos = parseFloat(document.getElementById('folha-vencimentos').value);
+var descontos = parseFloat(document.getElementById('folha-descontos').value);
+var liquido = vencimentos - descontos;
+
+var folha = {
+id: Date.now(),
+funcionarioId: document.getElementById('folha-funcionario').value,
+funcionarioNome: document.getElementById('folha-funcionario').options[document.getElementById('folha-funcionario').selectedIndex].text,
+mesAno: document.getElementById('folha-mes-ano').value,
+vencimentos: vencimentos,
+descontos: descontos,
+liquido: liquido,
+status: document.getElementById('folha-status').value,
+dataCriacao: new Date().toISOString()
+};
+
+database.rh_folhas.push(folha);
+salvarDados();
+listarFolhasPagamento();
+closeModal('modal-folha-pagamento');
+showToast('Folha de pagamento registada com sucesso!');
+}
+
+function listarFolhasPagamento() {
+var tbody = document.getElementById('rh-folha-tbody');
+var empty = document.getElementById('rh-folha-empty');
+
+if (database.rh_folhas.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('folha-total-vencimentos').textContent = '0,00 AOA';
+document.getElementById('folha-total-descontos').textContent = '0,00 AOA';
+document.getElementById('folha-total-liquido').textContent = '0,00 AOA';
+return;
+}
+
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+
+tbody.innerHTML = '';
+var totalVenc = 0, totalDesc = 0, totalLiq = 0;
+
+database.rh_folhas.forEach(function(f) {
+totalVenc += f.vencimentos;
+totalDesc += f.descontos;
+totalLiq += f.liquido;
+
+var statusClass = 'status-' + f.status;
+var row = '<tr>' +
+'<td>' + f.funcionarioNome + '</td>' +
+'<td>' + f.mesAno + '</td>' +
+'<td>' + f.vencimentos.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA</td>' +
+'<td>' + f.descontos.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA</td>' +
+'<td>' + f.liquido.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + f.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-delete" onclick="deletarFolha(' + f.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+
+document.getElementById('folha-total-vencimentos').textContent = totalVenc.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA';
+document.getElementById('folha-total-descontos').textContent = totalDesc.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA';
+document.getElementById('folha-total-liquido').textContent = totalLiq.toLocaleString('pt-PT', {minimumFractionDigits: 2}) + ' AOA';
+}
+
+function deletarFolha(id) {
+if (confirm('Tem certeza que deseja eliminar esta folha?')) {
+database.rh_folhas = database.rh_folhas.filter(f => f.id != id);
+salvarDados();
+listarFolhasPagamento();
+showToast('Folha eliminada!');
+}
+}
+
+// --- Recrutamento ---
+function openModalVaga(vagaId = null) {
+if (vagaId) {
+var vaga = database.rh_vagas.find(v => v.id == vagaId);
+if (vaga) {
+document.getElementById('vaga-titulo').value = vaga.titulo;
+document.getElementById('vaga-departamento').value = vaga.departamento;
+document.getElementById('vaga-descricao').value = vaga.descricao;
+document.getElementById('vaga-candidatos').value = vaga.candidatos;
+document.getElementById('vaga-status').value = vaga.status;
+}
+} else {
+document.getElementById('form-vaga').reset();
+}
+openModal('modal-vaga');
+}
+
+function salvarVaga(event) {
+event.preventDefault();
+
+var vaga = {
+id: Date.now(),
+titulo: document.getElementById('vaga-titulo').value,
+departamento: document.getElementById('vaga-departamento').value,
+descricao: document.getElementById('vaga-descricao').value,
+candidatos: parseInt(document.getElementById('vaga-candidatos').value) || 0,
+status: document.getElementById('vaga-status').value,
+dataCriacao: new Date().toISOString()
+};
+
+database.rh_vagas.push(vaga);
+salvarDados();
+listarVagas();
+closeModal('modal-vaga');
+showToast('Vaga registada com sucesso!');
+}
+
+function listarVagas() {
+var tbody = document.getElementById('rh-recrutamento-tbody');
+var empty = document.getElementById('rh-recrutamento-empty');
+
+if (database.rh_vagas.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-rh-vagas').textContent = '0';
+return;
+}
+
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+
+tbody.innerHTML = '';
+database.rh_vagas.forEach(function(v) {
+var statusClass = v.status === 'aberta' ? 'status-ativo' : (v.status === 'em-analise' ? 'status-pendente' : 'status-desligado');
+var row = '<tr>' +
+'<td>' + v.titulo + '</td>' +
+'<td>' + v.departamento + '</td>' +
+'<td>' + v.candidatos + '</td>' +
+'<td>' + new Date(v.dataCriacao).toLocaleDateString('pt-PT') + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + v.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-edit" onclick="openModalVaga(' + v.id + ')">Editar</button> <button class="btn-delete" onclick="deletarVaga(' + v.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+
+document.getElementById('stat-rh-vagas').textContent = database.rh_vagas.filter(v => v.status === 'aberta').length;
+}
+
+function deletarVaga(id) {
+if (confirm('Tem certeza que deseja eliminar esta vaga?')) {
+database.rh_vagas = database.rh_vagas.filter(v => v.id != id);
+salvarDados();
+listarVagas();
+showToast('Vaga eliminada!');
+}
+}
+
+// --- Férias & Licenças ---
+function openModalFerias() {
+preencherSeletorFuncionarios('ferias-funcionario');
+document.getElementById('form-ferias').reset();
+openModal('modal-ferias');
+}
+
+function salvarFerias(event) {
+event.preventDefault();
+
+var dataInicio = new Date(document.getElementById('ferias-data-inicio').value);
+var dataFim = new Date(document.getElementById('ferias-data-fim').value);
+var diffTime = Math.abs(dataFim - dataInicio);
+var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+var ferias = {
+id: Date.now(),
+funcionarioId: document.getElementById('ferias-funcionario').value,
+funcionarioNome: document.getElementById('ferias-funcionario').options[document.getElementById('ferias-funcionario').selectedIndex].text,
+tipo: document.getElementById('ferias-tipo').value,
+dataInicio: document.getElementById('ferias-data-inicio').value,
+dataFim: document.getElementById('ferias-data-fim').value,
+dias: diffDays,
+observacoes: document.getElementById('ferias-observacoes').value,
+status: 'pendente',
+dataCriacao: new Date().toISOString()
+};
+
+database.rh_ferias.push(ferias);
+salvarDados();
+listarFerias();
+closeModal('modal-ferias');
+showToast('Pedido registado com sucesso!');
+}
+
+function listarFerias() {
+var tbody = document.getElementById('rh-ferias-tbody');
+var empty = document.getElementById('rh-ferias-empty');
+
+if (database.rh_ferias.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+document.getElementById('stat-rh-ferias').textContent = '0';
+return;
+}
+
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+
+tbody.innerHTML = '';
+database.rh_ferias.forEach(function(f) {
+var statusClass = 'status-' + f.status;
+var row = '<tr>' +
+'<td>' + f.funcionarioNome + '</td>' +
+'<td>' + f.tipo + '</td>' +
+'<td>' + new Date(f.dataInicio).toLocaleDateString('pt-PT') + '</td>' +
+'<td>' + new Date(f.dataFim).toLocaleDateString('pt-PT') + '</td>' +
+'<td>' + f.dias + '</td>' +
+'<td><span class="status-badge ' + statusClass + '">' + f.status.toUpperCase() + '</span></td>' +
+'<td><button class="btn-success" onclick="aprovarFerias(' + f.id + ')" style="padding:4px 8px;font-size:11px;">Aprovar</button> <button class="btn-delete" onclick="deletarFerias(' + f.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+
+document.getElementById('stat-rh-ferias').textContent = database.rh_ferias.filter(f => f.status === 'pendente').length;
+}
+
+function aprovarFerias(id) {
+var ferias = database.rh_ferias.find(f => f.id == id);
+if (ferias) {
+ferias.status = 'aprovado';
+salvarDados();
+listarFerias();
+showToast('Pedido aprovado!');
+}
+}
+
+function deletarFerias(id) {
+if (confirm('Tem certeza que deseja eliminar este pedido?')) {
+database.rh_ferias = database.rh_ferias.filter(f => f.id != id);
+salvarDados();
+listarFerias();
+showToast('Pedido eliminado!');
+}
+}
+
+// --- Avaliação ---
+function openModalAvaliacao() {
+preencherSeletorFuncionarios('avaliacao-funcionario');
+document.getElementById('form-avaliacao').reset();
+openModal('modal-avaliacao');
+}
+
+function salvarAvaliacao(event) {
+event.preventDefault();
+
+var avaliacao = {
+id: Date.now(),
+funcionarioId: document.getElementById('avaliacao-funcionario').value,
+funcionarioNome: document.getElementById('avaliacao-funcionario').options[document.getElementById('avaliacao-funcionario').selectedIndex].text,
+periodo: document.getElementById('avaliacao-periodo').value,
+nota: parseFloat(document.getElementById('avaliacao-nota').value),
+avaliador: document.getElementById('avaliacao-avaliador').value,
+comentarios: document.getElementById('avaliacao-comentarios').value,
+dataCriacao: new Date().toISOString()
+};
+
+database.rh_avaliacoes.push(avaliacao);
+salvarDados();
+listarAvaliacoes();
+closeModal('modal-avaliacao');
+showToast('Avaliação registada com sucesso!');
+}
+
+function listarAvaliacoes() {
+var tbody = document.getElementById('rh-avaliacao-tbody');
+var empty = document.getElementById('rh-avaliacao-empty');
+
+if (database.rh_avaliacoes.length === 0) {
+tbody.style.display = 'none';
+if (empty) empty.style.display = 'block';
+return;
+}
+
+tbody.style.display = '';
+if (empty) empty.style.display = 'none';
+
+tbody.innerHTML = '';
+database.rh_avaliacoes.forEach(function(a) {
+var row = '<tr>' +
+'<td>' + a.funcionarioNome + '</td>' +
+'<td>' + a.periodo + '</td>' +
+'<td>' + a.nota + '/10</td>' +
+'<td>' + a.avaliador + '</td>' +
+'<td>' + new Date(a.dataCriacao).toLocaleDateString('pt-PT') + '</td>' +
+'<td><button class="btn-delete" onclick="deletarAvaliacao(' + a.id + ')">Eliminar</button></td>' +
+'</tr>';
+tbody.innerHTML += row;
+});
+}
+
+function deletarAvaliacao(id) {
+if (confirm('Tem certeza que deseja eliminar esta avaliação?')) {
+database.rh_avaliacoes = database.rh_avaliacoes.filter(a => a.id != id);
+salvarDados();
+listarAvaliacoes();
+showToast('Avaliação eliminada!');
+}
+}
+
+// --- Utilitários RH ---
+function preencherSeletorFuncionarios(selectId) {
+var select = document.getElementById(selectId);
+if (!select) return;
+
+select.innerHTML = '<option value="">-- Selecione --</option>';
+database.rh_funcionarios.forEach(function(f) {
+select.innerHTML += '<option value="' + f.id + '">' + f.nome + '</option>';
+});
+}
+
+// Update carregarDados to include RH lists
+var originalCarregarDados = carregarDados;
+carregarDados = function() {
+var dados = localStorage.getItem('apsan_database');
+if (dados) {
+database = JSON.parse(dados);
+}
+listarPacientes();
+listarRHFuncionarios();
+listarFolhasPagamento();
+listarVagas();
+listarFerias();
+listarAvaliacoes();
+};
+
+// Auto-calculate liquido in folha form
+document.addEventListener('DOMContentLoaded', function() {
+var vencInput = document.getElementById('folha-vencimentos');
+var descInput = document.getElementById('folha-descontos');
+var liqInput = document.getElementById('folha-liquido');
+
+function calcularLiquido() {
+if (vencInput && descInput && liqInput) {
+var v = parseFloat(vencInput.value) || 0;
+var d = parseFloat(descInput.value) || 0;
+liqInput.value = (v - d).toFixed(2);
+}
+}
+
+if (vencInput) vencInput.addEventListener('input', calcularLiquido);
+if (descInput) descInput.addEventListener('input', calcularLiquido);
+});
 </script>
 </body>
 </html>

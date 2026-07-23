@@ -79,10 +79,22 @@
       padding: 20px;
       background-color: rgba(15, 23, 42, 0.95);
       border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-box img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      border-radius: 4px;
+      background: white;
+      padding: 2px;
     }
 
     .brand-box h2 {
-      font-size: 18px;
+      font-size: 16px;
       color: white;
     }
 
@@ -286,7 +298,7 @@
       gap: 20px;
     }
 
-    /* ESTILO EXCLUSIVO PARA O DOCUMENTO/FATURA IMPRESSO OU EXPORTADO */
+    /* ESTILO EXCLUSIVO PARA O DOCUMENTO/FATURA IMPRESSO OU EXPORTADO (REMOVENDO URL DO NAVEGADOR) */
     #fatura-documento {
       display: none;
       background: white;
@@ -314,6 +326,9 @@
         box-shadow: none;
         display: block !important;
       }
+      @page {
+        margin: 0;
+      }
     }
   </style>
 </head>
@@ -332,8 +347,11 @@
   <aside>
     <div>
       <div class="brand-box">
-        <h2>APSAN, LDA</h2>
-        <span>Departamento Financeiro</span>
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="Logo APSAN">
+        <div>
+          <h2>APSAN, LDA</h2>
+          <span>Departamento Financeiro</span>
+        </div>
       </div>
       <ul class="menu-list">
         <li class="menu-item active" onclick="switchTab('visao-geral', this)"><i class="fas fa-chart-pie"></i> Visão Geral & Transações</li>
@@ -510,7 +528,7 @@
         </div>
       </div>
 
-      <!-- ABA 5: FATURAÇÃO (ATUALIZADA CONFORME PEDIDO) -->
+      <!-- ABA 5: FATURAÇÃO -->
       <div id="faturacao" class="tab-content">
         <div class="card-panel">
           <h3><i class="fas fa-file-invoice-dollar"></i> Emissão Rápida de Faturas (APSAN, LDA)</h3>
@@ -532,26 +550,37 @@
               <input type="text" id="fat-nif" placeholder="Número de Identificação Fiscal">
             </div>
             <div class="form-group">
-              <label>Prestação de Serviço / Produto:</label>
-              <input type="text" id="fat-servico" placeholder="Ex: Compras na Namíbia / Acompanhamento hospitalar">
+              <label>Prestação de Serviço (Apsan):</label>
+              <input type="text" id="fat-servico" placeholder="Ex: Acompanhamento / Gestão de Compras">
             </div>
           </div>
 
           <div class="grid-2">
             <div class="form-group">
-              <label>Quantidade:</label>
-              <input type="number" id="fat-qtd" value="1" min="1" step="1" oninput="calcularFaturaFormulario()">
+              <label>Valor do Serviço da Apsan (Kz):</label>
+              <input type="number" id="fat-valor-servico" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
             </div>
             <div class="form-group">
-              <label>Valor Unitário do Produto/Serviço (Kz):</label>
-              <input type="number" id="fat-valor-unit" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
+              <label>Quantidade do Produto:</label>
+              <input type="number" id="fat-qtd" value="1" min="1" step="1" oninput="calcularFaturaFormulario()">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Valor Unitário do Produto em NAD ($):</label>
+              <input type="number" id="fat-valor-nad" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
+            </div>
+            <div class="form-group">
+              <label>Equivalência Produto em Kz (Unitário):</label>
+              <input type="text" id="fat-valor-unit-aoa" readonly style="background: #e2e8f0; font-weight: bold;" value="Kz 0,00">
             </div>
           </div>
 
           <div class="grid-2">
             <div class="form-group">
               <label>Local onde vai a Encomenda / Destino:</label>
-              <input type="text" id="fat-local" placeholder="Ex: Luanda, Lubango, Huambo...">
+              <input type="text" id="fat-local" placeholder="Ex: Luanda, Lubambo, Huambo...">
             </div>
             <div class="form-group">
               <label>Agência de Transporte (Frete):</label>
@@ -571,7 +600,7 @@
               <input type="number" id="fat-frete" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
             </div>
             <div class="form-group">
-              <label>Equivalência Total em AOA (Produto + Frete):</label>
+              <label>Equivalência Total Geral em AOA:</label>
               <input type="text" id="fat-total-aoa" readonly style="background: #e2e8f0; font-weight: bold;" value="Kz 0,00">
             </div>
           </div>
@@ -688,14 +717,17 @@
     </div>
   </main>
 
-  <!-- DOCUMENTO LIMPO EXCLUSIVO PARA IMPRESSÃO/EXPORTAÇÃO DE FATURA (SEM DETALHES DO SISTEMA) -->
+  <!-- DOCUMENTO DA FATURA (COM LOGO REAL DA APSAN, VALORES NAD/AOA, DADOS BANCÁRIOS LIMPOS SEM ÍCONES/ETIQUETAS ANEXAS E SEM URL DA WEB) -->
   <div id="fatura-documento">
-    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 25px;">
-      <div>
-        <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 5px;">APSAN, LDA</h2>
-        <p style="font-size: 12px; color: #475569;">Prestadora de Serviços Ang-Nam[cite: 4]</p>
-        <p style="font-size: 12px; color: #475569;">Sede: Santa Clara, Cunene - Angola[cite: 3, 4]</p>
-        <p style="font-size: 12px; color: #475569;">NIF: 5002085011[cite: 3, 4]</p>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 25px;">
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="Logo APSAN" style="width: 65px; height: 65px; object-fit: contain;">
+        <div>
+          <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 3px;">APSAN, LDA</h2>
+          <p style="font-size: 11px; color: #475569;">Prestadora de Serviços Ang-Nam[cite: 4]</p>
+          <p style="font-size: 11px; color: #475569;">Sede: Santa Clara, Cunene - Angola[cite: 3, 4]</p>
+          <p style="font-size: 11px; color: #475569;">NIF: 5002085011[cite: 3, 4]</p>
+        </div>
       </div>
       <div style="text-align: right;">
         <h3 style="color: #3b82f6; font-size: 18px;">FATURA / RECIBO</h3>
@@ -705,49 +737,56 @@
     </div>
 
     <div style="margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 6px;">
-      <h4 style="font-size: 14px; color: #1e293b; margin-bottom: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">Dados do Cliente</h4>
-      <p style="font-size: 13px; margin-bottom: 4px;"><strong>Nome do Cliente:</strong> <span id="doc-cli-nome">--</span></p>
-      <p style="font-size: 13px; margin-bottom: 4px;"><strong>Número do Cliente:</strong> <span id="doc-cli-num">--</span></p>
-      <p style="font-size: 13px;"><strong>NIF do Cliente:</strong> <span id="doc-cli-nif">--</span></p>
+      <h4 style="font-size: 13px; color: #1e293b; margin-bottom: 6px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">Dados do Cliente</h4>
+      <p style="font-size: 12px; margin-bottom: 3px;"><strong>Nome do Cliente:</strong> <span id="doc-cli-nome">--</span></p>
+      <p style="font-size: 12px; margin-bottom: 3px;"><strong>Número do Cliente:</strong> <span id="doc-cli-num">--</span></p>
+      <p style="font-size: 12px;"><strong>NIF do Cliente:</strong> <span id="doc-cli-nif">--</span></p>
     </div>
 
     <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
       <thead>
         <tr style="background: #1e293b; color: white;">
-          <th style="padding: 10px; font-size: 13px;">Prestação de Serviço / Produto</th>
-          <th style="padding: 10px; font-size: 13px; text-align: center;">Qtd</th>
-          <th style="padding: 10px; font-size: 13px; text-align: right;">Preço Unitário</th>
-          <th style="padding: 10px; font-size: 13px; text-align: right;">Total Parcial</th>
+          <th style="padding: 10px; font-size: 12px;">Descrição do Serviço / Produto</th>
+          <th style="padding: 10px; font-size: 12px; text-align: center;">Qtd</th>
+          <th style="padding: 10px; font-size: 12px; text-align: right;">Preço Unitário</th>
+          <th style="padding: 10px; font-size: 12px; text-align: right;">Total Parcial</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="padding: 10px; font-size: 13px;" id="doc-servico">--</td>
-          <td style="padding: 10px; font-size: 13px; text-align: center;" id="doc-qtd">1</td>
-          <td style="padding: 10px; font-size: 13px; text-align: right;" id="doc-unit">Kz 0,00</td>
-          <td style="padding: 10px; font-size: 13px; text-align: right;" id="doc-subtotal">Kz 0,00</td>
+          <td style="padding: 10px; font-size: 12px;" id="doc-servico-desc">Prestação de Serviço da Apsan</td>
+          <td style="padding: 10px; font-size: 12px; text-align: center;">1</td>
+          <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-servico-unit">Kz 0,00</td>
+          <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-servico-total">Kz 0,00</td>
         </tr>
         <tr>
-          <td colspan="3" style="padding: 10px; font-size: 13px;"><strong>Frete / Transporte (<span id="doc-agencia">--</span>) - Destino: <span id="doc-local">--</span></strong></td>
-          <td style="padding: 10px; font-size: 13px; text-align: right;" id="doc-frete">Kz 0,00</td>
+          <td style="padding: 10px; font-size: 12px;" id="doc-produto-desc">Produto (Namíbia)</td>
+          <td style="padding: 10px; font-size: 12px; text-align: center;" id="doc-prod-qtd">1</td>
+          <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-prod-unit-nad">$ 0.00 (<span id="doc-prod-unit-aoa">Kz 0,00</span>)</td>
+          <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-prod-subtotal">Kz 0,00</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="padding: 10px; font-size: 12px;"><strong>Frete / Transporte (<span id="doc-agencia">--</span>) - Destino: <span id="doc-local">--</span></strong></td>
+          <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-frete">Kz 0,00</td>
         </tr>
       </tbody>
     </table>
 
     <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">
-      <div style="width: 300px; background: #f1f5f9; padding: 15px; border-radius: 6px;">
-        <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: bold; color: #1e293b;">
+      <div style="width: 320px; background: #f1f5f9; padding: 15px; border-radius: 6px;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #1e293b;">
           <span>Equivalência Total (AOA):</span>
           <span id="doc-total-geral">Kz 0,00</span>
         </div>
       </div>
     </div>
 
-    <!-- RODAPÉ DA FATURA COM OS DETALHES BANCÁRIOS EXTRAÍDOS DO PDF -->
+    <!-- RODAPÉ DA FATURA EXATAMENTE COM OS DADOS BANCÁRIOS DA APSAN, LDA (SEM DETALHES TÉCNICOS OU RÓTULOS DE SISTEMA) -->
     <div style="border-top: 1px dashed #cbd5e1; padding-top: 15px; margin-top: 20px;">
       <p style="font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 8px;">Dados Bancários para Transferência:</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; color: #475569;">
         <div>
+          <p><strong>Titular:</strong> APSAN, LDA[cite: 4]</p>
           <p><strong>Banco:</strong> BFA (Banco de Fomento Angola)[cite: 4]</p>
           <p><strong>Número de Conta:</strong> 36350302130 001[cite: 4]</p>
         </div>
@@ -825,14 +864,19 @@
       }
     }
 
-    /* CÁLCULO DA FATURA COM VARIAÇÃO POR QUANTIDADE E FRETE */
+    /* CÁLCULO ATUALIZADO COM SERVIÇO, PRODUTO EM NAD COM EQUIVALÊNCIA, QTD E FRETE */
     function calcularFaturaFormulario() {
-      const qtd = parseFloat(document.getElementById('fat-qtd').value) || 0;
-      const unit = parseFloat(document.getElementById('fat-valor-unit').value) || 0;
+      const valorServico = parseFloat(document.getElementById('fat-valor-servico').value) || 0;
+      const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
+      const valorNad = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
+      const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
-      const totalProduto = qtd * unit;
-      const totalGeral = totalProduto + frete;
+      const valorUnitAoa = valorNad * taxaCambio;
+      document.getElementById('fat-valor-unit-aoa').value = formatarKz(valorUnitAoa);
+
+      const totalProduto = qtd * valorUnitAoa;
+      const totalGeral = valorServico + totalProduto + frete;
 
       document.getElementById('fat-total-aoa').value = formatarKz(totalGeral);
       return totalGeral;
@@ -842,19 +886,28 @@
       document.getElementById('doc-cli-nome').innerText = document.getElementById('fat-cliente').value || 'Cliente Balcão';
       document.getElementById('doc-cli-num').innerText = document.getElementById('fat-num-cliente').value || 'N/A';
       document.getElementById('doc-cli-nif').innerText = document.getElementById('fat-nif').value || 'Consumidor Final';
-      document.getElementById('doc-servico').innerText = document.getElementById('fat-servico').value || 'Prestação de Serviços APSAN';
       
+      document.getElementById('doc-servico-desc').innerText = 'Prestação de Serviço: ' + (document.getElementById('fat-servico').value || 'Serviços APSAN');
+      const valorServico = parseFloat(document.getElementById('fat-valor-servico').value) || 0;
+      document.getElementById('doc-servico-unit').innerText = formatarKz(valorServico);
+      document.getElementById('doc-servico-total').innerText = formatarKz(valorServico);
+
       const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
-      const unit = parseFloat(document.getElementById('fat-valor-unit').value) || 0;
+      const valorNad = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
+      const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
+      const valorUnitAoa = valorNad * taxaCambio;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
-      document.getElementById('doc-qtd').innerText = qtd;
-      document.getElementById('doc-unit').innerText = formatarKz(unit);
-      document.getElementById('doc-subtotal').innerText = formatarKz(qtd * unit);
+      document.getElementById('doc-prod-qtd').innerText = qtd;
+      document.getElementById('doc-prod-unit-nad').innerHTML = `$ ${valorNad.toFixed(2)} (<span id="doc-prod-unit-aoa">${formatarKz(valorUnitAoa)}</span>)`;
+      document.getElementById('doc-prod-subtotal').innerText = formatarKz(qtd * valorUnitAoa);
+
       document.getElementById('doc-agencia').innerText = document.getElementById('fat-agencia').value;
       document.getElementById('doc-local').innerText = document.getElementById('fat-local').value || 'N/A';
       document.getElementById('doc-frete').innerText = formatarKz(frete);
-      document.getElementById('doc-total-geral').innerText = formatarKz((qtd * unit) + frete);
+      
+      const totalGeral = valorServico + (qtd * valorUnitAoa) + frete;
+      document.getElementById('doc-total-geral').innerText = formatarKz(totalGeral);
       
       document.getElementById('fatura-doc-data').innerText = 'Data: ' + new Date().toLocaleDateString('pt-PT');
       document.getElementById('fatura-doc-num').innerText = 'Nº Fatura: APSAN-' + Math.floor(1000 + Math.random() * 9000);
@@ -1111,6 +1164,7 @@
     function atualizarTaxaGlobal() {
       converterMoeda('AOA');
       calcularTotalEncomenda();
+      calcularFaturaFormulario();
     }
 
     function calcularTotalEncomenda() {

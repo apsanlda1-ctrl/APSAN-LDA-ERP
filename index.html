@@ -203,6 +203,12 @@
       <label for="department-select">Selecione o Departamento:</label>
       <select id="department-select" class="department-select" required>
         <option value="rh" selected>👥 Recursos Humanos</option>
+        <option value="contabilidade">📊 Contabilidade</option>
+        <option value="financeiro">💰 Financeiro</option>
+        <option value="administrativo">📋 Administrativo</option>
+        <option value="operacoes">⚙️ Operações e Logística</option>
+        <option value="traducao">📜 Tradução Oficial Juramentada</option>
+        <option value="hospitalar">🏥 Acompanhamento Hospitalar</option>
       </select>
     </div>
 
@@ -239,6 +245,18 @@
     
     if (departamento === 'rh') {
       window.location.href = 'rh.html';
+    } else if (departamento === 'contabilidade') {
+      window.location.href = 'contabilidade.html';
+    } else if (departamento === 'financeiro') {
+      window.location.href = 'financeiro.html';
+    } else if (departamento === 'administrativo') {
+      window.location.href = 'administrativo.html';
+    } else if (departamento === 'operacoes') {
+      window.location.href = 'operacoes.html';
+    } else if (departamento === 'traducao') {
+      window.location.href = 'traducao.html';
+    } else if (departamento === 'hospitalar') {
+      window.location.href = 'acompanhamento_hospitalar.html';
     } else {
       alert('A redirecionar para o departamento de ' + departamento);
     }

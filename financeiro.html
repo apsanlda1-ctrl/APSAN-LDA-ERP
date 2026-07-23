@@ -408,7 +408,7 @@
               <tr>
                 <th>Serviço / Categoria</th>
                 <th>Descrição Operacional</th>
-                <th>Valor de Referência / Diária</th>
+                <th>Valor de Referência</th>
               </tr>
             </thead>
             <tbody id="tabela-servicos">
@@ -619,10 +619,17 @@
 
   <script>
     const catalogoServicos = [
-      { nome: "Acompanhamento Hospitalar / Médico", desc: "Gestão de logística de saúde e acompanhamento na Namíbia/Angola", preco: "Sob consulta / Diária" },
-      { nome: "Traduções e Documentação", desc: "Tradução certificada e tramitação de papéis fronteiriços", preco: "Taxa fixa por documento" },
-      { nome: "Importação & Logística Namíbia", desc: "Aquisição e transporte de mercadorias via Santa Clara", preco: "Comissão % + Alfândega" },
-      { nome: "Desenvolvimento Web & TI", desc: "Criação de sistemas empresariais e plataformas customizadas", preco: "Orçamento por projeto" }
+      { nome: "Acompanhamento hospitalar", desc: "Gestão de logística de saúde e acompanhamento presencial diário", preco: "Kz 20.000,00 / dia" },
+      { nome: "Documento de autorização de viagem", desc: "Emissão e tramitação de autorização de viagem fronteiriça", preco: "Kz 5.000,00 / página" },
+      { nome: "Tradução e Interpretação", desc: "Serviço profissional de tradução e interpretação de idiomas", preco: "Kz 15.000,00 / documento" },
+      { nome: "Tradução Oficial Juramentada", desc: "Tradução certificada com validade legal para fins oficiais", preco: "Kz 25.000,00 / documento" },
+      { nome: "Importação & Exportação Ang-Nam", desc: "Gestão completa de mercadorias entre Angola e Namíbia via Santa Clara", preco: "Comissão percentual + Alfândega" },
+      { nome: "Depósitos na Namíbia", desc: "Facilitação de depósitos bancários e transações transfronteiriças", preco: "Taxa fixa por operação" },
+      { nome: "Assistência com Câmbio de moeda", desc: "Suporte na conversão de divisas AOA e Dólares Namibianos (NAD)", preco: "Taxa de câmbio oficial do dia" },
+      { nome: "Criação de Websites", desc: "Desenvolvimento de plataformas web e portais institucionais personalizados", preco: "Sob orçamento por projeto" },
+      { nome: "Serviços de Contabilidade", desc: "Gestão fiscal, contabilística e organização financeira empresarial", preco: "Kz 75.000,00 / mês" },
+      { nome: "Marketing Digital", desc: "Gestão de redes sociais, campanhas publicitárias e identidade visual", preco: "Kz 50.000,00 / mês" },
+      { nome: "Compras na Namíbia", desc: "Aquisição e encomenda de artigos diretamente no mercado namibiano", preco: "Comissão % + Logística" }
     ];
 
     let transacoes = [];

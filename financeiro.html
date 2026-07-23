@@ -310,14 +310,38 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
 
+    /* ESTILO EXCLUSIVO PARA O DOCUMENTO DE SIMULAÇÃO DE ENCOMENDA (PRÓ-FORMA) */
+    #encomenda-documento {
+      display: none;
+      background: white;
+      color: #000;
+      padding: 40px;
+      max-width: 800px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      position: relative;
+      min-height: 1000px;
+      box-sizing: border-box;
+    }
+
     @media print {
       body * {
         visibility: hidden;
       }
-      #fatura-documento, #fatura-documento * {
+      #fatura-documento, #fatura-documento *, #encomenda-documento, #encomenda-documento * {
         visibility: visible;
       }
       #fatura-documento {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+        display: block !important;
+      }
+      #encomenda-documento {
         position: absolute;
         left: 0;
         top: 0;
@@ -810,6 +834,59 @@
     </div>
   </div>
 
+  <!-- DOCUMENTO DA SIMULAÇÃO DE ENCOMENDA / PRÓ-FORMA -->
+  <div id="encomenda-documento">
+    <div style="border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 20px;">
+      <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 3px;">APSAN, LDA</h2>
+      <div style="font-weight: bold; margin-top: 2px; font-size: 13px; color: #1e293b;">NIF: 5002085011[cite: 3]</div>
+      <div style="font-size: 12px; color: #475569; margin-top: 2px;">
+        Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com | Sede: Santa Clara, Cunene - Angola[cite: 3]
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px;">
+      <h3 style="color: var(--primary); font-size: 16px; margin-bottom: 5px;">Fatura Pró-Forma / Simulação de Encomenda</h3>
+      <p style="font-size: 13px; color: #475569;"><strong>Estado do Registo:</strong> Encomenda Pendente (Valor Devido)</p>
+      <p style="font-size: 12px; color: #475569;" id="enc-doc-data">Data: --/--/----</p>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+      <thead>
+        <tr style="background: #1e293b; color: white;">
+          <th style="padding: 10px; font-size: 12px;">Artigo / Descrição</th>
+          <th style="padding: 10px; font-size: 12px; text-align: right;">Valor (NAD)</th>
+          <th style="padding: 10px; font-size: 12px; text-align: center;">Taxa / Alfândega</th>
+          <th style="padding: 10px; font-size: 12px; text-align: right;">Total Convertido (AOA)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 10px; font-size: 12px;" id="enc-doc-artigo">--</td>
+          <td style="padding: 10px; font-size: 12px; text-align: right;" id="enc-doc-nad">0.00</td>
+          <td style="padding: 10px; font-size: 12px; text-align: center;" id="enc-doc-taxa">15%</td>
+          <td style="padding: 10px; font-size: 12px; text-align: right; font-weight: bold;" id="enc-doc-total">Kz 0,00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- DETALHES DA CONTA FIXADOS NO RODAPÉ DA PÁGINA -->
+    <div style="position: absolute; bottom: 30px; left: 40px; right: 40px; border-top: 1px solid #cbd5e1; padding-top: 12px;">
+      <p style="font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 5px;">Dados Bancários para Transferência:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; color: #475569;">
+        <div>
+          <p><strong>Titular:</strong> APSAN, LDA</p>
+          <p><strong>Banco:</strong> BFA (Banco de Fomento Angola)</p>
+          <p><strong>Número de Conta:</strong> 36350302130 001</p>
+        </div>
+        <div>
+          <p><strong>NBA:</strong> 0006 000063503021301 57</p>
+          <p><strong>IBAN:</strong> AO06 0006 000063503021301 57</p>
+        </div>
+      </div>
+      <p style="font-size: 10px; color: #64748b; text-align: center; margin-top: 8px;">Documento gerado automaticamente pelo Sistema APSAN ERP - Registo de Encomenda Pendente.</p>
+    </div>
+  </div>
+
   <script>
     const catalogoServicos = [
       { nome: "Acompanhamento hospitalar", desc: "Gestão de logística de saúde e acompanhamento presencial diário", preco: "Kz 20.000,00 / dia" },
@@ -883,15 +960,12 @@
       const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
-      // O valor total do produto em NAD varia diretamente com a quantidade informada
       const valorTotalProdutoNad = valorNadUnitario * qtd;
       document.getElementById('fat-valor-total-nad').value = '$ ' + valorTotalProdutoNad.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' NAD';
 
-      // Equivalência imediata do produto total em AOA
       const valorTotalProdutoAoa = valorTotalProdutoNad * taxaCambio;
       document.getElementById('fat-valor-total-aoa-prod').value = formatarKz(valorTotalProdutoAoa);
 
-      // Soma geral final incluindo serviços e frete
       const totalGeral = valorServico + valorTotalProdutoAoa + frete;
       document.getElementById('fat-total-aoa').value = formatarKz(totalGeral);
       return totalGeral;
@@ -1193,6 +1267,55 @@
       const valorFinal = valorBaseAoa + (valorBaseAoa * (taxaServico / 100));
 
       document.getElementById('enc-total-aoa').innerText = formatarKz(valorFinal);
+      return valorFinal;
+    }
+
+    /* GERAÇÃO E REGISTO DA GUIA DE ENCOMENDA COMO PENDENTE (VALOR DEVIDO) */
+    function gerarGuiaEncomenda() {
+      const artigo = document.getElementById('enc-artigo').value.trim();
+      const valorNad = parseFloat(document.getElementById('enc-valor-nad').value) || 0;
+      const taxaServico = parseFloat(document.getElementById('enc-taxa').value) || 0;
+      const totalAoa = calcularTotalEncomenda();
+
+      if (!artigo || valorNad <= 0) {
+        alert('Por favor, preencha o nome do artigo e o valor em NAD para gerar a guia.');
+        return;
+      }
+
+      // Preencher o documento oculto de encomenda
+      document.getElementById('enc-doc-artigo').innerText = artigo;
+      document.getElementById('enc-doc-nad').innerText = valorNad.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+      document.getElementById('enc-doc-taxa').innerText = taxaServico + '%';
+      document.getElementById('enc-doc-total').innerText = formatarKz(totalAoa);
+      document.getElementById('enc-doc-data').innerText = 'Data: ' + new Date().toLocaleDateString('pt-PT');
+
+      // Registar automaticamente no sistema como Encomenda Pendente (Valor Devido)
+      const novaTransacao = {
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        hora: new Date().toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'}),
+        desc: `Encomenda Pendente (Valor Devido): ${artigo}`,
+        valor: totalAoa,
+        tipo: 'entrada' // Registado como pendente a receber
+      };
+
+      transacoes.push(novaTransacao);
+      contabilidade.unshift({
+        id: novaTransacao.id,
+        dataHora: `${novaTransacao.data} às ${novaTransacao.hora}`,
+        origem: 'Simulador Encomenda Pendente',
+        desc: novaTransacao.desc,
+        tipo: 'PENDENTE',
+        valor: totalAoa
+      });
+
+      guardarDadosStorage();
+      atualizarDashboardDinamico();
+
+      // Imprimir/Exportar documento formatado
+      document.getElementById('encomenda-documento').style.display = 'block';
+      window.print();
+      document.getElementById('encomenda-documento').style.display = 'none';
     }
 
     function filtrarServicos() {

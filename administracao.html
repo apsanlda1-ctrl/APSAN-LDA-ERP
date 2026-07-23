@@ -1,321 +1,459 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>APSAN, LDA - Administração Geral</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; display: flex; min-height: 100vh; }
-    
-    /* Barra Lateral (Sidebar) */
-    .sidebar { width: 260px; background: #1e3a5f; color: #ffffff; display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; }
-    .sidebar-header { padding: 20px; display: flex; align-items: center; gap: 12px; background: #172e4d; border-bottom: 1px solid rgba(255,255,255,0.1); }
-    .sidebar-header img { width: 40px; height: 40px; border-radius: 50%; background: #fff; padding: 2px; object-fit: contain; }
-    .sidebar-header h2 { font-size: 14px; font-weight: 700; line-height: 1.2; }
-    .sidebar-header span { font-size: 10px; opacity: 0.8; }
-    
-    .sidebar-menu { list-style: none; padding: 15px 0; flex: 1; overflow-y: auto; }
-    .sidebar-menu li a { display: flex; align-items: center; gap: 12px; padding: 12px 20px; color: #cbd5e1; text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.3s; }
-    .sidebar-menu li.active a, .sidebar-menu li a:hover { background: #2563eb; color: #ffffff; border-left: 4px solid #93c5fd; }
-    
-    .sidebar-footer { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
-    .btn-sair { display: flex; align-items: center; gap: 10px; color: #f87171; text-decoration: none; font-size: 13px; font-weight: 500; transition: 0.3s; }
-    .btn-sair:hover { color: #ef4444; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APSAN, LDA - Administração Geral</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1e3a5f;
+            --accent: #2563eb;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
 
-    /* Conteúdo Principal */
-    .main-content { margin-left: 260px; flex: 1; display: flex; flex-direction: column; }
-    
-    .topbar { background: #ffffff; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    .topbar h1 { font-size: 18px; color: #0f172a; font-weight: 700; }
-    .user-profile { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 600; color: #475569; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
-    .container { padding: 30px; flex: 1; }
-    
-    /* Grelha de Estatísticas Globais */
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
-    .stat-card { background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border-left: 4px solid #2563eb; }
-    .stat-card h3 { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; margin-bottom: 8px; }
-    .stat-card .value { font-size: 22px; font-weight: 700; color: #0f172a; }
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-    /* Secções de Cartões */
-    .card-section { background: #ffffff; border-radius: 12px; padding: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); margin-bottom: 30px; }
-    .card-section h2 { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-    
-    /* Formulário de Atribuição de Tarefas */
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-    .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-group.full { grid-column: span 2; }
-    .form-group label { font-size: 12px; font-weight: 600; color: #475569; }
-    .form-control { padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; outline: none; background: #f8fafc; transition: 0.2s; }
-    .form-control:focus { border-color: #2563eb; background: #fff; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-    
-    .btn-primary { background: #2563eb; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
-    .btn-primary:hover { background: #1d4ed8; }
+        /* Sidebar */
+        aside {
+            width: 260px;
+            background-color: var(--primary);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
-    th { background: #f8fafc; color: #475569; padding: 10px 12px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
-    td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; }
-    .badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
-    .badge-success { background: #dcfce7; color: #166534; }
-    .badge-warning { background: #fef9c3; color: #854d0e; }
-    .badge-info { background: #e0f2fe; color: #0369a1; }
-  </style>
+        .sidebar-brand {
+            padding: 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 15px 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu li.active a, .sidebar-menu li a:hover {
+            color: #ffffff;
+            background: rgba(255,255,255,0.08);
+            border-left: 4px solid var(--accent);
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-footer a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+        .sidebar-footer a:hover { color: #fff; }
+
+        /* Main Workspace */
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        header {
+            background: var(--card-bg);
+            padding: 18px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 { font-size: 1.25rem; color: var(--primary); }
+        .user-info { font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+
+        .container {
+            padding: 30px 32px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Content Sections */
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+
+        /* Cards & Forms */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            margin-bottom: 25px;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            outline: none;
+            background: #fff;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #1d4ed8; }
+
+        /* Tabelas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.88rem;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        tbody tr:hover { background: #f8fafc; }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge.ativo { background: #dcfce7; color: #15803d; }
+        .badge.ferias { background: #fef9c3; color: #a16207; }
+    </style>
 </head>
 <body>
 
-  <!-- Barra Lateral -->
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <img src="logo_apsan.png" alt="APSAN">
-      <div>
-        <h2>APSAN, LDA</h2>
-        <span>Administração Geral</span>
-      </div>
-    </div>
-    <ul class="sidebar-menu">
-      <li class="active"><a href="#"><i class="fas fa-chart-pie"></i> Visão Global</a></li>
-      <li><a href="rh.html"><i class="fas fa-users"></i> Recursos Humanos</a></li>
-      <li><a href="contabilidade.html"><i class="fas fa-calculator"></i> Contabilidade</a></li>
-      <li><a href="financeiro.html"><i class="fas fa-wallet"></i> Financeiro</a></li>
-      <li><a href="operacoes.html"><i class="fas fa-cogs"></i> Operações & Logística</a></li>
-      <li><a href="traducao.html"><i class="fas fa-language"></i> Tradução Oficial</a></li>
-      <li><a href="acompanhamento_hospitalar.html"><i class="fas fa-hospital"></i> Acomp. Hospitalar</a></li>
-    </ul>
-    <div class="sidebar-footer">
-      <a href="index.html" class="btn-sair"><i class="fas fa-sign-out-alt"></i> Terminar Sessão</a>
-    </div>
-  </div>
-
-  <!-- Conteúdo Principal -->
-  <div class="main-content">
-    <div class="topbar">
-      <h1>Painel de Controlo da Administração Geral</h1>
-      <div class="user-profile">
-        <i class="fas fa-user-shield"></i> admin.apsan
-      </div>
-    </div>
-
-    <div class="container">
-      <!-- Cartões de Resumo Geral -->
-      <div class="stats-grid">
-        <div class="stat-card" style="border-color: #2563eb;">
-          <h3>Total de Colaboradores</h3>
-          <div class="value" id="total-colaboradores">4</div>
+    <!-- Sidebar com a nova opção de Tarefas -->
+    <aside>
+        <div>
+            <div class="sidebar-brand">
+                <i class="fas fa-building"></i> APSAN, LDA
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active" onclick="mudarAba('global', event)">
+                    <a href="#"><i class="fas fa-chart-pie"></i> Visão Global</a>
+                </li>
+                <li onclick="mudarAba('tarefas', event)">
+                    <a href="#"><i class="fas fa-paper-plane"></i> Gestão de Tarefas</a>
+                </li>
+                <li onclick="mudarAba('rh', event)">
+                    <a href="rh.html"><i class="fas fa-users"></i> Recursos Humanos</a>
+                </li>
+                <li onclick="mudarAba('contabilidade', event)">
+                    <a href="#"><i class="fas fa-calculator"></i> Contabilidade</a>
+                </li>
+                <li onclick="mudarAba('financeiro', event)">
+                    <a href="#"><i class="fas fa-wallet"></i> Financeiro</a>
+                </li>
+                <li onclick="mudarAba('operacoes', event)">
+                    <a href="#"><i class="fas fa-cogs"></i> Operações & Logística</a>
+                </li>
+                <li onclick="mudarAba('traducao', event)">
+                    <a href="#"><i class="fas fa-language"></i> Tradução Oficial</a>
+                </li>
+            </ul>
         </div>
-        <div class="stat-card" style="border-color: #10b981;">
-          <h3>Folha Salarial Consolidada</h3>
-          <div class="value">400.000 Kz</div>
+        <div class="sidebar-footer">
+            <a href="#" onclick="terminarSessao()"><i class="fas fa-sign-out-alt"></i> Terminar Sessão</a>
         </div>
-        <div class="stat-card" style="border-color: #f59e0b;">
-          <h3>Departamentos Ativos</h3>
-          <div class="value">6</div>
+    </aside>
+
+    <!-- Workspace Principal -->
+    <main>
+        <header>
+            <h1 id="titulo-secao">Visão Global da Administração</h1>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i> Administração Geral
+            </div>
+        </header>
+
+        <div class="container">
+            
+            <!-- SEÇÃO 1: VISÃO GLOBAL -->
+            <div id="secao-global" class="content-section active">
+                <div class="card">
+                    <h3>Bem-vindo ao Painel de Controlo da Administração Geral</h3>
+                    <p style="color: var(--text-muted); line-height: 1.6;">Utilize o menu lateral para navegar entre os departamentos, consultar métricas gerais ou aceder à nova aba de <strong>Gestão de Tarefas</strong> para atribuir ordens diretamente aos departamentos.</p>
+                </div>
+            </div>
+
+            <!-- SEÇÃO 2: GESTÃO DE TAREFAS (NOVO DASHBOARD EXCLUSIVO) -->
+            <div id="secao-tarefas" class="content-section">
+                <!-- Painel de Atribuição -->
+                <div class="card">
+                    <h3><i class="fas fa-paper-plane" style="color: var(--accent);"></i> Distribuir Tarefa com Prazo e Anexo</h3>
+                    <form id="form-distribuir-tarefa" onsubmit="enviarTarefaAdmin(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Departamento Destino</label>
+                                <select id="tarefa-dept" required>
+                                    <option value="" disabled selected>Selecione o departamento...</option>
+                                    <option value="rh">Recursos Humanos</option>
+                                    <option value="contabilidade">Contabilidade</option>
+                                    <option value="financeiro">Financeiro</option>
+                                    <option value="operacoes">Operações e Logística</option>
+                                    <option value="traducao">Tradução Oficial</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Prioridade</label>
+                                <select id="tarefa-prioridade">
+                                    <option value="Normal">Normal</option>
+                                    <option value="Urgente">Urgente</option>
+                                    <option value="Crítica">Crítica</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Prazo de Conclusão</label>
+                                <input type="datetime-local" id="tarefa-prazo" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Anexar Ficheiro (PDF, Word, Imagem)</label>
+                                <input type="file" id="tarefa-anexo" style="padding: 7px;">
+                            </div>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label>Instruções / Descrição Detalhada</label>
+                            <textarea id="tarefa-descricao" rows="4" placeholder="Insira os detalhes da tarefa atribuída..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn">
+                            <i class="fas fa-share-square"></i> Submeter e Notificar Departamento
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Tabela de Feedbacks e Respostas -->
+                <div class="card">
+                    <h3><i class="fas fa-comments" style="color: var(--accent);"></i> Feedbacks e Respostas dos Departamentos</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Departamento</th>
+                                <th>Tarefa Atribuída</th>
+                                <th>Prazo</th>
+                                <th>Estado Atual</th>
+                                <th>Feedback do Departamento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-feedbacks-corpo">
+                            <!-- Preenchido dinamicamente via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- OUTRAS SEÇÕES (Exemplo placeholder) -->
+            <div id="secao-rh" class="content-section">
+                <div class="card"><h3>Painel de Recursos Humanos</h3><p>Aceda ao menu lateral para gerir colaboradores.</p></div>
+            </div>
+            <div id="secao-contabilidade" class="content-section"><div class="card"><h3>Contabilidade</h3></div></div>
+            <div id="secao-financeiro" class="content-section"><div class="card"><h3>Financeiro</h3></div></div>
+            <div id="secao-operacoes" class="content-section"><div class="card"><h3>Operações & Logística</h3></div></div>
+            <div id="secao-traducao" class="content-section"><div class="card"><h3>Tradução Oficial</h3></div></div>
+
         </div>
-        <div class="stat-card" style="border-color: #8b5cf6;">
-          <h3>Estado do Sistema</h3>
-          <div class="value" style="font-size: 15px; color: #10b981; margin-top: 4px;"><i class="fas fa-check-circle"></i> Sincronizado</div>
-        </div>
-      </div>
+    </main>
 
-      <!-- Secção de Atribuição de Tarefas com Prazo e Anexo -->
-      <div class="card-section">
-        <h2><i class="fas fa-paper-plane" style="color: #2563eb;"></i> Distribuir Tarefa com Prazo e Anexo</h2>
-        <form id="form-tarefa" onsubmit="atribuirTarefa(event)">
-          <div class="form-grid">
-            <div class="form-group">
-              <label for="dept-destino">Departamento Destino</label>
-              <select id="dept-destino" class="form-control" required>
-                <option value="" disabled selected>Selecione o departamento...</option>
-                <option value="rh">Recursos Humanos</option>
-                <option value="contabilidade">Contabilidade</option>
-                <option value="financeiro">Financeiro</option>
-                <option value="operacoes">Operações e Logística</option>
-                <option value="traducao">Tradução Oficial Juramentada</option>
-                <option value="hospitalar">Acompanhamento Hospitalar</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="prioridade">Prioridade</label>
-              <select id="prioridade" class="form-control" required>
-                <option value="Normal">Normal</option>
-                <option value="Urgente">Urgente</option>
-                <option value="Crítica">Crítica</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="prazo-limite">Prazo de Conclusão</label>
-              <input type="datetime-local" id="prazo-limite" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label for="anexo-ficheiro">Anexar Ficheiro (PDF, Word, Imagem)</label>
-              <input type="file" id="anexo-ficheiro" class="form-control" accept=".pdf,.doc,.docx,image/*">
-            </div>
-            <div class="form-group full">
-              <label for="descricao-tarefa">Instruções / Descrição Detalhada</label>
-              <textarea id="descricao-tarefa" class="form-control" rows="3" placeholder="Insira os detalhes da tarefa atribuída..." required></textarea>
-            </div>
-          </div>
-          <button type="submit" class="btn-primary"><i class="fas fa-share-square"></i> Submeter e Notificar Departamento</button>
-        </form>
-      </div>
+    <script>
+        function mudarAba(secao, event) {
+            // Se clicar em Recursos Humanos, pode deixar abrir a página dedicada se preferir, ou controlar por secções
+            if(secao === 'rh') {
+                window.location.href = 'rh.html';
+                return;
+            }
 
-      <!-- Acompanhamento de Feedbacks dos Departamentos -->
-      <div class="card-section">
-        <h2><i class="fas fa-comments" style="color: #2563eb;"></i> Feedbacks e Respostas dos Departamentos</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Departamento</th>
-              <th>Tarefa Atribuída</th>
-              <th>Prazo</th>
-              <th>Estado Atual</th>
-              <th>Feedback do Departamento</th>
-            </tr>
-          </thead>
-          <tbody id="tabela-feedbacks-direcao">
-            <!-- Preenchido dinamicamente via JS -->
-          </tbody>
-        </table>
-      </div>
+            if (event && event.currentTarget) {
+                document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+                event.currentTarget.classList.add('active');
+            }
 
-      <!-- Tabela de Controlo de Atividades dos Departamentos -->
-      <div class="card-section">
-        <h2><i class="fas fa-tasks" style="color: #2563eb;"></i> Estado Operacional dos Departamentos</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Departamento</th>
-              <th>Responsável / Gestor</th>
-              <th>Estado das Atividades</th>
-              <th>Última Atualização</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Recursos Humanos</strong></td>
-              <td>Eduardo Ngongoyove Gabriel</td>
-              <td><span class="badge badge-success">Operacional</span></td>
-              <td>Hoje, 16:49</td>
-              <td><a href="rh.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-external-link-alt"></i> Aceder</a></td>
-            </tr>
-            <tr>
-              <td><strong>Contabilidade</strong></td>
-              <td>Gabriel Samunda Diamantino</td>
-              <td><span class="badge badge-success">Operacional</span></td>
-              <td>Hoje, 15:20</td>
-              <td><a href="contabilidade.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-external-link-alt"></i> Aceder</a></td>
-            </tr>
-            <tr>
-              <td><strong>Financeiro</strong></td>
-              <td>Gabriel Samunda Diamantino</td>
-              <td><span class="badge badge-success">Operacional</span></td>
-              <td>Hoje, 14:10</td>
-              <td><a href="financeiro.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-external-link-alt"></i> Aceder</a></td>
-            </tr>
-            <tr>
-              <td><strong>Operações e Logística</strong></td>
-              <td>Eduardo Ngongoyove Gabriel</td>
-              <td><span class="badge badge-warning">Pendente / Em curso</span></td>
-              <td>Ontem</td>
-              <td><a href="operacoes.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-external-link-alt"></i> Aceder</a></td>
-            </tr>
-            <tr>
-              <td><strong>Tradução Oficial Juramentada</strong></td>
-              <td>Maravilhoso António Mbulandi</td>
-              <td><span class="badge badge-success">Operacional</span></td>
-              <td>Hoje, 11:00</td>
-              <td><a href="traducao.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-external-link-alt"></i> Aceder</a></td>
-            </tr>
-            <tr>
-              <td><strong>Acompanhamento Hospitalar</strong></td>
-              <td>Equipa Médica / Apoio</td>
-              <td><span class="badge badge-success">Operacional</span></td>
-              <td>Hoje, 09:30</td>
-              <td><a href="acompanhamento_hospitalar.html" style="color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-external-link-alt"></i> Aceder</a></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('secao-' + secao).classList.add('active');
 
-  <script>
-    function atribuirTarefa(event) {
-      event.preventDefault();
-      
-      const departamento = document.getElementById('dept-destino').value;
-      const prioridade = document.getElementById('prioridade').value;
-      const prazo = document.getElementById('prazo-limite').value;
-      const descricao = document.getElementById('descricao-tarefa').value;
-      const inputFicheiro = document.getElementById('anexo-ficheiro');
+            const titulos = {
+                'global': 'Visão Global da Administração',
+                'tarefas': 'Dashboard de Gestão e Distribuição de Tarefas',
+                'contabilidade': 'Contabilidade Geral',
+                'financeiro': 'Gestão Financeira',
+                'operacoes': 'Operações & Logística',
+                'traducao': 'Tradução Oficial'
+            };
+            document.getElementById('titulo-secao').innerText = titulos[secao] || 'Administração Geral';
+            
+            if(secao === 'tarefas') {
+                carregarFeedbacksAdmin();
+            }
+        }
 
-      const processarEnvio = (conteudoAnexo, nomeFicheiro) => {
-        const novaTarefa = {
-          id: Date.now(),
-          descricao: descricao,
-          prioridade: prioridade,
-          prazo: prazo ? new Date(prazo).toLocaleString() : 'Sem prazo',
-          dataEnvio: new Date().toLocaleString(),
-          estado: 'Pendente',
-          feedback: 'A aguardar resposta...',
-          anexo: conteudoAnexo,
-          nomeAnexo: nomeFicheiro
-        };
+        function enviarTarefaAdmin(e) {
+            e.preventDefault();
+            const dept = document.getElementById('tarefa-dept').value;
+            const prioridade = document.getElementById('tarefa-prioridade').value;
+            const prazo = document.getElementById('tarefa-prazo').value;
+            const descricao = document.getElementById('tarefa-descricao').value;
+            const inputFile = document.getElementById('tarefa-anexo');
 
-        let tarefasDept = JSON.parse(localStorage.getItem('tarefas_' + departamento)) || [];
-        tarefasDept.unshift(novaTarefa);
-        
-        localStorage.setItem('tarefas_' + departamento, JSON.stringify(tarefasDept));
+            let anexoUrl = '';
+            let nomeAnexo = '';
 
-        localStorage.setItem('notificacao_global', JSON.stringify({
-          departamento: departamento,
-          mensagem: `Nova tarefa (${prioridade}): ${descricao}`,
-          timestamp: Date.now()
-        }));
+            const concluirEnvio = (urlAnexa, nomeAnexa) => {
+                let chaveStorage = 'tarefas_' + dept;
+                let tarefas = JSON.parse(localStorage.getItem(chaveStorage)) || [];
 
-        alert('Tarefa distribuída com sucesso com prazo e anexo! O departamento foi notificado.');
-        document.getElementById('form-tarefa').reset();
-        carregarFeedbacksDirecao();
-      };
+                const novaTarefa = {
+                    id: Date.now(),
+                    descricao: descricao,
+                    prioridade: prioridade,
+                    prazo: prazo,
+                    anexo: urlAnexa || '',
+                    nomeAnexo: nomeAnexa || '',
+                    estado: 'Em curso',
+                    feedback: 'A aguardar resposta...',
+                    dataEnvio: new Date().toLocaleDateString('pt-BR')
+                };
 
-      if (inputFicheiro.files.length > 0) {
-        const ficheiro = inputFicheiro.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          processarEnvio(e.target.result, ficheiro.name);
-        };
-        reader.readAsDataURL(ficheiro);
-      } else {
-        processarEnvio(null, null);
-      }
-    }
+                tarefas.push(novaTarefa);
+                localStorage.setItem(chaveStorage, JSON.stringify(tarefas));
 
-    function carregarFeedbacksDirecao() {
-      const departamentos = ['rh', 'contabilidade', 'financeiro', 'operacoes', 'traducao', 'hospitalar'];
-      const tbody = document.getElementById('tabela-feedbacks-direcao');
-      tbody.innerHTML = '';
+                alert('Tarefa distribuída e enviada ao departamento com sucesso!');
+                document.getElementById('form-distribuir-tarefa').reset();
+                carregarFeedbacksAdmin();
+            };
 
-      departamentos.forEach(dept => {
-        const tarefas = JSON.parse(localStorage.getItem('tarefas_' + dept)) || [];
-        tarefas.forEach(t => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `
-            <td><strong>${dept.toUpperCase()}</strong></td>
-            <td>${t.descricao.substring(0, 40)}...</td>
-            <td>${t.prazo}</td>
-            <td><span class="badge ${t.estado === 'Concluído' ? 'badge-success' : 'badge-warning'}">${t.estado}</span></td>
-            <td style="color: #2563eb; font-weight: 500;">${t.feedback}</td>
-          `;
-          tbody.appendChild(tr);
-        });
-      });
-    }
+            if (inputFile.files && inputFile.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(uploadEvent) {
+                    anexoUrl = uploadEvent.target.result;
+                    nomeAnexo = inputFile.files[0].name;
+                    concluirEnvio(anexoUrl, nomeAnexo);
+                };
+                reader.readAsDataURL(inputFile.files[0]);
+            } else {
+                concluirEnvio('', '');
+            }
+        }
 
-    window.addEventListener('DOMContentLoaded', carregarFeedbacksDirecao);
-  </script>
+        function carregarFeedbacksAdmin() {
+            const departamentos = ['rh', 'contabilidade', 'financeiro', 'operacoes', 'traducao'];
+            const tbody = document.getElementById('tabela-feedbacks-corpo');
+            tbody.innerHTML = '';
 
+            let totalTarefas = 0;
+
+            departamentos.forEach(dept => {
+                let tarefas = JSON.parse(localStorage.getItem('tarefas_' + dept)) || [];
+                tarefas.forEach(t => {
+                    totalTarefas++;
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><strong>${dept.toUpperCase()}</strong></td>
+                        <td>${t.descricao}</td>
+                        <td>${t.prazo}</td>
+                        <td><span class="badge ${t.estado === 'Concluído' ? 'ativo' : 'ferias'}">${t.estado}</span></td>
+                        <td>${t.feedback}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
+
+            if (totalTarefas === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Nenhuma tarefa distribuída até o momento.</td></tr>`;
+            }
+        }
+
+        function terminarSessao() {
+            if(confirm('Tem certeza que deseja terminar sessão?')) {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
 </body>
 </html>

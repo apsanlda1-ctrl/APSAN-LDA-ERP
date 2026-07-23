@@ -206,7 +206,6 @@
         <option value="hospitalar">🏥 Acompanhamento Hospitalar</option>
         <option value="administrativo">📋 Administrativo</option>
         <option value="financeiro">💰 Financeiro</option>
-        <!-- Departamento de Contabilidade adicionado -->
         <option value="contabilidade" selected>📊 Contabilidade</option>
         <option value="operacoes">⚙️ Operações e Logística</option>
       </select>
@@ -236,6 +235,11 @@
 <script>
   function redirecionarDepartamento(event) {
     event.preventDefault();
+    
+    // Limpar quaisquer dados residuais de sessão antigos se necessário
+    localStorage.removeItem('usuarioLogado');
+    sessionStorage.clear();
+
     const departamento = document.getElementById('department-select').value;
     
     if (departamento === 'traducao') {

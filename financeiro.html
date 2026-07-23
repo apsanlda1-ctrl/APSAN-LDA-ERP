@@ -308,6 +308,9 @@
       margin: 20px auto;
       border-radius: 8px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      position: relative;
+      min-height: 1050px;
+      box-sizing: border-box;
     }
 
     /* ESTILO EXCLUSIVO PARA O DOCUMENTO DE SIMULAÇÃO DE ENCOMENDA (PRÓ-FORMA) */
@@ -590,27 +593,34 @@
               <input type="number" id="fat-valor-servico" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
             </div>
             <div class="form-group">
-              <label>Quantidade do Produto:</label>
-              <input type="number" id="fat-qtd" value="1" min="1" step="1" oninput="calcularFaturaFormulario()">
+              <label>Nome do Produto / Artigo a ser Comprado:</label>
+              <input type="text" id="fat-nome-produto" placeholder="Ex: Equipamento / Material Namíbia">
             </div>
           </div>
 
           <div class="grid-2">
+            <div class="form-group">
+              <label>Quantidade do Produto:</label>
+              <input type="number" id="fat-qtd" value="1" min="1" step="1" oninput="calcularFaturaFormulario()">
+            </div>
             <div class="form-group">
               <label>Valor Unitário do Produto em NAD ($):</label>
               <input type="number" id="fat-valor-nad" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
             </div>
-            <div class="form-group">
-              <label>Valor Total do Produto em NAD ($) (Varia com a Quantidade):</label>
-              <input type="text" id="fat-valor-total-nad" readonly style="background: #e2e8f0; font-weight: bold;" value="$ 0,00 NAD">
-            </div>
           </div>
 
           <div class="grid-2">
             <div class="form-group">
-              <label>Equivalência Total do Produto em AOA (Imediata):</label>
+              <label>Valor Total do Produto em NAD ($):</label>
+              <input type="text" id="fat-valor-total-nad" readonly style="background: #e2e8f0; font-weight: bold;" value="$ 0,00 NAD">
+            </div>
+            <div class="form-group">
+              <label>Equivalência Total do Produto em AOA:</label>
               <input type="text" id="fat-valor-total-aoa-prod" readonly style="background: #e2e8f0; font-weight: bold;" value="Kz 0,00">
             </div>
+          </div>
+
+          <div class="grid-2">
             <div class="form-group">
               <label>Agência de Transporte (Frete):</label>
               <select id="fat-agencia" oninput="calcularFaturaFormulario()">
@@ -621,17 +631,15 @@
                 <option value="Outros">Outros / Nenhuma</option>
               </select>
             </div>
-          </div>
-
-          <div class="grid-2">
             <div class="form-group">
               <label>Local onde vai a Encomenda / Destino:</label>
               <input type="text" id="fat-local" placeholder="Ex: Luanda, Lubambo, Huambo...">
             </div>
-            <div class="form-group">
-              <label>Valor do Frete da Carga (AOA):</label>
-              <input type="number" id="fat-frete" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
-            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Valor do Frete da Carga (AOA):</label>
+            <input type="number" id="fat-frete" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
           </div>
 
           <div class="form-group">
@@ -1002,6 +1010,7 @@
       document.getElementById('doc-servico-unit').innerText = formatarKz(valorServico);
       document.getElementById('doc-servico-total').innerText = formatarKz(valorServico);
 
+      const nomeProduto = document.getElementById('fat-nome-produto').value.trim() || 'Produto (Namíbia)';
       const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
       const valorNadUnit = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
       const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
@@ -1010,6 +1019,7 @@
       const subtotalProdutoAoa = qtd * valorUnitAoa;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
+      document.getElementById('doc-produto-desc').innerText = nomeProduto;
       document.getElementById('doc-prod-qtd').innerText = qtd;
       document.getElementById('doc-prod-unit-aoa').innerText = formatarKz(valorUnitAoa);
       document.getElementById('doc-prod-subtotal').innerText = formatarKz(subtotalProdutoAoa);
@@ -1034,11 +1044,12 @@
         return;
       }
 
+      const nomeProduto = document.getElementById('fat-nome-produto').value.trim() || 'Produto';
       const novaTransacao = {
         id: Date.now(),
         data: new Date().toLocaleDateString('pt-PT'),
         hora: new Date().toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'}),
-        desc: `Fatura - ${cliente} (${document.getElementById('fat-servico').value || 'Serviços'})`,
+        desc: `Fatura - ${cliente} (${nomeProduto})`,
         valor: totalGeral,
         tipo: 'entrada'
       };
@@ -1301,7 +1312,6 @@
         return;
       }
 
-      // Preencher o documento de encomenda rigorosamente igual à fatura
       document.getElementById('enc-doc-artigo').innerText = artigo;
       document.getElementById('enc-doc-nad').innerText = valorNad.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       document.getElementById('enc-doc-taxa').innerText = taxaServico + '%';
@@ -1310,7 +1320,6 @@
       document.getElementById('enc-doc-data').innerText = 'Data: ' + new Date().toLocaleDateString('pt-PT');
       document.getElementById('enc-doc-num').innerText = 'Nº Encomenda: ENC-' + Math.floor(1000 + Math.random() * 9000);
 
-      // Registar automaticamente no sistema como Encomenda Pendente, Valor Devido
       const novaTransacao = {
         id: Date.now(),
         data: new Date().toLocaleDateString('pt-PT'),
@@ -1333,7 +1342,6 @@
       guardarDadosStorage();
       atualizarDashboardDinamico();
 
-      // Imprimir documento formatado
       document.getElementById('encomenda-documento').style.display = 'block';
       window.print();
       document.getElementById('encomenda-documento').style.display = 'none';

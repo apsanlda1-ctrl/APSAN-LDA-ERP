@@ -851,5 +851,57 @@
             renderizarTudo();
         };
     </script>
+    <!-- Secção Visual para Alertas de Tarefas (Podes colocar onde preferires no teu HTML) -->
+<div id="painel-tarefas-admin" style="margin: 20px; padding: 15px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; display: none;">
+  <h3 style="font-size: 14px; color: #1e40af; margin-bottom: 8px;"><i class="fas fa-bell"></i> Tarefas Atribuídas pela Administração</h3>
+  <ul id="lista-tarefas-recebidas" style="list-style: none; padding: 0; font-size: 13px;"></ul>
+</div>
+
+<script>
+  // Função que corre automaticamente assim que a página do departamento abre
+  function verificarTarefasDepartamento() {
+    // Identificar qual é o departamento atual com base no nome do ficheiro (ex: 'rh' se o URL tiver rh.html)
+    const paginaAtual = window.location.pathname.split('/').pop().replace('.html', '');
+    
+    // Mapear o nome do ficheiro para a chave correspondente usada no envio
+    let chaveDept = paginaAtual;
+    if (paginaAtual === 'acompanhamento_hospitalar') chaveDept = 'hospitalar';
+    if (paginaAtual === 'traducao') chaveDept = 'traducao';
+    // (Se o ficheiro for rh.html, a chave será 'rh')
+
+    const tarefas = JSON.parse(localStorage.getItem('tarefas_' + chaveDept)) || [];
+    const container = document.getElementById('painel-tarefas-admin');
+    const lista = document.getElementById('lista-tarefas-recebidas');
+
+    if (tarefas.length > 0) {
+      container.style.display = 'block';
+      lista.innerHTML = '';
+      
+      tarefas.forEach(t => {
+        const item = document.createElement('li');
+        item.style.cssText = "padding: 8px 0; border-bottom: 1px solid #dbeafe; display: flex; justify-content: space-between; align-items: center;";
+        item.innerHTML = `
+          <div>
+            <strong style="color: #1e3a5f;">[${t.prioridade}]</strong> ${t.descricao}
+            <div style="font-size: 11px; color: #64748b;">Recebida em: ${t.data}</div>
+          </div>
+          <span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;">${t.estado}</span>
+        `;
+        lista.appendChild(item);
+      });
+    }
+  }
+
+  // Verificar assim que a página carregar
+  window.addEventListener('DOMContentLoaded', verificarTarefasDepartamento);
+
+  // Detetar em tempo real se a Administração enviar uma nova tarefa enquanto o painel está aberto noutro separador
+  window.addEventListener('storage', (event) => {
+    if (event.key && event.key.startsWith('tarefas_')) {
+      verificarTarefasDepartamento();
+      // Opcional: Disparar um alerta sonoro ou visual subtil
+    }
+  });
+</script>
 </body>
 </html>

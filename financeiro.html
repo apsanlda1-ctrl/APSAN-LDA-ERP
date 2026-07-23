@@ -347,7 +347,6 @@
   <aside>
     <div>
       <div class="brand-box">
-        <!-- LOGÓTIPO REAL DA APSAN, LDA EM SVG/BASE64 CLARO -->
         <svg width="40" height="40" viewBox="0 0 100 100" style="background:#0f172a; border-radius:6px; padding:4px;">
           <circle cx="50" cy="50" r="45" fill="#3b82f6" />
           <text x="50" y="58" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="Arial">A</text>
@@ -576,15 +575,15 @@
               <input type="number" id="fat-valor-nad" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
             </div>
             <div class="form-group">
-              <label>Equivalência Produto em Kz (Unitário):</label>
-              <input type="text" id="fat-valor-unit-aoa" readonly style="background: #e2e8f0; font-weight: bold;" value="Kz 0,00">
+              <label>Valor Total do Produto em NAD ($) (Varia com a Quantidade):</label>
+              <input type="text" id="fat-valor-total-nad" readonly style="background: #e2e8f0; font-weight: bold;" value="$ 0,00 NAD">
             </div>
           </div>
 
           <div class="grid-2">
             <div class="form-group">
-              <label>Local onde vai a Encomenda / Destino:</label>
-              <input type="text" id="fat-local" placeholder="Ex: Luanda, Lubambo, Huambo...">
+              <label>Equivalência Total do Produto em AOA (Imediata):</label>
+              <input type="text" id="fat-valor-total-aoa-prod" readonly style="background: #e2e8f0; font-weight: bold;" value="Kz 0,00">
             </div>
             <div class="form-group">
               <label>Agência de Transporte (Frete):</label>
@@ -600,13 +599,18 @@
 
           <div class="grid-2">
             <div class="form-group">
+              <label>Local onde vai a Encomenda / Destino:</label>
+              <input type="text" id="fat-local" placeholder="Ex: Luanda, Lubambo, Huambo...">
+            </div>
+            <div class="form-group">
               <label>Valor do Frete da Carga (AOA):</label>
               <input type="number" id="fat-frete" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
             </div>
-            <div class="form-group">
-              <label>Equivalência Total Geral em AOA:</label>
-              <input type="text" id="fat-total-aoa" readonly style="background: #e2e8f0; font-weight: bold;" value="Kz 0,00">
-            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Equivalência Total Geral em AOA (Serviço + Produtos + Frete):</label>
+            <input type="text" id="fat-total-aoa" readonly style="background: #cbd5e1; font-weight: bold; font-size: 16px; color: var(--primary);" value="Kz 0,00">
           </div>
 
           <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
@@ -721,7 +725,7 @@
     </div>
   </main>
 
-  <!-- DOCUMENTO DA FATURA (COM LOGOTIPO REAL DA APSAN, VALORES NAD/AOA LIMPOS SEM PARENTESES E DADOS BANCÁRIOS COMPLETOS) -->
+  <!-- DOCUMENTO DA FATURA -->
   <div id="fatura-documento">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 25px;">
       <div style="display: flex; gap: 15px; align-items: center;">
@@ -871,21 +875,23 @@
       }
     }
 
-    /* CÁLCULO DINÂMICO DA FATURA (O VALOR UNITÁRIO EM KIZES JÁ REFLETE A QUANTIDADE OU MULTIPLICAÇÃO CORRETA) */
+    /* CÁLCULO DINÂMICO DA FATURA COM VARIAÇÃO DO VALOR EM NAD POR QUANTIDADE E EQUIVALÊNCIA IMEDIATA EM AOA */
     function calcularFaturaFormulario() {
       const valorServico = parseFloat(document.getElementById('fat-valor-servico').value) || 0;
       const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
-      const valorNad = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
+      const valorNadUnitario = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
       const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
-      // O valor unitário e o total variam proporcionalmente de acordo com a quantidade inserida
-      const valorTotalProdutoNad = valorNad * qtd;
+      // O valor total do produto em NAD varia diretamente com a quantidade informada
+      const valorTotalProdutoNad = valorNadUnitario * qtd;
+      document.getElementById('fat-valor-total-nad').value = '$ ' + valorTotalProdutoNad.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' NAD';
+
+      // Equivalência imediata do produto total em AOA
       const valorTotalProdutoAoa = valorTotalProdutoNad * taxaCambio;
-      const valorUnitarioAoa = valorNad * taxaCambio;
+      document.getElementById('fat-valor-total-aoa-prod').value = formatarKz(valorTotalProdutoAoa);
 
-      document.getElementById('fat-valor-unit-aoa').value = formatarKz(valorUnitarioAoa);
-
+      // Soma geral final incluindo serviços e frete
       const totalGeral = valorServico + valorTotalProdutoAoa + frete;
       document.getElementById('fat-total-aoa').value = formatarKz(totalGeral);
       return totalGeral;
@@ -902,14 +908,14 @@
       document.getElementById('doc-servico-total').innerText = formatarKz(valorServico);
 
       const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
-      const valorNad = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
+      const valorNadUnit = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
       const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
-      const valorUnitAoa = valorNad * taxaCambio;
+      
+      const valorUnitAoa = valorNadUnit * taxaCambio;
       const subtotalProdutoAoa = qtd * valorUnitAoa;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
       document.getElementById('doc-prod-qtd').innerText = qtd;
-      // Removidos os parênteses e tokens confusos conforme solicitado pelo usuário
       document.getElementById('doc-prod-unit-aoa').innerText = formatarKz(valorUnitAoa);
       document.getElementById('doc-prod-subtotal').innerText = formatarKz(subtotalProdutoAoa);
 
@@ -1187,15 +1193,6 @@
       const valorFinal = valorBaseAoa + (valorBaseAoa * (taxaServico / 100));
 
       document.getElementById('enc-total-aoa').innerText = formatarKz(valorFinal);
-    }
-
-    function gerarGuiaEncomenda() {
-      const artigo = document.getElementById('enc-artigo').value;
-      if (!artigo) {
-        alert('Insira a descrição do artigo para gerar a guia.');
-        return;
-      }
-      alert(`Guia de encomenda para "${artigo}" gerada com sucesso pela APSAN, LDA (Santa Clara)!`);
     }
 
     function filtrarServicos() {

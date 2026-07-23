@@ -116,6 +116,16 @@
             width: 100%;
         }
 
+        /* Painel de Tarefas da Administração */
+        #painel-tarefas-admin {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
         /* Metrics Grid */
         .metrics-grid {
             display: grid;
@@ -313,7 +323,7 @@
             </ul>
         </div>
         <div class="sidebar-footer">
-            <a href="index.html"><i class="fas fa-arrow-left"></i> Voltar ao Painel Geral</a>
+            <a href="administracao.html"><i class="fas fa-arrow-left"></i> Voltar ao Painel Geral</a>
         </div>
     </aside>
 
@@ -327,6 +337,14 @@
         </header>
 
         <div class="container">
+            <!-- Painel de Tarefas Atribuídas pela Administração -->
+            <div id="painel-tarefas-admin" style="display: none;">
+                <h3 style="font-size: 14px; color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-bell"></i> Tarefas e Instruções da Administração Geral
+                </h3>
+                <ul id="lista-tarefas-recebidas" style="list-style: none; padding: 0; font-size: 13px;"></ul>
+            </div>
+
             <!-- Métricas Dinâmicas do RH -->
             <div class="metrics-grid">
                 <div class="metric-card">
@@ -847,61 +865,50 @@
             renderizarTudo();
         }
 
-        window.onload = function() {
+        // Lógica de Receção de Tarefas da Administração
+        function verificarTarefasDepartamento() {
+            const tarefas = JSON.parse(localStorage.getItem('tarefas_rh')) || [];
+            const container = document.getElementById('painel-tarefas-admin');
+            const lista = document.getElementById('lista-tarefas-recebidas');
+
+            if (tarefas.length > 0) {
+                container.style.display = 'block';
+                lista.innerHTML = '';
+                
+                tarefas.forEach(t => {
+                    const item = document.createElement('li');
+                    item.style.cssText = "padding: 10px 0; border-bottom: 1px solid #dbeafe; display: flex; justify-content: space-between; align-items: center;";
+                    
+                    let botaoAnexo = '';
+                    if (t.anexo) {
+                        botaoAnexo = `<a href="${t.anexo}" download="${t.nomeAnexo || 'anexo'}" style="margin-left: 10px; color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-paperclip"></i> Ver Anexo</a>`;
+                    }
+
+                    item.innerHTML = `
+                        <div>
+                            <strong style="color: #1e3a5f;">[Prioridade: ${t.prioridade}]</strong> ${t.descricao}
+                            <div style="font-size: 11px; color: #64748b; margin-top: 3px;">Prazo Limite: ${t.prazo} | Enviada em: ${t.dataEnvio || 'N/A'}</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            ${botaoAnexo}
+                            <span style="background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;">${t.estado}</span>
+                        </div>
+                    `;
+                    lista.appendChild(item);
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
             renderizarTudo();
-        };
+            verificarTarefasDepartamento();
+        });
+
+        window.addEventListener('storage', (event) => {
+            if (event.key === 'tarefas_rh') {
+                verificarTarefasDepartamento();
+            }
+        });
     </script>
-    <!-- Secção Visual para Alertas de Tarefas (Podes colocar onde preferires no teu HTML) -->
-<div id="painel-tarefas-admin" style="margin: 20px; padding: 15px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; display: none;">
-  <h3 style="font-size: 14px; color: #1e40af; margin-bottom: 8px;"><i class="fas fa-bell"></i> Tarefas Atribuídas pela Administração</h3>
-  <ul id="lista-tarefas-recebidas" style="list-style: none; padding: 0; font-size: 13px;"></ul>
-</div>
-
-<script>
-  // Função que corre automaticamente assim que a página do departamento abre
-  function verificarTarefasDepartamento() {
-    // Identificar qual é o departamento atual com base no nome do ficheiro (ex: 'rh' se o URL tiver rh.html)
-    const paginaAtual = window.location.pathname.split('/').pop().replace('.html', '');
-    
-    // Mapear o nome do ficheiro para a chave correspondente usada no envio
-    let chaveDept = paginaAtual;
-    if (paginaAtual === 'acompanhamento_hospitalar') chaveDept = 'hospitalar';
-    if (paginaAtual === 'traducao') chaveDept = 'traducao';
-    // (Se o ficheiro for rh.html, a chave será 'rh')
-
-    const tarefas = JSON.parse(localStorage.getItem('tarefas_' + chaveDept)) || [];
-    const container = document.getElementById('painel-tarefas-admin');
-    const lista = document.getElementById('lista-tarefas-recebidas');
-
-    if (tarefas.length > 0) {
-      container.style.display = 'block';
-      lista.innerHTML = '';
-      
-      tarefas.forEach(t => {
-        const item = document.createElement('li');
-        item.style.cssText = "padding: 8px 0; border-bottom: 1px solid #dbeafe; display: flex; justify-content: space-between; align-items: center;";
-        item.innerHTML = `
-          <div>
-            <strong style="color: #1e3a5f;">[${t.prioridade}]</strong> ${t.descricao}
-            <div style="font-size: 11px; color: #64748b;">Recebida em: ${t.data}</div>
-          </div>
-          <span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;">${t.estado}</span>
-        `;
-        lista.appendChild(item);
-      });
-    }
-  }
-
-  // Verificar assim que a página carregar
-  window.addEventListener('DOMContentLoaded', verificarTarefasDepartamento);
-
-  // Detetar em tempo real se a Administração enviar uma nova tarefa enquanto o painel está aberto noutro separador
-  window.addEventListener('storage', (event) => {
-    if (event.key && event.key.startsWith('tarefas_')) {
-      verificarTarefasDepartamento();
-      // Opcional: Disparar um alerta sonoro ou visual subtil
-    }
-  });
-</script>
 </body>
 </html>

@@ -36,55 +36,55 @@
       position: absolute;
       top: 0;
       left: 0;
-      width: 140%; /* Mais larga para permitir o movimento de um lado para o outro */
+      width: 140%;
       height: 100%;
       background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80');
       background-size: cover;
       background-position: center;
-      filter: brightness(0.85); /* Mantém a imagem clara e totalmente visível */
+      filter: brightness(0.85);
       animation: deslizarEscritorio 25s ease-in-out infinite alternate;
     }
 
-    /* Animação que faz a imagem mover-se suavemente de um lado para o outro */
     @keyframes deslizarEscritorio {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-25%);
-      }
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-25%); }
     }
     
-    /* Cartão de login fixo e imóvel com o novo design moderno */
+    /* Cartão de login em formato de retângulo horizontal (mais largo do que alto) e centralizado */
     .login-card { 
       background: #ffffff; 
       border-radius: 20px; 
       box-shadow: 0 25px 50px rgba(0,0,0,0.4); 
       width: 100%; 
-      max-width: 440px; 
+      max-width: 750px; /* Maior largura para formar o retângulo horizontal */
+      display: flex;
       overflow: hidden; 
       position: relative;
       z-index: 10;
     }
     
-    /* Cabeçalho com o azul corporativo elegante */
+    /* Lado esquerdo do cartão (Logótipo e Identidade) */
     .logo-section { 
       background: linear-gradient(135deg, #1e3a5f, #2563eb); 
       color: #ffffff; 
-      padding: 35px 25px; 
+      padding: 40px 30px; 
       text-align: center; 
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     
-    /* Logótipo perfeitamente centrado */
     .logo-icon { 
-      width: 110px; 
-      height: 110px; 
+      width: 100px; 
+      height: 100px; 
       background: #ffffff; 
       border-radius: 50%; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      margin: 0 auto 15px; 
+      margin-bottom: 15px; 
       padding: 0; 
       overflow: hidden; 
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
@@ -99,22 +99,30 @@
       margin: auto;
     }
 
-    .logo-section h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
-    .logo-section p { font-size: 13px; opacity: 0.9; font-weight: 300; }
+    .logo-section h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px; }
+    .logo-section p { font-size: 13px; opacity: 0.9; font-weight: 300; line-height: 1.4; }
     
-    /* Formulário interno moderno */
-    .login-form { padding: 30px 30px 35px; }
-    .login-form h2 { font-size: 17px; margin-bottom: 20px; color: #1e293b; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
+    /* Lado direito do cartão (Formulário de preenchimento) */
+    .login-form { 
+      padding: 35px 30px; 
+      flex: 1.2;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .login-form h2 { font-size: 16px; margin-bottom: 18px; color: #1e293b; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
     
-    .form-group { margin-bottom: 18px; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
     
     .department-select { 
       width: 100%; 
-      padding: 13px 15px; 
+      padding: 11px 14px; 
       border: 2px solid #e2e8f0; 
-      border-radius: 12px; 
-      font-size: 14px; 
+      border-radius: 10px; 
+      font-size: 13px; 
       background: #f8fafc; 
       color: #1e293b; 
       cursor: pointer; 
@@ -123,15 +131,15 @@
     }
     .department-select:focus { border-color: #2563eb; background: #ffffff; box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
     
-    .input-group { position: relative; margin-bottom: 18px; }
-    .input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 16px; }
+    .input-group { position: relative; margin-bottom: 15px; }
+    .input-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 15px; }
     
     .input-group input { 
       width: 100%; 
-      padding: 13px 15px 13px 45px; 
+      padding: 11px 14px 11px 42px; 
       border: 2px solid #e2e8f0; 
-      border-radius: 12px; 
-      font-size: 14px; 
+      border-radius: 10px; 
+      font-size: 13px; 
       outline: none; 
       background: #f8fafc;
       transition: all 0.3s ease;
@@ -140,12 +148,12 @@
     
     .btn-login { 
       width: 100%; 
-      padding: 14px; 
+      padding: 12px; 
       background: #2563eb; 
       color: #ffffff; 
       border: none; 
-      border-radius: 12px; 
-      font-size: 15px; 
+      border-radius: 10px; 
+      font-size: 14px; 
       font-weight: 600; 
       cursor: pointer; 
       display: flex; 
@@ -154,13 +162,20 @@
       gap: 8px; 
       transition: all 0.3s ease;
       box-shadow: 0 4px 12px rgba(37,99,235,0.35);
-      margin-top: 10px;
+      margin-top: 5px;
     }
     .btn-login:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(37,99,235,0.45); }
     
-    .login-footer { display: flex; justify-content: space-between; margin-top: 22px; padding-top: 18px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b; }
+    .login-footer { display: flex; justify-content: space-between; margin-top: 15px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; }
     .login-footer a { color: #2563eb; text-decoration: none; font-weight: 500; }
     .login-footer a:hover { text-decoration: underline; }
+
+    /* Adaptação para telemóveis (fica em coluna se o ecrã for pequeno) */
+    @media (max-width: 768px) {
+      .login-card { flex-direction: column; max-width: 420px; }
+      .logo-section { padding: 25px 20px; }
+      .login-form { padding: 25px 20px; }
+    }
   </style>
 </head>
 <body>
@@ -171,14 +186,16 @@
 </div>
 
 <div class="login-card">
+  <!-- Lado Esquerdo: Logótipo e Título -->
   <div class="logo-section">
     <div class="logo-icon">
       <img src="logo_apsan.png" alt="Logótipo APSAN, LDA">
     </div>
     <h1>APSAN, LDA</h1>
-    <p>Sistema de Gestão Integrado (Angola - Namíbia)</p>
+    <p>Sistema de Gestão Integrado<br>(Angola - Namíbia)</p>
   </div>
   
+  <!-- Lado Direito: Formulário de Acesso -->
   <form class="login-form" onsubmit="redirecionarDepartamento(event)">
     <h2>Acesso ao Sistema</h2>
     

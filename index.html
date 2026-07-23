@@ -20,19 +20,32 @@
       overflow: hidden;
     }
 
-    /* Vídeo de fundo cobrindo todo o ecrã */
-    .bg-video {
+    /* Imagem de fundo em movimento contínuo */
+    .bg-moving-image {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
+      width: 130%; /* Mais larga para permitir o deslize panorâmico */
       height: 100%;
-      object-fit: cover;
+      background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'); /* Imagem de escritório HD */
+      background-size: cover;
+      background-position: center;
       z-index: -2;
-      filter: brightness(0.6) blur(2px); /* Ajusta brilho e foco para dar destaque ao cartão */
+      filter: brightness(0.6) blur(1px);
+      animation: moverFundo 25s ease-in-out infinite alternate; /* Animação de ida e volta */
     }
 
-    /* Camada azul moderna por cima do vídeo para manter a identidade visual da APSAN */
+    /* Regra de animação: move a imagem na horizontal */
+    @keyframes moverFundo {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-20%);
+      }
+    }
+
+    /* Camada sobreposta em gradiente azul */
     .bg-overlay {
       position: absolute;
       top: 0;
@@ -52,7 +65,6 @@
       overflow: hidden; 
       position: relative;
       z-index: 1;
-      backdrop-filter: blur(10px);
     }
     
     .logo-section { 
@@ -62,7 +74,6 @@
       text-align: center; 
     }
     
-    /* Bolinha com ajuste para o logo ocupar o espaço todo */
     .logo-icon { 
       width: 125px; 
       height: 125px; 
@@ -109,12 +120,10 @@
 </head>
 <body>
 
-<!-- Vídeo animado de fundo de escritório -->
-<video class="bg-video" autoplay loop muted playsinline>
-  <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-in-a-modern-office-4330-large.mp4" type="video/mp4">
-</video>
+<!-- Imagem em movimento panorâmico ao fundo -->
+<div class="bg-moving-image"></div>
 
-<!-- Camada de sobreposição azul -->
+<!-- Camada azul sobreposta -->
 <div class="bg-overlay"></div>
 
 <div class="login-card">

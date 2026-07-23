@@ -101,25 +101,14 @@
     .status-notario { background-color: #805ad5; }
     .status-concluido { background-color: #38a169; }
 
-    /* FORMULÁRIO DE DOCUMENTOS - ESTRUTURA FOLHA A4 COM RODAPÉ FIXO */
+    /* FORMULÁRIO DE DOCUMENTOS */
     .doc-preview { 
-      background: var(--white); 
-      padding: 40px; 
-      border-radius: var(--radius); 
-      border: 1px solid var(--border); 
-      max-width: 850px; 
-      min-height: 260mm; 
-      margin: 0 auto; 
-      font-family: 'Times New Roman', Times, serif; 
-      line-height: 1.8; 
-      box-shadow: var(--shadow); 
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      background: var(--white); padding: 40px; border-radius: var(--radius); border: 1px solid var(--border); 
+      max-width: 850px; min-height: 260mm; margin: 0 auto; font-family: 'Times New Roman', Times, serif; 
+      line-height: 1.8; box-shadow: var(--shadow); display: flex; flex-direction: column; justify-content: space-between;
     }
     .doc-input { border: none; border-bottom: 1px dashed #64748b; font-family: inherit; font-size: inherit; padding: 2px 6px; background: #f8fafc; outline: none; }
     .doc-input:focus { border-bottom-color: var(--primary); background: #eff6ff; }
-    
     .doc-wrapper { display: flex; flex-direction: column; height: 100%; flex: 1; }
     .doc-footer-section { margin-top: auto; padding-top: 30px; }
 
@@ -146,7 +135,7 @@
 <body>
 
 <div class="app-layout">
-  <!-- SIDEBAR COMPLETA DA TRADUÇÃO -->
+  <!-- SIDEBAR -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="logo-small"><i class="fas fa-building"></i> <span>APSAN, LDA</span></div>
@@ -170,7 +159,8 @@
         <li onclick="showSection('autenticacao', this)"><i class="fas fa-stamp"></i><span>Autenticação & Notário</span></li>
         <li onclick="showSection('clientes', this)"><i class="fas fa-users"></i><span>Clientes</span></li>
         <li onclick="showSection('arquivo-pdfs', this)"><i class="fas fa-folder-open"></i><span>Arquivo de PDFs</span></li>
-        <li onclick="showSection('orcamentos', this)"><i class="fas fa-calculator"></i><span>Orçamentos & Tarifas</span></li>
+        <li onclick="showSection('orcamentos', this)"><i class="fas fa-calculator"></i><span>Orçamentos & Pipeline</span></li>
+        <li onclick="showSection('relatorios', this)"><i class="fas fa-chart-pie"></i><span>Relatório Financeiro</span></li>
       </ul>
     </nav>
     
@@ -206,7 +196,7 @@
       <div class="card">
         <div class="card-body">
           <h4 style="margin-bottom: 15px;">Atividades Recentes do Módulo</h4>
-          <p style="color: var(--secondary); font-size: 14px;">Utilize o menu lateral para navegar entre as ferramentas operacionais. Todos os registos efetuados serão salvos na memória do seu navegador.</p>
+          <p style="color: var(--secondary); font-size: 14px;">Utilize o menu lateral para navegar entre as ferramentas operacionais. Todos os registos efetuados são salvos automaticamente no navegador.</p>
         </div>
       </div>
     </section>
@@ -222,7 +212,6 @@
         </div>
       </div>
       
-      <!-- CONTROLO DE IDIOMA E SUB-MODELOS -->
       <div class="lang-tabs">
         <div class="tab-btn-group">
           <button id="tab-pt" class="lang-tab active" onclick="switchLang('pt')">Português</button>
@@ -237,7 +226,7 @@
       </div>
 
       <div class="doc-preview" id="doc-preview-container">
-        <!-- ================= VERSÃO PORTUGUÊS ================= -->
+        <!-- PORTUGUÊS -->
         <div id="doc-pt" class="doc-wrapper">
           <div>
             <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">TERMO DE AUTORIZAÇÃO DE VIAGEM DE MENOR</h3>
@@ -279,24 +268,17 @@
             <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Data atual"></p>
 
             <div id="pt-assinaturas-ambos" style="display: flex; justify-content: space-between; gap: 20px; text-align: center;">
-              <div style="flex: 1;">
-                <p>_____________________________________</p>
-                <p><strong>Assinatura do Pai</strong></p>
-              </div>
-              <div style="flex: 1;">
-                <p>_____________________________________</p>
-                <p><strong>Assinatura da Mãe</strong></p>
-              </div>
+              <div style="flex: 1;"><p>_____________________________________</p><p><strong>Assinatura do Pai</strong></p></div>
+              <div style="flex: 1;"><p>_____________________________________</p><p><strong>Assinatura da Mãe</strong></p></div>
             </div>
 
             <div id="pt-assinatura-pai" style="display: none; text-align: center;">
-              <p>_____________________________________</p>
-              <p><strong>Assinatura do Pai</strong></p>
+              <p>_____________________________________</p><p><strong>Assinatura do Pai</strong></p>
             </div>
           </div>
         </div>
 
-        <!-- ================= VERSÃO INGLÊS ================= -->
+        <!-- INGLÊS -->
         <div id="doc-en" class="doc-wrapper" style="display: none;">
           <div>
             <h3 style="text-align: center; margin-bottom: 25px; text-decoration: underline;">MINOR TRAVEL AUTHORIZATION FORM</h3>
@@ -338,19 +320,12 @@
             <p style="text-align: right; margin-bottom: 40px;">Luanda, <input type="text" class="doc-input" style="width: 160px;" placeholder="Date"></p>
 
             <div id="en-assinaturas-ambos" style="display: flex; justify-content: space-between; gap: 20px; text-align: center;">
-              <div style="flex: 1;">
-                <p>_____________________________________</p>
-                <p><strong>Father's Signature</strong></p>
-              </div>
-              <div style="flex: 1;">
-                <p>_____________________________________</p>
-                <p><strong>Mother's Signature</strong></p>
-              </div>
+              <div style="flex: 1;"><p>_____________________________________</p><p><strong>Father's Signature</strong></p></div>
+              <div style="flex: 1;"><p>_____________________________________</p><p><strong>Mother's Signature</strong></p></div>
             </div>
 
             <div id="en-assinatura-pai" style="display: none; text-align: center;">
-              <p>_____________________________________</p>
-              <p><strong>Father's Signature</strong></p>
+              <p>_____________________________________</p><p><strong>Father's Signature</strong></p>
             </div>
           </div>
         </div>
@@ -366,17 +341,17 @@
         <div class="template-item" onclick="carregarTemplate('Certidão de Nascimento', 'CERTIDÃO DE NASCIMENTO\n\nCertifico que aos... nasceu no município de...')">
           <i class="fas fa-certificate"></i>
           <h4>Certidão de Nascimento</h4>
-          <p style="font-size: 12px; color: var(--secondary);">Clique para usar na Tradução Direta</p>
+          <p style="font-size: 12px; color: var(--secondary);">Usar na Tradução Direta</p>
         </div>
         <div class="template-item" onclick="carregarTemplate('Registo Criminal', 'CERTIFICADO DE REGISTO CRIMINAL\n\nCertifica-se que nada consta nas folhas de registo de...')">
           <i class="fas fa-shield-alt"></i>
           <h4>Registo Criminal</h4>
-          <p style="font-size: 12px; color: var(--secondary);">Clique para usar na Tradução Direta</p>
+          <p style="font-size: 12px; color: var(--secondary);">Usar na Tradução Direta</p>
         </div>
         <div class="template-item" onclick="carregarTemplate('Diploma Académico', 'REPÚBLICA DE ANGOLA\nDIPLOMA ACADÉMICO\n\nConferido o grau de Licenciado a...')">
           <i class="fas fa-graduation-cap"></i>
           <h4>Diplomas e Certificados</h4>
-          <p style="font-size: 12px; color: var(--secondary);">Clique para usar na Tradução Direta</p>
+          <p style="font-size: 12px; color: var(--secondary);">Usar na Tradução Direta</p>
         </div>
       </div>
     </section>
@@ -457,17 +432,15 @@
       <div class="section-toolbar">
         <h3><i class="fas fa-folder-open"></i> Repositório Digital de Ficheiros</h3>
       </div>
-
       <div class="card"><div class="card-body">
         <h4 style="margin-bottom: 12px;">Carregar Ficheiro para o Repositório</h4>
         <input type="file" id="upload-file-input" class="form-control" accept=".pdf,.doc,.docx,.jpg,.png">
         <button class="btn-primary" onclick="salvarFicheiro()"><i class="fas fa-upload"></i> Guardar Ficheiro</button>
       </div></div>
-
       <div class="grid-cards" id="grid-ficheiros"></div>
     </section>
 
-    <!-- 8. ORÇAMENTOS & TARIFAS (ATUALIZADO COM PIPELINE E WHATSAPP) -->
+    <!-- 8. ORÇAMENTOS & PIPELINE -->
     <section id="section-orcamentos" class="content-section">
       <div class="section-toolbar">
         <h3><i class="fas fa-calculator"></i> Calculadora de Orçamentos & Pipeline</h3>
@@ -517,7 +490,6 @@
         </div></div>
       </div>
 
-      <!-- TABELA DE PIPELINE DE PEDIDOS -->
       <div class="card">
         <div class="card-body">
           <h4 style="margin-bottom: 15px;"><i class="fas fa-tasks"></i> Pipeline de Pedidos e Rastreamento</h4>
@@ -525,18 +497,56 @@
             <table>
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Tipo de Serviço</th>
-                  <th>Páginas</th>
-                  <th>Total</th>
-                  <th>Estado Atual</th>
-                  <th>Ações</th>
+                  <th>ID</th><th>Tipo de Serviço</th><th>Páginas</th><th>Total</th><th>Estado Atual</th><th>Ações</th>
                 </tr>
               </thead>
-              <tbody id="tabela-pipeline">
-                <!-- Preenchido via JavaScript -->
-              </tbody>
+              <tbody id="tabela-pipeline"></tbody>
             </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. RELATÓRIO FINANCEIRO CONSOLIDADO ( NOVO MÓDULO ) -->
+    <section id="section-relatorios" class="content-section">
+      <div class="section-toolbar">
+        <h3><i class="fas fa-chart-pie"></i> Relatório Financeiro Consolidado</h3>
+        <button class="btn-primary" onclick="exportarPDF('relatorio-conteudo', 'Relatorio_Financeiro_APSAN.pdf')"><i class="fas fa-file-pdf"></i> Exportar Relatório PDF</button>
+      </div>
+
+      <div id="relatorio-conteudo">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-wallet"></i></div>
+            <div class="stat-info"><h3 id="rel-faturado">0 Kz</h3><p>Total Concluído (Faturado)</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-hourglass-half"></i></div>
+            <div class="stat-info"><h3 id="rel-pendente">0 Kz</h3><p>Volume em Pipeline (Ativo)</p></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple"><i class="fas fa-file-invoice-dollar"></i></div>
+            <div class="stat-info"><h3 id="rel-total-pedidos">0</h3><p>Total de Pedidos Registados</p></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h4 style="margin-bottom: 15px;">Resumo Consolidado por Estado dos Pedidos</h4>
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Estado do Pedido</th>
+                    <th>Quantidade</th>
+                    <th>Valor Acumulado</th>
+                  </tr>
+                </thead>
+                <tbody id="tabela-resumo-financeiro">
+                  <!-- Gerado dinamicamente -->
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -630,14 +640,13 @@
       jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
     html2pdf().set(opt).from(element).save();
-    showToast('A transferir PDF...');
+    showToast('A exportar documento PDF...');
   }
 
   function exportarWord(elementId, filename) {
     const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Documento APSAN</title></head><body>";
     const footer = "</body></html>";
     const html = header + document.getElementById(elementId).innerHTML + footer;
-
     const blob = new Blob(['\ufeff' + html], { type: 'application/msword' });
     saveAs(blob, filename);
     showToast('A transferir ficheiro Word...');
@@ -646,27 +655,20 @@
   function carregarTemplate(titulo, texto) {
     document.getElementById('texto-origem').value = texto;
     showSection('traducao-direta');
-    showToast(`Modelo '${titulo}' carregado na Tradução Direta!`);
+    showToast(`Modelo '${titulo}' carregado!`);
   }
 
   function salvarNotario() {
     const cliente = document.getElementById('notario-cliente').value;
     const cartorio = document.getElementById('notario-cartorio').value;
     const data = document.getElementById('notario-data').value;
-
-    if (!cliente || !cartorio) {
-      alert('Por favor, preencha os campos obrigatórios.');
-      return;
-    }
-
+    if (!cliente || !cartorio) { alert('Preencha os campos obrigatórios.'); return; }
     dbNotario.push({ id: Date.now(), cliente, cartorio, data });
     localStorage.setItem('apsan_notario', JSON.stringify(dbNotario));
-    
     document.getElementById('notario-cliente').value = '';
     document.getElementById('notario-cartorio').value = '';
-    
     atualizarTabelas();
-    showToast('Pedido de Notário guardado!');
+    showToast('Registo guardado!');
   }
 
   function eliminarNotario(id) {
@@ -680,19 +682,12 @@
     const nome = document.getElementById('cliente-nome').value;
     const telefone = document.getElementById('cliente-telefone').value;
     const nif = document.getElementById('cliente-nif').value;
-
-    if (!nome) {
-      alert('Preencha o nome do cliente.');
-      return;
-    }
-
+    if (!nome) { alert('Preencha o nome do cliente.'); return; }
     dbClientes.push({ id: Date.now(), nome, telefone, nif });
     localStorage.setItem('apsan_clientes', JSON.stringify(dbClientes));
-
     document.getElementById('cliente-nome').value = '';
     document.getElementById('cliente-telefone').value = '';
     document.getElementById('cliente-nif').value = '';
-
     atualizarTabelas();
     showToast('Cliente guardado!');
   }
@@ -707,12 +702,7 @@
   function salvarFicheiro() {
     const fileInput = document.getElementById('upload-file-input');
     const file = fileInput.files[0];
-
-    if (!file) {
-      alert('Selecione um ficheiro primeiro.');
-      return;
-    }
-
+    if (!file) { alert('Selecione um ficheiro.'); return; }
     const reader = new FileReader();
     reader.onload = function(e) {
       dbFicheiros.push({
@@ -725,7 +715,7 @@
       localStorage.setItem('apsan_ficheiros', JSON.stringify(dbFicheiros));
       fileInput.value = '';
       atualizarTabelas();
-      showToast('Ficheiro carregado e guardado!');
+      showToast('Ficheiro guardado!');
     };
     reader.readAsDataURL(file);
   }
@@ -761,13 +751,15 @@
   function guardarOrcamentoPipeline() {
     const tipo = document.getElementById('servico-tipo').value;
     const paginas = document.getElementById('qtd-paginas').value;
-    const totalStr = document.getElementById('valor-total').innerText;
-    
+    const precoUnitario = tipo === 'Tradução Simples' ? 7000 : (tipo === 'Tradução + Notário' ? 18000 : 10000);
+    const valorNumerico = precoUnitario * parseInt(paginas);
+
     const novoPedido = {
       id: Date.now().toString().slice(-4),
       tipo,
       paginas,
-      total: totalStr,
+      valorNum: valorNumerico,
+      total: valorNumerico.toLocaleString('pt-PT') + ' Kz',
       status: 'Pendente'
     };
 
@@ -786,7 +778,7 @@
       pedido.status = estados[nextIndex];
       localStorage.setItem('apsan_orcamentos', JSON.stringify(dbOrcamentos));
       atualizarTabelas();
-      showToast('Estado do pedido atualizado.');
+      showToast('Estado atualizado!');
     }
   }
 
@@ -794,7 +786,7 @@
     dbOrcamentos = dbOrcamentos.filter(p => p.id !== id);
     localStorage.setItem('apsan_orcamentos', JSON.stringify(dbOrcamentos));
     atualizarTabelas();
-    showToast('Registo removido do pipeline.');
+    showToast('Registo removido.');
   }
 
   function enviarWhatsAppOrcamento() {
@@ -803,14 +795,9 @@
     const paginas = document.getElementById('qtd-paginas').value;
     const total = document.getElementById('valor-total').innerText;
 
-    if (!contacto) {
-      alert('Por favor, insira o contacto do cliente para o envio via WhatsApp.');
-      return;
-    }
-
-    const mensagem = `Olá! Segue o orçamento da APSAN, LDA para o serviço de ${tipo} (${paginas} página(s)). Valor total: ${total}. Confirmamos o andamento?`;
-    const link = `https://api.whatsapp.com/send?phone=${encodeURIComponent(contacto)}&text=${encodeURIComponent(mensagem)}`;
-    window.open(link, '_blank');
+    if (!contacto) { alert('Insira o contacto do cliente.'); return; }
+    const mensagem = `Olá! Segue o orçamento da APSAN, LDA para ${tipo} (${paginas} pág.). Total: ${total}. Confirmamos?`;
+    window.open(`https://api.whatsapp.com/send?phone=${encodeURIComponent(contacto)}&text=${encodeURIComponent(mensagem)}`, '_blank');
   }
 
   function atualizarTabelas() {
@@ -819,29 +806,19 @@
     document.getElementById('count-ficheiros').innerText = dbFicheiros.length;
     document.getElementById('count-traducoes').innerText = dbNotario.length + dbClientes.length + dbOrcamentos.length;
 
-    const tbodyNotario = document.getElementById('tabela-notario');
-    tbodyNotario.innerHTML = dbNotario.map(n => `
-      <tr>
-        <td>${n.cliente}</td>
-        <td>${n.cartorio}</td>
-        <td>${n.data || 'N/A'}</td>
-        <td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarNotario(${n.id})"><i class="fas fa-trash"></i></button></td>
-      </tr>
+    // Tabelas normais
+    document.getElementById('tabela-notario').innerHTML = dbNotario.map(n => `
+      <tr><td>${n.cliente}</td><td>${n.cartorio}</td><td>${n.data || 'N/A'}</td><td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarNotario(${n.id})"><i class="fas fa-trash"></i></button></td></tr>
     `).join('');
 
-    const tbodyClientes = document.getElementById('tabela-clientes');
-    tbodyClientes.innerHTML = dbClientes.map(c => `
-      <tr>
-        <td>${c.nome}</td>
-        <td>${c.telefone || 'N/A'}</td>
-        <td>${c.nif || 'N/A'}</td>
-        <td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarCliente(${c.id})"><i class="fas fa-trash"></i></button></td>
-      </tr>
+    document.getElementById('tabela-clientes').innerHTML = dbClientes.map(c => `
+      <tr><td>${c.nome}</td><td>${c.telefone || 'N/A'}</td><td>${c.nif || 'N/A'}</td><td><button class="btn-secondary" style="color: var(--danger);" onclick="eliminarCliente(${c.id})"><i class="fas fa-trash"></i></button></td></tr>
     `).join('');
 
+    // Pipeline
     const tbodyPipeline = document.getElementById('tabela-pipeline');
     if (dbOrcamentos.length === 0) {
-      tbodyPipeline.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--secondary);">Nenhum orçamento registado no pipeline.</td></tr>`;
+      tbodyPipeline.innerHTML = `<tr><td colspan="6" style="text-align: center; color: var(--secondary);">Nenhum registo no pipeline.</td></tr>`;
     } else {
       tbodyPipeline.innerHTML = dbOrcamentos.map(p => {
         let classeStatus = 'status-pendente';
@@ -865,8 +842,8 @@
       }).join('');
     }
 
-    const gridFicheiros = document.getElementById('grid-ficheiros');
-    gridFicheiros.innerHTML = dbFicheiros.map(f => `
+    // Ficheiros
+    document.getElementById('grid-ficheiros').innerHTML = dbFicheiros.map(f => `
       <div class="card" style="padding: 15px; text-align: center;">
         <i class="fas fa-file-alt" style="font-size: 36px; color: var(--primary); margin-bottom: 8px;"></i>
         <h4 style="font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${f.nome}</h4>
@@ -877,12 +854,42 @@
         </div>
       </div>
     `).join('');
+
+    // Cálculo Financeiro / Relatório
+    let totalFaturado = 0;
+    let totalPendente = 0;
+    let contadoresStatus = { 'Pendente': { qtd: 0, val: 0 }, 'Em Tradução': { qtd: 0, val: 0 }, 'Em Notário': { qtd: 0, val: 0 }, 'Concluído': { qtd: 0, val: 0 } };
+
+    dbOrcamentos.forEach(p => {
+      let val = p.valorNum || 0;
+      if (contadoresStatus[p.status]) {
+        contadoresStatus[p.status].qtd++;
+        contadoresStatus[p.status].val += val;
+      }
+      if (p.status === 'Concluído') {
+        totalFaturado += val;
+      } else {
+        totalPendente += val;
+      }
+    });
+
+    document.getElementById('rel-faturado').innerText = totalFaturado.toLocaleString('pt-PT') + ' Kz';
+    document.getElementById('rel-pendente').innerText = totalPendente.toLocaleString('pt-PT') + ' Kz';
+    document.getElementById('rel-total-pedidos').innerText = dbOrcamentos.length;
+
+    const tbodyResumo = document.getElementById('tabela-resumo-financeiro');
+    tbodyResumo.innerHTML = Object.keys(contadoresStatus).map(st => `
+      <tr>
+        <td><strong>${st}</strong></td>
+        <td>${contadoresStatus[st].qtd} pedido(s)</td>
+        <td>${contadoresStatus[st].val.toLocaleString('pt-PT')} Kz</td>
+      </tr>
+    `).join('');
   }
 
   function showToast(message) {
     const toast = document.getElementById('toast');
-    const toastMsg = document.getElementById('toast-message');
-    toastMsg.innerText = message;
+    document.getElementById('toast-message').innerText = message;
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
   }

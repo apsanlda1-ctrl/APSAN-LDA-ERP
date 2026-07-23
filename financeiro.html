@@ -34,7 +34,7 @@
       position: relative;
     }
 
-    /* VÍDEO DE FUNDO EM MOVIMENTO (LOOP) COM GARANTIA DE REPRODUÇÃO */
+    /* VÍDEO DE FUNDO EM MOVIMENTO (LOOP) */
     .bg-video-container {
       position: fixed;
       top: 0;
@@ -43,7 +43,7 @@
       height: 100vh;
       z-index: -1;
       overflow: hidden;
-      background-color: #0f172a; /* Fundo de segurança caso o vídeo demore a carregar */
+      background-color: #0f172a;
     }
 
     .bg-video-container video {
@@ -206,6 +206,9 @@
       cursor: pointer;
       font-weight: 600;
       transition: opacity 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .btn:hover {
@@ -214,6 +217,7 @@
 
     .btn-success { background-color: var(--success); }
     .btn-danger { background-color: var(--danger); }
+    .btn-secondary { background-color: #475569; }
 
     /* TABELAS */
     table {
@@ -281,11 +285,41 @@
       grid-template-columns: 1fr 1fr;
       gap: 20px;
     }
+
+    /* ESTILO EXCLUSIVO PARA O DOCUMENTO/FATURA IMPRESSO OU EXPORTADO */
+    #fatura-documento {
+      display: none;
+      background: white;
+      color: #000;
+      padding: 40px;
+      max-width: 800px;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #fatura-documento, #fatura-documento * {
+        visibility: visible;
+      }
+      #fatura-documento {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+        display: block !important;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- VÍDEO DE FUNDO EM MOVIMENTO (LINK DIRETO E ROBUSTO) -->
+  <!-- VÍDEO DE FUNDO EM MOVIMENTO -->
   <div class="bg-video-container">
     <video id="bg-video" autoplay muted loop playsinline>
       <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
@@ -313,9 +347,8 @@
       </ul>
     </div>
     
-    <!-- BOTÃO DE TERMINAR SESSÃO & RODAPÉ -->
     <div style="padding: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
-      <button class="btn btn-danger" style="width: 100%; margin-bottom: 12px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="terminarSessao()">
+      <button class="btn btn-danger" style="width: 100%; margin-bottom: 12px; font-size: 13px; justify-content: center;" onclick="terminarSessao()">
         <i class="fas fa-sign-out-alt"></i> Terminar Sessão
       </button>
       <div style="font-size: 11px; color: #cbd5e1; text-align: center;">
@@ -396,7 +429,7 @@
         </div>
       </div>
 
-      <!-- ABA 2: PESQUISA DE SERVIÇOS & VALORES DIÁRIOS -->
+      <!-- ABA 2: PESQUISA DE SERVIÇOS -->
       <div id="pesquisa-servicos" class="tab-content">
         <div class="card-panel">
           <h3><i class="fas fa-search-dollar"></i> Catálogo e Consulta de Serviços APSAN</h3>
@@ -411,14 +444,12 @@
                 <th>Valor de Referência</th>
               </tr>
             </thead>
-            <tbody id="tabela-servicos">
-              <!-- Preenchido dinamicamente via JS -->
-            </tbody>
+            <tbody id="tabela-servicos"></tbody>
           </table>
         </div>
       </div>
 
-      <!-- ABA 3: COMPRAS NAMÍBIA & ENCOMENDAS -->
+      <!-- ABA 3: COMPRAS NAMÍBIA -->
       <div id="compras-namibia" class="tab-content">
         <div class="grid-2">
           <div class="card-panel">
@@ -443,7 +474,7 @@
           <div class="card-panel">
             <h3><i class="fas fa-info-circle"></i> Logística Santa Clara - Namíbia</h3>
             <p style="font-size: 13px; color: #334155; line-height: 1.6;">
-              As encomendas processadas utilizam o câmbio oficial configurado no sistema. Certifique-se de validar a taxa de referência na aba de Câmbio antes de emitir guias definitivas para os clientes de Angola e Namíbia[cite: 3].
+              As encomendas processadas utilizam o câmbio oficial configurado no sistema. Certifique-se de validar a taxa de referência na aba de Câmbio antes de emitir guias definitivas[cite: 3].
             </p>
           </div>
         </div>
@@ -454,22 +485,18 @@
         <div class="grid-2">
           <div class="card-panel">
             <h3><i class="fas fa-calculator"></i> Conversor Bidirecional AOA ↔ NAD</h3>
-            
             <div class="form-group">
               <label>Valor em Kwanzas (AOA):</label>
               <input type="number" id="calc-aoa" placeholder="Digite o valor em Kz" oninput="converterMoeda('AOA')" step="0.01">
             </div>
-
             <div class="form-group" style="margin-top: 15px;">
               <label>Valor em Dólares Namibianos (NAD):</label>
               <input type="number" id="calc-nad" placeholder="Digite o valor em NAD" oninput="converterMoeda('NAD')" step="0.01">
             </div>
-
             <div style="background: rgba(241, 245, 249, 0.9); padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px;">
               <span style="font-size: 12px; color: #475569;" id="calc-resultado-label">Insira um valor acima para converter</span>
             </div>
           </div>
-
           <div class="card-panel">
             <h3><i class="fas fa-cog"></i> Taxa de Câmbio do Dia</h3>
             <div class="form-group">
@@ -477,38 +504,82 @@
               <input type="number" id="taxa-dia" value="66.00" step="0.01" oninput="atualizarTaxaGlobal()">
             </div>
             <p style="font-size: 12px; color: #475569; margin-top: 10px;">
-              <i class="fas fa-info-circle"></i> Esta taxa é utilizada automaticamente no cálculo do dashboard e de todas as encomendas[cite: 3].
+              <i class="fas fa-info-circle"></i> Esta taxa é utilizada automaticamente no cálculo do dashboard e encomendas[cite: 3].
             </p>
           </div>
         </div>
       </div>
 
-      <!-- ABA 5: FATURAÇÃO -->
+      <!-- ABA 5: FATURAÇÃO (ATUALIZADA CONFORME PEDIDO) -->
       <div id="faturacao" class="tab-content">
         <div class="card-panel">
           <h3><i class="fas fa-file-invoice-dollar"></i> Emissão Rápida de Faturas (APSAN, LDA)</h3>
+          
           <div class="grid-2">
             <div class="form-group">
               <label>Nome do Cliente / Empresa:</label>
               <input type="text" id="fat-cliente" placeholder="Nome completo ou empresa cliente">
             </div>
             <div class="form-group">
+              <label>Número do Cliente:</label>
+              <input type="text" id="fat-num-cliente" placeholder="Ex: CLI-2026-001">
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
               <label>NIF do Cliente:</label>
               <input type="text" id="fat-nif" placeholder="Número de Identificação Fiscal">
             </div>
+            <div class="form-group">
+              <label>Prestação de Serviço / Produto:</label>
+              <input type="text" id="fat-servico" placeholder="Ex: Compras na Namíbia / Acompanhamento hospitalar">
+            </div>
           </div>
-          <div class="form-group">
-            <label>Descrição dos Itens / Serviços:</label>
-            <textarea id="fat-itens" rows="3" placeholder="Detalhe os serviços prestados..."></textarea>
-          </div>
+
           <div class="grid-2">
             <div class="form-group">
-              <label>Valor Total (Kz):</label>
-              <input type="number" id="fat-valor" placeholder="0.00" step="0.01">
+              <label>Quantidade:</label>
+              <input type="number" id="fat-qtd" value="1" min="1" step="1" oninput="calcularFaturaFormulario()">
             </div>
-            <div style="display: flex; align-items: flex-end;">
-              <button class="btn" onclick="emitirFatura()"><i class="fas fa-print"></i> Emitir e Imprimir Fatura</button>
+            <div class="form-group">
+              <label>Valor Unitário do Produto/Serviço (Kz):</label>
+              <input type="number" id="fat-valor-unit" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
             </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Local onde vai a Encomenda / Destino:</label>
+              <input type="text" id="fat-local" placeholder="Ex: Luanda, Lubango, Huambo...">
+            </div>
+            <div class="form-group">
+              <label>Agência de Transporte (Frete):</label>
+              <select id="fat-agencia" oninput="calcularFaturaFormulario()">
+                <option value="Macon">Macon</option>
+                <option value="Huambo Express">Huambo Express</option>
+                <option value="Jobita">Jobita</option>
+                <option value="Carros particulares">Carros particulares</option>
+                <option value="Outros">Outros / Nenhuma</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="form-group">
+              <label>Valor do Frete da Carga (AOA):</label>
+              <input type="number" id="fat-frete" placeholder="0.00" step="0.01" oninput="calcularFaturaFormulario()">
+            </div>
+            <div class="form-group">
+              <label>Equivalência Total em AOA (Produto + Frete):</label>
+              <input type="text" id="fat-total-aoa" readonly style="background: #e2e8f0; font-weight: bold;" value="Kz 0,00">
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 15px; margin-top: 15px; flex-wrap: wrap;">
+            <button class="btn" onclick="salvarFaturaSistema()"><i class="fas fa-save"></i> Salvar Fatura</button>
+            <button class="btn btn-success" onclick="imprimirFaturaLimpa()"><i class="fas fa-print"></i> Imprimir Fatura Limpa</button>
+            <button class="btn btn-secondary" onclick="exportarWordFatura()"><i class="fas fa-file-word"></i> Exportar para Word (.doc)</button>
           </div>
         </div>
       </div>
@@ -594,7 +665,7 @@
           </table>
 
           <div style="margin-top: 20px;">
-            <button class="btn" onclick="window.print()"><i class="fas fa-print"></i> Imprimir Relatório e Diário Contabilístico</button>
+            <button class="btn" onclick="window.print()"><i class="fas fa-print"></i> Imprimir Relatório e Diário</button>
           </div>
         </div>
       </div>
@@ -617,6 +688,78 @@
     </div>
   </main>
 
+  <!-- DOCUMENTO LIMPO EXCLUSIVO PARA IMPRESSÃO/EXPORTAÇÃO DE FATURA (SEM DETALHES DO SISTEMA) -->
+  <div id="fatura-documento">
+    <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 25px;">
+      <div>
+        <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 5px;">APSAN, LDA</h2>
+        <p style="font-size: 12px; color: #475569;">Prestadora de Serviços Ang-Nam[cite: 4]</p>
+        <p style="font-size: 12px; color: #475569;">Sede: Santa Clara, Cunene - Angola[cite: 3, 4]</p>
+        <p style="font-size: 12px; color: #475569;">NIF: 5002085011[cite: 3, 4]</p>
+      </div>
+      <div style="text-align: right;">
+        <h3 style="color: #3b82f6; font-size: 18px;">FATURA / RECIBO</h3>
+        <p style="font-size: 12px; color: #475569; margin-top: 5px;" id="fatura-doc-data">Data: --/--/----</p>
+        <p style="font-size: 12px; color: #475569;" id="fatura-doc-num">Nº Fatura: APSAN-2026-001</p>
+      </div>
+    </div>
+
+    <div style="margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 6px;">
+      <h4 style="font-size: 14px; color: #1e293b; margin-bottom: 8px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">Dados do Cliente</h4>
+      <p style="font-size: 13px; margin-bottom: 4px;"><strong>Nome do Cliente:</strong> <span id="doc-cli-nome">--</span></p>
+      <p style="font-size: 13px; margin-bottom: 4px;"><strong>Número do Cliente:</strong> <span id="doc-cli-num">--</span></p>
+      <p style="font-size: 13px;"><strong>NIF do Cliente:</strong> <span id="doc-cli-nif">--</span></p>
+    </div>
+
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+      <thead>
+        <tr style="background: #1e293b; color: white;">
+          <th style="padding: 10px; font-size: 13px;">Prestação de Serviço / Produto</th>
+          <th style="padding: 10px; font-size: 13px; text-align: center;">Qtd</th>
+          <th style="padding: 10px; font-size: 13px; text-align: right;">Preço Unitário</th>
+          <th style="padding: 10px; font-size: 13px; text-align: right;">Total Parcial</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding: 10px; font-size: 13px;" id="doc-servico">--</td>
+          <td style="padding: 10px; font-size: 13px; text-align: center;" id="doc-qtd">1</td>
+          <td style="padding: 10px; font-size: 13px; text-align: right;" id="doc-unit">Kz 0,00</td>
+          <td style="padding: 10px; font-size: 13px; text-align: right;" id="doc-subtotal">Kz 0,00</td>
+        </tr>
+        <tr>
+          <td colspan="3" style="padding: 10px; font-size: 13px;"><strong>Frete / Transporte (<span id="doc-agencia">--</span>) - Destino: <span id="doc-local">--</span></strong></td>
+          <td style="padding: 10px; font-size: 13px; text-align: right;" id="doc-frete">Kz 0,00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">
+      <div style="width: 300px; background: #f1f5f9; padding: 15px; border-radius: 6px;">
+        <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: bold; color: #1e293b;">
+          <span>Equivalência Total (AOA):</span>
+          <span id="doc-total-geral">Kz 0,00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RODAPÉ DA FATURA COM OS DETALHES BANCÁRIOS EXTRAÍDOS DO PDF -->
+    <div style="border-top: 1px dashed #cbd5e1; padding-top: 15px; margin-top: 20px;">
+      <p style="font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 8px;">Dados Bancários para Transferência:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; color: #475569;">
+        <div>
+          <p><strong>Banco:</strong> BFA (Banco de Fomento Angola)[cite: 4]</p>
+          <p><strong>Número de Conta:</strong> 36350302130 001[cite: 4]</p>
+        </div>
+        <div>
+          <p><strong>NBA:</strong> 0006 000063503021301 57[cite: 4]</p>
+          <p><strong>IBAN:</strong> AO06 0006 000063503021301 57[cite: 4]</p>
+        </div>
+      </div>
+      <p style="font-size: 11px; color: #475569; margin-top: 10px;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com[cite: 4]</p>
+    </div>
+  </div>
+
   <script>
     const catalogoServicos = [
       { nome: "Acompanhamento hospitalar", desc: "Gestão de logística de saúde e acompanhamento presencial diário", preco: "Kz 20.000,00 / dia" },
@@ -637,11 +780,10 @@
     let contabilidade = [];
 
     window.onload = function() {
-      // Forçar o play no vídeo caso restrições do browser impeçam o autoplay direto
       const videoEl = document.getElementById('bg-video');
       if (videoEl) {
         videoEl.play().catch(error => {
-          console.log("Autoplay impedido pelo navegador, a tentar reproduzir via interação.", error);
+          console.log("Autoplay impedido pelo navegador.", error);
         });
       }
 
@@ -676,7 +818,6 @@
       return 'Kz ' + valor.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2});
     }
 
-    /* TERMINAR SESSÃO */
     function terminarSessao() {
       if (confirm('Deseja realmente terminar a sessão no sistema APSAN, LDA?')) {
         alert('Sessão encerrada com sucesso.');
@@ -684,7 +825,118 @@
       }
     }
 
-    /* TRANSAÇÕES & LANÇAMENTO AUTOMÁTICO NA CONTABILIDADE */
+    /* CÁLCULO DA FATURA COM VARIAÇÃO POR QUANTIDADE E FRETE */
+    function calcularFaturaFormulario() {
+      const qtd = parseFloat(document.getElementById('fat-qtd').value) || 0;
+      const unit = parseFloat(document.getElementById('fat-valor-unit').value) || 0;
+      const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
+
+      const totalProduto = qtd * unit;
+      const totalGeral = totalProduto + frete;
+
+      document.getElementById('fat-total-aoa').value = formatarKz(totalGeral);
+      return totalGeral;
+    }
+
+    function preencherDocumentoFatura() {
+      document.getElementById('doc-cli-nome').innerText = document.getElementById('fat-cliente').value || 'Cliente Balcão';
+      document.getElementById('doc-cli-num').innerText = document.getElementById('fat-num-cliente').value || 'N/A';
+      document.getElementById('doc-cli-nif').innerText = document.getElementById('fat-nif').value || 'Consumidor Final';
+      document.getElementById('doc-servico').innerText = document.getElementById('fat-servico').value || 'Prestação de Serviços APSAN';
+      
+      const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
+      const unit = parseFloat(document.getElementById('fat-valor-unit').value) || 0;
+      const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
+
+      document.getElementById('doc-qtd').innerText = qtd;
+      document.getElementById('doc-unit').innerText = formatarKz(unit);
+      document.getElementById('doc-subtotal').innerText = formatarKz(qtd * unit);
+      document.getElementById('doc-agencia').innerText = document.getElementById('fat-agencia').value;
+      document.getElementById('doc-local').innerText = document.getElementById('fat-local').value || 'N/A';
+      document.getElementById('doc-frete').innerText = formatarKz(frete);
+      document.getElementById('doc-total-geral').innerText = formatarKz((qtd * unit) + frete);
+      
+      document.getElementById('fatura-doc-data').innerText = 'Data: ' + new Date().toLocaleDateString('pt-PT');
+      document.getElementById('fatura-doc-num').innerText = 'Nº Fatura: APSAN-' + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    function salvarFaturaSistema() {
+      const cliente = document.getElementById('fat-cliente').value;
+      const totalGeral = calcularFaturaFormulario();
+
+      if (!cliente || totalGeral <= 0) {
+        alert('Por favor, preencha o nome do cliente e os valores da fatura.');
+        return;
+      }
+
+      const novaTransacao = {
+        id: Date.now(),
+        data: new Date().toLocaleDateString('pt-PT'),
+        hora: new Date().toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'}),
+        desc: `Fatura - ${cliente} (${document.getElementById('fat-servico').value || 'Serviços'})`,
+        valor: totalGeral,
+        tipo: 'entrada'
+      };
+
+      transacoes.push(novaTransacao);
+
+      contabilidade.unshift({
+        id: novaTransacao.id,
+        dataHora: `${novaTransacao.data} às ${novaTransacao.hora}`,
+        origem: 'Módulo Faturação',
+        desc: novaTransacao.desc,
+        tipo: 'ENTRADA',
+        valor: totalGeral
+      });
+
+      guardarDadosStorage();
+      atualizarDashboardDinamico();
+      alert('Fatura salva com sucesso e integrada no financeiro/contabilidade!');
+    }
+
+    function imprimirFaturaLimpa() {
+      const cliente = document.getElementById('fat-cliente').value;
+      if (!cliente) {
+        alert('Insira pelo menos o nome do cliente antes de imprimir.');
+        return;
+      }
+      preencherDocumentoFatura();
+      document.getElementById('fatura-documento').style.display = 'block';
+      window.print();
+      document.getElementById('fatura-documento').style.display = 'none';
+    }
+
+    function exportarWordFatura() {
+      const cliente = document.getElementById('fat-cliente').value;
+      if (!cliente) {
+        alert('Insira pelo menos o nome do cliente antes de exportar.');
+        return;
+      }
+      preencherDocumentoFatura();
+      
+      const conteudoHTML = document.getElementById('fatura-documento').innerHTML;
+      const cabecalhoHTML = `
+        <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+        <head><meta charset='utf-8'><title>Fatura APSAN</title></head>
+        <body style="font-family: Arial, sans-serif;">
+      `;
+      const rodapeHTML = "</body></html>";
+      
+      const blob = new Blob(['\ufeff' + cabecalhoHTML + conteudoHTML + rodapeHTML], {
+        type: 'application/msword'
+      });
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Fatura_${cliente.replace(/\s+/g, '_')}.doc`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    /* TRANSAÇÕES & DESPESAS */
     function adicionarTransacao() {
       const desc = document.getElementById('trans-desc').value.trim();
       const valor = parseFloat(document.getElementById('trans-valor').value);
@@ -705,7 +957,6 @@
       };
 
       transacoes.push(novaTransacao);
-
       contabilidade.unshift({
         id: novaTransacao.id,
         dataHora: `${novaTransacao.data} às ${novaTransacao.hora}`,
@@ -729,7 +980,6 @@
       atualizarDashboardDinamico();
     }
 
-    /* DESPESAS & LANÇAMENTO AUTOMÁTICO */
     function adicionarDespesa() {
       const desc = document.getElementById('esp-desc').value.trim();
       const cat = document.getElementById('esp-cat').value;
@@ -750,7 +1000,6 @@
       };
 
       despesas.push(novaDespesa);
-
       contabilidade.unshift({
         id: novaDespesa.id,
         dataHora: `${novaDespesa.data} às ${novaDespesa.hora}`,
@@ -774,7 +1023,6 @@
       atualizarDashboardDinamico();
     }
 
-    /* ATUALIZAR DASHBOARD / CONTABILIDADE */
     function atualizarDashboardDinamico() {
       const tbodyTrans = document.getElementById('tabela-transacoes');
       tbodyTrans.innerHTML = '';
@@ -845,17 +1093,13 @@
       document.getElementById('rel-saldo-liquido').innerText = formatarKz(saldoLiquido);
     }
 
-    /* CÂMBIO BIDIRECIONAL */
     function converterMoeda(origem) {
       const taxa = parseFloat(document.getElementById('taxa-dia').value) || 66;
-      
       if (origem === 'AOA') {
         const aoa = parseFloat(document.getElementById('calc-aoa').value) || 0;
-        if (taxa > 0) {
-          const nad = aoa / taxa;
-          document.getElementById('calc-nad').value = nad > 0 ? nad.toFixed(2) : '';
-          document.getElementById('calc-resultado-label').innerHTML = `Equivalente a: <strong>$ ${nad.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2})} NAD</strong>`;
-        }
+        const nad = aoa / taxa;
+        document.getElementById('calc-nad').value = nad > 0 ? nad.toFixed(2) : '';
+        document.getElementById('calc-resultado-label').innerHTML = `Equivalente a: <strong>$ ${nad.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2})} NAD</strong>`;
       } else if (origem === 'NAD') {
         const nad = parseFloat(document.getElementById('calc-nad').value) || 0;
         const aoa = nad * taxa;
@@ -869,7 +1113,6 @@
       calcularTotalEncomenda();
     }
 
-    /* COMPRAS NAMÍBIA */
     function calcularTotalEncomenda() {
       const valorNad = parseFloat(document.getElementById('enc-valor-nad').value) || 0;
       const taxaServico = parseFloat(document.getElementById('enc-taxa').value) || 0;
@@ -890,32 +1133,20 @@
       alert(`Guia de encomenda para "${artigo}" gerada com sucesso pela APSAN, LDA (Santa Clara)!`);
     }
 
-    /* FATURAÇÃO */
-    function emitirFatura() {
-      const cliente = document.getElementById('fat-cliente').value;
-      const valor = document.getElementById('fat-valor').value;
-      if (!cliente || !valor) {
-        alert('Preencha o nome do cliente e o valor para emitir a fatura.');
-        return;
-      }
-      alert(`Fatura emitida com sucesso para ${cliente} no valor de ${formatarKz(parseFloat(valor))}.`);
-    }
-
-    /* PESQUISA DE SERVIÇOS */
     function filtrarServicos() {
       const termo = document.getElementById('input-pesquisa-servico').value.toLowerCase().trim();
       const tbody = document.getElementById('tabela-servicos');
       tbody.innerHTML = '';
 
       if (termo === '') {
-        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #475569;">Nenhum serviço em exibição. Digite acima o nome do serviço pretendido...</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #475569;">Nenhum serviço em exibição. Digite acima o termo pretendido...</td></tr>`;
         return;
       }
 
       const resultados = catalogoServicos.filter(s => s.nome.toLowerCase().includes(termo) || s.desc.toLowerCase().includes(termo));
 
       if (resultados.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #475569;">Nenhum serviço encontrado com esse termo.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #475569;">Nenhum serviço encontrado.</td></tr>`;
       } else {
         resultados.forEach(s => {
           tbody.innerHTML += `

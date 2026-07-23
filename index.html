@@ -21,7 +21,6 @@
       background-color: #1e3a5f;
     }
 
-    /* Imagem de escritório em movimento panorâmico constante e totalmente visível */
     .bg-moving-container {
       position: fixed;
       top: 0;
@@ -50,7 +49,6 @@
       100% { transform: translateX(-25%); }
     }
     
-    /* Cartão de login minimizado e em formato horizontal */
     .login-card { 
       background: #ffffff; 
       border-radius: 16px; 
@@ -63,7 +61,6 @@
       z-index: 10;
     }
     
-    /* Lado esquerdo do cartão (Logótipo e Identidade) */
     .logo-section { 
       background: linear-gradient(135deg, #1e3a5f, #2563eb); 
       color: #ffffff; 
@@ -102,7 +99,6 @@
     .logo-section h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
     .logo-section p { font-size: 12px; opacity: 0.9; font-weight: 300; line-height: 1.3; }
     
-    /* Lado direito do cartão (Formulário de preenchimento minimizado) */
     .login-form { 
       padding: 25px 25px; 
       flex: 1.2;
@@ -170,7 +166,6 @@
     .login-footer a { color: #2563eb; text-decoration: none; font-weight: 500; }
     .login-footer a:hover { text-decoration: underline; }
 
-    /* Adaptação para telemóveis */
     @media (max-width: 768px) {
       .login-card { flex-direction: column; max-width: 380px; }
       .logo-section { padding: 20px 15px; }
@@ -180,13 +175,11 @@
 </head>
 <body>
 
-<!-- Imagem de escritório visível e em movimento panorâmico constante -->
 <div class="bg-moving-container">
   <div class="bg-moving-image"></div>
 </div>
 
 <div class="login-card">
-  <!-- Lado Esquerdo: Logótipo e NIF -->
   <div class="logo-section">
     <div class="logo-icon">
       <img src="logo_apsan.png" alt="Logótipo APSAN, LDA">
@@ -195,16 +188,16 @@
     <p>NIF: 5002085011<br>(Angola - Namíbia)</p>
   </div>
   
-  <!-- Lado Direito: Formulário de Acesso Compacto -->
   <form class="login-form" onsubmit="redirecionarDepartamento(event)">
     <h2>Acesso ao Sistema</h2>
     <div class="form-group">
       <label for="department-select">Selecione o Departamento:</label>
       <select id="department-select" class="department-select" required>
-        <option value="rh" selected>👥 Recursos Humanos</option>
+        <option value="" disabled selected>Selecione o seu Departamento</option>
+        <option value="rh">👥 Recursos Humanos</option>
         <option value="contabilidade">📊 Contabilidade</option>
         <option value="financeiro">💰 Financeiro</option>
-        <option value="administrativo">📋 Admistração Geral</option>
+        <option value="administrativo">🏛️ Administração Geral</option>
         <option value="operacoes">⚙️ Operações e Logística</option>
         <option value="traducao">📜 Tradução Oficial Juramentada</option>
         <option value="hospitalar">🏥 Acompanhamento Hospitalar</option>
@@ -236,7 +229,6 @@
   function redirecionarDepartamento(event) {
     event.preventDefault();
     
-    // Limpar quaisquer dados residuais de sessão antigos se necessário
     localStorage.removeItem('usuarioLogado');
     sessionStorage.clear();
 
@@ -257,7 +249,7 @@
     } else if (departamento === 'hospitalar') {
       window.location.href = 'acompanhamento_hospitalar.html';
     } else {
-      alert('A redirecionar para o departamento de ' + departamento);
+      alert('Por favor, selecione um departamento válido.');
     }
   }
 </script>

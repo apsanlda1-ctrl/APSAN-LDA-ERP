@@ -20,44 +20,25 @@
       overflow: hidden;
     }
 
-    /* Imagem de fundo em movimento panorâmico */
-    .bg-moving-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 130%;
-      height: 100%;
-      background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80');
-      background-size: cover;
-      background-position: center;
-      z-index: -2;
-      filter: brightness(0.55) blur(2px);
-      animation: moverFundo 30s ease-in-out infinite alternate;
-    }
-
-    @keyframes moverFundo {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-20%); }
-    }
-
-    /* Camada sobreposta em gradiente azul corporativo */
-    .bg-overlay {
+    /* Vídeo de fundo a cobrir todo o ecrã sem o filtro azul por cima */
+    .bg-video {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(15, 32, 67, 0.85), rgba(29, 78, 216, 0.8));
+      object-fit: cover;
       z-index: -1;
+      filter: brightness(0.65) blur(1px); /* Mantém o vídeo ligeiramente escurecido para destacar o formulário */
     }
     
-    /* Novo estilo de cartão de login moderno (Glassmorphism Executivo) */
+    /* Cartão de login moderno (Glassmorphism) */
     .login-card { 
       background: rgba(255, 255, 255, 0.95); 
       backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 16px; 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
       width: 100%; 
       max-width: 440px; 
       overflow: hidden; 
@@ -66,14 +47,14 @@
     }
     
     .logo-section { 
-      background: linear-gradient(135deg, #1e3a5f, #2563eb); 
+      background: linear-gradient(135deg, #0f172a, #1e293b); /* Topo em tons escuros elegantes para combinar com o vídeo */
       color: #ffffff; 
       padding: 30px 20px; 
       text-align: center; 
-      border-bottom: 4px solid #3b82f6;
+      border-bottom: 4px solid #2563eb;
     }
     
-    /* Bolinha ajustada com centralização exata e perfeita */
+    /* Bolinha do logótipo perfeitamente centrada */
     .logo-icon { 
       width: 110px; 
       height: 110px; 
@@ -91,8 +72,8 @@
     .logo-icon img {
       width: 100%;
       height: 100%;
-      object-fit: contain; /* Mantém proporções sem cortar */
-      transform: scale(1.15); /* Zoom equilibrado para ocupar o espaço sem rebentar as bordas */
+      object-fit: contain;
+      transform: scale(1.15);
       display: block;
       margin: auto;
     }
@@ -100,7 +81,7 @@
     .logo-section h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
     .logo-section p { font-size: 13px; opacity: 0.9; font-weight: 300; }
     
-    /* Novo design para o formulário interno */
+    /* Formulário interno */
     .login-form { padding: 25px 30px 30px; }
     .login-form h2 { font-size: 18px; margin-bottom: 18px; color: #1e293b; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
     
@@ -163,11 +144,10 @@
 </head>
 <body>
 
-<!-- Imagem em movimento panorâmico ao fundo -->
-<div class="bg-moving-image"></div>
-
-<!-- Camada azul sobreposta -->
-<div class="bg-overlay"></div>
+<!-- Vídeo animado em fundo total sem sobreposição azul -->
+<video class="bg-video" autoplay loop muted playsinline>
+  <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-in-a-modern-office-4330-large.mp4" type="video/mp4">
+</video>
 
 <div class="login-card">
   <div class="logo-section">

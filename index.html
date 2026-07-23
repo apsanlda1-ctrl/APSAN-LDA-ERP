@@ -18,25 +18,23 @@
       padding: 20px; 
       position: relative;
       overflow: hidden;
-      background-color: #000;
+      background-color: #0f172a;
     }
 
-    /* Vídeo de fundo estático no ecrã enquanto o vídeo em si reproduz o fluxo do rio */
+    /* Vídeo de fundo fixo e otimizado */
     .bg-video {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      min-width: 100%;
-      min-height: 100%;
-      width: auto;
-      height: auto;
-      transform: translate(-50%, -50%);
-      z-index: -1;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       object-fit: cover;
-      filter: brightness(0.65) contrast(1.1); /* Ajusta o brilho para dar destaque perfeito ao formulário */
+      z-index: -1;
+      pointer-events: none;
+      filter: brightness(0.7) contrast(1.05);
     }
     
-    /* Cartão de login fixo e imóvel com efeito Glassmorphism */
+    /* Cartão de login fixo e imóvel (Glassmorphism) */
     .login-card { 
       background: rgba(255, 255, 255, 0.95); 
       backdrop-filter: blur(12px);
@@ -149,9 +147,10 @@
 </head>
 <body>
 
-<!-- Vídeo de fundo com a natureza em movimento (água a fluir) -->
+<!-- Vídeo de fundo com o fluxo da natureza -->
 <video class="bg-video" autoplay loop muted playsinline>
-  <source src="https://assets.mixkit.co/videos/preview/mixkit-flowing-water-in-a-river-stream-4122-large.mp4" type="video/mp4">
+  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+  O seu navegador não suporta vídeos de fundo.
 </video>
 
 <div class="login-card">

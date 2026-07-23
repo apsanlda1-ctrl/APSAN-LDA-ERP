@@ -11,9 +11,13 @@
     body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; display: flex; height: 100vh; overflow: hidden; }
 
     /* Barra Lateral */
-    .sidebar { width: 260px; background: #1e3a5f; color: #ffffff; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; flex-shrink: 0; }
-    .sidebar-brand { font-size: 15px; font-weight: 700; margin-bottom: 30px; display: flex; align-items: center; gap: 10px; }
-    .sidebar-brand img { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; background: #ffffff; padding: 2px; }
+    .sidebar { width: 280px; background: #1e3a5f; color: #ffffff; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; flex-shrink: 0; }
+    .sidebar-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
+    .sidebar-brand img { width: 38px; height: 38px; border-radius: 6px; object-fit: contain; background: #ffffff; padding: 2px; flex-shrink: 0; }
+    .brand-title { display: flex; flex-direction: column; }
+    .brand-title .company-name { font-size: 13px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px; }
+    .brand-title .module-name { font-size: 12px; font-weight: 500; color: #93c5fd; }
+
     .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 6px; flex-grow: 1; }
     .sidebar-menu a { color: #cbd5e1; text-decoration: none; padding: 10px 14px; border-radius: 8px; display: flex; align-items: center; gap: 10px; font-size: 13px; transition: all 0.3s; cursor: pointer; }
     .sidebar-menu a:hover, .sidebar-menu a.active { background: #2563eb; color: #ffffff; }
@@ -78,8 +82,11 @@
   <aside class="sidebar">
     <div>
       <div class="sidebar-brand">
-        <img src="logo.png" alt="Logo APSAN, LDA" onerror="this.src='https://via.placeholder.com/32?text=APSAN'">
-        <span>APSAN, LDA Contabilidade</span>
+        <img src="logo.png" alt="Logótipo APSAN, LDA" onerror="this.src='https://via.placeholder.com/38?text=APSAN'">
+        <div class="brand-title">
+          <span class="company-name">APSAN, LDA</span>
+          <span class="module-name">Contabilidade</span>
+        </div>
       </div>
       <ul class="sidebar-menu">
         <li><a onclick="mudarTab(event, 'painel')" class="active"><i class="fas fa-chart-line"></i> Painel Geral</a></li>

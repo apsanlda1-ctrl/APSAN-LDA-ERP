@@ -116,16 +116,6 @@
             width: 100%;
         }
 
-        /* Painel de Tarefas da Administração */
-        #painel-tarefas-admin {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-        }
-
         /* Metrics Grid */
         .metrics-grid {
             display: grid;
@@ -337,12 +327,12 @@
         </header>
 
         <div class="container">
-            <!-- Painel de Tarefas Atribuídas pela Administração -->
-            <div id="painel-tarefas-admin" style="display: none;">
-                <h3 style="font-size: 14px; color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-bell"></i> Tarefas e Instruções da Administração Geral
+            <!-- Painel de Tarefas da Administração com Resposta Interativa -->
+            <div id="painel-tarefas-admin" style="display: none; margin-bottom: 25px; padding: 20px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.02);">
+                <h3 style="font-size: 14px; color: #1e40af; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-bell"></i> Tarefas e Instruções da Administração Geral (Ação Necessária)
                 </h3>
-                <ul id="lista-tarefas-recebidas" style="list-style: none; padding: 0; font-size: 13px;"></ul>
+                <div id="lista-tarefas-recebidas" style="display: flex; flex-direction: column; gap: 12px;"></div>
             </div>
 
             <!-- Métricas Dinâmicas do RH -->
@@ -865,9 +855,9 @@
             renderizarTudo();
         }
 
-        // Lógica de Receção de Tarefas da Administração
+        // Lógica de Receção e Resposta de Tarefas da Administração
         function verificarTarefasDepartamento() {
-            const tarefas = JSON.parse(localStorage.getItem('tarefas_rh')) || [];
+            let tarefas = JSON.parse(localStorage.getItem('tarefas_rh')) || [];
             const container = document.getElementById('painel-tarefas-admin');
             const lista = document.getElementById('lista-tarefas-recebidas');
 
@@ -875,28 +865,56 @@
                 container.style.display = 'block';
                 lista.innerHTML = '';
                 
-                tarefas.forEach(t => {
-                    const item = document.createElement('li');
-                    item.style.cssText = "padding: 10px 0; border-bottom: 1px solid #dbeafe; display: flex; justify-content: space-between; align-items: center;";
+                tarefas.forEach((t, index) => {
+                    const item = document.createElement('div');
+                    item.style.cssText = "padding: 12px; background: #fff; border: 1px solid #dbeafe; border-radius: 8px; display: flex; flex-direction: column; gap: 8px;";
                     
                     let botaoAnexo = '';
                     if (t.anexo) {
-                        botaoAnexo = `<a href="${t.anexo}" download="${t.nomeAnexo || 'anexo'}" style="margin-left: 10px; color: #2563eb; text-decoration: none; font-weight: 600;"><i class="fas fa-paperclip"></i> Ver Anexo</a>`;
+                        botaoAnexo = `<a href="${t.anexo}" download="${t.nomeAnexo || 'anexo'}" class="btn btn-secondary" style="padding: 5px 10px; font-size: 11px; text-decoration: none;"><i class="fas fa-paperclip"></i> Baixar Anexo</a>`;
                     }
 
                     item.innerHTML = `
-                        <div>
-                            <strong style="color: #1e3a5f;">[Prioridade: ${t.prioridade}]</strong> ${t.descricao}
-                            <div style="font-size: 11px; color: #64748b; margin-top: 3px;">Prazo Limite: ${t.prazo} | Enviada em: ${t.dataEnvio || 'N/A'}</div>
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <strong style="color: #1e3a5f;">[Prioridade: ${t.prioridade}]</strong> ${t.descricao}
+                                <div style="font-size: 11px; color: #64748b; margin-top: 3px;">Prazo Limite: ${t.prazo} | Enviada em: ${t.dataEnvio || 'N/A'}</div>
+                            </div>
+                            <span class="badge ${t.estado === 'Concluído' ? 'ativo' : 'ferias'}">${t.estado}</span>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="display: flex; gap: 10px; align-items: center; margin-top: 5px; flex-wrap: wrap;">
+                            <input type="text" id="feedback-txt-${index}" placeholder="Escrever feedback ou resposta..." value="${t.feedback !== 'A aguardar resposta...' ? t.feedback : ''}" style="flex: 1; padding: 6px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; outline: none;">
+                            <select id="estado-txt-${index}" style="padding: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px;">
+                                <option value="Em curso" ${t.estado === 'Em curso' ? 'selected' : ''}>Em curso</option>
+                                <option value="Concluído" ${t.estado === 'Concluído' ? 'selected' : ''}>Concluído</option>
+                            </select>
+                            <button onclick="responderTarefaRH(${index})" class="btn" style="padding: 6px 12px; font-size: 12px;"><i class="fas fa-paper-plane"></i> Enviar Resposta</button>
                             ${botaoAnexo}
-                            <span style="background: #fef3c7; color: #92400e; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600;">${t.estado}</span>
                         </div>
                     `;
                     lista.appendChild(item);
                 });
+            } else {
+                container.style.display = 'none';
             }
+        }
+
+        function responderTarefaRH(index) {
+            let tarefas = JSON.parse(localStorage.getItem('tarefas_rh')) || [];
+            const novoFeedback = document.getElementById(`feedback-txt-${index}`).value;
+            const novoEstado = document.getElementById(`estado-txt-${index}`).value;
+
+            if (!novoFeedback.trim()) {
+                alert('Por favor, escreva uma resposta ou feedback antes de enviar.');
+                return;
+            }
+
+            tarefas[index].feedback = novoFeedback;
+            tarefas[index].estado = novoEstado;
+
+            localStorage.setItem('tarefas_rh', JSON.stringify(tarefas));
+            alert('Resposta e estado atualizados com sucesso! A Administração já pode visualizar o seu feedback.');
+            verificarTarefasDepartamento();
         }
 
         window.addEventListener('DOMContentLoaded', () => {

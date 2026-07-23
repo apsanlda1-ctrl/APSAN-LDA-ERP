@@ -21,7 +21,7 @@
       background-color: #0f172a;
     }
 
-    /* Vídeo de fundo fixo e otimizado */
+    /* Vídeo de fundo original do escritório em loop e fixo */
     .bg-video {
       position: fixed;
       top: 0;
@@ -31,17 +31,14 @@
       object-fit: cover;
       z-index: -1;
       pointer-events: none;
-      filter: brightness(0.7) contrast(1.05);
+      filter: brightness(0.6) blur(1px);
     }
     
-    /* Cartão de login fixo e imóvel (Glassmorphism) */
+    /* Cartão de login fixo e imóvel com design moderno */
     .login-card { 
-      background: rgba(255, 255, 255, 0.95); 
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 16px; 
-      box-shadow: 0 25px 50px rgba(0,0,0,0.6); 
+      background: #ffffff; 
+      border-radius: 20px; 
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
       width: 100%; 
       max-width: 440px; 
       overflow: hidden; 
@@ -49,12 +46,12 @@
       z-index: 10;
     }
     
+    /* Cabeçalho com o azul corporativo original de volta */
     .logo-section { 
-      background: linear-gradient(135deg, #0f172a, #1e293b); 
+      background: linear-gradient(135deg, #1e3a5f, #2563eb); 
       color: #ffffff; 
-      padding: 30px 20px; 
+      padding: 35px 25px; 
       text-align: center; 
-      border-bottom: 4px solid #2563eb;
     }
     
     /* Logótipo perfeitamente centrado */
@@ -66,7 +63,7 @@
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      margin: 0 auto 12px; 
+      margin: 0 auto 15px; 
       padding: 0; 
       overflow: hidden; 
       box-shadow: 0 6px 15px rgba(0,0,0,0.3);
@@ -84,49 +81,49 @@
     .logo-section h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
     .logo-section p { font-size: 13px; opacity: 0.9; font-weight: 300; }
     
-    /* Formulário interno */
-    .login-form { padding: 25px 30px 30px; }
-    .login-form h2 { font-size: 18px; margin-bottom: 18px; color: #1e293b; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    /* Novo modelo de formulário interno mais moderno e limpo */
+    .login-form { padding: 30px 30px 35px; }
+    .login-form h2 { font-size: 17px; margin-bottom: 20px; color: #1e293b; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
     
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 12px; color: #475569; text-transform: uppercase; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
     
     .department-select { 
       width: 100%; 
-      padding: 12px; 
-      border: 2px solid #cbd5e1; 
-      border-radius: 10px; 
+      padding: 13px 15px; 
+      border: 2px solid #e2e8f0; 
+      border-radius: 12px; 
       font-size: 14px; 
       background: #f8fafc; 
       color: #1e293b; 
       cursor: pointer; 
       outline: none; 
-      transition: all 0.3s;
+      transition: all 0.3s ease;
     }
     .department-select:focus { border-color: #2563eb; background: #ffffff; box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
     
-    .input-group { position: relative; margin-bottom: 16px; }
-    .input-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 15px; }
+    .input-group { position: relative; margin-bottom: 18px; }
+    .input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 16px; }
     
     .input-group input { 
       width: 100%; 
-      padding: 12px 14px 12px 42px; 
-      border: 2px solid #cbd5e1; 
-      border-radius: 10px; 
+      padding: 13px 15px 13px 45px; 
+      border: 2px solid #e2e8f0; 
+      border-radius: 12px; 
       font-size: 14px; 
       outline: none; 
       background: #f8fafc;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
     }
     .input-group input:focus { border-color: #2563eb; background: #ffffff; box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
     
     .btn-login { 
       width: 100%; 
-      padding: 13px; 
-      background: linear-gradient(135deg, #1e3a5f, #2563eb); 
+      padding: 14px; 
+      background: #2563eb; 
       color: #ffffff; 
       border: none; 
-      border-radius: 10px; 
+      border-radius: 12px; 
       font-size: 15px; 
       font-weight: 600; 
       cursor: pointer; 
@@ -134,22 +131,22 @@
       align-items: center; 
       justify-content: center; 
       gap: 8px; 
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
-      margin-top: 5px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.35);
+      margin-top: 10px;
     }
-    .btn-login:hover { background: linear-gradient(135deg, #172e4d, #1d4ed8); transform: translateY(-1px); }
+    .btn-login:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(37,99,235,0.45); }
     
-    .login-footer { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b; }
+    .login-footer { display: flex; justify-content: space-between; margin-top: 22px; padding-top: 18px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b; }
     .login-footer a { color: #2563eb; text-decoration: none; font-weight: 500; }
     .login-footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-<!-- Vídeo de fundo com o fluxo da natureza -->
+<!-- Vídeo de fundo original do escritório -->
 <video class="bg-video" autoplay loop muted playsinline>
-  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+  <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-in-a-modern-office-4330-large.mp4" type="video/mp4">
   O seu navegador não suporta vídeos de fundo.
 </video>
 

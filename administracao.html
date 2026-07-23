@@ -119,9 +119,9 @@
         </div>
       </div>
 
-      <!-- Secção de Atribuição de Tarefas -->
+      <!-- Secção de Atribuição de Tarefas com Prazo e Anexo -->
       <div class="card-section">
-        <h2><i class="fas fa-paper-plane" style="color: #2563eb;"></i> Distribuir Tarefa a Departamento</h2>
+        <h2><i class="fas fa-paper-plane" style="color: #2563eb;"></i> Distribuir Tarefa com Prazo e Anexo</h2>
         <form id="form-tarefa" onsubmit="atribuirTarefa(event)">
           <div class="form-grid">
             <div class="form-group">
@@ -144,13 +144,40 @@
                 <option value="Crítica">Crítica</option>
               </select>
             </div>
+            <div class="form-group">
+              <label for="prazo-limite">Prazo de Conclusão</label>
+              <input type="datetime-local" id="prazo-limite" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label for="anexo-ficheiro">Anexar Ficheiro (PDF, Word, Imagem)</label>
+              <input type="file" id="anexo-ficheiro" class="form-control" accept=".pdf,.doc,.docx,image/*">
+            </div>
             <div class="form-group full">
-              <label for="descricao-tarefa">Descrição da Tarefa / Instrução</label>
+              <label for="descricao-tarefa">Instruções / Descrição Detalhada</label>
               <textarea id="descricao-tarefa" class="form-control" rows="3" placeholder="Insira os detalhes da tarefa atribuída..." required></textarea>
             </div>
           </div>
           <button type="submit" class="btn-primary"><i class="fas fa-share-square"></i> Submeter e Notificar Departamento</button>
         </form>
+      </div>
+
+      <!-- Acompanhamento de Feedbacks dos Departamentos -->
+      <div class="card-section">
+        <h2><i class="fas fa-comments" style="color: #2563eb;"></i> Feedbacks e Respostas dos Departamentos</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Departamento</th>
+              <th>Tarefa Atribuída</th>
+              <th>Prazo</th>
+              <th>Estado Atual</th>
+              <th>Feedback do Departamento</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-feedbacks-direcao">
+            <!-- Preenchido dinamicamente via JS -->
+          </tbody>
+        </table>
       </div>
 
       <!-- Tabela de Controlo de Atividades dos Departamentos -->
@@ -221,33 +248,73 @@
       
       const departamento = document.getElementById('dept-destino').value;
       const prioridade = document.getElementById('prioridade').value;
+      const prazo = document.getElementById('prazo-limite').value;
       const descricao = document.getElementById('descricao-tarefa').value;
-      
-      const novaTarefa = {
-        id: Date.now(),
-        descricao: descricao,
-        prioridade: prioridade,
-        data: new Date().toLocaleString(),
-        estado: 'Pendente'
+      const inputFicheiro = document.getElementById('anexo-ficheiro');
+
+      const processarEnvio = (conteudoAnexo, nomeFicheiro) => {
+        const novaTarefa = {
+          id: Date.now(),
+          descricao: descricao,
+          prioridade: prioridade,
+          prazo: prazo ? new Date(prazo).toLocaleString() : 'Sem prazo',
+          dataEnvio: new Date().toLocaleString(),
+          estado: 'Pendente',
+          feedback: 'A aguardar resposta...',
+          anexo: conteudoAnexo,
+          nomeAnexo: nomeFicheiro
+        };
+
+        let tarefasDept = JSON.parse(localStorage.getItem('tarefas_' + departamento)) || [];
+        tarefasDept.unshift(novaTarefa);
+        
+        localStorage.setItem('tarefas_' + departamento, JSON.stringify(tarefasDept));
+
+        localStorage.setItem('notificacao_global', JSON.stringify({
+          departamento: departamento,
+          mensagem: `Nova tarefa (${prioridade}): ${descricao}`,
+          timestamp: Date.now()
+        }));
+
+        alert('Tarefa distribuída com sucesso com prazo e anexo! O departamento foi notificado.');
+        document.getElementById('form-tarefa').reset();
+        carregarFeedbacksDirecao();
       };
 
-      // Recuperar tarefas existentes ou criar array novo para o localStorage do departamento respetivo
-      let tarefasDept = JSON.parse(localStorage.getItem('tarefas_' + departamento)) || [];
-      tarefasDept.unshift(novaTarefa);
-      
-      // Guardar no localStorage específico para que o painel do departamento receba
-      localStorage.setItem('tarefas_' + departamento, JSON.stringify(tarefasDept));
-
-      // Guardar também um gatilho de notificação global em tempo real
-      localStorage.setItem('notificacao_global', JSON.stringify({
-        departamento: departamento,
-        mensagem: `Nova tarefa (${prioridade}): ${descricao}`,
-        timestamp: Date.now()
-      }));
-
-      alert('Tarefa distribuída com sucesso! O departamento selecionado foi notificado.');
-      document.getElementById('form-tarefa').reset();
+      if (inputFicheiro.files.length > 0) {
+        const ficheiro = inputFicheiro.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          processarEnvio(e.target.result, ficheiro.name);
+        };
+        reader.readAsDataURL(ficheiro);
+      } else {
+        processarEnvio(null, null);
+      }
     }
+
+    function carregarFeedbacksDirecao() {
+      const departamentos = ['rh', 'contabilidade', 'financeiro', 'operacoes', 'traducao', 'hospitalar'];
+      const tbody = document.getElementById('tabela-feedbacks-direcao');
+      tbody.innerHTML = '';
+
+      departamentos.forEach(dept => {
+        const tarefas = JSON.parse(localStorage.getItem('tarefas_' + dept)) || [];
+        tarefas.forEach(t => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><strong>${dept.toUpperCase()}</strong></td>
+            <td>${t.descricao.substring(0, 40)}...</td>
+            <td>${t.prazo}</td>
+            <td><span class="badge ${t.estado === 'Concluído' ? 'badge-success' : 'badge-warning'}">${t.estado}</span></td>
+            <td style="color: #2563eb; font-weight: 500;">${t.feedback}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', carregarFeedbacksDirecao);
   </script>
 
 </body>

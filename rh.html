@@ -273,7 +273,7 @@
             margin-top: 25px;
         }
 
-        /* Área de Recibo Impresso / Oculta para exportação PDF */
+        /* Recibo Oculto para Impressão / PDF */
         #recibo-container { display: none; }
 
         @media print {
@@ -553,7 +553,6 @@
     </div>
 
     <script>
-        // Dados operacionais padrão com base nos nomes reais configurados no sistema
         let funcionarios = JSON.parse(localStorage.getItem('apsan_rh_funcionarios')) || [
             { id: 1, nome: "Maravilhoso António Mbulandi", cargo: "Administrador / Gestor", departamento: "Administração", salario: 100000, estado: "ativo" },
             { id: 2, nome: "Eduardo Ngongoyove Gabriel", cargo: "Desenvolvedor / Gestor", departamento: "Operações", salario: 100000, estado: "ativo" },
@@ -570,7 +569,6 @@
             localStorage.setItem('apsan_rh_ferias', JSON.stringify(listaFerias));
         }
 
-        // Navegação entre abas
         function mudarAba(secao, event) {
             document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
             if (event && event.currentTarget) {
@@ -611,7 +609,6 @@
             document.getElementById('stat-folha').innerText = folhaTotal.toLocaleString('pt-BR') + ' Kz';
         }
 
-        // --- FUNCIONÁRIOS (CRUD Completo) ---
         function renderizarTabelaFuncionarios() {
             const tbody = document.getElementById('tabela-funcionarios-corpo');
             tbody.innerHTML = '';
@@ -687,7 +684,6 @@
             }
         }
 
-        // --- EXPORTAR & IMPORTAR DADOS (JSON) ---
         function exportarDadosJSON() {
             const dadosStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(funcionarios, null, 2));
             const downloadAnchor = document.createElement('a');
@@ -720,7 +716,6 @@
             }
         }
 
-        // --- PRESENÇAS ---
         function renderizarTabelaPresencas() {
             const tbody = document.getElementById('tabela-presencas-corpo');
             tbody.innerHTML = '';
@@ -742,7 +737,6 @@
             alert('Presenças de todos os colaboradores registadas com sucesso!');
         }
 
-        // --- SALÁRIOS & RECIBOS ---
         function renderizarTabelaSalarios() {
             const tbody = document.getElementById('tabela-salarios-corpo');
             tbody.innerHTML = '';
@@ -785,7 +779,6 @@
             window.print();
         }
 
-        // --- FÉRIAS ---
         function atualizarSelectColaboradoresFerias() {
             const select = document.getElementById('ferias-colaborador');
             select.innerHTML = '';
@@ -829,7 +822,6 @@
             const inicio = document.getElementById('ferias-inicio').value;
             const fim = document.getElementById('ferias-fim').value;
 
-            // Calcular dias simples aproximados
             const d1 = new Date(inicio);
             const d2 = new Date(fim);
             const diffTime = Math.abs(d2 - d1);
@@ -855,7 +847,6 @@
             renderizarTudo();
         }
 
-        // Inicializar painel ao carregar a página
         window.onload = function() {
             renderizarTudo();
         };

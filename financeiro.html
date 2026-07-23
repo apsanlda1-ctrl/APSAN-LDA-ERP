@@ -321,7 +321,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
       position: relative;
-      min-height: 1000px;
+      min-height: 1050px;
       box-sizing: border-box;
     }
 
@@ -360,7 +360,7 @@
 
   <!-- VÍDEO DE FUNDO EM MOVIMENTO -->
   <div class="bg-video-container">
-    <video id="bg-video" autoplay muted loop playsinline>
+    <video id="bg-video" autoplay muted loop playsinfile>
       <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
       Seu navegador não suporta vídeos de fundo.
     </video>
@@ -397,7 +397,7 @@
         <i class="fas fa-sign-out-alt"></i> Terminar Sessão
       </button>
       <div style="font-size: 11px; color: #cbd5e1; text-align: center;">
-        NIF: 5002085011[cite: 3]<br>Santa Clara, Cunene - Angola[cite: 3]
+        NIF: 5002085011<br>Santa Clara, Cunene - Angola
       </div>
     </div>
   </aside>
@@ -407,7 +407,7 @@
     <header>
       <div>
         <h1 id="page-title" style="font-size: 20px; color: var(--primary);">Visão Geral & Transações</h1>
-        <span class="company-info">Gestão Integrada Angola & Namíbia[cite: 3]</span>
+        <span class="company-info">Gestão Integrada Angola & Namíbia</span>
       </div>
       <div>
         <span style="font-weight: 600; font-size: 13px; color: #1e293b;"><i class="fas fa-user-circle"></i> Gestor Financeiro</span>
@@ -514,12 +514,14 @@
             <div style="background: rgba(241, 245, 249, 0.9); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
               <p style="font-size: 13px; color: #475569;">Total Convertido (AOA): <strong id="enc-total-aoa" style="color: var(--primary); font-size: 16px;">Kz 0,00</strong></p>
             </div>
-            <button class="btn" onclick="gerarGuiaEncomenda()"><i class="fas fa-file-pdf"></i> Gerar Guia de Encomenda</button>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn" onclick="gerarGuiaEncomenda()"><i class="fas fa-file-pdf"></i> Gerar Fatura Pró-Forma / Imprimir</button>
+            </div>
           </div>
           <div class="card-panel">
             <h3><i class="fas fa-info-circle"></i> Logística Santa Clara - Namíbia</h3>
             <p style="font-size: 13px; color: #334155; line-height: 1.6;">
-              As encomendas processadas utilizam o câmbio oficial configurado no sistema. Certifique-se de validar a taxa de referência na aba de Câmbio antes de emitir guias definitivas[cite: 3].
+              As encomendas processadas utilizam o câmbio oficial configurado no sistema. Ao gerar a guia, o sistema emite uma Fatura Pró-Forma idêntica ao padrão de faturação e regista automaticamente a transação como <strong>Encomenda Pendente, Valor Devido</strong>.
             </p>
           </div>
         </div>
@@ -549,7 +551,7 @@
               <input type="number" id="taxa-dia" value="66.00" step="0.01" oninput="atualizarTaxaGlobal()">
             </div>
             <p style="font-size: 12px; color: #475569; margin-top: 10px;">
-              <i class="fas fa-info-circle"></i> Esta taxa é utilizada automaticamente no cálculo do dashboard e encomendas[cite: 3].
+              <i class="fas fa-info-circle"></i> Esta taxa é utilizada automaticamente no cálculo do dashboard e encomendas.
             </p>
           </div>
         </div>
@@ -759,9 +761,9 @@
         </svg>
         <div>
           <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 3px;">APSAN, LDA</h2>
-          <p style="font-size: 11px; color: #475569;">Prestadora de Serviços Ang-Nam</p>
-          <p style="font-size: 11px; color: #475569;">Sede: Santa Clara, Cunene - Angola[cite: 3]</p>
-          <p style="font-size: 11px; color: #475569;">NIF: 5002085011[cite: 3]</p>
+          <p style="font-size: 11px; color: #475569;">NIF: 5002085011</p>
+          <p style="font-size: 11px; color: #475569;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com</p>
+          <p style="font-size: 11px; color: #475569;">Sede: Santa Clara, Cunene - Angola</p>
         </div>
       </div>
       <div style="text-align: right;">
@@ -817,7 +819,7 @@
     </div>
 
     <!-- RODAPÉ DA FATURA COM DADOS BANCÁRIOS OFICIAIS APSAN, LDA -->
-    <div style="border-top: 1px dashed #cbd5e1; padding-top: 15px; margin-top: 20px;">
+    <div style="position: absolute; bottom: 30px; left: 40px; right: 40px; border-top: 1px dashed #cbd5e1; padding-top: 15px;">
       <p style="font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 8px;">Dados Bancários para Transferência:</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; color: #475569;">
         <div>
@@ -830,30 +832,41 @@
           <p><strong>IBAN:</strong> AO06 0006 000063503021301 57</p>
         </div>
       </div>
-      <p style="font-size: 11px; color: #475569; margin-top: 10px;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com</p>
+      <p style="font-size: 11px; color: #475569; margin-top: 10px; text-align: center;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com</p>
     </div>
   </div>
 
-  <!-- DOCUMENTO DA SIMULAÇÃO DE ENCOMENDA / PRÓ-FORMA -->
+  <!-- DOCUMENTO DA SIMULAÇÃO DE ENCOMENDA / PRÓ-FORMA (IGUAL À FATURA) -->
   <div id="encomenda-documento">
-    <div style="border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 20px;">
-      <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 3px;">APSAN, LDA</h2>
-      <div style="font-weight: bold; margin-top: 2px; font-size: 13px; color: #1e293b;">NIF: 5002085011[cite: 3]</div>
-      <div style="font-size: 12px; color: #475569; margin-top: 2px;">
-        Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com | Sede: Santa Clara, Cunene - Angola[cite: 3]
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 25px;">
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <svg width="60" height="60" viewBox="0 0 100 100" style="background:#0f172a; border-radius:8px; padding:6px;">
+          <circle cx="50" cy="50" r="45" fill="#3b82f6" />
+          <text x="50" y="58" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="Arial">A</text>
+        </svg>
+        <div>
+          <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 3px;">APSAN, LDA</h2>
+          <p style="font-size: 11px; color: #475569;">NIF: 5002085011</p>
+          <p style="font-size: 11px; color: #475569;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com</p>
+          <p style="font-size: 11px; color: #475569;">Sede: Santa Clara, Cunene - Angola</p>
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <h3 style="color: #3b82f6; font-size: 18px;">FATURA PRÓ-FORMA</h3>
+        <p style="font-size: 12px; color: #475569; margin-top: 5px;" id="enc-doc-data">Data: --/--/----</p>
+        <p style="font-size: 12px; color: #475569;" id="enc-doc-num">Nº Encomenda: ENC-2026-001</p>
       </div>
     </div>
 
-    <div style="margin-bottom: 20px;">
-      <h3 style="color: var(--primary); font-size: 16px; margin-bottom: 5px;">Fatura Pró-Forma / Simulação de Encomenda</h3>
-      <p style="font-size: 13px; color: #475569;"><strong>Estado do Registo:</strong> Encomenda Pendente (Valor Devido)</p>
-      <p style="font-size: 12px; color: #475569;" id="enc-doc-data">Data: --/--/----</p>
+    <div style="margin-bottom: 20px; background: #f8fafc; padding: 15px; border-radius: 6px;">
+      <h4 style="font-size: 13px; color: #1e293b; margin-bottom: 6px; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">Estado do Registo</h4>
+      <p style="font-size: 12px; color: #d97706; font-weight: bold;">Encomenda Pendente, Valor Devido</p>
     </div>
 
     <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
       <thead>
         <tr style="background: #1e293b; color: white;">
-          <th style="padding: 10px; font-size: 12px;">Artigo / Descrição</th>
+          <th style="padding: 10px; font-size: 12px;">Artigo / Descrição (Namíbia)</th>
           <th style="padding: 10px; font-size: 12px; text-align: right;">Valor (NAD)</th>
           <th style="padding: 10px; font-size: 12px; text-align: center;">Taxa / Alfândega</th>
           <th style="padding: 10px; font-size: 12px; text-align: right;">Total Convertido (AOA)</th>
@@ -869,9 +882,18 @@
       </tbody>
     </table>
 
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">
+      <div style="width: 320px; background: #f1f5f9; padding: 15px; border-radius: 6px;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: bold; color: #1e293b;">
+          <span>Total Devido (AOA):</span>
+          <span id="enc-doc-total-geral">Kz 0,00</span>
+        </div>
+      </div>
+    </div>
+
     <!-- DETALHES DA CONTA FIXADOS NO RODAPÉ DA PÁGINA -->
-    <div style="position: absolute; bottom: 30px; left: 40px; right: 40px; border-top: 1px solid #cbd5e1; padding-top: 12px;">
-      <p style="font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 5px;">Dados Bancários para Transferência:</p>
+    <div style="position: absolute; bottom: 30px; left: 40px; right: 40px; border-top: 1px dashed #cbd5e1; padding-top: 15px;">
+      <p style="font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 8px;">Dados Bancários para Transferência:</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; color: #475569;">
         <div>
           <p><strong>Titular:</strong> APSAN, LDA</p>
@@ -883,7 +905,7 @@
           <p><strong>IBAN:</strong> AO06 0006 000063503021301 57</p>
         </div>
       </div>
-      <p style="font-size: 10px; color: #64748b; text-align: center; margin-top: 8px;">Documento gerado automaticamente pelo Sistema APSAN ERP - Registo de Encomenda Pendente.</p>
+      <p style="font-size: 11px; color: #475569; margin-top: 10px; text-align: center;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com</p>
     </div>
   </div>
 
@@ -952,7 +974,6 @@
       }
     }
 
-    /* CÁLCULO DINÂMICO DA FATURA COM VARIAÇÃO DO VALOR EM NAD POR QUANTIDADE E EQUIVALÊNCIA IMEDIATA EM AOA */
     function calcularFaturaFormulario() {
       const valorServico = parseFloat(document.getElementById('fat-valor-servico').value) || 0;
       const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
@@ -1080,7 +1101,6 @@
       URL.revokeObjectURL(url);
     }
 
-    /* TRANSAÇÕES & DESPESAS */
     function adicionarTransacao() {
       const desc = document.getElementById('trans-desc').value.trim();
       const valor = parseFloat(document.getElementById('trans-valor').value);
@@ -1216,7 +1236,7 @@
                 <td>${c.dataHora}</td>
                 <td><span style="font-size: 12px; background: #e2e8f0; padding: 2px 6px; border-radius: 4px;">${c.origem}</span></td>
                 <td>${c.desc}</td>
-                <td><span style="color: ${c.tipo === 'ENTRADA' ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">${c.tipo}</span></td>
+                <td><span style="color: ${c.tipo === 'ENTRADA' || c.tipo === 'PENDENTE' ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">${c.tipo}</span></td>
                 <td>${formatarKz(c.valor)}</td>
               </tr>
             `;
@@ -1270,7 +1290,6 @@
       return valorFinal;
     }
 
-    /* GERAÇÃO E REGISTO DA GUIA DE ENCOMENDA COMO PENDENTE (VALOR DEVIDO) */
     function gerarGuiaEncomenda() {
       const artigo = document.getElementById('enc-artigo').value.trim();
       const valorNad = parseFloat(document.getElementById('enc-valor-nad').value) || 0;
@@ -1278,25 +1297,27 @@
       const totalAoa = calcularTotalEncomenda();
 
       if (!artigo || valorNad <= 0) {
-        alert('Por favor, preencha o nome do artigo e o valor em NAD para gerar a guia.');
+        alert('Por favor, preencha o nome do artigo e o valor em NAD para gerar a fatura pró-forma.');
         return;
       }
 
-      // Preencher o documento oculto de encomenda
+      // Preencher o documento de encomenda rigorosamente igual à fatura
       document.getElementById('enc-doc-artigo').innerText = artigo;
       document.getElementById('enc-doc-nad').innerText = valorNad.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       document.getElementById('enc-doc-taxa').innerText = taxaServico + '%';
       document.getElementById('enc-doc-total').innerText = formatarKz(totalAoa);
+      document.getElementById('enc-doc-total-geral').innerText = formatarKz(totalAoa);
       document.getElementById('enc-doc-data').innerText = 'Data: ' + new Date().toLocaleDateString('pt-PT');
+      document.getElementById('enc-doc-num').innerText = 'Nº Encomenda: ENC-' + Math.floor(1000 + Math.random() * 9000);
 
-      // Registar automaticamente no sistema como Encomenda Pendente (Valor Devido)
+      // Registar automaticamente no sistema como Encomenda Pendente, Valor Devido
       const novaTransacao = {
         id: Date.now(),
         data: new Date().toLocaleDateString('pt-PT'),
         hora: new Date().toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'}),
-        desc: `Encomenda Pendente (Valor Devido): ${artigo}`,
+        desc: `Encomenda Pendente, Valor Devido: ${artigo}`,
         valor: totalAoa,
-        tipo: 'entrada' // Registado como pendente a receber
+        tipo: 'entrada'
       };
 
       transacoes.push(novaTransacao);
@@ -1312,7 +1333,7 @@
       guardarDadosStorage();
       atualizarDashboardDinamico();
 
-      // Imprimir/Exportar documento formatado
+      // Imprimir documento formatado
       document.getElementById('encomenda-documento').style.display = 'block';
       window.print();
       document.getElementById('encomenda-documento').style.display = 'none';

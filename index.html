@@ -18,43 +18,48 @@
       padding: 20px; 
       position: relative;
       overflow: hidden;
+      background-color: #000;
     }
 
-    /* Vídeo de fundo a cobrir todo o ecrã sem o filtro azul por cima */
+    /* Vídeo de fundo estático no ecrã enquanto o vídeo em si reproduz o fluxo do rio */
     .bg-video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
       z-index: -1;
-      filter: brightness(0.65) blur(1px); /* Mantém o vídeo ligeiramente escurecido para destacar o formulário */
+      object-fit: cover;
+      filter: brightness(0.65) contrast(1.1); /* Ajusta o brilho para dar destaque perfeito ao formulário */
     }
     
-    /* Cartão de login moderno (Glassmorphism) */
+    /* Cartão de login fixo e imóvel com efeito Glassmorphism */
     .login-card { 
       background: rgba(255, 255, 255, 0.95); 
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 16px; 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5); 
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6); 
       width: 100%; 
       max-width: 440px; 
       overflow: hidden; 
       position: relative;
-      z-index: 1;
+      z-index: 10;
     }
     
     .logo-section { 
-      background: linear-gradient(135deg, #0f172a, #1e293b); /* Topo em tons escuros elegantes para combinar com o vídeo */
+      background: linear-gradient(135deg, #0f172a, #1e293b); 
       color: #ffffff; 
       padding: 30px 20px; 
       text-align: center; 
       border-bottom: 4px solid #2563eb;
     }
     
-    /* Bolinha do logótipo perfeitamente centrada */
+    /* Logótipo perfeitamente centrado */
     .logo-icon { 
       width: 110px; 
       height: 110px; 
@@ -144,9 +149,9 @@
 </head>
 <body>
 
-<!-- Vídeo animado em fundo total sem sobreposição azul -->
+<!-- Vídeo de fundo com a natureza em movimento (água a fluir) -->
 <video class="bg-video" autoplay loop muted playsinline>
-  <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-in-a-modern-office-4330-large.mp4" type="video/mp4">
+  <source src="https://assets.mixkit.co/videos/preview/mixkit-flowing-water-in-a-river-stream-4122-large.mp4" type="video/mp4">
 </video>
 
 <div class="login-card">

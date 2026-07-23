@@ -18,27 +18,48 @@
       padding: 20px; 
       position: relative;
       overflow: hidden;
-      background-color: #0f172a;
+      background-color: #1e3a5f;
     }
 
-    /* Vídeo de fundo original do escritório em loop e fixo */
-    .bg-video {
+    /* Imagem de escritório em movimento panorâmico constante e totalmente visível */
+    .bg-moving-container {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      object-fit: cover;
       z-index: -1;
-      pointer-events: none;
-      filter: brightness(0.6) blur(1px);
+      overflow: hidden;
+    }
+
+    .bg-moving-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 140%; /* Mais larga para permitir o movimento de um lado para o outro */
+      height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.85); /* Mantém a imagem clara e totalmente visível */
+      animation: deslizarEscritorio 25s ease-in-out infinite alternate;
+    }
+
+    /* Animação que faz a imagem mover-se suavemente de um lado para o outro */
+    @keyframes deslizarEscritorio {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-25%);
+      }
     }
     
-    /* Cartão de login fixo e imóvel com design moderno */
+    /* Cartão de login fixo e imóvel com o novo design moderno */
     .login-card { 
       background: #ffffff; 
       border-radius: 20px; 
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+      box-shadow: 0 25px 50px rgba(0,0,0,0.4); 
       width: 100%; 
       max-width: 440px; 
       overflow: hidden; 
@@ -46,7 +67,7 @@
       z-index: 10;
     }
     
-    /* Cabeçalho com o azul corporativo original de volta */
+    /* Cabeçalho com o azul corporativo elegante */
     .logo-section { 
       background: linear-gradient(135deg, #1e3a5f, #2563eb); 
       color: #ffffff; 
@@ -81,7 +102,7 @@
     .logo-section h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
     .logo-section p { font-size: 13px; opacity: 0.9; font-weight: 300; }
     
-    /* Novo modelo de formulário interno mais moderno e limpo */
+    /* Formulário interno moderno */
     .login-form { padding: 30px 30px 35px; }
     .login-form h2 { font-size: 17px; margin-bottom: 20px; color: #1e293b; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; }
     
@@ -144,11 +165,10 @@
 </head>
 <body>
 
-<!-- Vídeo de fundo original do escritório -->
-<video class="bg-video" autoplay loop muted playsinline>
-  <source src="https://assets.mixkit.co/videos/preview/mixkit-people-working-in-a-modern-office-4330-large.mp4" type="video/mp4">
-  O seu navegador não suporta vídeos de fundo.
-</video>
+<!-- Imagem de escritório visível e em movimento panorâmico constante -->
+<div class="bg-moving-container">
+  <div class="bg-moving-image"></div>
+</div>
 
 <div class="login-card">
   <div class="logo-section">

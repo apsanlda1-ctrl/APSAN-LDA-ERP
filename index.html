@@ -20,48 +20,46 @@
       overflow: hidden;
     }
 
-    /* Imagem de fundo em movimento contínuo */
+    /* Imagem de fundo em movimento panorâmico */
     .bg-moving-image {
       position: absolute;
       top: 0;
       left: 0;
-      width: 130%; /* Mais larga para permitir o deslize panorâmico */
+      width: 130%;
       height: 100%;
-      background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80'); /* Imagem de escritório HD */
+      background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80');
       background-size: cover;
       background-position: center;
       z-index: -2;
-      filter: brightness(0.6) blur(1px);
-      animation: moverFundo 25s ease-in-out infinite alternate; /* Animação de ida e volta */
+      filter: brightness(0.55) blur(2px);
+      animation: moverFundo 30s ease-in-out infinite alternate;
     }
 
-    /* Regra de animação: move a imagem na horizontal */
     @keyframes moverFundo {
-      0% {
-        transform: translateX(0%);
-      }
-      100% {
-        transform: translateX(-20%);
-      }
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-20%); }
     }
 
-    /* Camada sobreposta em gradiente azul */
+    /* Camada sobreposta em gradiente azul corporativo */
     .bg-overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(30, 58, 95, 0.75), rgba(37, 99, 235, 0.75));
+      background: linear-gradient(135deg, rgba(15, 32, 67, 0.85), rgba(29, 78, 216, 0.8));
       z-index: -1;
     }
     
+    /* Novo estilo de cartão de login moderno (Glassmorphism Executivo) */
     .login-card { 
-      background: #ffffff; 
-      border-radius: 12px; 
-      box-shadow: 0 15px 35px rgba(0,0,0,0.4); 
+      background: rgba(255, 255, 255, 0.95); 
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 16px; 
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4); 
       width: 100%; 
-      max-width: 450px; 
+      max-width: 440px; 
       overflow: hidden; 
       position: relative;
       z-index: 1;
@@ -70,52 +68,97 @@
     .logo-section { 
       background: linear-gradient(135deg, #1e3a5f, #2563eb); 
       color: #ffffff; 
-      padding: 35px 25px; 
+      padding: 30px 20px; 
       text-align: center; 
+      border-bottom: 4px solid #3b82f6;
     }
     
+    /* Bolinha ajustada com centralização exata e perfeita */
     .logo-icon { 
-      width: 125px; 
-      height: 125px; 
+      width: 110px; 
+      height: 110px; 
       background: #ffffff; 
       border-radius: 50%; 
       display: flex; 
       align-items: center; 
       justify-content: center; 
-      margin: 0 auto 15px; 
+      margin: 0 auto 12px; 
       padding: 0; 
       overflow: hidden; 
-      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
     }
+    
     .logo-icon img {
       width: 100%;
       height: 100%;
-      object-fit: cover; 
-      transform: scale(1.45); 
-      border-radius: 50%;
+      object-fit: contain; /* Mantém proporções sem cortar */
+      transform: scale(1.15); /* Zoom equilibrado para ocupar o espaço sem rebentar as bordas */
+      display: block;
+      margin: auto;
     }
 
-    .logo-section h1 { font-size: 26px; font-weight: 700; margin-bottom: 6px; }
-    .logo-section p { font-size: 14px; opacity: 0.9; }
+    .logo-section h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; letter-spacing: 0.5px; }
+    .logo-section p { font-size: 13px; opacity: 0.9; font-weight: 300; }
     
-    .login-form { padding: 30px 25px; }
-    .login-form h2 { font-size: 20px; margin-bottom: 20px; color: #1e293b; text-align: center; }
+    /* Novo design para o formulário interno */
+    .login-form { padding: 25px 30px 30px; }
+    .login-form h2 { font-size: 18px; margin-bottom: 18px; color: #1e293b; text-align: center; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
     
-    .form-group { margin-bottom: 18px; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13px; color: #334155; }
-    .department-select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #ffffff; color: #1e293b; cursor: pointer; outline: none; }
-    .department-select:focus { border-color: #2563eb; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 12px; color: #475569; text-transform: uppercase; }
     
-    .input-group { position: relative; margin-bottom: 18px; }
-    .input-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 16px; }
-    .input-group input { width: 100%; padding: 12px 14px 12px 42px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; outline: none; }
-    .input-group input:focus { border-color: #2563eb; }
+    .department-select { 
+      width: 100%; 
+      padding: 12px; 
+      border: 2px solid #cbd5e1; 
+      border-radius: 10px; 
+      font-size: 14px; 
+      background: #f8fafc; 
+      color: #1e293b; 
+      cursor: pointer; 
+      outline: none; 
+      transition: all 0.3s;
+    }
+    .department-select:focus { border-color: #2563eb; background: #ffffff; box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
     
-    .btn-login { width: 100%; padding: 12px; background: #2563eb; color: #ffffff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-    .btn-login:hover { background: #1d4ed8; }
+    .input-group { position: relative; margin-bottom: 16px; }
+    .input-group i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 15px; }
+    
+    .input-group input { 
+      width: 100%; 
+      padding: 12px 14px 12px 42px; 
+      border: 2px solid #cbd5e1; 
+      border-radius: 10px; 
+      font-size: 14px; 
+      outline: none; 
+      background: #f8fafc;
+      transition: all 0.3s;
+    }
+    .input-group input:focus { border-color: #2563eb; background: #ffffff; box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
+    
+    .btn-login { 
+      width: 100%; 
+      padding: 13px; 
+      background: linear-gradient(135deg, #1e3a5f, #2563eb); 
+      color: #ffffff; 
+      border: none; 
+      border-radius: 10px; 
+      font-size: 15px; 
+      font-weight: 600; 
+      cursor: pointer; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+      margin-top: 5px;
+    }
+    .btn-login:hover { background: linear-gradient(135deg, #172e4d, #1d4ed8); transform: translateY(-1px); }
     
     .login-footer { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b; }
-    .login-footer a { color: #2563eb; text-decoration: none; }
+    .login-footer a { color: #2563eb; text-decoration: none; font-weight: 500; }
+    .login-footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>

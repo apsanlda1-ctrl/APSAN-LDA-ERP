@@ -13,7 +13,11 @@
     /* Barra Lateral */
     .sidebar { width: 280px; background: #1e3a5f; color: #ffffff; display: flex; flex-direction: column; justify-content: space-between; padding: 20px; flex-shrink: 0; }
     .sidebar-brand { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; }
-    .sidebar-brand img { width: 38px; height: 38px; border-radius: 6px; object-fit: contain; background: #ffffff; padding: 2px; flex-shrink: 0; }
+    
+    /* Contentor do Logótipo / Emblema Alternativo */
+    .brand-logo-container { width: 40px; height: 40px; border-radius: 8px; background: #2563eb; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #ffffff; font-size: 14px; flex-shrink: 0; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+    .sidebar-brand img { width: 100%; height: 100%; object-fit: contain; background: #ffffff; }
+
     .brand-title { display: flex; flex-direction: column; }
     .brand-title .company-name { font-size: 13px; font-weight: 700; color: #ffffff; letter-spacing: 0.5px; }
     .brand-title .module-name { font-size: 12px; font-weight: 500; color: #93c5fd; }
@@ -82,7 +86,9 @@
   <aside class="sidebar">
     <div>
       <div class="sidebar-brand">
-        <img src="logo.png" alt="Logótipo APSAN, LDA" onerror="this.src='https://via.placeholder.com/38?text=APSAN'">
+        <div class="brand-logo-container">
+          <img src="logo.png" alt="APSAN" onerror="this.style.display='none'; this.parentElement.innerText='AP';">
+        </div>
         <div class="brand-title">
           <span class="company-name">APSAN, LDA</span>
           <span class="module-name">Contabilidade</span>

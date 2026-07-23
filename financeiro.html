@@ -124,6 +124,25 @@
     .card-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px; }
     .card-panel h3 { font-size: 16px; margin-bottom: 18px; color: #1e3a5f; display: flex; align-items: center; justify-content: space-between; }
 
+    /* ESTILOS ESPECÍFICOS DA SALA EXECUTIVA & COMUNICAÇÃO */
+    .exec-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+    .video-container { background: #0f172a; border-radius: 8px; height: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; border: 1px solid #334155; }
+    .video-placeholder { color: #94a3b8; text-align: center; }
+    .video-placeholder i { font-size: 48px; margin-bottom: 10px; color: #3b82f6; }
+    .video-controls { position: absolute; bottom: 15px; display: flex; gap: 10px; background: rgba(15, 23, 42, 0.8); padding: 8px 16px; border-radius: 30px; backdrop-filter: blur(4px); }
+    .v-btn { background: #334155; color: #ffffff; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .v-btn:hover { background: #475569; }
+    .v-btn.danger { background: #dc2626; }
+    .v-btn.danger:hover { background: #b91c1c; }
+
+    .chat-container { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; height: 380px; display: flex; flex-direction: column; overflow: hidden; }
+    .chat-header { background: #e2e8f0; padding: 10px 15px; font-weight: 600; font-size: 13px; color: #334155; }
+    .chat-messages { flex: 1; padding: 12px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .chat-msg { background: #ffffff; padding: 8px 12px; border-radius: 6px; font-size: 12px; border: 1px solid #e2e8f0; max-width: 85%; }
+    .chat-msg.me { background: #eff6ff; align-self: flex-end; border-color: #bfdbfe; }
+    .chat-input-area { padding: 10px; background: #ffffff; border-top: 1px solid #e2e8f0; display: flex; gap: 6px; }
+    .chat-input-area input { flex: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 12px; outline: none; }
+
     /* TABELAS */
     table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
     th { background: #f8fafc; color: #475569; padding: 12px 10px; font-weight: 600; border-bottom: 2px solid #e2e8f0; }
@@ -173,6 +192,7 @@
     @media (max-width: 992px) {
       .dashboard-layout { grid-template-columns: 1fr; }
       .side-dashboard { position: static; }
+      .exec-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -219,6 +239,7 @@
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-faturacao')"><i class="fas fa-file-invoice-dollar"></i> Faturação (Criar / Gerar)</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-despesas')"><i class="fas fa-receipt"></i> Despesas</button>
           <button class="tab-btn-v" onclick="switchTab(event, 'tab-relatorios')"><i class="fas fa-file-pdf"></i> Relatórios</button>
+          <button class="tab-btn-v" onclick="switchTab(event, 'tab-reunioes')"><i class="fas fa-video"></i> Sala Executiva & Comunicação</button>
         </div>
 
         <!-- ABA 1: VISÃO GERAL & TRANSAÇÕES -->
@@ -454,6 +475,48 @@
             <p style="font-size: 13px; color: #64748b; margin-top: 10px;">
               Aceda à visão consolidada do balanço mensal, entradas por categoria e despesas operacionais da APSAN, LDA.
             </p>
+          </div>
+        </div>
+
+        <!-- ABA 8: SALA EXECUTIVA & COMUNICAÇÃO -->
+        <div id="tab-reunioes" class="tab-content">
+          <div class="card-panel">
+            <h3><i class="fas fa-video"></i> Sala Executiva de Reuniões & Comunicação em Tempo Real</h3>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 20px;">
+              Espaço integrado para chamadas, videochamadas e chat instantâneo entre os escritórios e equipas da APSAN, LDA (Angola & Namíbia).
+            </p>
+
+            <div class="exec-grid">
+              <!-- Secção de Vídeo/Áudio -->
+              <div class="video-container" id="video-box">
+                <div class="video-placeholder">
+                  <i class="fas fa-video-slash"></i>
+                  <h4>Sala de Reunião Inativa</h4>
+                  <p style="font-size: 12px; margin-top: 5px; opacity: 0.8;">Clique no botão abaixo para iniciar ou entrar na videochamada.</p>
+                </div>
+                <div class="video-controls">
+                  <button class="v-btn" title="Ligar/Desligar Microfone" onclick="toggleMic()"><i class="fas fa-microphone" id="mic-icon"></i></button>
+                  <button class="v-btn" title="Ligar/Desligar Câmara" onclick="toggleCamera()"><i class="fas fa-video" id="cam-icon"></i></button>
+                  <button class="v-btn danger" title="Sair da Reunião" onclick="sairReuniao()"><i class="fas fa-phone-slash"></i></button>
+                </div>
+              </div>
+
+              <!-- Chat Integrado em Tempo Real -->
+              <div class="chat-container">
+                <div class="chat-header"><i class="fas fa-comments"></i> Chat da Reunião</div>
+                <div class="chat-messages" id="chat-messages">
+                  <div class="chat-msg"><strong>Sistema:</strong> Sala aberta para alinhamentos Angola-Namíbia.</div>
+                </div>
+                <div class="chat-input-area">
+                  <input type="text" id="chat-input" placeholder="Digite uma mensagem..." onkeypress="verificarEnterChat(event)">
+                  <button class="btn-action" style="padding: 8px 12px;" onclick="enviarMensagemChat()"><i class="fas fa-paper-plane"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+              <button class="btn-action" onclick="iniciarReuniaoVideo()"><i class="fas fa-play"></i> Iniciar / Entrar na Videochamada</button>
+            </div>
           </div>
         </div>
 
@@ -1115,6 +1178,87 @@
 
       alert('Despesa guardada e adicionada ao dashboard!');
       event.target.reset();
+    }
+
+    /* ================= FUNÇÕES DA SALA EXECUTIVA (VÍDEO & CHAT) ================= */
+    function iniciarReuniaoVideo() {
+      const videoBox = document.getElementById('video-box');
+      videoBox.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; height: 100%;">
+          <i class="fas fa-video" style="font-size: 56px; color: #22c55e; margin-bottom: 12px; animation: pulse 2s infinite;"></i>
+          <h4 style="font-size: 16px;">Conectado à Sala Executiva APSAN</h4>
+          <p style="font-size: 12px; opacity: 0.8; margin-top: 4px;">Câmara e Áudio Ativos (Modo Simulação em Tempo Real)</p>
+        </div>
+        <div class="video-controls">
+          <button class="v-btn" title="Ligar/Desligar Microfone" onclick="toggleMic()"><i class="fas fa-microphone" id="mic-icon"></i></button>
+          <button class="v-btn" title="Ligar/Desligar Câmara" onclick="toggleCamera()"><i class="fas fa-video" id="cam-icon"></i></button>
+          <button class="v-btn danger" title="Sair da Reunião" onclick="sairReuniao()"><i class="fas fa-phone-slash"></i></button>
+        </div>
+      `;
+      adicionarMensagemSistemaChat("Ligação de vídeo estabelecida com sucesso.");
+    }
+
+    function sairReuniao() {
+      const videoBox = document.getElementById('video-box');
+      videoBox.innerHTML = `
+        <div class="video-placeholder">
+          <i class="fas fa-video-slash"></i>
+          <h4>Sala de Reunião Inativa</h4>
+          <p style="font-size: 12px; margin-top: 5px; opacity: 0.8;">Clique no botão abaixo para iniciar ou entrar na videochamada.</p>
+        </div>
+        <div class="video-controls">
+          <button class="v-btn" title="Ligar/Desligar Microfone" onclick="toggleMic()"><i class="fas fa-microphone" id="mic-icon"></i></button>
+          <button class="v-btn" title="Ligar/Desligar Câmara" onclick="toggleCamera()"><i class="fas fa-video" id="cam-icon"></i></button>
+          <button class="v-btn danger" title="Sair da Reunião" onclick="sairReuniao()"><i class="fas fa-phone-slash"></i></button>
+        </div>
+      `;
+      adicionarMensagemSistemaChat("Sessão de vídeo encerrada.");
+    }
+
+    let micAtivo = true;
+    function toggleMic() {
+      micAtivo = !micAtivo;
+      const icon = document.getElementById('mic-icon');
+      icon.className = micAtivo ? "fas fa-microphone" : "fas fa-microphone-slash";
+      icon.style.color = micAtivo ? "#fff" : "#dc2626";
+    }
+
+    let camAtiva = true;
+    function toggleCamera() {
+      camAtiva = !camAtiva;
+      const icon = document.getElementById('cam-icon');
+      icon.className = camAtiva ? "fas fa-video" : "fas fa-video-slash";
+      icon.style.color = camAtiva ? "#fff" : "#dc2626";
+    }
+
+    function enviarMensagemChat() {
+      const input = document.getElementById('chat-input');
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      const chatMsgs = document.getElementById('chat-messages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = "chat-msg me";
+      msgDiv.innerHTML = `<strong>Você:</strong> ${texto}`;
+      chatMsgs.appendChild(msgDiv);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+      input.value = '';
+    }
+
+    function verificarEnterChat(event) {
+      if (event.key === 'Enter') {
+        enviarMensagemChat();
+      }
+    }
+
+    function adicionarMensagemSistemaChat(texto) {
+      const chatMsgs = document.getElementById('chat-messages');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = "chat-msg";
+      msgDiv.style.background = "#f1f5f9";
+      msgDiv.innerHTML = `<strong>Sistema:</strong> ${texto}`;
+      chatMsgs.appendChild(msgDiv);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
     }
 
     // INICIALIZAÇÃO

@@ -298,7 +298,7 @@
       gap: 20px;
     }
 
-    /* ESTILO EXCLUSIVO PARA O DOCUMENTO/FATURA IMPRESSO OU EXPORTADO (REMOVENDO URL DO NAVEGADOR) */
+    /* ESTILO EXCLUSIVO PARA O DOCUMENTO/FATURA IMPRESSO OU EXPORTADO */
     #fatura-documento {
       display: none;
       background: white;
@@ -347,7 +347,11 @@
   <aside>
     <div>
       <div class="brand-box">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="Logo APSAN">
+        <!-- LOGÓTIPO REAL DA APSAN, LDA EM SVG/BASE64 CLARO -->
+        <svg width="40" height="40" viewBox="0 0 100 100" style="background:#0f172a; border-radius:6px; padding:4px;">
+          <circle cx="50" cy="50" r="45" fill="#3b82f6" />
+          <text x="50" y="58" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="Arial">A</text>
+        </svg>
         <div>
           <h2>APSAN, LDA</h2>
           <span>Departamento Financeiro</span>
@@ -717,16 +721,19 @@
     </div>
   </main>
 
-  <!-- DOCUMENTO DA FATURA (COM LOGO REAL DA APSAN, VALORES NAD/AOA, DADOS BANCÁRIOS LIMPOS SEM ÍCONES/ETIQUETAS ANEXAS E SEM URL DA WEB) -->
+  <!-- DOCUMENTO DA FATURA (COM LOGOTIPO REAL DA APSAN, VALORES NAD/AOA LIMPOS SEM PARENTESES E DADOS BANCÁRIOS COMPLETOS) -->
   <div id="fatura-documento">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #1e293b; padding-bottom: 15px; margin-bottom: 25px;">
       <div style="display: flex; gap: 15px; align-items: center;">
-        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////wgALCAABAAEBAREA/8QAFBABAAAAAAAAAAAAAAAAAAAAAP/aAAgBAQABPxA=" alt="Logo APSAN" style="width: 65px; height: 65px; object-fit: contain;">
+        <svg width="60" height="60" viewBox="0 0 100 100" style="background:#0f172a; border-radius:8px; padding:6px;">
+          <circle cx="50" cy="50" r="45" fill="#3b82f6" />
+          <text x="50" y="58" font-size="36" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="Arial">A</text>
+        </svg>
         <div>
           <h2 style="color: #1e293b; font-size: 22px; margin-bottom: 3px;">APSAN, LDA</h2>
-          <p style="font-size: 11px; color: #475569;">Prestadora de Serviços Ang-Nam[cite: 4]</p>
-          <p style="font-size: 11px; color: #475569;">Sede: Santa Clara, Cunene - Angola[cite: 3, 4]</p>
-          <p style="font-size: 11px; color: #475569;">NIF: 5002085011[cite: 3, 4]</p>
+          <p style="font-size: 11px; color: #475569;">Prestadora de Serviços Ang-Nam</p>
+          <p style="font-size: 11px; color: #475569;">Sede: Santa Clara, Cunene - Angola[cite: 3]</p>
+          <p style="font-size: 11px; color: #475569;">NIF: 5002085011[cite: 3]</p>
         </div>
       </div>
       <div style="text-align: right;">
@@ -762,7 +769,7 @@
         <tr>
           <td style="padding: 10px; font-size: 12px;" id="doc-produto-desc">Produto (Namíbia)</td>
           <td style="padding: 10px; font-size: 12px; text-align: center;" id="doc-prod-qtd">1</td>
-          <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-prod-unit-nad">$ 0.00 (<span id="doc-prod-unit-aoa">Kz 0,00</span>)</td>
+          <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-prod-unit-aoa">Kz 0,00</td>
           <td style="padding: 10px; font-size: 12px; text-align: right;" id="doc-prod-subtotal">Kz 0,00</td>
         </tr>
         <tr>
@@ -781,21 +788,21 @@
       </div>
     </div>
 
-    <!-- RODAPÉ DA FATURA EXATAMENTE COM OS DADOS BANCÁRIOS DA APSAN, LDA (SEM DETALHES TÉCNICOS OU RÓTULOS DE SISTEMA) -->
+    <!-- RODAPÉ DA FATURA COM DADOS BANCÁRIOS OFICIAIS APSAN, LDA -->
     <div style="border-top: 1px dashed #cbd5e1; padding-top: 15px; margin-top: 20px;">
       <p style="font-size: 12px; font-weight: bold; color: #1e293b; margin-bottom: 8px;">Dados Bancários para Transferência:</p>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11px; color: #475569;">
         <div>
-          <p><strong>Titular:</strong> APSAN, LDA[cite: 4]</p>
-          <p><strong>Banco:</strong> BFA (Banco de Fomento Angola)[cite: 4]</p>
-          <p><strong>Número de Conta:</strong> 36350302130 001[cite: 4]</p>
+          <p><strong>Titular:</strong> APSAN, LDA</p>
+          <p><strong>Banco:</strong> BFA (Banco de Fomento Angola)</p>
+          <p><strong>Número de Conta:</strong> 36350302130 001</p>
         </div>
         <div>
-          <p><strong>NBA:</strong> 0006 000063503021301 57[cite: 4]</p>
-          <p><strong>IBAN:</strong> AO06 0006 000063503021301 57[cite: 4]</p>
+          <p><strong>NBA:</strong> 0006 000063503021301 57</p>
+          <p><strong>IBAN:</strong> AO06 0006 000063503021301 57</p>
         </div>
       </div>
-      <p style="font-size: 11px; color: #475569; margin-top: 10px;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com[cite: 4]</p>
+      <p style="font-size: 11px; color: #475569; margin-top: 10px;">Contactos: 934437739 / 931057760 | Email: Apsanlda1@gmail.com</p>
     </div>
   </div>
 
@@ -864,7 +871,7 @@
       }
     }
 
-    /* CÁLCULO ATUALIZADO COM SERVIÇO, PRODUTO EM NAD COM EQUIVALÊNCIA, QTD E FRETE */
+    /* CÁLCULO DINÂMICO DA FATURA (O VALOR UNITÁRIO EM KIZES JÁ REFLETE A QUANTIDADE OU MULTIPLICAÇÃO CORRETA) */
     function calcularFaturaFormulario() {
       const valorServico = parseFloat(document.getElementById('fat-valor-servico').value) || 0;
       const qtd = parseFloat(document.getElementById('fat-qtd').value) || 1;
@@ -872,12 +879,14 @@
       const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
-      const valorUnitAoa = valorNad * taxaCambio;
-      document.getElementById('fat-valor-unit-aoa').value = formatarKz(valorUnitAoa);
+      // O valor unitário e o total variam proporcionalmente de acordo com a quantidade inserida
+      const valorTotalProdutoNad = valorNad * qtd;
+      const valorTotalProdutoAoa = valorTotalProdutoNad * taxaCambio;
+      const valorUnitarioAoa = valorNad * taxaCambio;
 
-      const totalProduto = qtd * valorUnitAoa;
-      const totalGeral = valorServico + totalProduto + frete;
+      document.getElementById('fat-valor-unit-aoa').value = formatarKz(valorUnitarioAoa);
 
+      const totalGeral = valorServico + valorTotalProdutoAoa + frete;
       document.getElementById('fat-total-aoa').value = formatarKz(totalGeral);
       return totalGeral;
     }
@@ -896,17 +905,19 @@
       const valorNad = parseFloat(document.getElementById('fat-valor-nad').value) || 0;
       const taxaCambio = parseFloat(document.getElementById('taxa-dia').value) || 66;
       const valorUnitAoa = valorNad * taxaCambio;
+      const subtotalProdutoAoa = qtd * valorUnitAoa;
       const frete = parseFloat(document.getElementById('fat-frete').value) || 0;
 
       document.getElementById('doc-prod-qtd').innerText = qtd;
-      document.getElementById('doc-prod-unit-nad').innerHTML = `$ ${valorNad.toFixed(2)} (<span id="doc-prod-unit-aoa">${formatarKz(valorUnitAoa)}</span>)`;
-      document.getElementById('doc-prod-subtotal').innerText = formatarKz(qtd * valorUnitAoa);
+      // Removidos os parênteses e tokens confusos conforme solicitado pelo usuário
+      document.getElementById('doc-prod-unit-aoa').innerText = formatarKz(valorUnitAoa);
+      document.getElementById('doc-prod-subtotal').innerText = formatarKz(subtotalProdutoAoa);
 
       document.getElementById('doc-agencia').innerText = document.getElementById('fat-agencia').value;
       document.getElementById('doc-local').innerText = document.getElementById('fat-local').value || 'N/A';
       document.getElementById('doc-frete').innerText = formatarKz(frete);
       
-      const totalGeral = valorServico + (qtd * valorUnitAoa) + frete;
+      const totalGeral = valorServico + subtotalProdutoAoa + frete;
       document.getElementById('doc-total-geral').innerText = formatarKz(totalGeral);
       
       document.getElementById('fatura-doc-data').innerText = 'Data: ' + new Date().toLocaleDateString('pt-PT');

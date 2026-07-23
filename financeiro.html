@@ -34,7 +34,7 @@
       position: relative;
     }
 
-    /* VÍDEO DE FUNDO EM MOVIMENTO (LOOP) */
+    /* VÍDEO DE FUNDO EM MOVIMENTO (LOOP) COM GARANTIA DE REPRODUÇÃO */
     .bg-video-container {
       position: fixed;
       top: 0;
@@ -43,13 +43,14 @@
       height: 100vh;
       z-index: -1;
       overflow: hidden;
+      background-color: #0f172a; /* Fundo de segurança caso o vídeo demore a carregar */
     }
 
     .bg-video-container video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(0.75) contrast(1.1);
+      filter: brightness(0.7) contrast(1.1);
     }
 
     .bg-overlay {
@@ -58,7 +59,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 23, 42, 0.35);
+      background: rgba(15, 23, 42, 0.4);
     }
 
     /* MENU LATERAL */
@@ -284,10 +285,10 @@
 </head>
 <body>
 
-  <!-- VÍDEO DE FUNDO EM MOVIMENTO (ESCRITÓRIO / AMBIENTE CORPORATIVO) -->
+  <!-- VÍDEO DE FUNDO EM MOVIMENTO (LINK DIRETO E ROBUSTO) -->
   <div class="bg-video-container">
-    <video autoplay muted loop playsinline>
-      <source src="https://assets.mixkit.co/videos/preview/mixkit-business-team-working-in-an-office-41618-large.mp4" type="video/mp4">
+    <video id="bg-video" autoplay muted loop playsinline>
+      <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
       Seu navegador não suporta vídeos de fundo.
     </video>
     <div class="bg-overlay"></div>
@@ -629,6 +630,14 @@
     let contabilidade = [];
 
     window.onload = function() {
+      // Forçar o play no vídeo caso restrições do browser impeçam o autoplay direto
+      const videoEl = document.getElementById('bg-video');
+      if (videoEl) {
+        videoEl.play().catch(error => {
+          console.log("Autoplay impedido pelo navegador, a tentar reproduzir via interação.", error);
+        });
+      }
+
       const savedTrans = localStorage.getItem('apsan_transacoes');
       const savedEsp = localStorage.getItem('apsan_despesas');
       const savedCont = localStorage.getItem('apsan_contabilidade');

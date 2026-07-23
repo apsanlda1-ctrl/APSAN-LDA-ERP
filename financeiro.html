@@ -206,16 +206,29 @@
       border-radius: 15px;
       padding: 20px;
       width: 100%;
-      max-width: 350px;
+      max-width: 380px;
       box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
     }
 
-    .bfa-card .chip {
-      width: 40px;
-      height: 30px;
-      background: #fbbf24;
-      border-radius: 4px;
+    .bfa-card .chip-img {
+      width: 45px;
+      height: 35px;
+      background: linear-gradient(135deg, #d97706, #fbbf24);
+      border-radius: 6px;
       margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      box-shadow: inset 0 0 4px rgba(0,0,0,0.3);
+    }
+    
+    .bfa-card .chip-img::after {
+      content: "";
+      width: 60%;
+      height: 60%;
+      border: 1px solid rgba(0,0,0,0.3);
+      border-radius: 3px;
     }
 
     .bfa-card .balance {
@@ -275,11 +288,11 @@
         <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 20px; margin-bottom: 20px;">
           <div>
             <div class="bfa-card">
-              <div class="chip"></div>
+              <div class="chip-img"></div>
               <div style="font-size: 12px; opacity: 0.8;">Banco de Fomento Angola (BFA)</div>
               <div class="balance" id="card-saldo">Kz 0,00</div>
-              <div style="margin-top: 15px; font-size: 11px; display: flex; justify-content: space-between;">
-                <span>**** 4092</span>
+              <div style="margin-top: 15px; font-size: 12px; display: flex; justify-content: space-between; letter-spacing: 1px;">
+                <span>0006 0000 4092 1011 50</span>
                 <span>APSAN, LDA</span>
               </div>
             </div>
@@ -333,37 +346,18 @@
         <div class="card-panel">
           <h3><i class="fas fa-search-dollar"></i> Catálogo e Consulta de Serviços APSAN</h3>
           <div class="form-group">
-            <input type="text" id="input-pesquisa-servico" placeholder="Pesquisar serviço por nome..." oninput="filtrarServicos()">
+            <input type="text" id="input-pesquisa-servico" placeholder="Digite para pesquisar serviço..." oninput="filtrarServicos()">
           </div>
           <table style="margin-top: 15px;">
             <thead>
               <tr>
                 <th>Serviço / Categoria</th>
                 <th>Descrição Operacional</th>
-                <th>Valor de Referência</th>
+                <th>Valor de Referência / Diária</th>
               </tr>
             </thead>
             <tbody id="tabela-servicos">
-              <tr>
-                <td><strong>Acompanhamento Hospitalar / Médico</strong></td>
-                <td>Gestão de logística de saúde e acompanhamento na Namíbia/Angola</td>
-                <td>Sob consulta / Diária</td>
-              </tr>
-              <tr>
-                <td><strong>Traduções e Documentação</strong></td>
-                <td>Tradução certificada e tramitação de papéis fronteiriços</td>
-                <td>Taxa fixa por documento</td>
-              </tr>
-              <tr>
-                <td><strong>Importação & Logística Namíbia</strong></td>
-                <td>Aquisição e transporte de mercadorias via Santa Clara</td>
-                <td>Comissão % + Alfândega</td>
-              </tr>
-              <tr>
-                <td><strong>Desenvolvimento Web & TI</strong></td>
-                <td>Criação de sistemas empresariais e plataformas customizadas</td>
-                <td>Orçamento por projeto</td>
-              </tr>
+              <!-- Preenchido dinamicamente via JS (inicia oculto/vazio) -->
             </tbody>
           </table>
         </div>
@@ -548,8 +542,33 @@
   </main>
 
   <script>
+    // Base de dados completa de serviços para a pesquisa
+    const catalogoServicos = [
+      { nome: "Acompanhamento Hospitalar / Médico", desc: "Gestão de logística de saúde e acompanhamento na Namíbia/Angola", preco: "Sob consulta / Diária" },
+      { nome: "Traduções e Documentação", desc: "Tradução certificada e tramitação de papéis fronteiriços", preco: "Taxa fixa por documento" },
+      { nome: "Importação & Logística Namíbia", desc: "Aquisição e transporte de mercadorias via Santa Clara", preco: "Comissão % + Alfândega" },
+      { nome: "Desenvolvimento Web & TI", desc: "Criação de sistemas empresariais e plataformas customizadas", preco: "Orçamento por projeto" }
+    ];
+
     let transacoes = [];
     let despesas = [];
+
+    // Carregar dados salvos ao iniciar a página (LocalStorage)
+    window.onload = function() {
+      const savedTrans = localStorage.getItem('apsan_transacoes');
+      const savedEsp = localStorage.getItem('apsan_despesas');
+      
+      if (savedTrans) transacoes = JSON.parse(savedTrans);
+      if (savedEsp) despesas = JSON.parse(savedEsp);
+
+      atualizarDashboardDinamico();
+      filtrarServicos(); // Inicializa a tabela de serviços vazia/filtrada corretamente
+    };
+
+    function guardarDadosStorage() {
+      localStorage.setItem('apsan_transacoes', JSON.stringify(transacoes));
+      localStorage.setItem('apsan_despesas', JSON.stringify(despesas));
+    }
 
     function switchTab(tabId, element) {
       document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
@@ -586,11 +605,13 @@
       document.getElementById('trans-desc').value = '';
       document.getElementById('trans-valor').value = '';
 
+      guardarDadosStorage();
       atualizarDashboardDinamico();
     }
 
     function removerTransacao(id) {
       transacoes = transacoes.filter(t => t.id !== id);
+      guardarDadosStorage();
       atualizarDashboardDinamico();
     }
 
@@ -616,15 +637,17 @@
       document.getElementById('esp-desc').value = '';
       document.getElementById('esp-valor').value = '';
 
+      guardarDadosStorage();
       atualizarDashboardDinamico();
     }
 
     function removerDespesa(id) {
       despesas = despesas.filter(d => d.id !== id);
+      guardarDadosStorage();
       atualizarDashboardDinamico();
     }
 
-    /* ================= ATUALIZAR DASHBOARD ================= */
+    /* ================= ATUALIZAR DASHBOARD / CONTABILIDADE ================= */
     function atualizarDashboardDinamico() {
       // Tabela transações
       const tbodyTrans = document.getElementById('tabela-transacoes');
@@ -664,7 +687,7 @@
         });
       }
 
-      // Cálculos Relatórios & Saldo BFA
+      // Cálculos Relatórios & Saldo BFA automático integrado com contabilidade
       let totalEntradas = transacoes.filter(t => t.tipo === 'entrada').reduce((acc, t) => acc + t.valor, 0);
       let totalSaidasTrans = transacoes.filter(t => t.tipo === 'saida').reduce((acc, t) => acc + t.valor, 0);
       let totalDespesas = despesas.reduce((acc, d) => acc + d.valor, 0);
@@ -734,14 +757,34 @@
       alert(`Fatura emitida com sucesso para ${cliente} no valor de ${formatarKz(parseFloat(valor))}.`);
     }
 
-    /* ================= PESQUISA DE SERVIÇOS ================= */
+    /* ================= PESQUISA DE SERVIÇOS (COM FILTRAGEM CONDICIONAL) ================= */
     function filtrarServicos() {
-      const termo = document.getElementById('input-pesquisa-servico').value.toLowerCase();
-      const linhas = document.querySelectorAll('#tabela-servicos tr');
-      linhas.forEach(linha => {
-        const texto = linha.innerText.toLowerCase();
-        linha.style.display = texto.includes(termo) ? '' : 'none';
-      });
+      const termo = document.getElementById('input-pesquisa-servico').value.toLowerCase().trim();
+      const tbody = document.getElementById('tabela-servicos');
+      tbody.innerHTML = '';
+
+      // Se não houver texto digitado, a tabela fica vazia (nenhum catálogo visível inicialmente)
+      if (termo === '') {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #64748b;">Digite o nome de um serviço acima para consultar os valores diários...</td></tr>`;
+        return;
+      }
+
+      // Filtra os serviços que correspondem ao termo digitado
+      const resultados = catalogoServicos.filter(s => s.nome.toLowerCase().includes(termo) || s.desc.toLowerCase().includes(termo));
+
+      if (resultados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #64748b;">Nenhum serviço encontrado com esse termo.</td></tr>`;
+      } else {
+        resultados.forEach(s => {
+          tbody.innerHTML += `
+            <tr>
+              <td><strong>${s.nome}</strong></td>
+              <td>${s.desc}</td>
+              <td><strong style="color: var(--accent);">${s.preco}</strong></td>
+            </tr>
+          `;
+        });
+      }
     }
   </script>
 </body>
